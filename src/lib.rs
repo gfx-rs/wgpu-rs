@@ -693,28 +693,11 @@ impl Device {
     ///
     /// This returns a [`CreateBufferMapped<T>`], which exposes a `&mut [T]`. The actual [`Buffer`]
     /// will not be created until calling [`CreateBufferMapped::finish`].
-    pub fn create_buffer_mapped<'a, T>(
+    pub fn create_mappable_buffer<'a>(
         &self,
-        count: usize,
-        usage: BufferUsage,
-    ) -> CreateBufferMapped<'a, T>
-    where
-        T: 'static + Copy,
-    {
-        let type_size = std::mem::size_of::<T>() as BufferAddress;
-        assert_ne!(type_size, 0);
-
-        let desc = BufferDescriptor {
-            size: (type_size * count as BufferAddress).max(1),
-            usage,
-        };
-        let mut ptr: *mut u8 = std::ptr::null_mut();
-
-        let id = wgn::wgpu_device_create_buffer_mapped(self.id, &desc, &mut ptr as *mut *mut u8);
-
-        let data = unsafe { std::slice::from_raw_parts_mut(ptr as *mut T, count) };
-
-        CreateBufferMapped { id, data }
+        desc: &BufferDescriptor
+    ) -> WriteMappableBuffer {
+        unimplemented!();
     }
 
     /// Creates a new [`Texture`].
@@ -786,108 +769,85 @@ where
     phantom: std::marker::PhantomData<T>,
 }
 
+pub struct WriteMappableBuffer {
+    // ...
+}
+
+impl WriteMappableBuffer {
+    /// Returns a writable slice of the mapped memory.
+    ///
+    /// The first time this method is called maps the memory, subsequent invocations
+    /// only return the slice.
+    ///
+    /// Note: This could be Device::map_buffer_write(&self, buffer: &mut WriteMappableBuffer) -> &[u8]
+    /// The important part is that this borrows both the mappable buffer and the device so that
+    /// the mapped memory doesn't outlive the device nor the buffer.
+    pub fn map(&mut self, device: &Device) -> &mut[u8] {
+        unimplemented!()
+    }
+
+    /// Typed equivalent of `map` for convenience.
+    pub fn map_typed<T>(&mut self, device: &Device) -> &mut[T]
+    where
+        T: 'static + Copy
+    {
+        unimplemented!()
+    }
+
+    /// Unmaps the data, flushing if necessary.
+    /// Consumes self and returns it as a buffer. 
+    pub fn unmap(self, device: &Device) -> Buffer {
+        unimplemented!()
+    }
+}
+
+pub struct ReadMappableBuffer {
+    // ...
+}
+
+impl ReadMappableBuffer {
+    // (See WriteMappableBuffer::map).
+    pub fn map(&mut self, device: &Device) -> &[u8] {
+        unimplemented!()
+    }
+
+    // (See WriteMappableBuffer::map_typed).
+    pub fn map_typed<T>(&mut self, device: &Device) -> &[T]
+    where
+        T: 'static + Copy
+    {
+        unimplemented!()
+    }
+
+    // (See WriteMappableBuffer::unmap).
+    pub fn unmap(self, device: &Device) -> Buffer {
+        unimplemented!()
+    }
+}
+
 impl Buffer {
-    pub fn map_read_async<T, F>(&self, start: BufferAddress, size: BufferAddress, callback: F)
+    /// Asynchronously request a read-only mappable version of this buffer.
+    /// The callback will be run once the buffer can be mapped without causing stalls
+    ///
+    /// self is consumed to prevent this buffer from being used until the the buffer is
+    /// mappable. In order to get this buffer back, unmap the provided buffer
+    ///
+    /// Note: If the device is dropped, or some other factor makes mapping impossible,
+    /// the callback is not invoked, and is dropped.
+    /// It could be argued that the callback should take a `Result<(&Device, ReadMappableBuffer), Error>`.
+    pub fn request_read_map<F>(self, range: Range<BufferAddress>, callback: F)
     where
-        T: 'static + Copy,
-        F: FnOnce(BufferMapAsyncResult<&[T]>) + 'static,
+        F: FnOnce(&Device, ReadMappableBuffer) + 'static,
     {
-        let type_size = std::mem::size_of::<T>() as BufferAddress;
-        assert_ne!(type_size, 0);
-        assert_eq!(size % type_size, 0);
-
-        extern "C" fn buffer_map_read_callback_wrapper<T, F>(
-            status: wgn::BufferMapAsyncStatus,
-            data: *const u8,
-            user_data: *mut u8,
-        ) where
-            F: FnOnce(BufferMapAsyncResult<&[T]>),
-        {
-            let user_data =
-                unsafe { Box::from_raw(user_data as *mut BufferMapReadAsyncUserData<T, F>) };
-            let data = unsafe {
-                slice::from_raw_parts(
-                    data as *const T,
-                    user_data.size as usize / std::mem::size_of::<T>(),
-                )
-            };
-            if let wgn::BufferMapAsyncStatus::Success = status {
-                (user_data.callback)(Ok(BufferAsyncMapping {
-                    data,
-                    buffer_id: user_data.buffer_id,
-                }));
-            } else {
-                (user_data.callback)(Err(()))
-            }
-        }
-
-        let user_data = Box::new(BufferMapReadAsyncUserData {
-            size,
-            callback,
-            buffer_id: self.id,
-            phantom: std::marker::PhantomData,
-        });
-        wgn::wgpu_buffer_map_read_async(
-            self.id,
-            start,
-            size,
-            buffer_map_read_callback_wrapper::<T, F>,
-            Box::into_raw(user_data) as *mut u8,
-        );
+        unimplemented!()
     }
 
-    pub fn map_write_async<T, F>(&self, start: BufferAddress, size: BufferAddress, callback: F)
+    /// (Writable version of the above).
+    pub fn request_write_map<F>(self, range: Range<BufferAddress>, callback: F)
     where
-        T: 'static + Copy,
-        F: FnOnce(BufferMapAsyncResult<&mut [T]>) + 'static,
+        F: FnOnce(&Device, WriteMappableBuffer) + 'static,
     {
-        let type_size = std::mem::size_of::<T>() as BufferAddress;
-        assert_ne!(type_size, 0);
-        assert_eq!(size % type_size, 0);
-
-        extern "C" fn buffer_map_write_callback_wrapper<T, F>(
-            status: wgn::BufferMapAsyncStatus,
-            data: *mut u8,
-            user_data: *mut u8,
-        ) where
-            F: FnOnce(BufferMapAsyncResult<&mut [T]>),
-        {
-            let user_data =
-                unsafe { Box::from_raw(user_data as *mut BufferMapWriteAsyncUserData<T, F>) };
-            let data = unsafe {
-                slice::from_raw_parts_mut(
-                    data as *mut T,
-                    user_data.size as usize / std::mem::size_of::<T>(),
-                )
-            };
-            if let wgn::BufferMapAsyncStatus::Success = status {
-                (user_data.callback)(Ok(BufferAsyncMapping {
-                    data,
-                    buffer_id: user_data.buffer_id,
-                }));
-            } else {
-                (user_data.callback)(Err(()))
-            }
-        }
-
-        let user_data = Box::new(BufferMapWriteAsyncUserData {
-            size,
-            callback,
-            buffer_id: self.id,
-            phantom: std::marker::PhantomData,
-        });
-        wgn::wgpu_buffer_map_write_async(
-            self.id,
-            start,
-            size,
-            buffer_map_write_callback_wrapper::<T, F>,
-            Box::into_raw(user_data) as *mut u8,
-        );
-    }
-
-    /// Flushes any pending write operations and unmaps the buffer from host memory.
-    pub fn unmap(&self) {
-        wgn::wgpu_buffer_unmap(self.id);
+        unimplemented!()
     }
 }
 
