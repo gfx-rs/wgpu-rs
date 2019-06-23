@@ -3,6 +3,7 @@
 use arrayvec::ArrayVec;
 
 use std::ffi::CString;
+use std::fmt::{Debug, Error, Formatter};
 use std::ops::Range;
 use std::ptr;
 use std::slice;
@@ -782,6 +783,12 @@ impl Device {
         SwapChain {
             id: wgn::wgpu_device_create_swap_chain(self.id, surface.id, desc),
         }
+    }
+}
+
+impl Debug for Device {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        f.debug_struct("Device").field("id", &self.id).finish()
     }
 }
 
