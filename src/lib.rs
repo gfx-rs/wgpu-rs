@@ -38,6 +38,7 @@ pub use wgn::{
     Limits,
     LoadOp,
     Origin3d,
+    Pod,
     PowerPreference,
     PrimitiveTopology,
     RasterizationStateDescriptor,
@@ -816,6 +817,7 @@ impl<T> Drop for BufferAsyncMapping<T> {
 
 struct BufferMapReadAsyncUserData<T, F>
 where
+    T: Pod,
     F: FnOnce(BufferMapAsyncResult<&[T]>),
 {
     size: BufferAddress,
@@ -826,6 +828,7 @@ where
 
 struct BufferMapWriteAsyncUserData<T, F>
 where
+    T: Pod,
     F: FnOnce(BufferMapAsyncResult<&mut [T]>),
 {
     size: BufferAddress,
@@ -837,7 +840,7 @@ where
 impl Buffer {
     pub fn map_read_async<T, F>(&self, start: BufferAddress, size: BufferAddress, callback: F)
     where
-        T: 'static + Copy,
+        T: 'static + Pod,
         F: FnOnce(BufferMapAsyncResult<&[T]>) + 'static,
     {
         let type_size = std::mem::size_of::<T>() as BufferAddress;
@@ -849,6 +852,7 @@ impl Buffer {
             data: *const u8,
             user_data: *mut u8,
         ) where
+            T: Pod,
             F: FnOnce(BufferMapAsyncResult<&[T]>),
         {
             let user_data =
@@ -886,7 +890,7 @@ impl Buffer {
 
     pub fn map_write_async<T, F>(&self, start: BufferAddress, size: BufferAddress, callback: F)
     where
-        T: 'static + Copy,
+        T: 'static + Pod,
         F: FnOnce(BufferMapAsyncResult<&mut [T]>) + 'static,
     {
         let type_size = std::mem::size_of::<T>() as BufferAddress;
@@ -898,6 +902,7 @@ impl Buffer {
             data: *mut u8,
             user_data: *mut u8,
         ) where
+            T: Pod,
             F: FnOnce(BufferMapAsyncResult<&mut [T]>),
         {
             let user_data =
