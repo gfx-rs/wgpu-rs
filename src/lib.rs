@@ -1182,6 +1182,15 @@ impl<'a> RenderPass<'a> {
         );
     }
 
+    // TODO document
+    pub fn draw_indirect(&mut self, indirect_buffer: &Buffer, indirect_offset: BufferAddress) {
+        wgn::wgpu_render_pass_draw_indirect(
+            self.id,
+            indirect_buffer.id,
+            indirect_offset
+        );
+    }
+
     /// Draws indexed primitives using the active index buffer and the active vertex buffers.
     ///
     /// The active index buffer can be set with [`RenderPass::set_index_buffer`], while the active
@@ -1194,6 +1203,15 @@ impl<'a> RenderPass<'a> {
             indices.start,
             base_vertex,
             instances.start,
+        );
+    }
+
+    /// TODO document
+    pub fn draw_indexed_indirect(&mut self, indirect_buffer: &Buffer, indirect_offset: BufferAddress) {
+        wgn::wgpu_render_pass_draw_indexed_indirect(
+            self.id,
+            indirect_buffer.id,
+            indirect_offset
         );
     }
 }
