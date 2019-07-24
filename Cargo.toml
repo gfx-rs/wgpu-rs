@@ -19,9 +19,7 @@ exclude = ["etc/**/*", "examples/**/*", "tests/**/*", "Cargo.lock", "target/**/*
 [lib]
 
 [features]
-default = ["surfman"]
-glutin = ["wgc/glutin", "wgn/glutin"]
-surfman = ["wgc/surfman", "wgn/surfman"]
+default = []
 # Make Vulkan backend available on platforms where it is by default not, e.g. macOS
 vulkan = ["wgn/vulkan-portability"]
 
