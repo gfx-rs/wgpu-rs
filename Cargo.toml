@@ -30,6 +30,6 @@ arrayvec = "0.4"
 [dev-dependencies]
 cgmath = "0.17"
 env_logger = "0.6"
-glsl-to-spirv = "0.1"
+shaderc = "0.6"
 log = "0.4"
 png = "0.15"
