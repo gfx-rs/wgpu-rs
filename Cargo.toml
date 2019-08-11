@@ -1,6 +1,6 @@
 [package]
 name = "wgpu"
-version = "0.2.2"
+version = "0.3.0"
 authors = [
 	"Dzmitry Malyshau <kvark@mozilla.com>",
 	"Joshua Groves <josh@joshgroves.com>",
@@ -24,7 +24,7 @@ gl = ["wgn/gfx-backend-gl"]
 
 [dependencies]
 #TODO: only depend on the published version
-wgn = { package = "wgpu-native", version = "0.2.6", features = ["local", "window-winit"], git = "https://github.com/gfx-rs/wgpu", rev = "5224bb812420e420485ee08ad8cb820695a3e6eb" }
+wgn = { package = "wgpu-native", version = "0.2.6", features = ["local", "window-winit"], git = "https://github.com/gfx-rs/wgpu", rev = "f72dfc9cbbcf752ea5905ff9b038f8ca3f1d3691" }
 arrayvec = "0.4"
 zerocopy = "0.2"
 
