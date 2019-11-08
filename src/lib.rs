@@ -494,10 +494,7 @@ pub struct CreateBufferMapped<'a, T> {
     pub data: &'a mut [T],
 }
 
-impl<'a, T> CreateBufferMapped<'a, T>
-where
-    T: Copy,
-{
+impl<'a, T> CreateBufferMapped<'a, T> {
     /// Copies a slice into the mapped buffer and unmaps it, returning a [`Buffer`].
     ///
     /// `slice` and `self.data` must have the same length.
@@ -505,7 +502,10 @@ where
     /// # Panics
     ///
     /// Panics if the slices have different lengths.
-    pub fn fill_from_slice(self, slice: &[T]) -> Buffer {
+    pub fn fill_from_slice(self, slice: &[T]) -> Buffer
+    where
+        T: Copy,
+    {
         self.data.copy_from_slice(slice);
         self.finish()
     }
@@ -794,10 +794,7 @@ impl Device {
         &'a self,
         count: usize,
         usage: BufferUsage,
-    ) -> CreateBufferMapped<'a, T>
-    where
-        T: 'static + Copy,
-    {
+    ) -> CreateBufferMapped<'a, T> {
         let type_size = std::mem::size_of::<T>() as BufferAddress;
         assert_ne!(type_size, 0);
 
@@ -888,8 +885,8 @@ where
 impl Buffer {
     pub fn map_read_async<T, F>(&self, start: BufferAddress, size: BufferAddress, callback: F)
     where
-        T: 'static + FromBytes,
-        F: FnOnce(BufferMapAsyncResult<&[T]>) + 'static,
+        T: FromBytes,
+        F: FnOnce(BufferMapAsyncResult<&[T]>),
     {
         extern "C" fn buffer_map_read_callback_wrapper<T, F>(
             status: wgn::BufferMapAsyncStatus,
@@ -934,8 +931,8 @@ impl Buffer {
 
     pub fn map_write_async<T, F>(&self, start: BufferAddress, size: BufferAddress, callback: F)
     where
-        T: 'static + AsBytes + FromBytes,
-        F: FnOnce(BufferMapAsyncResult<&mut [T]>) + 'static,
+        T: AsBytes + FromBytes,
+        F: FnOnce(BufferMapAsyncResult<&mut [T]>),
     {
         extern "C" fn buffer_map_write_callback_wrapper<T, F>(
             status: wgn::BufferMapAsyncStatus,
