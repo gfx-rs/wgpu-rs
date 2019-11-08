@@ -11,6 +11,7 @@ use std::slice;
 use std::thread;
 
 pub use wgn::{
+    read_spirv,
     AdapterInfo,
     AddressMode,
     BackendBit,
@@ -24,8 +25,8 @@ pub use wgn::{
     Color,
     ColorStateDescriptor,
     ColorWrite,
-    CommandEncoderDescriptor,
     CommandBufferDescriptor,
+    CommandEncoderDescriptor,
     CompareFunction,
     CullMode,
     DepthStencilStateDescriptor,
@@ -62,18 +63,16 @@ pub use wgn::{
     TextureViewDimension,
     VertexAttributeDescriptor,
     VertexFormat,
-    read_spirv,
 };
 
 #[cfg(feature = "gl")]
 pub use wgn::glutin;
 
 //TODO: avoid heap allocating vectors during resource creation.
-#[derive(Default)]
-#[derive(Debug)]
+#[derive(Default, Debug)]
 struct Temp {
     //bind_group_descriptors: Vec<wgn::BindGroupDescriptor>,
-    //vertex_buffers: Vec<wgn::VertexBufferDescriptor>,
+//vertex_buffers: Vec<wgn::VertexBufferDescriptor>,
 }
 
 /// A handle to a physical graphics and/or compute device.
@@ -634,22 +633,27 @@ impl Device {
 
     /// Creates a bind group layout.
     pub fn create_bind_group_layout(&self, desc: &BindGroupLayoutDescriptor) -> BindGroupLayout {
-        let temp_layouts = desc.bindings
+        let temp_layouts = desc
+            .bindings
             .iter()
             .map(|bind| wgn::BindGroupLayoutBinding {
                 binding: bind.binding,
                 visibility: bind.visibility,
                 ty: match bind.ty {
                     BindingType::UniformBuffer { .. } => wgn::BindingType::UniformBuffer,
-                    BindingType::StorageBuffer { readonly: false, .. } => wgn::BindingType::StorageBuffer,
-                    BindingType::StorageBuffer { readonly: true, .. } => wgn::BindingType::ReadonlyStorageBuffer,
+                    BindingType::StorageBuffer {
+                        readonly: false, ..
+                    } => wgn::BindingType::StorageBuffer,
+                    BindingType::StorageBuffer { readonly: true, .. } => {
+                        wgn::BindingType::ReadonlyStorageBuffer
+                    }
                     BindingType::Sampler => wgn::BindingType::Sampler,
                     BindingType::SampledTexture { .. } => wgn::BindingType::SampledTexture,
                     BindingType::StorageTexture { .. } => wgn::BindingType::StorageTexture,
                 },
                 dynamic: match bind.ty {
-                    BindingType::UniformBuffer { dynamic } |
-                    BindingType::StorageBuffer { dynamic, .. } => dynamic,
+                    BindingType::UniformBuffer { dynamic }
+                    | BindingType::StorageBuffer { dynamic, .. } => dynamic,
                     _ => false,
                 },
                 multisampled: match bind.ty {
@@ -657,8 +661,8 @@ impl Device {
                     _ => false,
                 },
                 texture_dimension: match bind.ty {
-                    BindingType::SampledTexture { dimension, .. } |
-                    BindingType::StorageTexture { dimension } => dimension,
+                    BindingType::SampledTexture { dimension, .. }
+                    | BindingType::StorageTexture { dimension } => dimension,
                     _ => TextureViewDimension::D2,
                 },
             })
@@ -733,7 +737,8 @@ impl Device {
                     fragment_stage: fragment_stage
                         .as_ref()
                         .map_or(ptr::null(), |fs| fs as *const _),
-                    rasterization_state: desc.rasterization_state
+                    rasterization_state: desc
+                        .rasterization_state
                         .as_ref()
                         .map_or(ptr::null(), |p| p as *const _),
                     primitive_topology: desc.primitive_topology,
@@ -1267,7 +1272,11 @@ impl<'a> RenderPass<'a> {
     ///
     /// The active index buffer can be set with [`RenderPass::set_index_buffer`], while the active
     /// vertex buffers can be set with [`RenderPass::set_vertex_buffers`].
-    pub fn draw_indexed_indirect(&mut self, indirect_buffer: &Buffer, indirect_offset: BufferAddress) {
+    pub fn draw_indexed_indirect(
+        &mut self,
+        indirect_buffer: &Buffer,
+        indirect_offset: BufferAddress,
+    ) {
         wgn::wgpu_render_pass_draw_indexed_indirect(self.id, indirect_buffer.id, indirect_offset);
     }
 }

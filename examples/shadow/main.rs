@@ -114,11 +114,17 @@ impl Light {
             far: self.depth.end,
         };
         let mx_correction = framework::OPENGL_TO_WGPU_MATRIX;
-        let mx_view_proj = mx_correction * cgmath::Matrix4::from(projection.to_perspective()) * mx_view;
+        let mx_view_proj =
+            mx_correction * cgmath::Matrix4::from(projection.to_perspective()) * mx_view;
         LightRaw {
             proj: *mx_view_proj.as_ref(),
             pos: [self.pos.x, self.pos.y, self.pos.z, 1.0],
-            color: [self.color.r as f32, self.color.g as f32, self.color.b as f32, 1.0],
+            color: [
+                self.color.r as f32,
+                self.color.g as f32,
+                self.color.b as f32,
+                1.0,
+            ],
         }
     }
 }
@@ -181,7 +187,10 @@ impl Example {
 }
 
 impl framework::Example for Example {
-    fn init(sc_desc: &wgpu::SwapChainDescriptor, device: &wgpu::Device) -> (Self, Option<wgpu::CommandBuffer>) {
+    fn init(
+        sc_desc: &wgpu::SwapChainDescriptor,
+        device: &wgpu::Device,
+    ) -> (Self, Option<wgpu::CommandBuffer>) {
         // Create the vertex and index buffers
         let vertex_size = mem::size_of::<Vertex>();
         let (cube_vertex_data, cube_index_data) = create_cube();
@@ -212,15 +221,14 @@ impl framework::Example for Example {
             usage: wgpu::BufferUsage::UNIFORM | wgpu::BufferUsage::COPY_DST,
         });
 
-        let local_bind_group_layout = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
-            bindings: &[
-                wgpu::BindGroupLayoutBinding {
+        let local_bind_group_layout =
+            device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+                bindings: &[wgpu::BindGroupLayoutBinding {
                     binding: 0,
                     visibility: wgpu::ShaderStage::VERTEX | wgpu::ShaderStage::FRAGMENT,
                     ty: wgpu::BindingType::UniformBuffer { dynamic: false },
-                },
-            ],
-        });
+                }],
+            });
 
         let mut entities = vec![{
             use cgmath::SquareMatrix;
@@ -404,15 +412,14 @@ impl framework::Example for Example {
 
         let shadow_pass = {
             // Create pipeline layout
-            let bind_group_layout = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
-                bindings: &[
-                    wgpu::BindGroupLayoutBinding {
+            let bind_group_layout =
+                device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+                    bindings: &[wgpu::BindGroupLayoutBinding {
                         binding: 0, // global
                         visibility: wgpu::ShaderStage::VERTEX,
                         ty: wgpu::BindingType::UniformBuffer { dynamic: false },
-                    },
-                ],
-            });
+                    }],
+                });
             let pipeline_layout = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
                 bind_group_layouts: &[&bind_group_layout, &local_bind_group_layout],
             });
@@ -493,16 +500,12 @@ impl framework::Example for Example {
                         wgpu::BindGroupLayoutBinding {
                             binding: 0, // global
                             visibility: wgpu::ShaderStage::VERTEX | wgpu::ShaderStage::FRAGMENT,
-                            ty: wgpu::BindingType::UniformBuffer {
-                                dynamic: false,
-                            },
+                            ty: wgpu::BindingType::UniformBuffer { dynamic: false },
                         },
                         wgpu::BindGroupLayoutBinding {
                             binding: 1, // lights
                             visibility: wgpu::ShaderStage::VERTEX | wgpu::ShaderStage::FRAGMENT,
-                            ty: wgpu::BindingType::UniformBuffer {
-                                dynamic: false,
-                            },
+                            ty: wgpu::BindingType::UniformBuffer { dynamic: false },
                         },
                         wgpu::BindGroupLayoutBinding {
                             binding: 2,
@@ -530,10 +533,7 @@ impl framework::Example for Example {
             };
             let uniform_size = mem::size_of::<ForwardUniforms>() as wgpu::BufferAddress;
             let uniform_buf = device
-                .create_buffer_mapped(
-                    1,
-                    wgpu::BufferUsage::UNIFORM | wgpu::BufferUsage::COPY_DST,
-                )
+                .create_buffer_mapped(1, wgpu::BufferUsage::UNIFORM | wgpu::BufferUsage::COPY_DST)
                 .fill_from_slice(&[forward_uniforms]);
 
             // Create bind group
@@ -652,7 +652,11 @@ impl framework::Example for Example {
         //empty
     }
 
-    fn resize(&mut self, sc_desc: &wgpu::SwapChainDescriptor, device: &wgpu::Device) -> Option<wgpu::CommandBuffer> {
+    fn resize(
+        &mut self,
+        sc_desc: &wgpu::SwapChainDescriptor,
+        device: &wgpu::Device,
+    ) -> Option<wgpu::CommandBuffer> {
         let command_buf = {
             let mx_total = Self::generate_matrix(sc_desc.width as f32 / sc_desc.height as f32);
             let mx_ref: &[f32; 16] = mx_total.as_ref();
@@ -684,7 +688,11 @@ impl framework::Example for Example {
         Some(command_buf)
     }
 
-    fn render(&mut self, frame: &wgpu::SwapChainOutput, device: &wgpu::Device) -> wgpu::CommandBuffer {
+    fn render(
+        &mut self,
+        frame: &wgpu::SwapChainOutput,
+        device: &wgpu::Device,
+    ) -> wgpu::CommandBuffer {
         let mut encoder =
             device.create_command_encoder(&wgpu::CommandEncoderDescriptor { todo: 0 });
 
