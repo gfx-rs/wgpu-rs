@@ -10,7 +10,7 @@ fn main() {
     #[cfg(not(feature = "gl"))]
     let (window, size, surface) = {
         let window = winit::window::Window::new(&event_loop).unwrap();
-        let size = window.inner_size().to_physical(window.hidpi_factor());
+        let size = window.inner_size();
 
         let surface = wgpu::Surface::create(&window);
         (window, size, surface)
@@ -104,8 +104,8 @@ fn main() {
     let mut sc_desc = wgpu::SwapChainDescriptor {
         usage: wgpu::TextureUsage::OUTPUT_ATTACHMENT,
         format: wgpu::TextureFormat::Bgra8UnormSrgb,
-        width: size.width.round() as u32,
-        height: size.height.round() as u32,
+        width: size.width,
+        height: size.height,
         present_mode: wgpu::PresentMode::Vsync,
     };
 
@@ -115,10 +115,12 @@ fn main() {
         *control_flow = ControlFlow::Poll;
         match event {
             event::Event::MainEventsCleared => window.request_redraw(),
-            event::Event::WindowEvent { event: event::WindowEvent::Resized(size), .. } => {
-                let physical = size.to_physical(window.hidpi_factor());
-                sc_desc.width = physical.width.round() as u32;
-                sc_desc.height = physical.height.round() as u32;
+            event::Event::WindowEvent {
+                event: event::WindowEvent::Resized(size),
+                ..
+            } => {
+                sc_desc.width = size.width;
+                sc_desc.height = size.height;
                 swap_chain = device.create_swap_chain(&surface, &sc_desc);
             }
             event::Event::RedrawRequested(_) => {
@@ -140,7 +142,7 @@ fn main() {
                     });
                     rpass.set_pipeline(&render_pipeline);
                     rpass.set_bind_group(0, &bind_group, &[]);
-                    rpass.draw(0 .. 3, 0 .. 1);
+                    rpass.draw(0..3, 0..1);
                 }
 
                 queue.submit(&[encoder.finish()]);
