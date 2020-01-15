@@ -63,13 +63,12 @@ pub fn run<E: Example>(title: &str) {
     log::info!("Initializing the window...");
 
     #[cfg(not(feature = "gl"))]
-    let (window, hidpi_factor, size, surface) = {
+    let (window, size, surface) = {
         let window = winit::window::Window::new(&event_loop).unwrap();
         window.set_title(title);
-        let hidpi_factor = window.hidpi_factor();
-        let size = window.inner_size().to_physical(hidpi_factor);
+        let size = window.inner_size();
         let surface = wgpu::Surface::create(&window);
-        (window, hidpi_factor, size, surface)
+        (window, size, surface)
     };
 
     #[cfg(feature = "gl")]
@@ -112,8 +111,8 @@ pub fn run<E: Example>(title: &str) {
     let mut sc_desc = wgpu::SwapChainDescriptor {
         usage: wgpu::TextureUsage::OUTPUT_ATTACHMENT,
         format: wgpu::TextureFormat::Bgra8UnormSrgb,
-        width: size.width.round() as u32,
-        height: size.height.round() as u32,
+        width: size.width,
+        height: size.height,
         present_mode: wgpu::PresentMode::Vsync,
     };
     let mut swap_chain = device.create_swap_chain(&surface, &sc_desc);
@@ -137,10 +136,8 @@ pub fn run<E: Example>(title: &str) {
                 event: WindowEvent::Resized(size),
                 ..
             } => {
-                let physical = size.to_physical(hidpi_factor);
-                log::info!("Resizing to {:?}", physical);
-                sc_desc.width = physical.width.round() as u32;
-                sc_desc.height = physical.height.round() as u32;
+                sc_desc.width = size.width;
+                sc_desc.height = size.height;
                 swap_chain = device.create_swap_chain(&surface, &sc_desc);
                 let command_buf = example.resize(&sc_desc, &device);
                 if let Some(command_buf) = command_buf {
@@ -163,7 +160,7 @@ pub fn run<E: Example>(title: &str) {
                 _ => {
                     example.update(event);
                 }
-            }
+            },
             event::Event::RedrawRequested(_) => {
                 let frame = swap_chain
                     .get_next_texture()
