@@ -1352,7 +1352,7 @@ impl<'a> RenderPass<'a> {
                 self.id.as_mut().unwrap(),
                 index,
                 bind_group.id,
-                offsets.as_ptr(),
+                offsets.as_ptr() as *const u32,
                 offsets.len(),
             );
         }
@@ -1558,7 +1558,7 @@ impl<'a> ComputePass<'a> {
                 self.id.as_mut().unwrap(),
                 index,
                 bind_group.id,
-                offsets.as_ptr(),
+                offsets.as_ptr() as *const u32,
                 offsets.len(),
             );
         }
