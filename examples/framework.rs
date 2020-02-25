@@ -104,7 +104,7 @@ async fn run_async<E: Example>(title: &str) {
             power_preference: wgpu::PowerPreference::Default,
             compatible_surface: Some(&surface),
         },
-        wgpu::BackendBit::PRIMARY,
+        wgpu::BackendBit::PRIMARY | wgpu::BackendBit::SECONDARY,
     )
     .await
     .unwrap();

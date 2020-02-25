@@ -10,7 +10,7 @@ async fn run() {
             power_preference: wgpu::PowerPreference::Default,
             compatible_surface: None,
         },
-        wgpu::BackendBit::PRIMARY,
+        wgpu::BackendBit::PRIMARY | wgpu::BackendBit::SECONDARY,
     )
     .await
     .unwrap();

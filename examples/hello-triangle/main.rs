@@ -13,7 +13,7 @@ async fn run(event_loop: EventLoop<()>, window: Window) {
             power_preference: wgpu::PowerPreference::Default,
             compatible_surface: Some(&surface),
         },
-        wgpu::BackendBit::PRIMARY,
+        wgpu::BackendBit::PRIMARY | wgpu::BackendBit::SECONDARY,
     )
     .await
     .unwrap();
