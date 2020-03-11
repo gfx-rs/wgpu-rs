@@ -77,28 +77,6 @@ async fn run_async<E: Example>(title: &str) {
         (window, size, surface)
     };
 
-    #[cfg(feature = "gl")]
-    let (window, instance, size, surface) = {
-        let wb = winit::WindowBuilder::new();
-        let cb = wgpu::glutin::ContextBuilder::new().with_vsync(true);
-        let context = cb.build_windowed(wb, &event_loop).unwrap();
-        context.window().set_title(title);
-
-        let hidpi_factor = context.window().hidpi_factor();
-        let size = context
-            .window()
-            .get_inner_size()
-            .unwrap()
-            .to_physical(hidpi_factor);
-
-        let (context, window) = unsafe { context.make_current().unwrap().split() };
-
-        let instance = wgpu::Instance::new(context);
-        let surface = instance.get_surface();
-
-        (window, instance, size, surface)
-    };
-
     let adapter = wgpu::Adapter::request(
         &wgpu::RequestAdapterOptions {
             power_preference: wgpu::PowerPreference::Default,
