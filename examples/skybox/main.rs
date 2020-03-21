@@ -3,6 +3,11 @@ mod framework;
 
 use zerocopy::AsBytes as _;
 
+use wgpu::{
+    prelude::*,
+    ToEnd,
+};
+
 const SKYBOX_FORMAT: wgpu::TextureFormat = wgpu::TextureFormat::Rgba8Unorm;
 
 type Uniform = cgmath::Matrix4<f32>;
@@ -199,8 +204,7 @@ impl framework::Example for Skybox {
 
             init_encoder.copy_buffer_to_texture(
                 wgpu::BufferCopyView {
-                    buffer: &image_buf,
-                    offset: 0,
+                    buffer: image_buf.range(0, ToEnd),
                     bytes_per_row: 4 * image_width,
                     rows_per_image: 0,
                 },
@@ -228,10 +232,7 @@ impl framework::Example for Skybox {
             bindings: &[
                 wgpu::Binding {
                     binding: 0,
-                    resource: wgpu::BindingResource::Buffer {
-                        buffer: &uniform_buf,
-                        range: 0 .. uniform_buf_size as wgpu::BufferAddress,
-                    },
+                    resource: wgpu::BindingResource::Buffer(uniform_buf.range(0, uniform_buf_size as wgpu::BufferAddress)),
                 },
                 wgpu::Binding {
                     binding: 1,
@@ -274,7 +275,7 @@ impl framework::Example for Skybox {
 
         let mut init_encoder =
             device.create_command_encoder(&wgpu::CommandEncoderDescriptor { todo: 0 });
-        init_encoder.copy_buffer_to_buffer(&temp_buf, 0, &self.uniform_buf, 0, 64);
+        init_encoder.copy_buffer_to_buffer(temp_buf.range(0, 64), &self.uniform_buf);
         self.uniforms = uniforms;
         Some(init_encoder.finish())
     }
@@ -292,11 +293,8 @@ impl framework::Example for Skybox {
         let temp_buf = buffer_from_uniforms(&device, &self.uniforms, wgpu::BufferUsage::COPY_SRC);
 
         init_encoder.copy_buffer_to_buffer(
-            &temp_buf,
-            0,
+            temp_buf.range(0, uniform_buf_size as wgpu::BufferAddress),
             &self.uniform_buf,
-            0,
-            uniform_buf_size as wgpu::BufferAddress,
         );
 
         {

@@ -5,11 +5,14 @@ mod framework;
 
 use zerocopy::{AsBytes, FromBytes};
 
-use wgpu::vertex_attr_array;
+use wgpu::{
+    prelude::*,
+    ToEnd,
+    vertex_attr_array,
+};
 
 #[repr(C)]
 #[derive(Clone, Copy, AsBytes, FromBytes)]
-
 struct Vertex {
     _pos: [i8; 4],
     _normal: [i8; 4],
@@ -237,10 +240,7 @@ impl framework::Example for Example {
                 layout: &local_bind_group_layout,
                 bindings: &[wgpu::Binding {
                     binding: 0,
-                    resource: wgpu::BindingResource::Buffer {
-                        buffer: &plane_uniform_buf,
-                        range: 0 .. entity_uniform_size,
-                    },
+                    resource: wgpu::BindingResource::Buffer(plane_uniform_buf.range(0, entity_uniform_size)),
                 }],
             });
             Entity {
@@ -311,10 +311,7 @@ impl framework::Example for Example {
                     layout: &local_bind_group_layout,
                     bindings: &[wgpu::Binding {
                         binding: 0,
-                        resource: wgpu::BindingResource::Buffer {
-                            buffer: &uniform_buf,
-                            range: 0 .. entity_uniform_size,
-                        },
+                        resource: wgpu::BindingResource::Buffer(uniform_buf.range(0, entity_uniform_size)),
                     }],
                 }),
                 uniform_buf,
@@ -424,10 +421,7 @@ impl framework::Example for Example {
                 layout: &bind_group_layout,
                 bindings: &[wgpu::Binding {
                     binding: 0,
-                    resource: wgpu::BindingResource::Buffer {
-                        buffer: &uniform_buf,
-                        range: 0 .. uniform_size,
-                    },
+                    resource: wgpu::BindingResource::Buffer(uniform_buf.range(0, uniform_size)),
                 }],
             });
 
@@ -532,17 +526,11 @@ impl framework::Example for Example {
                 bindings: &[
                     wgpu::Binding {
                         binding: 0,
-                        resource: wgpu::BindingResource::Buffer {
-                            buffer: &uniform_buf,
-                            range: 0 .. uniform_size,
-                        },
+                        resource: wgpu::BindingResource::Buffer(uniform_buf.range(0, uniform_size)),
                     },
                     wgpu::Binding {
                         binding: 1,
-                        resource: wgpu::BindingResource::Buffer {
-                            buffer: &light_uniform_buf,
-                            range: 0 .. light_uniform_size,
-                        },
+                        resource: wgpu::BindingResource::Buffer(light_uniform_buf.range(0, light_uniform_size)),
                     },
                     wgpu::Binding {
                         binding: 2,
@@ -655,7 +643,10 @@ impl framework::Example for Example {
 
             let mut encoder =
                 device.create_command_encoder(&wgpu::CommandEncoderDescriptor { todo: 0 });
-            encoder.copy_buffer_to_buffer(&temp_buf, 0, &self.forward_pass.uniform_buf, 0, 64);
+            encoder.copy_buffer_to_buffer(
+                temp_buf.range(0, 64), 
+                &self.forward_pass.uniform_buf,
+            );
             encoder.finish()
         };
 
@@ -719,11 +710,8 @@ impl framework::Example for Example {
 
             for (i, entity) in self.entities.iter().enumerate() {
                 encoder.copy_buffer_to_buffer(
-                    &temp_buf,
-                    (i * size) as wgpu::BufferAddress,
-                    &entity.uniform_buf,
-                    0,
-                    size as wgpu::BufferAddress,
+                    temp_buf.range((i * size) as wgpu::BufferAddress, size as wgpu::BufferAddress),
+                    entity.uniform_buf.range(0, ToEnd),
                 );
             }
         }
@@ -743,11 +731,8 @@ impl framework::Example for Example {
                 slot.copy_from_slice(light.to_raw().as_bytes());
             }
             encoder.copy_buffer_to_buffer(
-                &temp_buf_data.finish(),
-                0,
+                temp_buf_data.finish().range(0, total_size as wgpu::BufferAddress),
                 &self.light_uniform_buf,
-                0,
-                total_size as wgpu::BufferAddress,
             );
         }
 
@@ -755,11 +740,8 @@ impl framework::Example for Example {
             // The light uniform buffer already has the projection,
             // let's just copy it over to the shadow uniform buffer.
             encoder.copy_buffer_to_buffer(
-                &self.light_uniform_buf,
-                (i * mem::size_of::<LightRaw>()) as wgpu::BufferAddress,
+                self.light_uniform_buf.range((i * mem::size_of::<LightRaw>()) as wgpu::BufferAddress, 64),
                 &self.shadow_pass.uniform_buf,
-                0,
-                64,
             );
 
             let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
@@ -779,8 +761,8 @@ impl framework::Example for Example {
 
             for entity in &self.entities {
                 pass.set_bind_group(1, &entity.bind_group, &[]);
-                pass.set_index_buffer(&entity.index_buf, 0, 0);
-                pass.set_vertex_buffer(0, &entity.vertex_buf, 0, 0);
+                pass.set_index_buffer(&*entity.index_buf);
+                pass.set_vertex_buffer(0, &*entity.vertex_buf);
                 pass.draw_indexed(0 .. entity.index_count as u32, 0, 0 .. 1);
             }
         }
@@ -815,8 +797,8 @@ impl framework::Example for Example {
 
             for entity in &self.entities {
                 pass.set_bind_group(1, &entity.bind_group, &[]);
-                pass.set_index_buffer(&entity.index_buf, 0, 0);
-                pass.set_vertex_buffer(0, &entity.vertex_buf, 0, 0);
+                pass.set_index_buffer(&*entity.index_buf);
+                pass.set_vertex_buffer(0, &*entity.vertex_buf);
                 pass.draw_indexed(0 .. entity.index_count as u32, 0, 0 .. 1);
             }
         }

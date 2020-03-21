@@ -3,8 +3,12 @@
 mod backend;
 use crate::backend::native_gpu_future;
 
+mod buffer;
+pub use self::buffer::{Buffer, BufferRange, RangedBuffer, Bounded, Unbounded, Unsure, ToEnd};
+
 #[macro_use]
 mod macros;
+
 
 use arrayvec::ArrayVec;
 use smallvec::SmallVec;
@@ -43,6 +47,12 @@ pub use wgc::{
     },
 };
 
+/// This exports traits that are useful to
+/// have in scope when using wgpu.
+pub mod prelude {
+    pub use super::RangedBuffer;
+}
+
 //TODO: avoid heap allocating vectors during resource creation.
 #[derive(Default, Debug)]
 struct Temp {
@@ -67,13 +77,6 @@ pub struct Adapter {
 pub struct Device {
     id: wgc::id::DeviceId,
     temp: Temp,
-}
-
-/// A handle to a GPU-accessible buffer.
-#[derive(Debug, PartialEq)]
-pub struct Buffer {
-    id: wgc::id::BufferId,
-    device_id: wgc::id::DeviceId,
 }
 
 /// A handle to a texture on the GPU.
@@ -232,10 +235,7 @@ pub struct Queue {
 /// A resource that can be bound to a pipeline.
 #[derive(Clone, Debug)]
 pub enum BindingResource<'a> {
-    Buffer {
-        buffer: &'a Buffer,
-        range: Range<BufferAddress>,
-    },
+    Buffer(BufferRange<'a, Bounded>),
     Sampler(&'a Sampler),
     TextureView(&'a TextureView),
 }
@@ -406,10 +406,8 @@ pub struct SwapChainOutput<'a> {
 #[derive(Clone, Debug)]
 pub struct BufferCopyView<'a> {
     /// The buffer to be copied to or from.
-    pub buffer: &'a Buffer,
-
-    /// The offset in bytes from the start of the buffer. This must be aligned to 512 bytes.
-    pub offset: BufferAddress,
+    /// The offset must be aligned to 512 bytes.
+    pub buffer: BufferRange<'a, Unbounded>,
 
     /// The size in bytes of a single row of the texture. This must be a multiple of 256 bytes.
     pub bytes_per_row: u32,
@@ -421,8 +419,8 @@ pub struct BufferCopyView<'a> {
 impl BufferCopyView<'_> {
     fn into_native(self) -> wgc::command::BufferCopyView {
         wgc::command::BufferCopyView {
-            buffer: self.buffer.id,
-            offset: self.offset,
+            buffer: self.buffer.buffer.id,
+            offset: self.buffer.offset,
             bytes_per_row: self.bytes_per_row,
             rows_per_image: self.rows_per_image,
         }
@@ -580,14 +578,12 @@ impl Device {
             .map(|binding| bm::BindGroupEntry {
                 binding: binding.binding,
                 resource: match binding.resource {
-                    BindingResource::Buffer {
-                        ref buffer,
-                        ref range,
-                    } => bm::BindingResource::Buffer(bm::BufferBinding {
-                        buffer: buffer.id,
-                        offset: range.start,
-                        size: range.end - range.start,
-                    }),
+                    BindingResource::Buffer(ref buffer) => 
+                        bm::BindingResource::Buffer(bm::BufferBinding {
+                            buffer: buffer.buffer.id,
+                            offset: buffer.offset,
+                            size: buffer.size,
+                        }),
                     BindingResource::Sampler(ref sampler) => {
                         bm::BindingResource::Sampler(sampler.id)
                     }
@@ -921,11 +917,11 @@ struct BufferMapWriteFutureUserData
     buffer_id: wgc::id::BufferId,
 }
 
-impl Buffer {
+impl<'a> BufferRange<'a, Bounded> {
     /// Map the buffer for reading. The result is returned in a future.
-    pub fn map_read(&self, start: BufferAddress, size: BufferAddress) -> impl Future<Output = crate::BufferMapReadResult>
+    pub fn map_read(&self) -> impl Future<Output = crate::BufferMapReadResult>
     {
-        let (future, completion) = native_gpu_future::new_gpu_future(self.device_id);
+        let (future, completion) = native_gpu_future::new_gpu_future(self.buffer.device_id);
 
         extern "C" fn buffer_map_read_future_wrapper(
             status: wgc::resource::BufferMapAsyncStatus,
@@ -947,14 +943,14 @@ impl Buffer {
         }
 
         let user_data = Box::new(BufferMapReadFutureUserData {
-            size,
+            size: self.size,
             completion,
-            buffer_id: self.id,
+            buffer_id: self.buffer.id,
         });
         wgn::wgpu_buffer_map_read_async(
-            self.id,
-            start,
-            size,
+            self.buffer.id,
+            self.offset,
+            self.size,
             buffer_map_read_future_wrapper,
             Box::into_raw(user_data) as *mut u8,
         );
@@ -963,9 +959,9 @@ impl Buffer {
     }
 
     /// Map the buffer for writing. The result is returned in a future.
-    pub fn map_write(&self, start: BufferAddress, size: BufferAddress) -> impl Future<Output = crate::BufferMapWriteResult>
+    pub fn map_write(&self) -> impl Future<Output = crate::BufferMapWriteResult>
     {
-        let (future, completion) = native_gpu_future::new_gpu_future(self.device_id);
+        let (future, completion) = native_gpu_future::new_gpu_future(self.buffer.device_id);
 
         extern "C" fn buffer_map_write_future_wrapper(
             status: wgc::resource::BufferMapAsyncStatus,
@@ -987,21 +983,23 @@ impl Buffer {
         }
 
         let user_data = Box::new(BufferMapWriteFutureUserData {
-            size,
+            size: self.size,
             completion,
-            buffer_id: self.id,
+            buffer_id: self.buffer.id,
         });
         wgn::wgpu_buffer_map_write_async(
-            self.id,
-            start,
-            size,
+            self.buffer.id,
+            self.offset,
+            self.size,
             buffer_map_write_future_wrapper,
             Box::into_raw(user_data) as *mut u8,
         );
 
         future
     }
+}
 
+impl Buffer {
     /// Flushes any pending write operations and unmaps the buffer from host memory.
     pub fn unmap(&self) {
         wgn::wgpu_buffer_unmap(self.id);
@@ -1115,21 +1113,22 @@ impl CommandEncoder {
     }
 
     /// Copy data from one buffer to another.
-    pub fn copy_buffer_to_buffer(
+    /// 
+    /// This method will attempt to copy the buffer range specified in `source`
+    /// into the destination buffer, starting at the destination's offset.
+    pub fn copy_buffer_to_buffer<'a>(
         &mut self,
-        source: &Buffer,
-        source_offset: BufferAddress,
-        destination: &Buffer,
-        destination_offset: BufferAddress,
-        copy_size: BufferAddress,
+        source: BufferRange<'a, Bounded>,
+        destination: impl Into<BufferRange<'a, Unbounded>>,
     ) {
+        let destination = destination.into();
         wgn::wgpu_command_encoder_copy_buffer_to_buffer(
             self.id,
-            source.id,
-            source_offset,
-            destination.id,
-            destination_offset,
-            copy_size,
+            source.buffer.id,
+            source.offset,
+            destination.buffer.id,
+            source.offset,
+            source.size,
         );
     }
 
@@ -1227,16 +1226,16 @@ impl<'a> RenderPass<'a> {
     /// If `size == 0`, the remaining part of the buffer is considered.
     pub fn set_index_buffer(
         &mut self,
-        buffer: &'a Buffer,
-        offset: BufferAddress,
-        size: BufferAddress,
+        buffer: impl Into<BufferRange<'a, Unsure>>,
     ) {
+        let buffer = buffer.into();
         unsafe {
             wgn::wgpu_render_pass_set_index_buffer(
                 self.id.as_mut().unwrap(),
-                buffer.id,
-                offset,
-                size,
+                buffer.buffer.id,
+                buffer.offset,
+                // Since `0` means the rest of the buffer, we do some weird static dispatch stuff here.
+                buffer.size.unwrap_or(0),
             );
         }
     }
@@ -1258,17 +1257,17 @@ impl<'a> RenderPass<'a> {
     pub fn set_vertex_buffer(
         &mut self,
         slot: u32,
-        buffer: &'a Buffer,
-        offset: BufferAddress,
-        size: BufferAddress,
+        buffer: impl Into<BufferRange<'a, Unsure>>,
     ) {
+        let buffer = buffer.into();
         unsafe {
             wgn::wgpu_render_pass_set_vertex_buffer(
                 self.id.as_mut().unwrap(),
                 slot,
-                buffer.id,
-                offset,
-                size,
+                buffer.buffer.id,
+                buffer.offset,
+                // Since `0` means the rest of the buffer, we do some weird static dispatch stuff here.
+                buffer.size.unwrap_or(0),
             )
         };
     }
@@ -1345,12 +1344,13 @@ impl<'a> RenderPass<'a> {
     /// Draws primitives from the active vertex buffer(s) based on the contents of the `indirect_buffer`.
     ///
     /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffers`].
-    pub fn draw_indirect(&mut self, indirect_buffer: &'a Buffer, indirect_offset: BufferAddress) {
+    pub fn draw_indirect(&mut self, indirect_buffer: impl Into<BufferRange<'a, Unbounded>>) {
+        let indirect_buffer = indirect_buffer.into();
         unsafe {
             wgn::wgpu_render_pass_draw_indirect(
                 self.id.as_mut().unwrap(),
-                indirect_buffer.id,
-                indirect_offset,
+                indirect_buffer.buffer.id,
+                indirect_buffer.offset,
             );
         }
     }
@@ -1362,14 +1362,14 @@ impl<'a> RenderPass<'a> {
     /// vertex buffers can be set with [`RenderPass::set_vertex_buffers`].
     pub fn draw_indexed_indirect(
         &mut self,
-        indirect_buffer: &'a Buffer,
-        indirect_offset: BufferAddress,
+        indirect_buffer: impl Into<BufferRange<'a, Unbounded>>
     ) {
+        let indirect_buffer = indirect_buffer.into();
         unsafe {
             wgn::wgpu_render_pass_draw_indexed_indirect(
                 self.id.as_mut().unwrap(),
-                indirect_buffer.id,
-                indirect_offset,
+                indirect_buffer.buffer.id,
+                indirect_buffer.offset,
             );
         }
     }
@@ -1427,12 +1427,13 @@ impl<'a> ComputePass<'a> {
     }
 
     /// Dispatches compute work operations, based on the contents of the `indirect_buffer`.
-    pub fn dispatch_indirect(&mut self, indirect_buffer: &'a Buffer, indirect_offset: BufferAddress) {
+    pub fn dispatch_indirect(&mut self, indirect_buffer: impl Into<BufferRange<'a, Unbounded>>) {
+        let indirect_buffer = indirect_buffer.into();
         unsafe {
             wgn::wgpu_compute_pass_dispatch_indirect(
                 self.id.as_mut().unwrap(),
-                indirect_buffer.id,
-                indirect_offset,
+                indirect_buffer.buffer.id,
+                indirect_buffer.offset,
             );
         }
     }

@@ -12,7 +12,11 @@ mod framework;
 
 use zerocopy::{AsBytes, FromBytes};
 
-use wgpu::vertex_attr_array;
+use wgpu::{
+    prelude::*,
+    ToEnd,
+    vertex_attr_array,
+};
 
 #[repr(C)]
 #[derive(Clone, Copy, AsBytes, FromBytes)]
@@ -255,7 +259,7 @@ impl framework::Example for Example {
                 depth_stencil_attachment: None,
             });
             rpass.set_pipeline(&self.pipeline);
-            rpass.set_vertex_buffer(0, &self.vertex_buffer, 0, 0);
+            rpass.set_vertex_buffer(0, self.vertex_buffer.range(0, ToEnd));
             rpass.draw(0 .. self.vertex_count, 0 .. 1);
         }
 

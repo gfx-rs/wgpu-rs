@@ -3,7 +3,11 @@ mod framework;
 
 use zerocopy::{AsBytes, FromBytes};
 
-use wgpu::vertex_attr_array;
+use wgpu::{
+    prelude::*,
+    ToEnd,
+    vertex_attr_array,
+};
 
 const TEXTURE_FORMAT: wgpu::TextureFormat = wgpu::TextureFormat::Rgba8UnormSrgb;
 
@@ -265,8 +269,7 @@ impl framework::Example for Example {
             device.create_buffer_with_data(texels.as_slice(), wgpu::BufferUsage::COPY_SRC);
         init_encoder.copy_buffer_to_texture(
             wgpu::BufferCopyView {
-                buffer: &temp_buf,
-                offset: 0,
+                buffer: temp_buf.range(0, ToEnd),
                 bytes_per_row: 4 * size,
                 rows_per_image: size,
             },
@@ -304,10 +307,7 @@ impl framework::Example for Example {
             bindings: &[
                 wgpu::Binding {
                     binding: 0,
-                    resource: wgpu::BindingResource::Buffer {
-                        buffer: &uniform_buf,
-                        range: 0 .. 64,
-                    },
+                    resource: wgpu::BindingResource::Buffer(uniform_buf.range(0, 64)),
                 },
                 wgpu::Binding {
                     binding: 1,
@@ -393,7 +393,7 @@ impl framework::Example for Example {
 
         let mut encoder =
             device.create_command_encoder(&wgpu::CommandEncoderDescriptor { todo: 0 });
-        encoder.copy_buffer_to_buffer(&temp_buf, 0, &self.uniform_buf, 0, 64);
+        encoder.copy_buffer_to_buffer(temp_buf.range(0, 64), self.uniform_buf.range(0, ToEnd));
         Some(encoder.finish())
     }
 
@@ -422,7 +422,7 @@ impl framework::Example for Example {
             });
             rpass.set_pipeline(&self.draw_pipeline);
             rpass.set_bind_group(0, &self.bind_group, &[]);
-            rpass.set_vertex_buffer(0, &self.vertex_buf, 0, 0);
+            rpass.set_vertex_buffer(0, self.vertex_buf.range(0, ToEnd));
             rpass.draw(0 .. 4, 0 .. 1);
         }
 

@@ -1,5 +1,9 @@
 use std::{convert::TryInto as _, str::FromStr};
 use zerocopy::AsBytes as _;
+use wgpu::{
+    prelude::*,
+    ToEnd,
+};
 
 async fn run() {
     let numbers = if std::env::args().len() == 1 {
@@ -68,10 +72,7 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
         layout: &bind_group_layout,
         bindings: &[wgpu::Binding {
             binding: 0,
-            resource: wgpu::BindingResource::Buffer {
-                buffer: &storage_buffer,
-                range: 0 .. size,
-            },
+            resource: wgpu::BindingResource::Buffer(storage_buffer.range(0, size)),
         }],
     });
 
@@ -88,17 +89,17 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
     });
 
     let mut encoder = device.create_command_encoder(&wgpu::CommandEncoderDescriptor { todo: 0 });
-    encoder.copy_buffer_to_buffer(&staging_buffer, 0, &storage_buffer, 0, size);
+    encoder.copy_buffer_to_buffer(staging_buffer.range(0, size), storage_buffer.range(0, ToEnd));
     {
         let mut cpass = encoder.begin_compute_pass();
         cpass.set_pipeline(&compute_pipeline);
         cpass.set_bind_group(0, &bind_group, &[]);
         cpass.dispatch(numbers.len() as u32, 1, 1);
     }
-    encoder.copy_buffer_to_buffer(&storage_buffer, 0, &staging_buffer, 0, size);
+    encoder.copy_buffer_to_buffer(storage_buffer.range(0, size), staging_buffer.range(0, ToEnd));
 
     queue.submit(&[encoder.finish()]);
-    if let Ok(mapping) = staging_buffer.map_read(0u64, size).await {
+    if let Ok(mapping) = staging_buffer.range(0, size).map_read().await {
         mapping
             .as_slice()
             .chunks_exact(4)

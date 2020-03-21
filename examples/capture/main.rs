@@ -3,6 +3,10 @@
 /// the added benefit that this method doesn't require a window to be created.
 use std::fs::File;
 use std::mem::size_of;
+use wgpu::{
+    prelude::*,
+    ToEnd,
+};
 
 async fn run() {
     env_logger::init();
@@ -74,8 +78,7 @@ async fn run() {
                 origin: wgpu::Origin3d::ZERO,
             },
             wgpu::BufferCopyView {
-                buffer: &output_buffer,
-                offset: 0,
+                buffer: output_buffer.range(0, ToEnd),
                 bytes_per_row: size_of::<u32>() as u32 * size,
                 rows_per_image: size,
             },
@@ -88,7 +91,7 @@ async fn run() {
     queue.submit(&[command_buffer]);
 
     // Write the buffer as a PNG
-    if let Ok(mapping) = output_buffer.map_read(0u64, (size * size) as u64 * size_of::<u32>() as u64).await {
+    if let Ok(mapping) = output_buffer.range(0, (size * size) as u64 * size_of::<u32>() as u64).map_read().await {
         let mut png_encoder = png::Encoder::new(File::create("red.png").unwrap(), size, size);
         png_encoder.set_depth(png::BitDepth::Eight);
         png_encoder.set_color(png::ColorType::RGBA);
