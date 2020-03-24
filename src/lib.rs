@@ -74,18 +74,11 @@ pub use wgc::instance::{
     DeviceType,
 };
 
-//TODO: avoid heap allocating vectors during resource creation.
-#[derive(Default, Debug)]
-struct Temp {
-    //bind_group_descriptors: Vec<wgn::BindGroupDescriptor>,
-    //vertex_buffers: Vec<wgn::VertexBufferDescriptor>,
-}
-
 /// A handle to a physical graphics and/or compute device.
 ///
 /// An `Adapter` can be used to open a connection to the corresponding device on the host system,
 /// yielding a [`Device`] object.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Adapter {
     id: wgc::id::AdapterId,
 }
@@ -103,10 +96,9 @@ pub struct RequestAdapterOptions<'a> {
 ///
 /// The `Device` is the responsible for the creation of most rendering and compute resources, as
 /// well as exposing [`Queue`] objects.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Device {
     id: wgc::id::DeviceId,
-    temp: Temp,
 }
 
 /// This is passed to `Device::poll` to control whether
@@ -118,14 +110,14 @@ pub enum Maintain {
 }
 
 /// A handle to a GPU-accessible buffer.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Buffer {
     id: wgc::id::BufferId,
     device_id: wgc::id::DeviceId,
 }
 
 /// A handle to a texture on the GPU.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Texture {
     id: wgc::id::TextureId,
     owned: bool,
@@ -135,7 +127,7 @@ pub struct Texture {
 ///
 /// A `TextureView` object describes a texture and associated metadata needed by a
 /// [`RenderPipeline`] or [`BindGroup`].
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct TextureView {
     id: wgc::id::TextureViewId,
     owned: bool,
@@ -146,7 +138,7 @@ pub struct TextureView {
 /// A `Sampler` object defines how a pipeline will sample from a [`TextureView`]. Samplers define
 /// image filters (including anisotropy) and address (wrapping) modes, among other things. See
 /// the documentation for [`SamplerDescriptor`] for more information.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Sampler {
     id: wgc::id::SamplerId,
 }
@@ -155,7 +147,7 @@ pub struct Sampler {
 ///
 /// A `Surface` represents a platform-specific surface (e.g. a window) to which rendered images may
 /// be presented. A `Surface` may be created with [`Surface::create`].
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Surface {
     id: wgc::id::SurfaceId,
 }
@@ -164,7 +156,7 @@ pub struct Surface {
 ///
 /// A `SwapChain` represents the image or series of images that will be presented to a [`Surface`].
 /// A `SwapChain` may be created with [`Device::create_swap_chain`].
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct SwapChain {
     id: wgc::id::SwapChainId,
 }
@@ -175,7 +167,7 @@ pub struct SwapChain {
 /// create a [`BindGroupDescriptor`] object, which in turn can be used to create a [`BindGroup`]
 /// object with [`Device::create_bind_group`]. A series of `BindGroupLayout`s can also be used to
 /// create a [`PipelineLayoutDescriptor`], which can be used to create a [`PipelineLayout`].
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct BindGroupLayout {
     id: wgc::id::BindGroupLayoutId,
 }
@@ -186,7 +178,7 @@ pub struct BindGroupLayout {
 /// [`BindGroupLayout`]. It can be created with [`Device::create_bind_group`]. A `BindGroup` can
 /// be bound to a particular [`RenderPass`] with [`RenderPass::set_bind_group`], or to a
 /// [`ComputePass`] with [`ComputePass::set_bind_group`].
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct BindGroup {
     id: wgc::id::BindGroupId,
 }
@@ -202,7 +194,7 @@ impl Drop for BindGroup {
 /// A `ShaderModule` represents a compiled shader module on the GPU. It can be created by passing
 /// valid SPIR-V source code to [`Device::create_shader_module`]. Shader modules are used to define
 /// programmable stages of a pipeline.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct ShaderModule {
     id: wgc::id::ShaderModuleId,
 }
@@ -210,7 +202,7 @@ pub struct ShaderModule {
 /// An opaque handle to a pipeline layout.
 ///
 /// A `PipelineLayout` object describes the available binding groups of a pipeline.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct PipelineLayout {
     id: wgc::id::PipelineLayoutId,
 }
@@ -219,13 +211,13 @@ pub struct PipelineLayout {
 ///
 /// A `RenderPipeline` object represents a graphics pipeline and its stages, bindings, vertex
 /// buffers and targets. A `RenderPipeline` may be created with [`Device::create_render_pipeline`].
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct RenderPipeline {
     id: wgc::id::RenderPipelineId,
 }
 
 /// A handle to a compute pipeline.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct ComputePipeline {
     id: wgc::id::ComputePipelineId,
 }
@@ -235,7 +227,7 @@ pub struct ComputePipeline {
 /// A `CommandBuffer` represents a complete sequence of commands that may be submitted to a command
 /// queue with [`Queue::submit`]. A `CommandBuffer` is obtained by recording a series of commands to
 /// a [`CommandEncoder`] and then calling [`CommandEncoder::finish`].
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct CommandBuffer {
     id: wgc::id::CommandBufferId,
 }
@@ -247,7 +239,7 @@ pub struct CommandBuffer {
 ///
 /// When finished recording, call [`CommandEncoder::finish`] to obtain a [`CommandBuffer`] which may
 /// be submitted for execution.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct CommandEncoder {
     id: wgc::id::CommandEncoderId,
     /// This type should be !Send !Sync, because it represents an allocation on this thread's
@@ -256,14 +248,14 @@ pub struct CommandEncoder {
 }
 
 /// An in-progress recording of a render pass.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct RenderPass<'a> {
     id: wgc::id::RenderPassId,
     _parent: &'a mut CommandEncoder,
 }
 
 /// An in-progress recording of a compute pass.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct ComputePass<'a> {
     id: wgc::id::ComputePassId,
     _parent: &'a mut CommandEncoder,
@@ -272,13 +264,13 @@ pub struct ComputePass<'a> {
 /// A handle to a command queue on a device.
 ///
 /// A `Queue` executes recorded [`CommandBuffer`] objects.
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Queue {
     id: wgc::id::QueueId,
 }
 
 /// A resource that can be bound to a pipeline.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum BindingResource<'a> {
     Buffer {
         buffer: &'a Buffer,
@@ -289,7 +281,7 @@ pub enum BindingResource<'a> {
 }
 
 /// A bindable resource and the slot to bind it to.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Binding<'a> {
     pub binding: u32,
     pub resource: BindingResource<'a>,
@@ -322,7 +314,7 @@ pub enum BindingType {
 }
 
 /// A description of a single binding inside a bind group.
-#[derive(Clone, Debug, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct BindGroupLayoutEntry {
     pub binding: u32,
     pub visibility: ShaderStage,
@@ -330,7 +322,7 @@ pub struct BindGroupLayoutEntry {
 }
 
 /// A description of a bind group layout.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct BindGroupLayoutDescriptor<'a> {
     pub bindings: &'a [BindGroupLayoutEntry],
 
@@ -340,7 +332,7 @@ pub struct BindGroupLayoutDescriptor<'a> {
 }
 
 /// A description of a group of bindings and the resources to be bound.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct BindGroupDescriptor<'a> {
     /// The layout for this bind group.
     pub layout: &'a BindGroupLayout,
@@ -357,13 +349,13 @@ pub struct BindGroupDescriptor<'a> {
 ///
 /// A `PipelineLayoutDescriptor` can be passed to [`Device::create_pipeline_layout`] to obtain a
 /// [`PipelineLayout`].
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct PipelineLayoutDescriptor<'a> {
     pub bind_group_layouts: &'a [&'a BindGroupLayout],
 }
 
 /// A description of a programmable pipeline stage.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ProgrammableStageDescriptor<'a> {
     /// The compiled shader module for this stage.
     pub module: &'a ShaderModule,
@@ -383,7 +375,7 @@ pub struct VertexStateDescriptor<'a> {
 }
 
 /// A description of a vertex buffer.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct VertexBufferDescriptor<'a> {
     /// The stride, in bytes, between elements of this buffer.
     pub stride: BufferAddress,
@@ -513,14 +505,14 @@ pub struct TextureDescriptor<'a> {
 }
 
 /// A swap chain image that can be rendered to.
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct SwapChainOutput {
     pub view: TextureView,
     swap_chain_id: wgc::id::SwapChainId,
 }
 
 /// A view of a buffer which can be used to copy to or from a texture.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct BufferCopyView<'a> {
     /// The buffer to be copied to or from.
     pub buffer: &'a Buffer,
@@ -550,7 +542,7 @@ impl BufferCopyView<'_> {
 }
 
 /// A view of a texture which can be used to copy to or from a buffer or another texture.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TextureCopyView<'a> {
     /// The texture to be copied to or from.
     pub texture: &'a Texture,
@@ -654,7 +646,6 @@ impl Adapter {
     pub async fn request_device(&self, desc: &DeviceDescriptor) -> (Device, Queue) {
         let device = Device {
             id: wgn::wgpu_adapter_request_device(self.id, Some(desc)),
-            temp: Temp::default(),
         };
         let queue = Queue {
             id: wgn::wgpu_device_get_default_queue(device.id),
