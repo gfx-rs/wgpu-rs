@@ -2,6 +2,7 @@
 
 mod backend;
 use crate::backend::native_gpu_future;
+use crate::backend::no_alloc_future;
 
 #[macro_use]
 mod macros;
@@ -16,6 +17,7 @@ use std::{
     ptr,
     slice,
     thread,
+    pin::Pin,
 };
 
 pub use wgt::{
@@ -1078,44 +1080,78 @@ impl Buffer {
     /// 
     /// It's expected that wgpu will eventually supply its own event loop infrastructure that will be easy to integrate
     /// into other event loops, like winit's.
-    pub fn map_read(&self, start: BufferAddress, size: BufferAddress) -> impl Future<Output = Result<BufferReadMapping, BufferAsyncErr>>
-    {
-        let (future, completion) = native_gpu_future::new_gpu_future(
-            self.id,
-            size,
-        );
+    // pub fn map_read(&self, start: BufferAddress, size: BufferAddress) -> impl Future<Output = Result<BufferReadMapping, BufferAsyncErr>>
+    // {
+    //     let (future, completion) = native_gpu_future::new_gpu_future(
+    //         self.id,
+    //         size,
+    //     );
 
-        extern "C" fn buffer_map_read_future_wrapper(
+    //     extern "C" fn buffer_map_read_future_wrapper(
+    //         status: wgc::resource::BufferMapAsyncStatus,
+    //         data: *const u8,
+    //         user_data: *mut u8,
+    //     )
+    //     {
+    //         let completion = unsafe {
+    //             native_gpu_future::GpuFutureCompletion::from_raw(user_data as _)
+    //         };
+    //         let (buffer_id, size) = completion.get_buffer_info();
+
+    //         if let wgc::resource::BufferMapAsyncStatus::Success = status {
+    //             completion.complete(Ok(BufferReadMapping {
+    //                 data,
+    //                 size: size as usize,
+    //                 buffer_id,
+    //             }));
+    //         } else {
+    //             completion.complete(Err(BufferAsyncErr));
+    //         }
+    //     }
+
+    //     wgn::wgpu_buffer_map_read_async(
+    //         self.id,
+    //         start,
+    //         size,
+    //         buffer_map_read_future_wrapper,
+    //         completion.to_raw() as _,
+    //     );
+
+    //     future
+    // }
+
+    pub async fn map_read(&self, start: BufferAddress, size: BufferAddress) -> Result<BufferReadMapping, BufferAsyncErr> {
+        extern "C" fn buffer_map_read_callback(
             status: wgc::resource::BufferMapAsyncStatus,
             data: *const u8,
             user_data: *mut u8,
-        )
-        {
-            let completion = unsafe {
-                native_gpu_future::GpuFutureCompletion::from_raw(user_data as _)
+        ) {
+            let completer: Pin<&no_alloc_future::Completer<_>> = unsafe {
+                Pin::new_unchecked(&*(user_data as *mut _ as *const _))
             };
-            let (buffer_id, size) = completion.get_buffer_info();
+
+            let (buffer_id, size) = completer.get_buffer_info();
 
             if let wgc::resource::BufferMapAsyncStatus::Success = status {
-                completion.complete(Ok(BufferReadMapping {
+                completer.complete(Ok(BufferReadMapping {
                     data,
                     size: size as usize,
                     buffer_id,
                 }));
             } else {
-                completion.complete(Err(BufferAsyncErr));
+                completer.complete(Err(BufferAsyncErr));
             }
         }
 
-        wgn::wgpu_buffer_map_read_async(
-            self.id,
-            start,
-            size,
-            buffer_map_read_future_wrapper,
-            completion.to_raw() as _,
-        );
-
-        future
+        no_alloc_future::GpuFuture::create(self.id, size, |completer, buffer_id, size| {
+            wgn::wgpu_buffer_map_read_async(
+                buffer_id,
+                start,
+                size,
+                buffer_map_read_callback,
+                completer.get_ref() as *const _ as *const u8 as *mut u8,
+            )
+        }).await
     }
 
     /// Map the buffer for writing. The result is returned in a future.
