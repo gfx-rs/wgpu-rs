@@ -1,7 +1,7 @@
 /// This example shows how to capture an image by rendering it to a texture, copying the texture to
 /// a buffer, and retrieving it from the buffer. This could be used for "taking a screenshot," with
 /// the added benefit that this method doesn't require a window to be created.
-use std::{fs::File, mem::size_of, sync::{Arc, mpsc}};
+use std::{fs::File, mem::size_of};
 
 async fn run() {
     let adapter = wgpu::Adapter::request(
@@ -21,10 +21,6 @@ async fn run() {
         limits: wgpu::Limits::default(),
     })
     .await;
-    
-    let device = Arc::new(device);
-
-    let _poller_canceler = spawn_device_poller(Arc::clone(&device));
 
     // Rendered image is 256×256 with 32-bit RGBA color
     let size = 256u32;
@@ -92,7 +88,7 @@ async fn run() {
     queue.submit(&[command_buffer]);
 
     // Write the buffer as a PNG
-    if let Ok(mapping) = output_buffer.map_read(0, (size * size) as u64 * size_of::<u32>() as u64).await
+    if let Ok(mapping) = output_buffer.map_read_sync(0, (size * size) as u64 * size_of::<u32>() as u64)
     {
         let mut png_encoder = png::Encoder::new(File::create("red.png").unwrap(), size, size);
         png_encoder.set_depth(png::BitDepth::Eight);
@@ -103,25 +99,6 @@ async fn run() {
             .write_image_data(mapping.as_slice())
             .unwrap();
     }
-}
-
-fn spawn_device_poller(device: Arc<wgpu::Device>) -> impl Drop {
-    let (tx, rx) = mpsc::channel();
-    std::thread::spawn(move || {
-        while let Err(_) = rx.try_recv() {
-            device.poll(wgpu::Maintain::Wait);
-        }
-    });
-
-    struct Cancel(mpsc::Sender<()>);
-
-    impl Drop for Cancel {
-        fn drop(&mut self) {
-            self.0.send(()).unwrap();
-        }
-    }
-
-    Cancel(tx)
 }
 
 fn main() {

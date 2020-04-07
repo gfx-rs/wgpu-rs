@@ -1111,7 +1111,6 @@ impl Buffer {
         }).await
     }
 
-    
     pub fn map_read_sync(&self, start: BufferAddress, size: BufferAddress) -> Result<BufferReadMapping, BufferAsyncErr> {
         use std::task::{Context, Poll, Waker, RawWaker, RawWakerVTable};
         use std::future::{Future};
@@ -1124,6 +1123,7 @@ impl Buffer {
         );
 
         let device_id = self.device_id;
+        
         let mut future = native_gpu_future::GpuFuture::create(self.id, size, |completer| {
             let (buffer_id, size) = completer.get_buffer_info();
             wgn::wgpu_buffer_map_read_async(
