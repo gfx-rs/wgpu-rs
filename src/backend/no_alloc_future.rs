@@ -1,7 +1,9 @@
-use std::future::Future;
-use std::pin::Pin;
-use std::marker::PhantomPinned;
-use std::task::{Context, Poll, Waker};
+use std::{
+    task::{Context, Poll, Waker},
+    future::Future,
+    marker::PhantomPinned,
+    pin::Pin,
+};
 use parking_lot::{Mutex, MutexGuard};
 use crate::BufferAddress;
 
@@ -57,7 +59,7 @@ pub(crate) struct GpuFuture<T, F> {
 
 impl<T, F> GpuFuture<T, F>
 where
-    F: FnOnce(Pin<&Completer<T>>, wgc::id::BufferId, BufferAddress)
+    F: FnOnce(Pin<&Completer<T>>)
 {
     pub fn create(buffer_id: wgc::id::BufferId, size: BufferAddress, init: F) -> Self {
         Self {
@@ -70,21 +72,28 @@ where
 
 impl<T, F> Future for GpuFuture<T, F>
 where
-    F: FnOnce(Pin<&Completer<T>>, wgc::id::BufferId, BufferAddress)
+    F: FnOnce(Pin<&Completer<T>>)
 {
     type Output = T;
 
-    fn poll(self: Pin<&mut Self>, context: &mut Context) -> Poll<Self::Output> {
-        let this = unsafe { self.get_unchecked_mut() };
+    fn poll(mut self: Pin<&mut Self>, context: &mut Context) -> Poll<Self::Output> {
+        let (init, completer) = unsafe {
+            (
+                // Take the init function.
+                self.as_mut().get_unchecked_mut().init.take(),
+                // Map the Pinned GpuFuture to a pinned Completer.
+                // The completer will be in the same location as long
+                // as the GpuFuture is pinned, which is either until it completes
+                // or it is dropped.
+                self.as_ref().map_unchecked(|this| &this.completer),
+            )
+        };
 
-        if let Some(init) = this.init.take() {
-            let (buffer_id, size) = this.completer.get_buffer_info();
-            unsafe {
-                init(Pin::new_unchecked(&this.completer), buffer_id, size)
-            }
+        if let Some(init) = init {
+            init(completer)
         }
 
-        let mut waker_or_result = this.completer.lock();
+        let mut waker_or_result = completer.lock();
 
         match waker_or_result.take() {
             Some(WakerOrResult::Result(res)) => Poll::Ready(res),
@@ -105,6 +114,10 @@ impl<T, F> Drop for GpuFuture<T, F> {
         
         // If we've already kicked off the mapping process and are waiting
         // for it to map, unmap it to cancel the async mapping process.
+        // 
+        // If it's already mapped, but we caught it right between getting
+        // mapped and being put into the `waker_or_result`, this should
+        // still work.
         if let Some(WakerOrResult::Waker(_)) = &*waker_or_result {
             wgn::wgpu_buffer_unmap(self.completer.buffer_id);
         }

@@ -1,8 +1,7 @@
 /// This example shows how to capture an image by rendering it to a texture, copying the texture to
 /// a buffer, and retrieving it from the buffer. This could be used for "taking a screenshot," with
 /// the added benefit that this method doesn't require a window to be created.
-use std::fs::File;
-use std::mem::size_of;
+use std::{fs::File, mem::size_of, sync::{Arc, mpsc}};
 
 async fn run() {
     let adapter = wgpu::Adapter::request(
@@ -22,6 +21,10 @@ async fn run() {
         limits: wgpu::Limits::default(),
     })
     .await;
+    
+    let device = Arc::new(device);
+
+    let _poller_canceler = spawn_device_poller(Arc::clone(&device));
 
     // Rendered image is 256×256 with 32-bit RGBA color
     let size = 256u32;
@@ -88,16 +91,9 @@ async fn run() {
 
     queue.submit(&[command_buffer]);
 
-    // Note that we're not calling `.await` here.
-    let buffer_future = output_buffer.map_read(0, (size * size) as u64 * size_of::<u32>() as u64);
-
-    // Poll the device in a blocking manner so that our future resolves.
-    // In an actual application, `device.poll(...)` should
-    // be called in an event loop or on another thread.
-    device.poll(wgpu::Maintain::Wait);
-
     // Write the buffer as a PNG
-    if let Ok(mapping) = buffer_future.await {
+    if let Ok(mapping) = output_buffer.map_read(0, (size * size) as u64 * size_of::<u32>() as u64).await
+    {
         let mut png_encoder = png::Encoder::new(File::create("red.png").unwrap(), size, size);
         png_encoder.set_depth(png::BitDepth::Eight);
         png_encoder.set_color(png::ColorType::RGBA);
@@ -107,6 +103,25 @@ async fn run() {
             .write_image_data(mapping.as_slice())
             .unwrap();
     }
+}
+
+fn spawn_device_poller(device: Arc<wgpu::Device>) -> impl Drop {
+    let (tx, rx) = mpsc::channel();
+    std::thread::spawn(move || {
+        while let Err(_) = rx.try_recv() {
+            device.poll(wgpu::Maintain::Wait);
+        }
+    });
+
+    struct Cancel(mpsc::Sender<()>);
+
+    impl Drop for Cancel {
+        fn drop(&mut self) {
+            self.0.send(()).unwrap();
+        }
+    }
+
+    Cancel(tx)
 }
 
 fn main() {
