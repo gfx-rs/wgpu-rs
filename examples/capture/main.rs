@@ -88,7 +88,7 @@ async fn run() {
     queue.submit(&[command_buffer]);
 
     // Write the buffer as a PNG
-    if let Ok(mapping) = output_buffer.map_read_sync(0, (size * size) as u64 * size_of::<u32>() as u64)
+    if let Ok(mapping) = output_buffer.map_read_blocking(0, (size * size) as u64 * size_of::<u32>() as u64)
     {
         let mut png_encoder = png::Encoder::new(File::create("red.png").unwrap(), size, size);
         png_encoder.set_depth(png::BitDepth::Eight);

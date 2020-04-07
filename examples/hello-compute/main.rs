@@ -104,7 +104,7 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
 
     queue.submit(&[encoder.finish()]);
 
-    if let Ok(mapping) = staging_buffer.map_read_sync(0, size) {
+    if let Ok(mapping) = staging_buffer.map_read_blocking(0, size) {
         mapping
             .as_slice()
             .chunks_exact(4)
