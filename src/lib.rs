@@ -1,7 +1,7 @@
 //! A cross-platform graphics and compute library based on WebGPU.
 
 mod backend;
-use crate::backend::no_alloc_future;
+use crate::backend::native_gpu_future;
 
 #[macro_use]
 mod macros;
@@ -1082,7 +1082,7 @@ impl Buffer {
             data: *const u8,
             user_data: *mut u8,
         ) {
-            let completer: Pin<&no_alloc_future::Completer<_>> = unsafe {
+            let completer: Pin<&native_gpu_future::Completer<_>> = unsafe {
                 Pin::new_unchecked(&*(user_data as *mut _ as *const _))
             };
 
@@ -1099,7 +1099,7 @@ impl Buffer {
             }
         }
 
-        no_alloc_future::GpuFuture::create(self.id, size, |completer| {
+        native_gpu_future::GpuFuture::create(self.id, size, |completer| {
             let (buffer_id, size) = completer.get_buffer_info();
             wgn::wgpu_buffer_map_read_async(
                 buffer_id,
@@ -1121,7 +1121,7 @@ impl Buffer {
             data: *mut u8,
             user_data: *mut u8,
         ) {
-            let completer: Pin<&no_alloc_future::Completer<_>> = unsafe {
+            let completer: Pin<&native_gpu_future::Completer<_>> = unsafe {
                 Pin::new_unchecked(&*(user_data as *mut _ as *const _))
             };
 
@@ -1138,7 +1138,7 @@ impl Buffer {
             }
         }
 
-        no_alloc_future::GpuFuture::create(self.id, size, |completer| {
+        native_gpu_future::GpuFuture::create(self.id, size, |completer| {
             let (buffer_id, size) = completer.get_buffer_info();
 
             wgn::wgpu_buffer_map_write_async(
