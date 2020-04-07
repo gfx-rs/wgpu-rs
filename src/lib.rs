@@ -645,7 +645,17 @@ impl Adapter {
         id_maybe.map(|id| Adapter { id })
     }
 
-    /// Requests a connection to a physical device, creating a logical device.
+    /// Synchronously retrieves an [`Adapter`] which matches the given options.
+    ///
+    /// Some options are "soft", so treated as non-mandatory. Others are "hard".
+    ///
+    /// If no adapters are found that suffice all the "hard" options, `None` is returned.
+    #[cfg(feature = "sync")]
+    pub fn request_sync(options: &RequestAdapterOptions<'_>, backends: BackendBit) -> Option<Self> {
+        pollster::block_on(Self::request(options, backends))
+    }
+
+    /// Requests a connection to a physical device, creating a logical device, synchronously.
     /// Returns the device together with a queue that executes command buffers.
     ///
     /// # Panics
@@ -660,6 +670,17 @@ impl Adapter {
             id: wgn::wgpu_device_get_default_queue(device.id),
         };
         (device, queue)
+    }
+
+    /// Synchronously requests a connection to a physical device, creating a logical device.
+    /// Returns the device together with a queue that executes command buffers.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the extensions specified by `desc` are not supported by this adapter.
+    #[cfg(feature = "sync")]
+    pub fn request_device_sync(&self, desc: &DeviceDescriptor) -> (Device, Queue) {
+        pollster::block_on(self.request_device(desc))
     }
 
     pub fn get_info(&self) -> AdapterInfo {
@@ -1071,11 +1092,11 @@ impl Drop for BufferWriteMapping {
 
 impl Buffer {
     /// Map the buffer for reading. The result is returned in a future.
-    /// 
+    ///
     /// For the future to complete, `device.poll(...)` must be called elsewhere in the runtime, possibly integrated
     /// into an event loop, run on a separate thread, or continually polled in the same task runtime that this
     /// future will be run on.
-    /// 
+    ///
     /// It's expected that wgpu will eventually supply its own event loop infrastructure that will be easy to integrate
     /// into other event loops, like winit's.
     pub fn map_read(&self, start: BufferAddress, size: BufferAddress) -> impl Future<Output = Result<BufferReadMapping, BufferAsyncErr>>
@@ -1118,8 +1139,14 @@ impl Buffer {
         future
     }
 
+    /// Synchronously map the buffer for reading.
+    #[cfg(feature = "sync")]
+    pub fn map_read_sync(&self, start: BufferAddress, size: BufferAddress) -> Result<BufferReadMapping, BufferAsyncErr> {
+        pollster::block_on(self.map_read(start, size))
+    }
+
     /// Map the buffer for writing. The result is returned in a future.
-    /// 
+    ///
     /// See the documentation of (map_read)[#method.map_read] for more information about
     /// how to run this future.
     pub fn map_write(&self, start: BufferAddress, size: BufferAddress) -> impl Future<Output = Result<BufferWriteMapping, BufferAsyncErr>>
@@ -1160,6 +1187,12 @@ impl Buffer {
         );
 
         future
+    }
+
+    /// Synchronously map the buffer for writing.
+    #[cfg(feature = "sync")]
+    pub fn map_write_sync(&self, start: BufferAddress, size: BufferAddress) -> Result<BufferWriteMapping, BufferAsyncErr> {
+        pollster::block_on(self.map_write(start, size))
     }
 
     /// Flushes any pending write operations and unmaps the buffer from host memory.

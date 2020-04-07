@@ -22,6 +22,7 @@ exclude = ["etc/**/*", "examples/**/*", "tests/**/*", "Cargo.lock", "target/**/*
 default = []
 # Make Vulkan backend available on platforms where it is by default not, e.g. macOS
 vulkan = ["wgn/vulkan-portability"]
+sync = ["pollster"]
 
 [dependencies.wgn]
 package = "wgpu-native"
@@ -43,6 +44,7 @@ arrayvec = "0.5"
 smallvec = "1"
 raw-window-handle = "0.3"
 parking_lot = "0.10"
+pollster = { version = "0.1", optional = true }
 
 [dev-dependencies]
 cgmath = "0.17"
