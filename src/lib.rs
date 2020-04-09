@@ -1068,14 +1068,14 @@ impl Drop for BufferWriteMapping {
 }
 
 impl Buffer {
-    extern "C" fn buffer_map_read_callback(
+    unsafe extern "C" fn buffer_map_read_callback(
         status: wgc::resource::BufferMapAsyncStatus,
         data: *const u8,
         user_data: *mut u8,
     ) {
-        let completer: Pin<&native_gpu_future::Completer<_>> = unsafe {
-            Pin::new_unchecked(&*(user_data as *mut _ as *const _))
-        };
+        let completer: Pin<&native_gpu_future::Completer<_>> = Pin::new_unchecked(
+            &*(user_data as *mut _ as *const _)
+        );
 
         let (buffer_id, size) = completer.get_buffer_info();
 
