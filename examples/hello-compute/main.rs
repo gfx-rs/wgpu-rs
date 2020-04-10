@@ -1,4 +1,4 @@
-use std::{convert::TryInto as _, str::FromStr};
+use std::{convert::TryInto as _, str::FromStr, sync::{Arc, mpsc}};
 use zerocopy::AsBytes as _;
 
 async fn run() {
@@ -38,6 +38,10 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
         limits: wgpu::Limits::default(),
     })
     .await;
+
+    let device = Arc::new(device);
+
+    let _poller_canceler = spawn_device_poller(Arc::clone(&device));
 
     let cs = include_bytes!("shader.comp.spv");
     let cs_module =
@@ -104,7 +108,7 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
 
     queue.submit(&[encoder.finish()]);
 
-    if let Ok(mapping) = staging_buffer.map_read_blocking(0, size) {
+    if let Ok(mapping) = staging_buffer.map_read(0, size).await {
         mapping
             .as_slice()
             .chunks_exact(4)
@@ -113,6 +117,25 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
     } else {
         panic!("failed to run compute on gpu!")
     }
+}
+
+fn spawn_device_poller(device: Arc<wgpu::Device>) -> impl Drop {
+    let (tx, rx) = mpsc::channel();
+    std::thread::spawn(move || {
+        while let Err(_) = rx.try_recv() {
+            device.poll(wgpu::Maintain::Wait);
+        }
+    });
+
+    struct Cancel(mpsc::Sender<()>);
+
+    impl Drop for Cancel {
+        fn drop(&mut self) {
+            self.0.send(()).unwrap();
+        }
+    }
+
+    Cancel(tx)
 }
 
 fn main() {

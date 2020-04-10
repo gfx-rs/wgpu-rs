@@ -1068,28 +1068,6 @@ impl Drop for BufferWriteMapping {
 }
 
 impl Buffer {
-    unsafe extern "C" fn buffer_map_read_callback(
-        status: wgc::resource::BufferMapAsyncStatus,
-        data: *const u8,
-        user_data: *mut u8,
-    ) {
-        let completer: Pin<&native_gpu_future::Completer<_>> = Pin::new_unchecked(
-            &*(user_data as *mut _ as *const _)
-        );
-
-        let (buffer_id, size) = completer.get_buffer_info();
-
-        if let wgc::resource::BufferMapAsyncStatus::Success = status {
-            completer.complete(Ok(BufferReadMapping {
-                data,
-                size: size as usize,
-                buffer_id,
-            }));
-        } else {
-            completer.complete(Err(BufferAsyncErr));
-        }
-    }
-
     /// Map the buffer for reading. The result is returned in a future.
     /// 
     /// For the future to complete, `device.poll(...)` must be called elsewhere in the runtime, possibly integrated
@@ -1099,53 +1077,38 @@ impl Buffer {
     /// It's expected that wgpu will eventually supply its own event loop infrastructure that will be easy to integrate
     /// into other event loops, like winit's.
     pub async fn map_read(&self, start: BufferAddress, size: BufferAddress) -> Result<BufferReadMapping, BufferAsyncErr> {
+        unsafe extern "C" fn buffer_map_read_callback(
+            status: wgc::resource::BufferMapAsyncStatus,
+            data: *const u8,
+            user_data: *mut u8,
+        ) {
+            let completer: Pin<&native_gpu_future::Completer<_>> = Pin::new_unchecked(
+                &*(user_data as *mut _ as *const _)
+            );
+    
+            let (buffer_id, size) = completer.get_buffer_info();
+    
+            if let wgc::resource::BufferMapAsyncStatus::Success = status {
+                completer.complete(Ok(BufferReadMapping {
+                    data,
+                    size: size as usize,
+                    buffer_id,
+                }));
+            } else {
+                completer.complete(Err(BufferAsyncErr));
+            }
+        }
+
         native_gpu_future::GpuFuture::create(self.id, size, |completer| {
             let (buffer_id, size) = completer.get_buffer_info();
             wgn::wgpu_buffer_map_read_async(
                 buffer_id,
                 start,
                 size,
-                Self::buffer_map_read_callback,
+                buffer_map_read_callback,
                 completer.get_ref() as *const _ as *const u8 as *mut u8,
             )
         }).await
-    }
-
-    #[cfg(not(target_arch = "wasm32"))]
-    pub fn map_read_blocking(&self, start: BufferAddress, size: BufferAddress) -> Result<BufferReadMapping, BufferAsyncErr> {
-        use std::task::{Context, Poll, Waker, RawWaker, RawWakerVTable};
-        use std::future::{Future};
-
-        static VTABLE: RawWakerVTable = RawWakerVTable::new(
-            |_| { RawWaker::new(std::ptr::null(), &VTABLE) },
-            |_| {},
-            |_| {},
-            |_| {},
-        );
-
-        let device_id = self.device_id;
-
-        let mut future = native_gpu_future::GpuFuture::create(self.id, size, |completer| {
-            let (buffer_id, size) = completer.get_buffer_info();
-            wgn::wgpu_buffer_map_read_async(
-                buffer_id,
-                start,
-                size,
-                Self::buffer_map_read_callback,
-                completer.get_ref() as *const _ as *const u8 as *mut u8,
-            );
-
-            wgn::wgpu_device_poll(device_id, true);
-        });
-
-        let raw_waker = RawWaker::new(std::ptr::null(), &VTABLE);
-        let waker = unsafe { Waker::from_raw(raw_waker) };
-
-        match unsafe { Pin::new_unchecked(&mut future) }.poll(&mut Context::from_waker(&waker)) {
-            Poll::Ready(value) => value,
-            // This particular future will always finish when when first polled because it'll block.
-            _ => unreachable!(),
-        }
     }
 
     /// Map the buffer for writing. The result is returned in a future.
@@ -1153,7 +1116,7 @@ impl Buffer {
     /// See the documentation of (map_read)[#method.map_read] for more information about
     /// how to use this.
     pub async fn map_write(&self, start: BufferAddress, size: BufferAddress) -> Result<BufferWriteMapping, BufferAsyncErr> {
-        extern "C" fn buffer_map_write_callback(
+        unsafe extern "C" fn buffer_map_write_callback(
             status: wgc::resource::BufferMapAsyncStatus,
             data: *mut u8,
             user_data: *mut u8,
