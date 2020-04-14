@@ -890,7 +890,10 @@ impl Device {
     /// This returns a [`CreateBufferMapped`], which exposes a `&mut [u8]`. The actual [`Buffer`]
     /// will not be created until calling [`CreateBufferMapped::finish`].
     pub fn create_buffer_mapped(&self, desc: &BufferDescriptor) -> CreateBufferMapped<'_> {
-        assert_ne!(desc.size, 0);
+        assert_ne!(
+            desc.size, 0,
+            "Cannot create a buffer with a size of 0. The size must be greater than 0."
+        );
 
         let owned_label = OwnedLabel::new(desc.label.as_deref());
         let mut data_ptr: *mut u8 = std::ptr::null_mut();
