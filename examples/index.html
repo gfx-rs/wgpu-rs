@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <style type="text/css">
+      body {
+        margin: 0.5em auto;
+        padding: 0;
+        text-align: center;
+        background: #fff;
+        font-family: "Calibri", "Arial", sans-serif;
+        font-size: 1em;
+      }
+      a {
+        margin: 0.5em;
+      }
+      canvas {
+        margin: 0.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      const exampleNames = [
+        "boids",
+        "capture",
+        "cube",
+        "describe",
+        "hello-compute",
+        "hello-triangle",
+        "mipmap",
+        "msaa-line",
+        "shadow",
+        "skybox",
+      ];
+      for (let exampleName of exampleNames) {
+        const link = document.createElement("a");
+        link.href = `?example=${exampleName}`;
+        link.textContent = exampleName;
+        document.body.appendChild(link);
+        const space = document.createElement("span");
+        space.textContent = " ";
+        document.body.appendChild(space);
+      }
+      const currentExample = new URLSearchParams(window.location.search).get(
+        "example"
+      );
+      if (!currentExample) {
+        window.location.assign(
+          `${window.location.href}?example=hello-triangle`
+        );
+      }
+      import(`./${currentExample}.js`).then((module) => module.default());
+    </script>
+  </body>
+</html>
