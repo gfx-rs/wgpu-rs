@@ -44,12 +44,13 @@
       const currentExample = new URLSearchParams(window.location.search).get(
         "example"
       );
-      if (!currentExample) {
+      if (currentExample) {
+        import(`./${currentExample}.js`).then((module) => module.default());
+      } else {
         window.location.assign(
           `${window.location.href}?example=hello-triangle`
         );
       }
-      import(`./${currentExample}.js`).then((module) => module.default());
     </script>
   </body>
 </html>
