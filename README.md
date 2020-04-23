@@ -35,7 +35,7 @@ cargo run --example hello-compute 1 2 3 4
 
 #### Run Examples on the Web (`wasm32-unknown-unknown`)
 
-Running on the web is still experimental, you need to use a nightly build:
+Running on the web is still experimental, you need to use a nightly build of your favorite browser:
 * **Firefox Nightly**
   * Enter `about:config` in your address bar
   * Set `dom.webgpu.enabled` to `true`
