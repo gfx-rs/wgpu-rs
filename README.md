@@ -35,16 +35,7 @@ cargo run --example hello-compute 1 2 3 4
 
 #### Run Examples on the Web (`wasm32-unknown-unknown`)
 
-Running on the web is still experimental, you need to use a nightly build of your favorite browser:
-* **Firefox Nightly**
-  * Enter `about:config` in your address bar
-  * Set `dom.webgpu.enabled` to `true`
-  * Set `gfx.webrender.enabled` to `true`
-  * Restart your browser
-* **Chrome Canary**
-  * Enter `chrome://flags/` in your address bar
-  * Set `Unsafe WebGPU` to `Enabled`
-  * Restart your browser
+Running on the web is still work-in-progress. You may need to enable experimental flags on your browser. Check browser implementation status on [webgpu.io](https://webgpu.io).
 
 To run examples on the `wasm32-unknown-unknown` target, first build the example as usual, then run `wasm-bindgen`:
 
