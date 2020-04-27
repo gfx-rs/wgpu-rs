@@ -3,22 +3,49 @@
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
     <style type="text/css">
       body {
-        margin: 0.5em auto;
+        margin: 0 auto;
         padding: 0;
         text-align: center;
         background: #fff;
         font-family: "Calibri", "Arial", sans-serif;
-        font-size: 1em;
       }
-      a {
+      #header {
+        background: #dee;
+        padding: 0.5em 0;
+        border-bottom: 1px solid #abb;
+      }
+      p {
+        font-size: 0.8em;
+        padding: 0;
+        margin: 0.5em 0;
+      }
+      ul {
+        margin: 0;
+      }
+      li {
+        display: inline;
         margin: 0.5em;
+        font-size: 0.9em;
       }
       canvas {
-        margin: 0.5em;
+        margin: 0;
       }
     </style>
   </head>
   <body>
+    <div id="header">
+      <p>
+        Currently the examples below will only run on Firefox Nightly or Chrome
+        Canary with experimental WebGPU flags enabled.
+        <br />
+        Instructions to enable WebGPU in each browser are located on the
+        <a href="https://github.com/gpuweb/gpuweb/wiki/Implementation-Status"
+          >WebGPU Implementation Status page</a
+        >.
+        <br />
+        Output will appear below or in the browser's console.
+      </p>
+    </div>
     <script type="module">
       const exampleNames = [
         "boids",
@@ -34,15 +61,17 @@
         "shadow",
         "skybox",
       ];
+      const list = document.createElement("ul");
       for (let exampleName of exampleNames) {
         const link = document.createElement("a");
         link.href = `?example=${exampleName}`;
         link.textContent = exampleName;
-        document.body.appendChild(link);
-        const space = document.createElement("span");
-        space.textContent = " ";
-        document.body.appendChild(space);
+        link.className = "example";
+        const item = document.createElement("li");
+        item.appendChild(link);
+        list.appendChild(item);
       }
+      document.getElementById("header").appendChild(list);
       const currentExample = new URLSearchParams(window.location.search).get(
         "example"
       );
