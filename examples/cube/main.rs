@@ -142,6 +142,11 @@ impl framework::Example for Example {
                     visibility: wgpu::ShaderStage::VERTEX,
                     ty: wgpu::BindingType::UniformBuffer { dynamic: false },
                 },
+            ],
+            label: None,
+        });
+        let bind_group_layout2 = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+            bindings: &[
                 wgpu::BindGroupLayoutEntry {
                     binding: 1,
                     visibility: wgpu::ShaderStage::FRAGMENT,
@@ -156,12 +161,6 @@ impl framework::Example for Example {
                     visibility: wgpu::ShaderStage::FRAGMENT,
                     ty: wgpu::BindingType::Sampler { comparison: false },
                 },
-            ],
-            label: None,
-        });
-        let bind_group_layout2 = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
-            bindings: &[
-
             ],
             label: None,
         });
@@ -235,6 +234,12 @@ impl framework::Example for Example {
                         range: 0..64,
                     },
                 },
+            ],
+            label: None,
+        });
+        let bind_group2 = device.create_bind_group(&wgpu::BindGroupDescriptor {
+            layout: &bind_group_layout2,
+            bindings: &[
                 wgpu::Binding {
                     binding: 1,
                     resource: wgpu::BindingResource::TextureView(&texture_view),
@@ -243,13 +248,6 @@ impl framework::Example for Example {
                     binding: 2,
                     resource: wgpu::BindingResource::Sampler(&sampler),
                 },
-            ],
-            label: None,
-        });
-        let bind_group2 = device.create_bind_group(&wgpu::BindGroupDescriptor {
-            layout: &bind_group_layout2,
-            bindings: &[
-
             ],
             label: None,
         });
