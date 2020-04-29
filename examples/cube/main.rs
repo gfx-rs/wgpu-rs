@@ -93,7 +93,8 @@ struct Example {
     vertex_buf: wgpu::Buffer,
     index_buf: wgpu::Buffer,
     index_count: usize,
-    bind_group: wgpu::BindGroup,
+    bind_group1: wgpu::BindGroup,
+    bind_group2: wgpu::BindGroup,
     uniform_buf: wgpu::Buffer,
     pipeline: wgpu::RenderPipeline,
 }
@@ -134,7 +135,7 @@ impl framework::Example for Example {
             .create_buffer_with_data(bytemuck::cast_slice(&index_data), wgpu::BufferUsage::INDEX);
 
         // Create pipeline layout
-        let bind_group_layout = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+        let bind_group_layout1 = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
             bindings: &[
                 wgpu::BindGroupLayoutEntry {
                     binding: 0,
@@ -158,8 +159,14 @@ impl framework::Example for Example {
             ],
             label: None,
         });
+        let bind_group_layout2 = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+            bindings: &[
+
+            ],
+            label: None,
+        });
         let pipeline_layout = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
-            bind_group_layouts: &[&bind_group_layout],
+            bind_group_layouts: &[&bind_group_layout1, &bind_group_layout2],
         });
 
         // Create the texture
@@ -218,8 +225,8 @@ impl framework::Example for Example {
         );
 
         // Create bind group
-        let bind_group = device.create_bind_group(&wgpu::BindGroupDescriptor {
-            layout: &bind_group_layout,
+        let bind_group1 = device.create_bind_group(&wgpu::BindGroupDescriptor {
+            layout: &bind_group_layout1,
             bindings: &[
                 wgpu::Binding {
                     binding: 0,
@@ -236,6 +243,13 @@ impl framework::Example for Example {
                     binding: 2,
                     resource: wgpu::BindingResource::Sampler(&sampler),
                 },
+            ],
+            label: None,
+        });
+        let bind_group2 = device.create_bind_group(&wgpu::BindGroupDescriptor {
+            layout: &bind_group_layout2,
+            bindings: &[
+
             ],
             label: None,
         });
@@ -302,7 +316,8 @@ impl framework::Example for Example {
             vertex_buf,
             index_buf,
             index_count: index_data.len(),
-            bind_group,
+            bind_group1,
+            bind_group2,
             uniform_buf,
             pipeline,
         };
@@ -354,7 +369,8 @@ impl framework::Example for Example {
                 depth_stencil_attachment: None,
             });
             rpass.set_pipeline(&self.pipeline);
-            rpass.set_bind_group(0, &self.bind_group, &[]);
+            rpass.set_bind_group(0, &self.bind_group1, &[]);
+            rpass.set_bind_group(1, &self.bind_group2, &[]);
             rpass.set_index_buffer(&self.index_buf, 0, 0);
             rpass.set_vertex_buffer(0, &self.vertex_buf, 0, 0);
             rpass.draw_indexed(0..self.index_count as u32, 0, 0..1);
