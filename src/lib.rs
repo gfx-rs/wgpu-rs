@@ -109,12 +109,12 @@ trait Context: Sized {
     type BufferWriteMappingDetail;
     type SwapChainOutputDetail;
 
-    type RequestAdapterFuture: Future<Output = Option<Self::AdapterId>>;
+    type RequestAdapterFuture: Future<Output = Option<Self::AdapterId>> + Send;
     type RequestDeviceFuture: Future<
         Output = Result<(Self::DeviceId, Self::QueueId), RequestDeviceError>,
-    >;
-    type MapReadFuture: Future<Output = Result<Self::BufferReadMappingDetail, BufferAsyncError>>;
-    type MapWriteFuture: Future<Output = Result<Self::BufferWriteMappingDetail, BufferAsyncError>>;
+    > + Send;
+    type MapReadFuture: Future<Output = Result<Self::BufferReadMappingDetail, BufferAsyncError>> + Send;
+    type MapWriteFuture: Future<Output = Result<Self::BufferWriteMappingDetail, BufferAsyncError>> + Send;
 
     fn init() -> Self;
     fn instance_create_surface<W: raw_window_handle::HasRawWindowHandle>(
@@ -1202,7 +1202,7 @@ impl Buffer {
         &self,
         start: BufferAddress,
         size: BufferAddress,
-    ) -> impl Future<Output = Result<BufferReadMapping, BufferAsyncError>> {
+    ) -> impl Future<Output = Result<BufferReadMapping, BufferAsyncError>> + Send {
         let context = Arc::clone(&self.context);
         self.context
             .buffer_map_read(&self.id, start, size)
@@ -1217,7 +1217,7 @@ impl Buffer {
         &self,
         start: BufferAddress,
         size: BufferAddress,
-    ) -> impl Future<Output = Result<BufferWriteMapping, BufferAsyncError>> {
+    ) -> impl Future<Output = Result<BufferWriteMapping, BufferAsyncError>> + Send {
         let context = Arc::clone(&self.context);
         self.context
             .buffer_map_write(&self.id, start, size)

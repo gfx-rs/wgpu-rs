@@ -972,6 +972,9 @@ pub(crate) struct BufferReadMappingDetail {
     size: usize,
 }
 
+// SAFETY: This is safe because this type is internal usage only.
+unsafe impl Send for BufferReadMappingDetail {}
+
 impl BufferReadMappingDetail {
     pub(crate) fn as_slice(&self) -> &[u8] {
         unsafe { slice::from_raw_parts(self.data as *const u8, self.size) }
@@ -983,6 +986,9 @@ pub(crate) struct BufferWriteMappingDetail {
     data: *mut u8,
     size: usize,
 }
+
+// SAFETY: This is safe because this type is internal usage only.
+unsafe impl Send for BufferWriteMappingDetail {}
 
 impl BufferWriteMappingDetail {
     pub(crate) fn as_slice(&mut self) -> &mut [u8] {
