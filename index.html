@@ -1,10 +1,95 @@
 <html language="en">
   <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+    <style type="text/css">
+    body {
+        margin: 0 auto;
+        padding: 0;
+        text-align: center;
+        background: #fff;
+        font-family: "Calibri", "Arial", sans-serif;
+        font-size: 1.5em;
+    }
+      
+    a {
+        text-decoration: none;
+    }
+      
+    a:hover {
+        text-decoration: underline;
+    }
+      
+    #links {
+        text-align: left;
+        margin: auto;
+        font-weight: bold;
+        display: inline-block;
+    }
+      
+    #screenshots img {
+        height: 300;
+    }
+    </style>
   </head>
   <body>
-    <script type="module">
-      window.location.assign(`/examples`);
-    </script>
+    <img src="./logo.png" height="200" />
+    <h1> wgpu-rs </h1>
+    <h2> Rust bindings to wgpu native library </h2>
+    <div id="links">
+        <ul>
+            <li> 
+                <a href="https://github.com/gfx-rs/wgpu-rs"> Github </a> 
+            </li>
+            <li> 
+                <a href="https://crates.io/crates/wgpu"> Crates.io </a>
+            </li>
+            <li> 
+                <a href="https://docs.rs/wgpu/"> Documentation </a> 
+            </li>
+            <li> 
+                <a href="./examples/index.html" title="Requires Firefox Nightly or Chrome Canary"> Live Examples </a> 
+            </li>
+        </ul>
+    </div>
+    <div id="screenshots">
+        <h2> Screenshots </h2>
+        <p> Click on the images to check out the code ! </p>
+        <p>
+            <a href="https://github.com/gfx-rs/wgpu-rs/tree/master/examples/cube">
+                <img src="./screenshots/example-cube.png" />
+            </a>
+        </p>
+        <p>
+            <a href="https://github.com/gfx-rs/wgpu-rs/tree/master/examples/mipmap">
+                <img src="./screenshots/example-mipmap.png" />
+            </a>
+        </p>
+        <p>
+            <a href="https://github.com/gfx-rs/wgpu-rs/tree/master/examples/shadow">
+                <img src="./screenshots/example-shadow.png" />
+            </a>
+        </p>
+        <p>
+            <a href="https://github.com/gfx-rs/wgpu-rs/tree/master/examples/skybox">
+                <img src="./screenshots/example-skybox.gif" />
+            </a>
+        </p>
+        <p>
+            <a href="https://github.com/kvark/vange-rs">
+                <img src="./screenshots/vange-rs.png" />
+            </a>
+        </p>
+        <p>
+            <a href="https://github.com/StarArawn/harmony">
+                <img src="./screenshots/harmony-rs.jpg" />
+            </a>
+        </p>
+        <p>            
+            <img src="./screenshots/brawl-attack.gif" title="No code available for this screenshot" />
+        </p>
+        <p>            
+            <img src="./screenshots/glx-map.png" title="No code available for this screenshot" />
+        </p>
+    </div>
   </body>
 </html>
