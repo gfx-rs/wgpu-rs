@@ -18,14 +18,14 @@ use std::{
 pub use wgc::instance::{AdapterInfo, DeviceType};
 pub use wgt::{
     read_spirv, AddressMode, Backend, BackendBit, BlendDescriptor, BlendFactor, BlendOperation,
-    BufferAddress, BufferUsage, Color, ColorStateDescriptor, ColorWrite, CommandBufferDescriptor,
+    BufferAddress, BufferSize, BufferUsage, Color, ColorStateDescriptor, ColorWrite, CommandBufferDescriptor,
     CompareFunction, CullMode, DepthStencilStateDescriptor, DeviceDescriptor, DynamicOffset,
     Extensions, Extent3d, FilterMode, FrontFace, IndexFormat, InputStepMode, Limits, LoadOp,
     Origin3d, PowerPreference, PresentMode, PrimitiveTopology, RasterizationStateDescriptor,
     ShaderLocation, ShaderStage, StencilOperation, StencilStateFaceDescriptor, StoreOp,
     SwapChainDescriptor, TextureAspect, TextureComponentType, TextureDataLayout, TextureDimension,
     TextureFormat, TextureUsage, TextureViewDimension, VertexAttributeDescriptor, VertexFormat,
-    BIND_BUFFER_ALIGNMENT, MAX_BIND_GROUPS,
+    BIND_BUFFER_ALIGNMENT, COPY_BYTES_PER_ROW_ALIGNMENT,
 };
 
 use backend::Context as C;
@@ -58,14 +58,14 @@ trait RenderPassInner<Ctx: Context> {
         &mut self,
         buffer: &Ctx::BufferId,
         offset: BufferAddress,
-        size: BufferAddress,
+        size: BufferSize,
     );
     fn set_vertex_buffer(
         &mut self,
         slot: u32,
         buffer: &Ctx::BufferId,
         offset: BufferAddress,
-        size: BufferAddress,
+        size: BufferSize,
     );
     fn set_blend_color(&mut self, color: wgt::Color);
     fn set_scissor_rect(&mut self, x: u32, y: u32, width: u32, height: u32);
@@ -364,15 +364,7 @@ pub struct Buffer {
 pub struct BufferSlice<'a> {
     buffer: &'a Buffer,
     offset: BufferAddress,
-    size: Option<BufferAddress>,
-}
-
-impl<'a> BufferSlice<'a> {
-    /// This fn can be used for calling lower-level APIs where `0` denotes that the slice should
-    /// extend to the end of the buffer.
-    fn size_or_0(&self) -> BufferAddress {
-        self.size.unwrap_or(0)
-    }
+    size: BufferSize,
 }
 
 /// A handle to a texture on the GPU.
@@ -1197,9 +1189,9 @@ impl Buffer {
             Bound::Unbounded => 0,
         };
         let size = match bounds.end_bound() {
-            Bound::Included(&bound) => Some(bound + 1 - offset),
-            Bound::Excluded(&bound) => Some(bound - offset),
-            Bound::Unbounded => None,
+            Bound::Included(&bound) => BufferSize(bound + 1 - offset),
+            Bound::Excluded(&bound) => BufferSize(bound - offset),
+            Bound::Unbounded => BufferSize::WHOLE,
         };
         BufferSlice {
             buffer: self,
@@ -1422,7 +1414,7 @@ impl<'a> RenderPass<'a> {
             &mut self.id,
             &buffer_slice.buffer.id,
             buffer_slice.offset,
-            buffer_slice.size_or_0(),
+            buffer_slice.size,
         )
     }
 
@@ -1444,7 +1436,7 @@ impl<'a> RenderPass<'a> {
             slot,
             &buffer_slice.buffer.id,
             buffer_slice.offset,
-            buffer_slice.size_or_0(),
+            buffer_slice.size,
         )
     }
 

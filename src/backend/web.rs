@@ -107,7 +107,7 @@ impl crate::RenderPassInner<Context> for RenderPass {
         &mut self,
         buffer: &Sendable<web_sys::GpuBuffer>,
         offset: wgt::BufferAddress,
-        size: wgt::BufferAddress,
+        size: wgt::BufferSize,
     ) {
         self.0
             .set_index_buffer_with_f64_and_f64(&buffer.0, offset as f64, size as f64);
@@ -117,7 +117,7 @@ impl crate::RenderPassInner<Context> for RenderPass {
         slot: u32,
         buffer: &Sendable<web_sys::GpuBuffer>,
         offset: wgt::BufferAddress,
-        size: wgt::BufferAddress,
+        size: wgt::BufferSize,
     ) {
         self.0
             .set_vertex_buffer_with_f64_and_f64(slot, &buffer.0, offset as f64, size as f64);

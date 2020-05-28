@@ -58,8 +58,8 @@ path="examples/hello-compute/main.rs"
 test = true
 
 [patch."https://github.com/gfx-rs/wgpu"]
-#wgpu-types = { version = "0.5.0", path = "../wgpu/wgpu-types" }
-#wgpu-core = { version = "0.5.0", path = "../wgpu/wgpu-core" }
+wgpu-types = { version = "0.5.0", path = "../wgpu/wgpu-types" }
+wgpu-core = { version = "0.5.0", path = "../wgpu/wgpu-core" }
 
 [patch.crates-io]
 #gfx-hal = { version = "0.5.0", path = "../gfx/src/hal" }

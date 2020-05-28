@@ -89,7 +89,7 @@ mod pass_impl {
             &mut self,
             buffer: &wgc::id::BufferId,
             offset: wgt::BufferAddress,
-            size: wgt::BufferAddress,
+            size: wgt::BufferSize,
         ) {
             unsafe { wgpu_render_pass_set_index_buffer(self, *buffer, offset, size) }
         }
@@ -98,7 +98,7 @@ mod pass_impl {
             slot: u32,
             buffer: &wgc::id::BufferId,
             offset: wgt::BufferAddress,
-            size: wgt::BufferAddress,
+            size: wgt::BufferSize,
         ) {
             unsafe { wgpu_render_pass_set_vertex_buffer(self, slot, *buffer, offset, size) }
         }
@@ -358,7 +358,7 @@ impl crate::Context for Context {
                         bm::BindingResource::Buffer(bm::BufferBinding {
                             buffer: buffer_slice.buffer.id,
                             offset: buffer_slice.offset,
-                            size: buffer_slice.size_or_0(),
+                            size: buffer_slice.size,
                         })
                     }
                     BindingResource::Sampler(ref sampler) => {
