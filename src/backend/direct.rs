@@ -8,7 +8,7 @@ use crate::{
 use arrayvec::ArrayVec;
 use futures::future::{ready, Ready};
 use smallvec::SmallVec;
-use std::{ffi::CString, marker::PhantomData, ptr, slice};
+use std::{ffi::CString, marker::PhantomData, ops::Range, ptr, slice};
 
 macro_rules! gfx_select {
     ($id:expr => $global:ident.$method:ident( $($param:expr),+ )) => {
@@ -89,7 +89,7 @@ mod pass_impl {
             &mut self,
             buffer: &wgc::id::BufferId,
             offset: wgt::BufferAddress,
-            size: wgt::BufferAddress,
+            size: wgt::BufferSize,
         ) {
             unsafe { wgpu_render_pass_set_index_buffer(self, *buffer, offset, size) }
         }
@@ -98,7 +98,7 @@ mod pass_impl {
             slot: u32,
             buffer: &wgc::id::BufferId,
             offset: wgt::BufferAddress,
-            size: wgt::BufferAddress,
+            size: wgt::BufferSize,
         ) {
             unsafe { wgpu_render_pass_set_vertex_buffer(self, slot, *buffer, offset, size) }
         }
@@ -358,7 +358,7 @@ impl crate::Context for Context {
                         bm::BindingResource::Buffer(bm::BufferBinding {
                             buffer: buffer_slice.buffer.id,
                             offset: buffer_slice.offset,
-                            size: buffer_slice.size_or_0(),
+                            size: buffer_slice.size,
                         })
                     }
                     BindingResource::Sampler(ref sampler) => {
@@ -590,10 +590,10 @@ impl crate::Context for Context {
     fn buffer_map_read(
         &self,
         buffer: &Self::BufferId,
-        start: wgt::BufferAddress,
-        size: wgt::BufferAddress,
+        range: Range<wgt::BufferAddress>,
     ) -> Self::MapReadFuture {
-        let (future, completion) = native_gpu_future::new_gpu_future(*buffer, size);
+        let (future, completion) =
+            native_gpu_future::new_gpu_future(*buffer, range.end - range.start);
 
         extern "C" fn buffer_map_read_future_wrapper(
             status: wgc::resource::BufferMapAsyncStatus,
@@ -619,7 +619,7 @@ impl crate::Context for Context {
             callback: buffer_map_read_future_wrapper,
             userdata: completion.to_raw() as _,
         };
-        gfx_select!(*buffer => self.buffer_map_async(*buffer, start .. start + size, operation));
+        gfx_select!(*buffer => self.buffer_map_async(*buffer, range, operation));
 
         future
     }
@@ -627,10 +627,10 @@ impl crate::Context for Context {
     fn buffer_map_write(
         &self,
         buffer: &Self::BufferId,
-        start: wgt::BufferAddress,
-        size: wgt::BufferAddress,
+        range: Range<wgt::BufferAddress>,
     ) -> Self::MapWriteFuture {
-        let (future, completion) = native_gpu_future::new_gpu_future(*buffer, size);
+        let (future, completion) =
+            native_gpu_future::new_gpu_future(*buffer, range.end - range.start);
 
         extern "C" fn buffer_map_write_future_wrapper(
             status: wgc::resource::BufferMapAsyncStatus,
@@ -656,7 +656,7 @@ impl crate::Context for Context {
             callback: buffer_map_write_future_wrapper,
             userdata: completion.to_raw() as _,
         };
-        gfx_select!(*buffer => self.buffer_map_async(*buffer, start .. start + size, operation));
+        gfx_select!(*buffer => self.buffer_map_async(*buffer, range, operation));
 
         future
     }

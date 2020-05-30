@@ -107,20 +107,22 @@ impl crate::RenderPassInner<Context> for RenderPass {
         &mut self,
         buffer: &Sendable<web_sys::GpuBuffer>,
         offset: wgt::BufferAddress,
-        size: wgt::BufferAddress,
+        size: wgt::BufferSize,
     ) {
+        assert_ne!(size, wgt::BufferSize::WHOLE); //TODO
         self.0
-            .set_index_buffer_with_f64_and_f64(&buffer.0, offset as f64, size as f64);
+            .set_index_buffer_with_f64_and_f64(&buffer.0, offset as f64, size.0 as f64);
     }
     fn set_vertex_buffer(
         &mut self,
         slot: u32,
         buffer: &Sendable<web_sys::GpuBuffer>,
         offset: wgt::BufferAddress,
-        size: wgt::BufferAddress,
+        size: wgt::BufferSize,
     ) {
+        assert_ne!(size, wgt::BufferSize::WHOLE); //TODO
         self.0
-            .set_vertex_buffer_with_f64_and_f64(slot, &buffer.0, offset as f64, size as f64);
+            .set_vertex_buffer_with_f64_and_f64(slot, &buffer.0, offset as f64, size.0 as f64);
     }
     fn set_blend_color(&mut self, color: wgt::Color) {
         self.0
@@ -830,7 +832,9 @@ impl crate::Context for Context {
                         let mut mapped_buffer_binding =
                             web_sys::GpuBufferBinding::new(&buffer_slice.buffer.id.0);
                         mapped_buffer_binding.offset(buffer_slice.offset as f64);
-                        mapped_buffer_binding.size(buffer_slice.size_or_0() as f64);
+                        if buffer_slice.size != wgt::BufferSize::WHOLE {
+                            mapped_buffer_binding.size(buffer_slice.size.0 as f64);
+                        }
                         JsValue::from(mapped_buffer_binding.clone())
                     }
                     BindingResource::Sampler(ref sampler) => JsValue::from(sampler.id.0.clone()),
@@ -1046,8 +1050,7 @@ impl crate::Context for Context {
     fn buffer_map_read(
         &self,
         buffer: &Self::BufferId,
-        _start: wgt::BufferAddress,
-        _size: wgt::BufferAddress,
+        _range: Range<wgt::BufferAddress>,
     ) -> Self::MapReadFuture {
         MakeSendFuture(MapFuture {
             child: wasm_bindgen_futures::JsFuture::from(buffer.0.map_read_async()),
@@ -1059,8 +1062,7 @@ impl crate::Context for Context {
     fn buffer_map_write(
         &self,
         buffer: &Self::BufferId,
-        _start: wgt::BufferAddress,
-        _size: wgt::BufferAddress,
+        _range: Range<wgt::BufferAddress>,
     ) -> Self::MapWriteFuture {
         MakeSendFuture(MapFuture {
             child: wasm_bindgen_futures::JsFuture::from(buffer.0.map_write_async()),
