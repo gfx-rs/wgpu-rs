@@ -19,10 +19,11 @@ exclude = ["etc/**/*", "examples/**/*", "tests/**/*", "Cargo.lock", "target/**/*
 [lib]
 
 [features]
-default = []
+default = ["vulkan-x11"]
 trace = ["wgc/trace"]
 # Make Vulkan backend available on platforms where it is by default not, e.g. macOS
 vulkan = ["wgc/gfx-backend-vulkan"]
+vulkan-x11 = ["gfx-backend-vulkan", "gfx-backend-vulkan/x11"]
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies.wgc]
 package = "wgpu-core"
@@ -69,6 +70,9 @@ test = true
 #gfx-backend-dx11 = { version = "0.5.0", path = "../gfx/src/backend/dx11" }
 #gfx-descriptor = { version = "0.1.0", path = "../gfx-extras/gfx-descriptor" }
 #gfx-memory = { version = "0.1.0", path = "../gfx-extras/gfx-memory" }
+
+[target.'cfg(any(target_os = "ios", target_os = "macos"))'.dependencies]
+gfx-backend-vulkan = { version = "0.5", optional = true }
 
 [target.'cfg(target_os = "macos")'.dependencies]
 objc = "0.2.7"
