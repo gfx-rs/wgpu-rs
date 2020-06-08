@@ -13,7 +13,7 @@ use std::{
     thread,
 };
 
-use futures::FutureExt as _;
+use futures::{FutureExt as _, TryFutureExt as _};
 use parking_lot::Mutex;
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -405,10 +405,16 @@ pub struct Buffer {
 }
 
 /// A description of what portion of a buffer to use
+#[derive(Copy, Clone)]
 pub struct BufferSlice<'a> {
     buffer: &'a Buffer,
     offset: BufferAddress,
     size: BufferSize,
+}
+
+/// A handle to a mapped buffer slice.
+pub struct MappedBufferSlice<'a> {
+    slice: BufferSlice<'a>,
 }
 
 /// A handle to a texture on the GPU.
@@ -1211,6 +1217,20 @@ impl Buffer {
         }
     }
 
+    /// Flushes any pending write operations and unmaps the buffer from host memory.
+    pub fn unmap(&mut self) {
+        self.map_context.lock().reset();
+        Context::buffer_unmap(&*self.context, &self.id);
+    }
+}
+
+impl Drop for Buffer {
+    fn drop(&mut self) {
+        self.context.buffer_drop(&self.id);
+    }
+}
+
+impl<'buffer> BufferSlice<'buffer> {
     /// Map the buffer. Buffer is ready to map once the future is resolved.
     ///
     /// For the future to complete, `device.poll(...)` must be called elsewhere in the runtime, possibly integrated
@@ -1220,50 +1240,62 @@ impl Buffer {
     /// It's expected that wgpu will eventually supply its own event loop infrastructure that will be easy to integrate
     /// into other event loops, like winit's.
     pub fn map_async(
-        &self,
+        self,
         mode: MapMode,
-        offset: BufferAddress,
-        size: BufferSize,
-    ) -> impl Future<Output = Result<(), BufferAsyncError>> + Send {
+    ) -> impl Future<Output = Result<MappedBufferSlice<'buffer>, BufferAsyncError>> + Send {
         let end = {
-            let mut mc = self.map_context.lock();
+            let mut mc = self.buffer.map_context.lock();
             assert_eq!(
                 mc.initial_range,
                 0..0,
                 "Buffer {:?} is already mapped",
-                self.id
+                self.buffer.id
             );
-            let end = if size == BufferSize::WHOLE {
+            let end = if self.size == BufferSize::WHOLE {
                 mc.total_size
             } else {
-                offset + size.0
+                self.offset + self.size.0
             };
-            mc.initial_range = offset..end;
+            mc.initial_range = self.offset..end;
             end
         };
-        Context::buffer_map_async(&*self.context, &self.id, mode, offset..end)
-    }
-
-    pub fn get_mapped_range(&self, offset: BufferAddress, size: BufferSize) -> &[u8] {
-        let end = self.map_context.lock().add(offset, size);
-        Context::buffer_get_mapped_range(&*self.context, &self.id, offset..end)
-    }
-
-    pub fn get_mapped_range_mut(&self, offset: BufferAddress, size: BufferSize) -> &mut [u8] {
-        let end = self.map_context.lock().add(offset, size);
-        Context::buffer_get_mapped_range_mut(&*self.context, &self.id, offset..end)
-    }
-
-    /// Flushes any pending write operations and unmaps the buffer from host memory.
-    pub fn unmap(&self) {
-        self.map_context.lock().reset();
-        Context::buffer_unmap(&*self.context, &self.id);
+        Context::buffer_map_async(
+            &*self.buffer.context,
+            &self.buffer.id,
+            mode,
+            self.offset..end,
+        )
+        .map_ok(move |()| MappedBufferSlice { slice: self })
     }
 }
 
-impl Drop for Buffer {
-    fn drop(&mut self) {
-        self.context.buffer_drop(&self.id);
+impl<'buffer> MappedBufferSlice<'buffer> {
+    pub fn get_mapped_range(&self) -> &[u8] {
+        let end = self
+            .slice
+            .buffer
+            .map_context
+            .lock()
+            .add(self.slice.offset, self.slice.size);
+        Context::buffer_get_mapped_range(
+            &*self.slice.buffer.context,
+            &self.slice.buffer.id,
+            self.slice.offset..end,
+        )
+    }
+
+    pub fn get_mapped_range_mut(&mut self) -> &mut [u8] {
+        let end = self
+            .slice
+            .buffer
+            .map_context
+            .lock()
+            .add(self.slice.offset, self.slice.size);
+        Context::buffer_get_mapped_range_mut(
+            &*self.slice.buffer.context,
+            &self.slice.buffer.id,
+            self.slice.offset..end,
+        )
     }
 }
 
