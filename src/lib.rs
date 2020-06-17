@@ -1238,6 +1238,7 @@ pub struct BufferViewMut<'a> {
     slice: BufferSlice<'a>,
     data: &'a mut [u8],
 }
+
 /// This provides the subset of the API of `&mut [u8]` that only performs write operations,
 /// as well as a few additional setter methods.
 pub struct BufferViewWrite<'a> {
@@ -1456,16 +1457,16 @@ impl BufferSlice<'_> {
     }
 
     pub fn get_mapped_range_mut(&self) -> BufferViewMut {
+        assert!(
+            self.buffer.usage.contains(BufferUsage::MAP_READ),
+            "Attempting to create a read-write view of a write-only mapping for buffer {:?}",
+            self.buffer.id
+        );
         let end = self.buffer.map_context.lock().add(self.offset, self.size);
         let data = Context::buffer_get_mapped_range_mut(
             &*self.buffer.context,
             &self.buffer.id,
             self.offset..end,
-        );
-        assert!(
-            self.buffer.usage.contains(BufferUsage::MAP_READ),
-            "Attempting to create a read-write view of a write-only mapping for buffer {:?}",
-            self.buffer.id
         );
         BufferViewMut { slice: *self, data }
     }
