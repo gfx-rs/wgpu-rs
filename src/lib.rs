@@ -1207,6 +1207,28 @@ fn range_to_offset_size<S: RangeBounds<BufferAddress>>(bounds: S) -> (BufferAddr
     (offset, size)
 }
 
+fn fill_with<R, F>(data: &mut [u8], bounds: R, mut f: F)
+where
+    R: RangeBounds<usize>,
+    F: FnMut(usize) -> u8,
+{
+    let offset = match bounds.start_bound() {
+        Bound::Included(&bound) => bound,
+        Bound::Excluded(&bound) => bound + 1,
+        Bound::Unbounded => 0,
+    };
+    let size = match bounds.end_bound() {
+        Bound::Included(&bound) => bound + 1 - offset,
+        Bound::Excluded(&bound) => bound - offset,
+        Bound::Unbounded => data.len() - offset,
+    };
+
+    data[offset..(offset + size)]
+        .iter_mut()
+        .enumerate()
+        .for_each(|(i, v)| *v = f(offset + i));
+}
+
 pub struct BufferView<'a> {
     slice: BufferSlice<'a>,
     data: &'a [u8],
@@ -1215,7 +1237,12 @@ pub struct BufferView<'a> {
 pub struct BufferViewMut<'a> {
     slice: BufferSlice<'a>,
     data: &'a mut [u8],
-    readable: bool,
+}
+/// This provides the subset of the API of `&mut [u8]` that only performs write operations,
+/// as well as a few additional setter methods.
+pub struct BufferViewWrite<'a> {
+    slice: BufferSlice<'a>,
+    data: &'a mut [u8],
 }
 
 impl std::ops::Deref for BufferView<'_> {
@@ -1230,11 +1257,6 @@ impl std::ops::Deref for BufferViewMut<'_> {
     type Target = [u8];
 
     fn deref(&self) -> &[u8] {
-        assert!(
-            self.readable,
-            "Attempting to read a write-only mapping for buffer {:?}",
-            self.slice.buffer.id
-        );
         self.data
     }
 }
@@ -1242,6 +1264,74 @@ impl std::ops::Deref for BufferViewMut<'_> {
 impl std::ops::DerefMut for BufferViewMut<'_> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.data
+    }
+}
+
+// NB: Write-only API from `&mut [u8]`. Uses `usize` instead of `BufferAddress` to be consistent with
+// `BufferView` and `BufferViewMut`
+impl BufferViewWrite<'_> {
+    #[inline]
+    pub fn len(&self) -> usize {
+        self.data.len()
+    }
+
+    #[inline]
+    pub fn is_empty(&self) -> bool {
+        self.data.is_empty()
+    }
+
+    #[inline]
+    pub fn fill(&mut self, value: u8) {
+        // NB: std API is still unstable
+        self.data.iter_mut().for_each(|v| *v = value);
+    }
+
+    #[inline]
+    pub fn as_mut_ptr(&mut self) -> *mut u8 {
+        self.data.as_mut_ptr()
+    }
+
+    #[inline]
+    pub fn clone_from_slice(&mut self, value: &[u8]) {
+        self.data.copy_from_slice(value)
+    }
+
+    #[inline]
+    pub fn copy_from_slice(&mut self, value: &[u8]) {
+        self.data.copy_from_slice(value)
+    }
+}
+
+// NB: Extra setter APIs
+impl BufferViewWrite<'_> {
+    // TODO: Is this technically unsafe, or just slow?
+    #[inline]
+    pub unsafe fn as_mut(&mut self) -> &mut [u8] {
+        self.data
+    }
+
+    #[inline]
+    pub fn set(&mut self, idx: usize, value: u8) {
+        self.data[idx] = value
+    }
+
+    #[inline]
+    pub fn set_slice(&mut self, idx: usize, value: &[u8]) {
+        self.data[idx..(idx + value.len())].copy_from_slice(value);
+    }
+
+    /// Fills the range given by `bounds` with the return values of repeated calls to `f`.
+    ///
+    /// The function `f` is called repeatedly with the current iteration index, however
+    /// the iteration is also guaranteed to call `f` exactly once for each index in increasing order,
+    /// so the argument can be ignored if an external counter is used instead.
+    #[inline]
+    pub fn fill_with<R, F>(&mut self, bounds: R, f: F)
+    where
+        R: RangeBounds<usize>,
+        F: FnMut(usize) -> u8,
+    {
+        fill_with(self.data, bounds, f)
     }
 }
 
@@ -1256,6 +1346,16 @@ impl Drop for BufferView<'_> {
 }
 
 impl Drop for BufferViewMut<'_> {
+    fn drop(&mut self) {
+        self.slice
+            .buffer
+            .map_context
+            .lock()
+            .remove(self.slice.offset, self.slice.size);
+    }
+}
+
+impl Drop for BufferViewWrite<'_> {
     fn drop(&mut self) {
         self.slice
             .buffer
@@ -1362,11 +1462,22 @@ impl BufferSlice<'_> {
             &self.buffer.id,
             self.offset..end,
         );
-        BufferViewMut {
-            slice: *self,
-            data,
-            readable: self.buffer.usage.contains(BufferUsage::MAP_READ),
-        }
+        assert!(
+            self.buffer.usage.contains(BufferUsage::MAP_READ),
+            "Attempting to create a read-write view of a write-only mapping for buffer {:?}",
+            self.buffer.id
+        );
+        BufferViewMut { slice: *self, data }
+    }
+
+    pub fn get_mapped_range_write(&self) -> BufferViewWrite {
+        let end = self.buffer.map_context.lock().add(self.offset, self.size);
+        let data = Context::buffer_get_mapped_range_mut(
+            &*self.buffer.context,
+            &self.buffer.id,
+            self.offset..end,
+        );
+        BufferViewWrite { slice: *self, data }
     }
 }
 
@@ -1904,5 +2015,45 @@ impl SwapChain {
             SwapChainStatus::Lost => Err(SwapChainError::Lost),
             SwapChainStatus::OutOfMemory => Err(SwapChainError::OutOfMemory),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_fill_with() {
+        let mut arr = [0, 0, 0, 0, 0];
+        fill_with(&mut arr, 1..1, |_| 42);
+        assert_eq!(arr, [0, 0, 0, 0, 0]);
+
+        let mut arr = [0, 0, 0, 0, 0];
+        fill_with(&mut arr, 1..3, |_| 42);
+        assert_eq!(arr, [0, 42, 42, 0, 0]);
+
+        let mut arr = [0, 0, 0, 0, 0];
+        fill_with(&mut arr, 1..=3, |_| 42);
+        assert_eq!(arr, [0, 42, 42, 42, 0]);
+
+        let mut arr = [0, 0, 0, 0, 0];
+        fill_with(&mut arr, 1.., |_| 42);
+        assert_eq!(arr, [0, 42, 42, 42, 42]);
+
+        let mut arr = [0, 0, 0, 0, 0];
+        fill_with(&mut arr, ..3, |_| 42);
+        assert_eq!(arr, [42, 42, 42, 0, 0]);
+
+        let mut arr = [0, 0, 0, 0, 0];
+        fill_with(&mut arr, .., |_| 42);
+        assert_eq!(arr, [42, 42, 42, 42, 42]);
+
+        let mut arr = [0, 0, 0, 0, 0];
+        fill_with(&mut arr, .., |i| i as u8 + 1);
+        assert_eq!(arr, [1, 2, 3, 4, 5]);
+
+        let mut arr = [0, 0, 0, 0, 0];
+        fill_with(&mut arr, 3.., |i| i as u8 + 1);
+        assert_eq!(arr, [0, 0, 0, 4, 5]);
     }
 }
