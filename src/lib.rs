@@ -1271,32 +1271,36 @@ impl std::ops::DerefMut for BufferViewMut<'_> {
 // NB: Write-only API from `&mut [u8]`. Uses `usize` instead of `BufferAddress` to be consistent with
 // `BufferView` and `BufferViewMut`
 impl BufferViewWrite<'_> {
+    /// See `len()` method of `&mut [u8]`.
     #[inline]
     pub fn len(&self) -> usize {
         self.data.len()
     }
 
+    /// See `is_empty()` method of `&mut [u8]`.
     #[inline]
     pub fn is_empty(&self) -> bool {
         self.data.is_empty()
     }
 
+    /// See `fill()` method of `&mut [u8]`.
     #[inline]
     pub fn fill(&mut self, value: u8) {
         // NB: std API is still unstable
         self.data.iter_mut().for_each(|v| *v = value);
     }
 
+    /// See `as_mut_ptr()` method of `&mut [u8]`.
+    ///
+    /// # Safety
+    ///
+    /// The buffer accessible by the pointer may only be used for writing, not for reading.
     #[inline]
     pub fn as_mut_ptr(&mut self) -> *mut u8 {
         self.data.as_mut_ptr()
     }
 
-    #[inline]
-    pub fn clone_from_slice(&mut self, value: &[u8]) {
-        self.data.copy_from_slice(value)
-    }
-
+    /// See `copy_from_slice()` method of `&mut [u8]`.
     #[inline]
     pub fn copy_from_slice(&mut self, value: &[u8]) {
         self.data.copy_from_slice(value)
@@ -1305,23 +1309,54 @@ impl BufferViewWrite<'_> {
 
 // NB: Extra setter APIs
 impl BufferViewWrite<'_> {
-    // TODO: Is this technically unsafe, or just slow?
+    // TODO: Is this actually unsafe or undefined behavior, or just slow?
+    /// Returns a mutable slice to the buffer.
+    ///
+    /// # Safety
+    ///
+    /// The slice may only be used for writing data, not for reading.
     #[inline]
     pub unsafe fn as_mut(&mut self) -> &mut [u8] {
         self.data
     }
 
+    /// Sets the byte at position `idx` to `value`.
+    ///
+    /// Panics if `idx` is out of bounds.
     #[inline]
     pub fn set(&mut self, idx: usize, value: u8) {
         self.data[idx] = value
     }
 
+    /// Sets the sequence of bytes starting at `idx` to the content of `values`.
+    ///
+    /// Panics if any of the bytes of `values` would be written out of bounds.
     #[inline]
-    pub fn set_slice(&mut self, idx: usize, value: &[u8]) {
-        self.data[idx..(idx + value.len())].copy_from_slice(value);
+    pub fn set_slice(&mut self, idx: usize, values: &[u8]) {
+        self.data[idx..(idx + values.len())].copy_from_slice(values);
     }
 
-    /// Fills the range given by `bounds` with the return values of repeated calls to `f`.
+    /// Sets the sequence of bytes starting at `idx` to the values yielded by `iter`.
+    ///
+    /// Panics if any of the bytes yielded by `iter` would be written out of bounds.
+    #[inline]
+    pub fn set_from_iter<I>(&mut self, idx: usize, iter: I)
+    where
+        I: IntoIterator<Item = u8>,
+    {
+        let mut dst = self.data[idx..].iter_mut();
+        let mut src = iter.into_iter();
+
+        loop {
+            match (dst.next(), src.next()) {
+                (Some(dst), Some(src)) => *dst = src,
+                (_, None) => break,
+                (None, Some(_)) => panic!("Iterator not exhausted at end of view"),
+            }
+        }
+    }
+
+    /// Fills the range given by `bounds` with the values yielded by repeated calls of `f`.
     ///
     /// The function `f` is called repeatedly with the current iteration index, however
     /// the iteration is also guaranteed to call `f` exactly once for each index in increasing order,
