@@ -304,6 +304,7 @@ impl framework::Example for Example {
             mag_filter: wgpu::FilterMode::Linear,
             min_filter: wgpu::FilterMode::Linear,
             mipmap_filter: wgpu::FilterMode::Linear,
+            lod_max_clamp: f32::MAX,
             ..Default::default()
         });
         let mx_total = Self::generate_matrix(sc_desc.width as f32 / sc_desc.height as f32);
