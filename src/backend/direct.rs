@@ -470,6 +470,7 @@ impl crate::Context for Context {
             },
             PhantomData
         ))
+        .unwrap()
     }
 
     fn device_create_pipeline_layout(
