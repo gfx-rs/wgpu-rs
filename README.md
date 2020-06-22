@@ -15,7 +15,7 @@ wgpu-rs can target both the natively supported backends and WASM directly.
 ## Gallery
 
 ![Cube](etc/example-cube.png) ![Shadow](etc/example-shadow.png) ![MipMap](etc/example-mipmap.png) ![Skybox](etc/example-skybox.gif)
-![vange-rs](etc/vange-rs.png) ![Brawl](etc/brawl-attack.gif) ![GLX map](etc/glx-map.png) ![Harmony](etc/harmony-rs.jpg)
+![vange-rs](etc/vange-rs.png) ![Blub](etc/blub-fluid-small.gif) ![Brawl](etc/brawl-attack.gif) ![GLX map](etc/glx-map.png) ![Harmony](etc/harmony-rs.jpg)
 
 ## Usage
 
