@@ -16,7 +16,8 @@ all-features = true
 [lib]
 
 [features]
-default = []
+default = ["battery"]
+battery = ["wgc/battery"]
 trace = ["serde", "wgc/trace"]
 replay = ["serde", "wgc/replay"]
 subscriber = ["wgc/subscriber"]
