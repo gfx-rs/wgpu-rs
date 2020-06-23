@@ -2,18 +2,18 @@
 <p>This crate provides a number of core abstractions for writing asynchronous
 code:</p>
 <ul>
-<li><a href="crate::future::Future">Futures</a> are single eventual values produced by
+<li><a href="../futures/prelude/trait.Future.html">Futures</a> are single eventual values produced by
 asynchronous computations. Some programming languages (e.g. JavaScript)
 call this concept &quot;promise&quot;.</li>
-<li><a href="crate::stream::Stream">Streams</a> represent a series of values
+<li><a href="../futures/stream/trait.Stream.html">Streams</a> represent a series of values
 produced asynchronously.</li>
-<li><a href="crate::sink::Sink">Sinks</a> provide support for asynchronous writing of
+<li><a href="../futures/sink/trait.Sink.html">Sinks</a> provide support for asynchronous writing of
 data.</li>
-<li><a href="crate::executor">Executors</a> are responsible for running asynchronous
+<li><a href="../futures/executor/index.html">Executors</a> are responsible for running asynchronous
 tasks.</li>
 </ul>
-<p>The crate also contains abstractions for <a href="crate::io">asynchronous I/O</a> and
-<a href="crate::channel">cross-task communication</a>.</p>
+<p>The crate also contains abstractions for <a href="../futures/io/index.html">asynchronous I/O</a> and
+<a href="../futures/channel/index.html">cross-task communication</a>.</p>
 <p>Underlying all of this is the <em>task system</em>, which is a form of lightweight
 threading. Large asynchronous computations are built up using futures,
 streams and sinks, and then spawned as independent tasks that are run to
@@ -95,6 +95,6 @@ passed to <code>select!</code> must be <code>Unpin</code> and implement <code>Fu
 for the future that finishes first. Unlike <a href="macro.select.html"><code>select!</code></a>, if multiple futures are ready,
 one will be selected in order of declaration. Futures directly
 passed to <code>select_biased!</code> must be <code>Unpin</code> and implement <code>FusedFuture</code>.</p>
-</td></tr><tr class='module-item'><td><a class="macro" href="macro.try_join.html" title='futures::try_join macro'>try_join</a></td><td class='docblock-short'><p>Polls multiple futures simultaneously, resolving to a [<code>Result</code>] containing
+</td></tr><tr class='module-item'><td><a class="macro" href="macro.try_join.html" title='futures::try_join macro'>try_join</a></td><td class='docblock-short'><p>Polls multiple futures simultaneously, resolving to a <a href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="`Result`"><code>Result</code></a> containing
 either a tuple of the successful outputs or an error.</p>
-</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "futures";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "futures";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

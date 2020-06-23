@@ -81,9 +81,9 @@ combinator functions.</p>
 </div>
             <h2 id='provided-methods' class='small-section-header'>Provided methods<a href='#provided-methods' class='anchor'></a></h2><div class='methods'><h3 id='method.next' class='method'><code id='next.v'>fn <a href='#method.next' class='fnname'>next</a>(&amp;mut self) -&gt; <a class="struct" href="../../futures_util/stream/struct.Next.html" title="struct futures_util::stream::Next">Next</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,&nbsp;</span></code></h3><div class='docblock'><p>Creates a future that resolves to the next item in the stream.</p>
 <p>Note that because <code>next</code> doesn't take ownership over the stream,
-the [<code>Stream</code>] type must be [<code>Unpin</code>]. If you want to use <code>next</code> with a
-<a href="Unpin"><code>!Unpin</code></a> stream, you'll first have to pin the stream. This can
-be done by boxing the stream using [<code>Box::pin</code>] or
+the <a href="../../futures_util/stream/trait.Stream.html" title="`Stream`"><code>Stream</code></a> type must be <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="`Unpin`"><code>Unpin</code></a>. If you want to use <code>next</code> with a
+<a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html"><code>!Unpin</code></a> stream, you'll first have to pin the stream. This can
+be done by boxing the stream using <a href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html#method.pin" title="`Box::pin`"><code>Box::pin</code></a> or
 pinning it to the stack using the <code>pin_mut!</code> macro from the <code>pin_utils</code>
 crate.</p>
 <h1 id="examples" class="section-header"><a href="#examples">Examples</a></h1>
@@ -97,13 +97,13 @@ crate.</p>
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">stream</span>.<span class="ident">next</span>().<span class="kw">await</span>, <span class="prelude-val">Some</span>(<span class="number">3</span>));
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">stream</span>.<span class="ident">next</span>().<span class="kw">await</span>, <span class="prelude-val">None</span>);</pre></div>
 </div><h3 id='method.into_future' class='method'><code id='into_future.v'>fn <a href='#method.into_future' class='fnname'>into_future</a>(self) -&gt; <a class="struct" href="../../futures_util/stream/struct.StreamFuture.html" title="struct futures_util::stream::StreamFuture">StreamFuture</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,&nbsp;</span></code></h3><div class='docblock'><p>Converts this stream into a future of <code>(next_item, tail_of_stream)</code>.
-If the stream terminates, then the next item is [<code>None</code>].</p>
+If the stream terminates, then the next item is <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#None.v" title="`None`"><code>None</code></a>.</p>
 <p>The returned future can be used to compose streams and futures together
 by placing everything into the &quot;world of futures&quot;.</p>
-<p>Note that because <code>into_future</code> moves the stream, the [<code>Stream</code>] type
-must be [<code>Unpin</code>]. If you want to use <code>into_future</code> with a
-<a href="Unpin"><code>!Unpin</code></a> stream, you'll first have to pin the stream. This can
-be done by boxing the stream using [<code>Box::pin</code>] or
+<p>Note that because <code>into_future</code> moves the stream, the <a href="../../futures_util/stream/trait.Stream.html" title="`Stream`"><code>Stream</code></a> type
+must be <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="`Unpin`"><code>Unpin</code></a>. If you want to use <code>into_future</code> with a
+<a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html"><code>!Unpin</code></a> stream, you'll first have to pin the stream. This can
+be done by boxing the stream using <a href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html#method.pin" title="`Box::pin`"><code>Box::pin</code></a> or
 pinning it to the stack using the <code>pin_mut!</code> macro from the <code>pin_utils</code>
 crate.</p>
 <h1 id="examples-1" class="section-header"><a href="#examples-1">Examples</a></h1>
@@ -121,7 +121,7 @@ crate.</p>
 the resulting type.</p>
 <p>The provided closure is executed over all elements of this stream as
 they are made available. It is executed inline with calls to
-<a href="Stream::poll_next"><code>poll_next</code></a>.</p>
+<a href="../../futures_util/stream/trait.Stream.html#tymethod.poll_next"><code>poll_next</code></a>.</p>
 <p>Note that this function consumes the stream passed into it and returns a
 wrapped version of it, similar to the existing <code>map</code> methods in the
 standard library.</p>
@@ -138,16 +138,16 @@ the next value.</p>
 <p>The stream returned yields pairs <code>(i, val)</code>, where <code>i</code> is the
 current index of iteration and <code>val</code> is the value returned by the
 stream.</p>
-<p><code>enumerate()</code> keeps its count as a [<code>usize</code>]. If you want to count by a
-different sized integer, the <a href="StreamExt::zip"><code>zip</code></a> function provides similar
+<p><code>enumerate()</code> keeps its count as a <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html" title="`usize`"><code>usize</code></a>. If you want to count by a
+different sized integer, the <a href="../../futures_util/stream/trait.StreamExt.html#method.zip"><code>zip</code></a> function provides similar
 functionality.</p>
 <h1 id="overflow-behavior" class="section-header"><a href="#overflow-behavior">Overflow Behavior</a></h1>
 <p>The method does no guarding against overflows, so enumerating more than
-[<code>usize::max_value()</code>] elements either produces the wrong result or panics. If
+<a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html#method.max_value" title="`usize::max_value()`"><code>usize::max_value()</code></a> elements either produces the wrong result or panics. If
 debug assertions are enabled, a panic is guaranteed.</p>
 <h1 id="panics" class="section-header"><a href="#panics">Panics</a></h1>
 <p>The returned stream might panic if the to-be-returned index would
-overflow a [<code>usize</code>].</p>
+overflow a <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html" title="`usize`"><code>usize</code></a>.</p>
 <h1 id="examples-3" class="section-header"><a href="#examples-3">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">stream</span>::{<span class="self">self</span>, <span class="ident">StreamExt</span>};
@@ -183,8 +183,8 @@ standard library.</p>
 them to a different type according to the provided asynchronous closure.</p>
 <p>As values of this stream are made available, the provided function will
 be run on them. If the future returned by the predicate <code>f</code> resolves to
-<a href="Some"><code>Some(item)</code></a> then the stream will yield the value <code>item</code>, but if
-it resolves to [<code>None</code>] then the next value will be produced.</p>
+<a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#Some.v"><code>Some(item)</code></a> then the stream will yield the value <code>item</code>, but if
+it resolves to <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#None.v" title="`None`"><code>None</code></a> then the next value will be produced.</p>
 <p>Note that this function consumes the stream passed into it and returns a
 wrapped version of it, similar to the existing <code>filter_map</code> methods in
 the standard library.</p>
@@ -238,7 +238,7 @@ destination, returning a future representing the end result.</p>
 of all the subsequent results of the stream. If the stream is
 empty, the default value will be returned.</p>
 <p>Works with all collections that implement the
-<a href="std::iter::Extend"><code>Extend</code></a> trait.</p>
+<a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.Extend.html"><code>Extend</code></a> trait.</p>
 <h1 id="examples-8" class="section-header"><a href="#examples-8">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">channel</span>::<span class="ident">mpsc</span>;
@@ -297,8 +297,8 @@ resolve to this value.</p>
 
 <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">rx3</span>.<span class="ident">flatten</span>().<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="kw">await</span>;
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">output</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]);</pre></div>
-</div><h3 id='method.flat_map' class='method'><code id='flat_map.v'>fn <a href='#method.flat_map' class='fnname'>flat_map</a>&lt;U, F&gt;(self, f: F) -&gt; <a class="struct" href="../../futures_util/stream/struct.FlatMap.html" title="struct futures_util::stream::FlatMap">FlatMap</a>&lt;Self, U, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(Self::<a class="type" href="../../futures_util/stream/trait.Stream.html#associatedtype.Item" title="type futures_util::stream::Stream::Item">Item</a>) -&gt; U,<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class="trait" href="../../futures_util/stream/trait.Stream.html" title="trait futures_util::stream::Stream">Stream</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Maps a stream like [<code>StreamExt::map</code>] but flattens nested <code>Stream</code>s.</p>
-<p>[<code>StreamExt::map</code>] is very useful, but if it produces a <code>Stream</code> instead,
+</div><h3 id='method.flat_map' class='method'><code id='flat_map.v'>fn <a href='#method.flat_map' class='fnname'>flat_map</a>&lt;U, F&gt;(self, f: F) -&gt; <a class="struct" href="../../futures_util/stream/struct.FlatMap.html" title="struct futures_util::stream::FlatMap">FlatMap</a>&lt;Self, U, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(Self::<a class="type" href="../../futures_util/stream/trait.Stream.html#associatedtype.Item" title="type futures_util::stream::Stream::Item">Item</a>) -&gt; U,<br>&nbsp;&nbsp;&nbsp;&nbsp;U: <a class="trait" href="../../futures_util/stream/trait.Stream.html" title="trait futures_util::stream::Stream">Stream</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Maps a stream like <a href="../../futures_util/stream/trait.StreamExt.html#method.map" title="`StreamExt::map`"><code>StreamExt::map</code></a> but flattens nested <code>Stream</code>s.</p>
+<p><a href="../../futures_util/stream/trait.StreamExt.html#method.map" title="`StreamExt::map`"><code>StreamExt::map</code></a> is very useful, but if it produces a <code>Stream</code> instead,
 you would have to chain combinators like <code>.map(f).flatten()</code> while this
 combinator provides ability to write <code>.flat_map(f)</code> instead of chaining.</p>
 <p>The provided closure which produce inner streams is executed over all elements
@@ -314,7 +314,7 @@ standard library.</p>
 <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">stream</span>::<span class="ident">iter</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">x</span> <span class="op">+</span> <span class="number">3</span>; <span class="ident">x</span>]));
 
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">6</span>, <span class="number">6</span>], <span class="ident">stream</span>.<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="kw">await</span>);</pre></div>
-</div><h3 id='method.scan' class='method'><code id='scan.v'>fn <a href='#method.scan' class='fnname'>scan</a>&lt;S, B, Fut, F&gt;(self, initial_state: S, f: F) -&gt; <a class="struct" href="../../futures_util/stream/struct.Scan.html" title="struct futures_util::stream::Scan">Scan</a>&lt;Self, S, Fut, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>S, Self::<a class="type" href="../../futures_util/stream/trait.Stream.html#associatedtype.Item" title="type futures_util::stream::Stream::Item">Item</a>) -&gt; Fut,<br>&nbsp;&nbsp;&nbsp;&nbsp;Fut: <a class="trait" href="../../futures_util/future/trait.Future.html" title="trait futures_util::future::Future">Future</a>&lt;Output = <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;B&gt;&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Combinator similar to [<code>StreamExt::fold</code>] that holds internal state 
+</div><h3 id='method.scan' class='method'><code id='scan.v'>fn <a href='#method.scan' class='fnname'>scan</a>&lt;S, B, Fut, F&gt;(self, initial_state: S, f: F) -&gt; <a class="struct" href="../../futures_util/stream/struct.Scan.html" title="struct futures_util::stream::Scan">Scan</a>&lt;Self, S, Fut, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>S, Self::<a class="type" href="../../futures_util/stream/trait.Stream.html#associatedtype.Item" title="type futures_util::stream::Stream::Item">Item</a>) -&gt; Fut,<br>&nbsp;&nbsp;&nbsp;&nbsp;Fut: <a class="trait" href="../../futures_util/future/trait.Future.html" title="trait futures_util::future::Future">Future</a>&lt;Output = <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;B&gt;&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Combinator similar to <a href="../../futures_util/stream/trait.StreamExt.html#method.fold" title="`StreamExt::fold`"><code>StreamExt::fold</code></a> that holds internal state 
 and produces a new stream.</p>
 <p>Accepts initial state and closure which will be applied to each element
 of the stream until provided closure returns <code>None</code>. Once <code>None</code> is
@@ -370,7 +370,7 @@ this stream combinator will always return that the stream is done.</p>
 <p>The stopping future may return any type. Once the stream is stopped
 the result of the stopping future may be aceessed with <code>TakeUntil::take_result()</code>.
 The stream may also be resumed with <code>TakeUntil::take_future()</code>.
-See the documentation of [<code>TakeUntil</code>] for more information.</p>
+See the documentation of <a href="../../futures_util/stream/struct.TakeUntil.html" title="`TakeUntil`"><code>TakeUntil</code></a> for more information.</p>
 <h1 id="examples-15" class="section-header"><a href="#examples-15">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">future</span>;
@@ -420,7 +420,7 @@ of a single future, use <code>then</code> instead.</p>
 </div><h3 id='method.for_each_concurrent' class='method'><code id='for_each_concurrent.v'>fn <a href='#method.for_each_concurrent' class='fnname'>for_each_concurrent</a>&lt;Fut, F&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;self, <br>&nbsp;&nbsp;&nbsp;&nbsp;limit: impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;f: F<br>) -&gt; <a class="struct" href="../../futures_util/stream/struct.ForEachConcurrent.html" title="struct futures_util::stream::ForEachConcurrent">ForEachConcurrent</a>&lt;Self, Fut, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(Self::<a class="type" href="../../futures_util/stream/trait.Stream.html#associatedtype.Item" title="type futures_util::stream::Stream::Item">Item</a>) -&gt; Fut,<br>&nbsp;&nbsp;&nbsp;&nbsp;Fut: <a class="trait" href="../../futures_util/future/trait.Future.html" title="trait futures_util::future::Future">Future</a>&lt;Output = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.unit.html">()</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Runs this stream to completion, executing the provided asynchronous
 closure for each element on the stream concurrently as elements become
 available.</p>
-<p>This is similar to [<code>StreamExt::for_each</code>], but the futures
+<p>This is similar to <a href="../../futures_util/stream/trait.StreamExt.html#method.for_each" title="`StreamExt::for_each`"><code>StreamExt::for_each</code></a>, but the futures
 produced by the closure are run concurrently (but not in parallel--
 this combinator does not introduce any threads).</p>
 <p>The closure provided will be called for each item this stream produces,
@@ -473,17 +473,17 @@ return the remaining items on this stream.</p>
 <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">stream</span>::<span class="ident">iter</span>(<span class="number">1</span>..<span class="op">=</span><span class="number">10</span>).<span class="ident">skip</span>(<span class="number">5</span>);
 
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>], <span class="ident">stream</span>.<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="kw">await</span>);</pre></div>
-</div><h3 id='method.fuse' class='method'><code id='fuse.v'>fn <a href='#method.fuse' class='fnname'>fuse</a>(self) -&gt; <a class="struct" href="../../futures_util/stream/struct.Fuse.html" title="struct futures_util::stream::Fuse">Fuse</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Fuse a stream such that <a href="Stream::poll_next"><code>poll_next</code></a> will never
+</div><h3 id='method.fuse' class='method'><code id='fuse.v'>fn <a href='#method.fuse' class='fnname'>fuse</a>(self) -&gt; <a class="struct" href="../../futures_util/stream/struct.Fuse.html" title="struct futures_util::stream::Fuse">Fuse</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Fuse a stream such that <a href="../../futures_util/stream/trait.Stream.html#tymethod.poll_next"><code>poll_next</code></a> will never
 again be called once it has finished. This method can be used to turn
 any <code>Stream</code> into a <code>FusedStream</code>.</p>
-<p>Normally, once a stream has returned [<code>None</code>] from
-<a href="Stream::poll_next"><code>poll_next</code></a> any further calls could exhibit bad
+<p>Normally, once a stream has returned <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#None.v" title="`None`"><code>None</code></a> from
+<a href="../../futures_util/stream/trait.Stream.html#tymethod.poll_next"><code>poll_next</code></a> any further calls could exhibit bad
 behavior such as block forever, panic, never return, etc. If it is known
-that <a href="Stream::poll_next"><code>poll_next</code></a> may be called after stream
+that <a href="../../futures_util/stream/trait.Stream.html#tymethod.poll_next"><code>poll_next</code></a> may be called after stream
 has already finished, then this method can be used to ensure that it has
 defined semantics.</p>
-<p>The <a href="Stream::poll_next"><code>poll_next</code></a> method of a <code>fuse</code>d stream
-is guaranteed to return [<code>None</code>] after the underlying stream has
+<p>The <a href="../../futures_util/stream/trait.Stream.html#tymethod.poll_next"><code>poll_next</code></a> method of a <code>fuse</code>d stream
+is guaranteed to return <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#None.v" title="`None`"><code>None</code></a> after the underlying stream has
 finished.</p>
 <h1 id="examples-20" class="section-header"><a href="#examples-20">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
@@ -536,9 +536,9 @@ method should not be used for error handling.</p>
 <p>Note that this method requires the <code>UnwindSafe</code> bound from the standard
 library. This isn't always applied automatically, and the standard
 library provides an <code>AssertUnwindSafe</code> wrapper type to apply it
-after-the fact. To assist using this method, the [<code>Stream</code>] trait is
+after-the fact. To assist using this method, the <a href="../../futures_util/stream/trait.Stream.html" title="`Stream`"><code>Stream</code></a> trait is
 also implemented for <code>AssertUnwindSafe&lt;St&gt;</code> where <code>St</code> implements
-[<code>Stream</code>].</p>
+<a href="../../futures_util/stream/trait.Stream.html" title="`Stream`"><code>Stream</code></a>.</p>
 <p>This method is only available when the <code>std</code> feature of this
 library is activated, and it is activated by default.</p>
 <h1 id="examples-22" class="section-header"><a href="#examples-22">Examples</a></h1>
@@ -691,19 +691,19 @@ statements that evaluate to different streams in different branches.</p>
 of that <code>Either</code>.</p>
 <p>This can be used in combination with the <code>left_stream</code> method to write <code>if</code>
 statements that evaluate to different streams in different branches.</p>
-</div><h3 id='method.poll_next_unpin' class='method'><code id='poll_next_unpin.v'>fn <a href='#method.poll_next_unpin' class='fnname'>poll_next_unpin</a>(&amp;mut self, cx: &amp;mut <a class="struct" href="../../futures_util/task/struct.Context.html" title="struct futures_util::task::Context">Context</a>) -&gt; <a class="enum" href="../../futures_util/task/enum.Poll.html" title="enum futures_util::task::Poll">Poll</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="type" href="../../futures_util/stream/trait.Stream.html#associatedtype.Item" title="type futures_util::stream::Stream::Item">Item</a>&gt;&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,&nbsp;</span></code></h3><div class='docblock'><p>A convenience method for calling [<code>Stream::poll_next</code>] on [<code>Unpin</code>]
+</div><h3 id='method.poll_next_unpin' class='method'><code id='poll_next_unpin.v'>fn <a href='#method.poll_next_unpin' class='fnname'>poll_next_unpin</a>(&amp;mut self, cx: &amp;mut <a class="struct" href="../../futures_util/task/struct.Context.html" title="struct futures_util::task::Context">Context</a>) -&gt; <a class="enum" href="../../futures_util/task/enum.Poll.html" title="enum futures_util::task::Poll">Poll</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;Self::<a class="type" href="../../futures_util/stream/trait.Stream.html#associatedtype.Item" title="type futures_util::stream::Stream::Item">Item</a>&gt;&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,&nbsp;</span></code></h3><div class='docblock'><p>A convenience method for calling <a href="../../futures_util/stream/trait.Stream.html#tymethod.poll_next" title="`Stream::poll_next`"><code>Stream::poll_next</code></a> on <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="`Unpin`"><code>Unpin</code></a>
 stream types.</p>
-</div><h3 id='method.select_next_some' class='method'><code id='select_next_some.v'>fn <a href='#method.select_next_some' class='fnname'>select_next_some</a>(&amp;mut self) -&gt; <a class="struct" href="../../futures_util/stream/struct.SelectNextSome.html" title="struct futures_util::stream::SelectNextSome">SelectNextSome</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> + <a class="trait" href="../../futures_util/stream/trait.FusedStream.html" title="trait futures_util::stream::FusedStream">FusedStream</a>,&nbsp;</span></code></h3><div class='docblock'><p>Returns a [<code>Future</code>] that resolves when the next item in this stream is
+</div><h3 id='method.select_next_some' class='method'><code id='select_next_some.v'>fn <a href='#method.select_next_some' class='fnname'>select_next_some</a>(&amp;mut self) -&gt; <a class="struct" href="../../futures_util/stream/struct.SelectNextSome.html" title="struct futures_util::stream::SelectNextSome">SelectNextSome</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a> + <a class="trait" href="../../futures_util/stream/trait.FusedStream.html" title="trait futures_util::stream::FusedStream">FusedStream</a>,&nbsp;</span></code></h3><div class='docblock'><p>Returns a <a href="../../futures_util/future/trait.Future.html" title="`Future`"><code>Future</code></a> that resolves when the next item in this stream is
 ready.</p>
-<p>This is similar to the [<code>next</code>][StreamExt::next] method, but it won't
-resolve to [<code>None</code>] if used on an empty [<code>Stream</code>]. Instead, the
+<p>This is similar to the <a href="../../futures_util/stream/trait.StreamExt.html#method.next" title="StreamExt::next"><code>next</code></a> method, but it won't
+resolve to <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#None.v" title="`None`"><code>None</code></a> if used on an empty <a href="../../futures_util/stream/trait.Stream.html" title="`Stream`"><code>Stream</code></a>. Instead, the
 returned future type will return <code>true</code> from
-<a href="futures_core::future::FusedFuture::is_terminated"><code>FusedFuture::is_terminated</code></a> when the [<code>Stream</code>] is empty, allowing
-[<code>select_next_some</code>][StreamExt::select_next_some] to be easily used with
-the [<code>select!</code>] macro.</p>
-<p>If the future is polled after this [<code>Stream</code>] is empty it will panic.
-Using the future with a <a href="futures_core::future::FusedFuture"><code>FusedFuture</code></a>-aware primitive like the
-[<code>select!</code>] macro will prevent this.</p>
+<a href="../../futures_util/future/trait.FusedFuture.html#tymethod.is_terminated"><code>FusedFuture::is_terminated</code></a> when the <a href="../../futures_util/stream/trait.Stream.html" title="`Stream`"><code>Stream</code></a> is empty, allowing
+<a href="../../futures_util/stream/trait.StreamExt.html#method.select_next_some" title="StreamExt::select_next_some"><code>select_next_some</code></a> to be easily used with
+the <a href="../../futures_util/macro.select.html" title="`select!`"><code>select!</code></a> macro.</p>
+<p>If the future is polled after this <a href="../../futures_util/stream/trait.Stream.html" title="`Stream`"><code>Stream</code></a> is empty it will panic.
+Using the future with a <a href="../../futures_util/future/trait.FusedFuture.html"><code>FusedFuture</code></a>-aware primitive like the
+<a href="../../futures_util/macro.select.html" title="`select!`"><code>select!</code></a> macro will prevent this.</p>
 <h1 id="examples-25" class="section-header"><a href="#examples-25">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">futures</span>::{<span class="ident">future</span>, <span class="ident">select</span>};
@@ -732,4 +732,4 @@ Using the future with a <a href="futures_core::future::FusedFuture"><code>FusedF
 }
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">total</span>, <span class="number">6</span>);</pre></div>
 </div></div><span class='loading-content'>Loading content...</span>
-            <h2 id='implementors' class='small-section-header'>Implementors<a href='#implementors' class='anchor'></a></h2><div class='item-list' id='implementors-list'><h3 id='impl-StreamExt' class='impl'><code class='in-band'>impl&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; StreamExt for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../../futures_util/stream/trait.Stream.html" title="trait futures_util::stream::Stream">Stream</a>,&nbsp;</span></code><a href='#impl-StreamExt' class='anchor'></a><a class='srclink' href='../../src/futures_util/stream/stream/mod.rs.html#194' title='goto source code'>[src]</a></h3><div class='impl-items'></div></div><span class='loading-content'>Loading content...</span><script type="text/javascript" src="../../implementors/futures_util/stream/trait.StreamExt.js" async></script></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "futures_util";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
+            <h2 id='implementors' class='small-section-header'>Implementors<a href='#implementors' class='anchor'></a></h2><div class='item-list' id='implementors-list'><h3 id='impl-StreamExt' class='impl'><code class='in-band'>impl&lt;T:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt; StreamExt for T <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../../futures_util/stream/trait.Stream.html" title="trait futures_util::stream::Stream">Stream</a>,&nbsp;</span></code><a href='#impl-StreamExt' class='anchor'></a><a class='srclink' href='../../src/futures_util/stream/stream/mod.rs.html#194' title='goto source code'>[src]</a></h3><div class='impl-items'></div></div><span class='loading-content'>Loading content...</span><script type="text/javascript" src="../../implementors/futures_util/stream/trait.StreamExt.js" async></script></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "futures_util";</script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

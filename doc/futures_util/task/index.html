@@ -13,13 +13,13 @@ of a <a href="struct.RawWaker.html"><code>RawWaker</code></a>.</p>
 </td></tr><tr class='module-item'><td><a class="struct" href="struct.SpawnError.html" title='futures_util::task::SpawnError struct'>SpawnError</a></td><td class='docblock-short'><p>An error that occurred during spawning.</p>
 </td></tr><tr class='module-item'><td><a class="struct" href="struct.Waker.html" title='futures_util::task::Waker struct'>Waker</a></td><td class='docblock-short'><p>A <code>Waker</code> is a handle for waking up a task by notifying its executor that it
 is ready to be run.</p>
-</td></tr><tr class='module-item'><td><a class="struct" href="struct.WakerRef.html" title='futures_util::task::WakerRef struct'>WakerRef</a></td><td class='docblock-short'><p>A [<code>Waker</code>] that is only valid for a given lifetime.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.WakerRef.html" title='futures_util::task::WakerRef struct'>WakerRef</a></td><td class='docblock-short'><p>A <a href="../../futures_util/task/struct.Waker.html" title="`Waker`"><code>Waker</code></a> that is only valid for a given lifetime.</p>
 </td></tr></table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
 <table><tr class='module-item'><td><a class="enum" href="enum.Poll.html" title='futures_util::task::Poll enum'>Poll</a></td><td class='docblock-short'><p>Indicates whether a value is available or if the current task has been
 scheduled to receive a wakeup instead.</p>
 </td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table><tr class='module-item'><td><a class="trait" href="trait.ArcWake.html" title='futures_util::task::ArcWake trait'>ArcWake</a></td><td class='docblock-short'><p>A way of waking up a specific task.</p>
-</td></tr><tr class='module-item'><td><a class="trait" href="trait.LocalSpawn.html" title='futures_util::task::LocalSpawn trait'>LocalSpawn</a></td><td class='docblock-short'><p>The <code>LocalSpawn</code> is similar to [<code>Spawn</code>], but allows spawning futures
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.LocalSpawn.html" title='futures_util::task::LocalSpawn trait'>LocalSpawn</a></td><td class='docblock-short'><p>The <code>LocalSpawn</code> is similar to <a href="../../futures_util/task/trait.Spawn.html" title="`Spawn`"><code>Spawn</code></a>, but allows spawning futures
 that don't implement <code>Send</code>.</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.LocalSpawnExt.html" title='futures_util::task::LocalSpawnExt trait'>LocalSpawnExt</a></td><td class='docblock-short'><p>Extension trait for <code>LocalSpawn</code>.</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.Spawn.html" title='futures_util::task::Spawn trait'>Spawn</a></td><td class='docblock-short'><p>The <code>Spawn</code> trait allows for pushing futures onto an executor that will
@@ -28,10 +28,10 @@ run them to completion.</p>
 </td></tr><tr class='module-item'><td><a class="trait" href="trait.UnsafeFutureObj.html" title='futures_util::task::UnsafeFutureObj trait'>UnsafeFutureObj</a></td><td class='docblock-short'><p>A custom implementation of a future trait object for <code>FutureObj</code>, providing
 a vtable with drop support.</p>
 </td></tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
-<table><tr class='module-item'><td><a class="fn" href="fn.noop_waker.html" title='futures_util::task::noop_waker fn'>noop_waker</a></td><td class='docblock-short'><p>Create a new [<code>Waker</code>] which does
+<table><tr class='module-item'><td><a class="fn" href="fn.noop_waker.html" title='futures_util::task::noop_waker fn'>noop_waker</a></td><td class='docblock-short'><p>Create a new <a href="../../futures_util/task/struct.Waker.html" title="`Waker`"><code>Waker</code></a> which does
 nothing when <code>wake()</code> is called on it.</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.noop_waker_ref.html" title='futures_util::task::noop_waker_ref fn'>noop_waker_ref</a></td><td class='docblock-short'><p>Get a static reference to a [<code>Waker</code>] which
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.noop_waker_ref.html" title='futures_util::task::noop_waker_ref fn'>noop_waker_ref</a></td><td class='docblock-short'><p>Get a static reference to a <a href="../../futures_util/task/struct.Waker.html" title="`Waker`"><code>Waker</code></a> which
 does nothing when <code>wake()</code> is called on it.</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.waker.html" title='futures_util::task::waker fn'>waker</a></td><td class='docblock-short'><p>Creates a [<code>Waker</code>] from an <code>Arc&lt;impl ArcWake&gt;</code>.</p>
-</td></tr><tr class='module-item'><td><a class="fn" href="fn.waker_ref.html" title='futures_util::task::waker_ref fn'>waker_ref</a></td><td class='docblock-short'><p>Creates a reference to a [<code>Waker</code>] from a reference to <code>Arc&lt;impl ArcWake&gt;</code>.</p>
-</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "futures_util";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.waker.html" title='futures_util::task::waker fn'>waker</a></td><td class='docblock-short'><p>Creates a <a href="../../futures_util/task/struct.Waker.html" title="`Waker`"><code>Waker</code></a> from an <code>Arc&lt;impl ArcWake&gt;</code>.</p>
+</td></tr><tr class='module-item'><td><a class="fn" href="fn.waker_ref.html" title='futures_util::task::waker_ref fn'>waker_ref</a></td><td class='docblock-short'><p>Creates a reference to a <a href="../../futures_util/task/struct.Waker.html" title="`Waker`"><code>Waker</code></a> from a reference to <code>Arc&lt;impl ArcWake&gt;</code>.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "futures_util";</script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

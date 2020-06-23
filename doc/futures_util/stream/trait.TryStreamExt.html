@@ -117,7 +117,7 @@ when one appears, and the returned future will then be run to completion
 to produce the next value on this stream.</p>
 <p>Any successful values produced by this stream will not be passed to the
 closure, and will be passed through.</p>
-<p>The returned value of the closure must implement the <a href="futures_core::future::TryFuture"><code>TryFuture</code></a> trait
+<p>The returned value of the closure must implement the <a href="../../futures_util/future/trait.TryFuture.html"><code>TryFuture</code></a> trait
 and can represent some more work to be done before the composed stream
 is finished.</p>
 <p>Note that this function consumes the receiving stream and returns a
@@ -131,10 +131,10 @@ example to debug what's going on.</p>
 <p>This is similar to the <code>StreamExt::inspect</code> method where it allows
 easily inspecting the error value as it passes through the stream, for
 example to debug what's going on.</p>
-</div><h3 id='method.into_stream' class='method'><code id='into_stream.v'>fn <a href='#method.into_stream' class='fnname'>into_stream</a>(self) -&gt; <a class="struct" href="../../futures_util/stream/struct.IntoStream.html" title="struct futures_util::stream::IntoStream">IntoStream</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Wraps a [<code>TryStream</code>] into a type that implements
-<a href="futures_core::stream::Stream"><code>Stream</code></a></p>
-<p>[<code>TryStream</code>]s currently do not implement the
-<a href="futures_core::stream::Stream"><code>Stream</code></a> trait because of limitations
+</div><h3 id='method.into_stream' class='method'><code id='into_stream.v'>fn <a href='#method.into_stream' class='fnname'>into_stream</a>(self) -&gt; <a class="struct" href="../../futures_util/stream/struct.IntoStream.html" title="struct futures_util::stream::IntoStream">IntoStream</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Wraps a <a href="../../futures_util/stream/trait.TryStream.html" title="`TryStream`"><code>TryStream</code></a> into a type that implements
+<a href="../../futures_util/stream/trait.Stream.html"><code>Stream</code></a></p>
+<p><a href="../../futures_util/stream/trait.TryStream.html" title="`TryStream`"><code>TryStream</code></a>s currently do not implement the
+<a href="../../futures_util/stream/trait.Stream.html"><code>Stream</code></a> trait because of limitations
 of the compiler.</p>
 <h1 id="examples-4" class="section-header"><a href="#examples-4">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
@@ -163,8 +163,8 @@ asynchronous closure for each element on the stream.</p>
 <p>The provided closure will be called for each item this stream produces,
 yielding a future. That future will then be executed to completion
 before moving on to the next item.</p>
-<p>The returned value is a <a href="futures_core::future::Future"><code>Future</code></a> where the
-<a href="futures_core::future::Future::Output"><code>Output</code></a> type is
+<p>The returned value is a <a href="../../futures_util/future/trait.Future.html"><code>Future</code></a> where the
+<a href="../../futures_util/future/trait.Future.html#associatedtype.Output"><code>Output</code></a> type is
 <code>Result&lt;(), Self::Error&gt;</code>. If any of the intermediate
 futures or the stream returns an error, this future will return
 immediately with an error.</p>
@@ -187,7 +187,7 @@ immediately with an error.</p>
 </div><h3 id='method.try_skip_while' class='method'><code id='try_skip_while.v'>fn <a href='#method.try_skip_while' class='fnname'>try_skip_while</a>&lt;Fut, F&gt;(self, f: F) -&gt; <a class="struct" href="../../futures_util/stream/struct.TrySkipWhile.html" title="struct futures_util::stream::TrySkipWhile">TrySkipWhile</a>&lt;Self, Fut, F&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;F: <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnMut.html" title="trait core::ops::function::FnMut">FnMut</a>(&amp;Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Ok" title="type futures_util::stream::TryStream::Ok">Ok</a>) -&gt; Fut,<br>&nbsp;&nbsp;&nbsp;&nbsp;Fut: <a class="trait" href="../../futures_util/future/trait.TryFuture.html" title="trait futures_util::future::TryFuture">TryFuture</a>&lt;Ok = <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, Error = Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Error" title="type futures_util::stream::TryStream::Error">Error</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Skip elements on this stream while the provided asynchronous predicate
 resolves to <code>true</code>.</p>
 <p>This function is similar to
-<a href="crate::stream::StreamExt::skip_while"><code>StreamExt::skip_while</code></a> but exits
+<a href="../../futures_util/stream/trait.StreamExt.html#method.skip_while"><code>StreamExt::skip_while</code></a> but exits
 early if an error occurs.</p>
 <h1 id="examples-7" class="section-header"><a href="#examples-7">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
@@ -203,7 +203,7 @@ early if an error occurs.</p>
 closure for each element on the stream concurrently as elements become
 available, exiting as soon as an error occurs.</p>
 <p>This is similar to
-<a href="crate::stream::StreamExt::for_each_concurrent"><code>StreamExt::for_each_concurrent</code></a>,
+<a href="../../futures_util/stream/trait.StreamExt.html#method.for_each_concurrent"><code>StreamExt::for_each_concurrent</code></a>,
 but will resolve to an error immediately if the underlying stream or the provided
 closure return an error.</p>
 <p>This method is only available when the <code>std</code> or <code>alloc</code> feature of this
@@ -284,8 +284,8 @@ simultaneously mapping them to a different type according to the
 provided asynchronous closure.</p>
 <p>As values of this stream are made available, the provided function will
 be run on them. If the future returned by the predicate <code>f</code> resolves to
-<a href="Some"><code>Some(item)</code></a> then the stream will yield the value <code>item</code>, but if
-it resolves to [<code>None</code>] then the next value will be produced.</p>
+<a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#Some.v"><code>Some(item)</code></a> then the stream will yield the value <code>item</code>, but if
+it resolves to <a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#None.v" title="`None`"><code>None</code></a> then the next value will be produced.</p>
 <p>All errors are passed through without filtering in this combinator.</p>
 <p>Note that this function consumes the stream passed into it and returns a
 wrapped version of it, similar to the existing <code>filter_map</code> methods in
@@ -343,7 +343,7 @@ according to the closure provided. The initial state is also provided to
 this method and then is returned again by each execution of the closure.
 Once the entire stream has been exhausted the returned future will
 resolve to this value.</p>
-<p>This method is similar to <a href="crate::stream::StreamExt::fold"><code>fold</code></a>, but will
+<p>This method is similar to <a href="../../futures_util/stream/trait.StreamExt.html#method.fold"><code>fold</code></a>, but will
 exit early if an error is encountered in either the stream or the
 provided closure.</p>
 <h1 id="examples-13" class="section-header"><a href="#examples-13">Examples</a></h1>
@@ -362,8 +362,8 @@ extendable destination, returning a future representing the end result.</p>
 <p>This combinator will extend the first item with the contents of all
 the subsequent successful results of the stream. If the stream is empty,
 the default value will be returned.</p>
-<p>Works with all collections that implement the <a href="std::iter::Extend"><code>Extend</code></a> trait.</p>
-<p>This method is similar to <a href="crate::stream::StreamExt::concat"><code>concat</code></a>, but will
+<p>Works with all collections that implement the <a href="https://doc.rust-lang.org/nightly/core/iter/traits/collect/trait.Extend.html"><code>Extend</code></a> trait.</p>
+<p>This method is similar to <a href="../../futures_util/stream/trait.StreamExt.html#method.concat"><code>concat</code></a>, but will
 exit early if an error is encountered in the stream.</p>
 <h1 id="examples-14" class="section-header"><a href="#examples-14">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
@@ -384,7 +384,7 @@ exit early if an error is encountered in the stream.</p>
 
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="prelude-val">Ok</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]));</pre></div>
 </div><h3 id='method.try_buffer_unordered' class='method'><code id='try_buffer_unordered.v'>fn <a href='#method.try_buffer_unordered' class='fnname'>try_buffer_unordered</a>(self, n: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a class="struct" href="../../futures_util/stream/struct.TryBufferUnordered.html" title="struct futures_util::stream::TryBufferUnordered">TryBufferUnordered</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Ok" title="type futures_util::stream::TryStream::Ok">Ok</a>: <a class="trait" href="../../futures_util/future/trait.TryFuture.html" title="trait futures_util::future::TryFuture">TryFuture</a>&lt;Error = Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Error" title="type futures_util::stream::TryStream::Error">Error</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>,&nbsp;</span></code></h3><div class='docblock'><p>Attempt to execute several futures from a stream concurrently.</p>
-<p>This stream's <code>Ok</code> type must be a <a href="futures_core::future::TryFuture"><code>TryFuture</code></a> with an <code>Error</code> type
+<p>This stream's <code>Ok</code> type must be a <a href="../../futures_util/future/trait.TryFuture.html"><code>TryFuture</code></a> with an <code>Error</code> type
 that matches the stream's <code>Error</code> type.</p>
 <p>This adaptor will buffer up to <code>n</code> futures and then return their
 outputs in the order in which they complete. If the underlying stream
@@ -429,12 +429,12 @@ library is activated, and it is activated by default.</p>
 
 <span class="ident">sink</span>.<span class="ident">unbounded_send</span>(<span class="prelude-val">Err</span>(<span class="string">&quot;error in the stream&quot;</span>))<span class="question-mark">?</span>;
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buffered</span>.<span class="ident">next</span>().<span class="kw">await</span>, <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="string">&quot;error in the stream&quot;</span>)));</pre></div>
-</div><h3 id='method.try_poll_next_unpin' class='method'><code id='try_poll_next_unpin.v'>fn <a href='#method.try_poll_next_unpin' class='fnname'>try_poll_next_unpin</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;cx: &amp;mut <a class="struct" href="../../futures_util/task/struct.Context.html" title="struct futures_util::task::Context">Context</a><br>) -&gt; <a class="enum" href="../../futures_util/task/enum.Poll.html" title="enum futures_util::task::Poll">Poll</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Ok" title="type futures_util::stream::TryStream::Ok">Ok</a>, Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Error" title="type futures_util::stream::TryStream::Error">Error</a>&gt;&gt;&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,&nbsp;</span></code></h3><div class='docblock'><p>A convenience method for calling [<code>TryStream::try_poll_next</code>] on [<code>Unpin</code>]
+</div><h3 id='method.try_poll_next_unpin' class='method'><code id='try_poll_next_unpin.v'>fn <a href='#method.try_poll_next_unpin' class='fnname'>try_poll_next_unpin</a>(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;cx: &amp;mut <a class="struct" href="../../futures_util/task/struct.Context.html" title="struct futures_util::task::Context">Context</a><br>) -&gt; <a class="enum" href="../../futures_util/task/enum.Poll.html" title="enum futures_util::task::Poll">Poll</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Ok" title="type futures_util::stream::TryStream::Ok">Ok</a>, Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Error" title="type futures_util::stream::TryStream::Error">Error</a>&gt;&gt;&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,&nbsp;</span></code></h3><div class='docblock'><p>A convenience method for calling <a href="../../futures_util/stream/trait.TryStream.html#tymethod.try_poll_next" title="`TryStream::try_poll_next`"><code>TryStream::try_poll_next</code></a> on <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="`Unpin`"><code>Unpin</code></a>
 stream types.</p>
-</div><h3 id='method.into_async_read' class='method'><code id='into_async_read.v'>fn <a href='#method.into_async_read' class='fnname'>into_async_read</a>(self) -&gt; <a class="struct" href="../../futures_util/stream/struct.IntoAsyncRead.html" title="struct futures_util::stream::IntoAsyncRead">IntoAsyncRead</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="../../futures_util/stream/trait.TryStreamExt.html" title="trait futures_util::stream::TryStreamExt">TryStreamExt</a>&lt;Error = <a class="struct" href="../../futures_util/io/struct.Error.html" title="struct futures_util::io::Error">Error</a>&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Ok" title="type futures_util::stream::TryStream::Ok">Ok</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>&gt;,&nbsp;</span></code></h3><div class='docblock'><p>Adapter that converts this stream into an <a href="crate::io::AsyncRead"><code>AsyncRead</code></a>.</p>
-<p>Note that because <code>into_async_read</code> moves the stream, the <a href="futures_core::stream::Stream"><code>Stream</code></a> type must be
-[<code>Unpin</code>]. If you want to use <code>into_async_read</code> with a <a href="Unpin"><code>!Unpin</code></a> stream, you'll
-first have to pin the stream. This can be done by boxing the stream using [<code>Box::pin</code>]
+</div><h3 id='method.into_async_read' class='method'><code id='into_async_read.v'>fn <a href='#method.into_async_read' class='fnname'>into_async_read</a>(self) -&gt; <a class="struct" href="../../futures_util/stream/struct.IntoAsyncRead.html" title="struct futures_util::stream::IntoAsyncRead">IntoAsyncRead</a>&lt;Self&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;Self: <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="../../futures_util/stream/trait.TryStreamExt.html" title="trait futures_util::stream::TryStreamExt">TryStreamExt</a>&lt;Error = <a class="struct" href="../../futures_util/io/struct.Error.html" title="struct futures_util::io::Error">Error</a>&gt; + <a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="trait core::marker::Unpin">Unpin</a>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Self::<a class="type" href="../../futures_util/stream/trait.TryStream.html#associatedtype.Ok" title="type futures_util::stream::TryStream::Ok">Ok</a>: <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">[</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.slice.html">]</a>&gt;,&nbsp;</span></code></h3><div class='docblock'><p>Adapter that converts this stream into an <a href="../../futures_util/io/trait.AsyncRead.html"><code>AsyncRead</code></a>.</p>
+<p>Note that because <code>into_async_read</code> moves the stream, the <a href="../../futures_util/stream/trait.Stream.html"><code>Stream</code></a> type must be
+<a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html" title="`Unpin`"><code>Unpin</code></a>. If you want to use <code>into_async_read</code> with a <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html"><code>!Unpin</code></a> stream, you'll
+first have to pin the stream. This can be done by boxing the stream using <a href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html#method.pin" title="`Box::pin`"><code>Box::pin</code></a>
 or pinning it to the stack using the <code>pin_mut!</code> macro from the <code>pin_utils</code> crate.</p>
 <p>This method is only available when the <code>std</code> feature of this
 library is activated, and it is activated by default.</p>
@@ -450,4 +450,4 @@ library is activated, and it is activated by default.</p>
 <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">read_to_end</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="kw">await</span>.<span class="ident">is_ok</span>());
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buf</span>, <span class="kw-2">&amp;</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]);</pre></div>
 </div></div><span class='loading-content'>Loading content...</span>
-            <h2 id='implementors' class='small-section-header'>Implementors<a href='#implementors' class='anchor'></a></h2><div class='item-list' id='implementors-list'><h3 id='impl-TryStreamExt' class='impl'><code class='in-band'>impl&lt;S:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="../../futures_util/stream/trait.TryStream.html" title="trait futures_util::stream::TryStream">TryStream</a>&gt; TryStreamExt for S</code><a href='#impl-TryStreamExt' class='anchor'></a><a class='srclink' href='../../src/futures_util/stream/try_stream/mod.rs.html#128' title='goto source code'>[src]</a></h3><div class='impl-items'></div></div><span class='loading-content'>Loading content...</span><script type="text/javascript" src="../../implementors/futures_util/stream/trait.TryStreamExt.js" async></script></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "futures_util";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
+            <h2 id='implementors' class='small-section-header'>Implementors<a href='#implementors' class='anchor'></a></h2><div class='item-list' id='implementors-list'><h3 id='impl-TryStreamExt' class='impl'><code class='in-band'>impl&lt;S:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a> + <a class="trait" href="../../futures_util/stream/trait.TryStream.html" title="trait futures_util::stream::TryStream">TryStream</a>&gt; TryStreamExt for S</code><a href='#impl-TryStreamExt' class='anchor'></a><a class='srclink' href='../../src/futures_util/stream/try_stream/mod.rs.html#128' title='goto source code'>[src]</a></h3><div class='impl-items'></div></div><span class='loading-content'>Loading content...</span><script type="text/javascript" src="../../implementors/futures_util/stream/trait.TryStreamExt.js" async></script></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "futures_util";</script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

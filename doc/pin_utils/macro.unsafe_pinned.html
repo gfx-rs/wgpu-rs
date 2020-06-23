@@ -6,10 +6,10 @@
 <h1 id="safety" class="section-header"><a href="#safety">Safety</a></h1>
 <p>To make using this macro safe, three things need to be ensured:</p>
 <ul>
-<li>If the struct implements <a href="Drop::drop"><code>Drop</code></a>, the <a href="Drop::drop"><code>drop</code></a> method is not allowed to
+<li>If the struct implements <a href="https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html#tymethod.drop"><code>Drop</code></a>, the <a href="https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html#tymethod.drop"><code>drop</code></a> method is not allowed to
 move the value of the field.</li>
-<li>If the struct wants to implement <a href="core::marker::Unpin"><code>Unpin</code></a>, it has to do so conditionally:
-The struct can only implement <a href="core::marker::Unpin"><code>Unpin</code></a> if the field's type is <a href="core::marker::Unpin"><code>Unpin</code></a>.</li>
+<li>If the struct wants to implement <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html"><code>Unpin</code></a>, it has to do so conditionally:
+The struct can only implement <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html"><code>Unpin</code></a> if the field's type is <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Unpin.html"><code>Unpin</code></a>.</li>
 <li>The struct must not be <code>#[repr(packed)]</code>.</li>
 </ul>
 <h1 id="example" class="section-header"><a href="#example">Example</a></h1>
@@ -33,4 +33,4 @@ The struct can only implement <a href="core::marker::Unpin"><code>Unpin</code></
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Unpin</span><span class="op">&gt;</span> <span class="ident">Unpin</span> <span class="kw">for</span> <span class="ident">Foo</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {} <span class="comment">// Conditional Unpin impl</span></pre></div>
 <p>Note: borrowing the field multiple times requires using <code>.as_mut()</code> to
 avoid consuming the <code>Pin</code>.</p>
-</div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "pin_utils";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "pin_utils";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

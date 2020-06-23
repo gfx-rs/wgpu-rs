@@ -8,7 +8,7 @@ library is activated, and it is activated by default.</p>
 <h1 id="see-also" class="section-header"><a href="#see-also">See Also</a></h1>
 <p>This is purposefully a very simple API for basic use-cases. In a lot of
 cases you will want to use the more powerful
-[<code>FuturesUnordered</code>][crate::stream::FuturesUnordered] APIs, some
+<a href="../../futures_util/stream/futures_unordered/struct.FuturesUnordered.html" title="crate::stream::FuturesUnordered"><code>FuturesUnordered</code></a> APIs, some
 examples of additional functionality that provides:</p>
 <ul>
 <li>
@@ -28,4 +28,4 @@ you have a lot of futures this will result in much more efficient polling.</p>
 <span class="kw">let</span> <span class="ident">futures</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">foo</span>(<span class="number">1</span>), <span class="ident">foo</span>(<span class="number">2</span>), <span class="ident">foo</span>(<span class="number">3</span>)];
 
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">join_all</span>(<span class="ident">futures</span>).<span class="kw">await</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</pre></div>
-</div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "futures_util";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
+</div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "futures_util";</script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>
