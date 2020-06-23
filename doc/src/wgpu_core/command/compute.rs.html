@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/6b3863a/wgpu-core/src/command/compute.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compute.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/285b31a/wgpu-core/src/command/compute.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compute.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -410,6 +410,15 @@
 <span id="410">410</span>
 <span id="411">411</span>
 <span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -424,6 +433,7 @@
     <span class="ident">hub</span>::{<span class="ident">GfxBackend</span>, <span class="ident">Global</span>, <span class="ident">GlobalIdentityHandlerFactory</span>, <span class="ident">Token</span>},
     <span class="ident">id</span>,
     <span class="ident">resource</span>::<span class="ident">BufferUse</span>,
+    <span class="ident">span</span>,
 };
 
 <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">CommandBuffer</span> <span class="kw">as</span> <span class="kw">_</span>;
@@ -519,6 +529,7 @@
         <span class="ident">encoder_id</span>: <span class="ident">id</span>::<span class="ident">CommandEncoderId</span>,
         <span class="kw-2">mut</span> <span class="ident">base</span>: <span class="ident">BasePassRef</span><span class="op">&lt;</span><span class="ident">ComputeCommand</span><span class="op">&gt;</span>,
     ) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;CommandEncoder::run_compute_pass&quot;</span>);
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
 
@@ -665,7 +676,7 @@
                     <span class="macro">assert_eq</span><span class="macro">!</span>(
                         <span class="ident">state</span>.<span class="ident">pipeline</span>,
                         <span class="ident">PipelineState</span>::<span class="ident">Set</span>,
-                        <span class="string">&quot;Dispatch error: Pipeline is missing&quot;</span>
+                        <span class="string">&quot;Dispatch DEBUG: Pipeline is missing&quot;</span>
                     );
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">dispatch</span>(<span class="ident">groups</span>);
@@ -675,7 +686,7 @@
                     <span class="macro">assert_eq</span><span class="macro">!</span>(
                         <span class="ident">state</span>.<span class="ident">pipeline</span>,
                         <span class="ident">PipelineState</span>::<span class="ident">Set</span>,
-                        <span class="string">&quot;Dispatch error: Pipeline is missing&quot;</span>
+                        <span class="string">&quot;Dispatch DEBUG: Pipeline is missing&quot;</span>
                     );
                     <span class="kw">let</span> (<span class="ident">src_buffer</span>, <span class="ident">src_pending</span>) <span class="op">=</span> <span class="ident">cmb</span>.<span class="ident">trackers</span>.<span class="ident">buffers</span>.<span class="ident">use_replace</span>(
                         <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>,
@@ -727,7 +738,7 @@
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">compute_ffi</span> {
     <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">ComputeCommand</span>, <span class="ident">ComputePass</span>};
-    <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">id</span>, <span class="ident">RawString</span>};
+    <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">id</span>, <span class="ident">span</span>, <span class="ident">RawString</span>};
     <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryInto</span>, <span class="ident">ffi</span>, <span class="ident">slice</span>};
     <span class="kw">use</span> <span class="ident">wgt</span>::{<span class="ident">BufferAddress</span>, <span class="ident">DynamicOffset</span>};
 
@@ -745,6 +756,7 @@
         <span class="ident">offsets</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DynamicOffset</span>,
         <span class="ident">offset_length</span>: <span class="ident">usize</span>,
     ) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">DEBUG</span>, <span class="string">&quot;ComputePass::set_bind_group&quot;</span>);
         <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">commands</span>.<span class="ident">push</span>(<span class="ident">ComputeCommand</span>::<span class="ident">SetBindGroup</span> {
             <span class="ident">index</span>: <span class="ident">index</span>.<span class="ident">try_into</span>().<span class="ident">unwrap</span>(),
             <span class="ident">num_dynamic_offsets</span>: <span class="ident">offset_length</span>.<span class="ident">try_into</span>().<span class="ident">unwrap</span>(),
@@ -760,6 +772,7 @@
         <span class="ident">pass</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ComputePass</span>,
         <span class="ident">pipeline_id</span>: <span class="ident">id</span>::<span class="ident">ComputePipelineId</span>,
     ) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">DEBUG</span>, <span class="string">&quot;ComputePass::set_pipeline&quot;</span>);
         <span class="ident">pass</span>.<span class="ident">base</span>
             .<span class="ident">commands</span>
             .<span class="ident">push</span>(<span class="ident">ComputeCommand</span>::<span class="ident">SetPipeline</span>(<span class="ident">pipeline_id</span>));
@@ -772,6 +785,7 @@
         <span class="ident">groups_y</span>: <span class="ident">u32</span>,
         <span class="ident">groups_z</span>: <span class="ident">u32</span>,
     ) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">DEBUG</span>, <span class="string">&quot;ComputePass::dispatch&quot;</span>);
         <span class="ident">pass</span>.<span class="ident">base</span>
             .<span class="ident">commands</span>
             .<span class="ident">push</span>(<span class="ident">ComputeCommand</span>::<span class="ident">Dispatch</span>([<span class="ident">groups_x</span>, <span class="ident">groups_y</span>, <span class="ident">groups_z</span>]));
@@ -783,6 +797,7 @@
         <span class="ident">buffer_id</span>: <span class="ident">id</span>::<span class="ident">BufferId</span>,
         <span class="ident">offset</span>: <span class="ident">BufferAddress</span>,
     ) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">DEBUG</span>, <span class="string">&quot;ComputePass::dispatch_indirect&quot;</span>);
         <span class="ident">pass</span>.<span class="ident">base</span>
             .<span class="ident">commands</span>
             .<span class="ident">push</span>(<span class="ident">ComputeCommand</span>::<span class="ident">DispatchIndirect</span> { <span class="ident">buffer_id</span>, <span class="ident">offset</span> });
@@ -794,6 +809,7 @@
         <span class="ident">label</span>: <span class="ident">RawString</span>,
         <span class="ident">color</span>: <span class="ident">u32</span>,
     ) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">DEBUG</span>, <span class="string">&quot;ComputePass::push_debug_group&quot;</span>);
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">ffi</span>::<span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">label</span>).<span class="ident">to_bytes</span>();
         <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">string_data</span>.<span class="ident">extend_from_slice</span>(<span class="ident">bytes</span>);
 
@@ -805,6 +821,7 @@
 
     <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
     <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">wgpu_compute_pass_pop_debug_group</span>(<span class="ident">pass</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ComputePass</span>) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">DEBUG</span>, <span class="string">&quot;ComputePass::pop_debug_group&quot;</span>);
         <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">commands</span>.<span class="ident">push</span>(<span class="ident">ComputeCommand</span>::<span class="ident">PopDebugGroup</span>);
     }
 
@@ -814,6 +831,7 @@
         <span class="ident">label</span>: <span class="ident">RawString</span>,
         <span class="ident">color</span>: <span class="ident">u32</span>,
     ) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">DEBUG</span>, <span class="string">&quot;ComputePass::insert_debug_marker&quot;</span>);
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">ffi</span>::<span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">label</span>).<span class="ident">to_bytes</span>();
         <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">string_data</span>.<span class="ident">extend_from_slice</span>(<span class="ident">bytes</span>);
 

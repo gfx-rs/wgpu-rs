@@ -24,7 +24,13 @@
 <span id="24">24</span>
 <span id="25">25</span>
 <span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;subscriber&quot;</span>))]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgc</span>::<span class="ident">logging</span>::<span class="ident">subscriber</span>::{<span class="ident">initialize_default_subscriber</span>, <span class="ident">ChromeTracingLayer</span>};
+
 <span class="doccomment">/// Wrapper aligning contents to at least 4.</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">align</span>(<span class="number">4</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WordAligned</span><span class="op">&lt;</span><span class="ident">Bytes</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw">pub</span> <span class="ident">Bytes</span>);

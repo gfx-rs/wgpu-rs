@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/6b3863a/wgpu-core/src/instance.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>instance.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/285b31a/wgpu-core/src/instance.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>instance.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -823,6 +823,26 @@
 <span id="823">823</span>
 <span id="824">824</span>
 <span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -833,7 +853,7 @@
     <span class="ident">device</span>::<span class="ident">Device</span>,
     <span class="ident">hub</span>::{<span class="ident">GfxBackend</span>, <span class="ident">Global</span>, <span class="ident">GlobalIdentityHandlerFactory</span>, <span class="ident">Input</span>, <span class="ident">Token</span>},
     <span class="ident">id</span>::{<span class="ident">AdapterId</span>, <span class="ident">DeviceId</span>, <span class="ident">SurfaceId</span>},
-    <span class="ident">power</span>, <span class="ident">LifeGuard</span>, <span class="ident">PrivateFeatures</span>, <span class="ident">Stored</span>, <span class="ident">MAX_BIND_GROUPS</span>,
+    <span class="ident">power</span>, <span class="ident">span</span>, <span class="ident">LifeGuard</span>, <span class="ident">PrivateFeatures</span>, <span class="ident">Stored</span>, <span class="ident">MAX_BIND_GROUPS</span>,
 };
 
 <span class="kw">use</span> <span class="ident">wgt</span>::{<span class="ident">Backend</span>, <span class="ident">BackendBit</span>, <span class="ident">DeviceDescriptor</span>, <span class="ident">PowerPreference</span>, <span class="ident">BIND_BUFFER_ALIGNMENT</span>};
@@ -973,6 +993,8 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Adapter</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">raw</span>: <span class="ident">hal</span>::<span class="ident">adapter</span>::<span class="ident">Adapter</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">unsafe_extensions</span>: <span class="ident">wgt</span>::<span class="ident">UnsafeExtensions</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Adapter::new&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">adapter_features</span> <span class="op">=</span> <span class="ident">raw</span>.<span class="ident">physical_device</span>.<span class="ident">features</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">extensions</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">Extensions</span>::<span class="ident">default</span>() <span class="op">|</span> <span class="ident">wgt</span>::<span class="ident">Extensions</span>::<span class="ident">MAPPABLE_PRIMARY_BUFFERS</span>;
@@ -1121,6 +1143,8 @@
         <span class="ident">handle</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">raw_window_handle</span>::<span class="ident">HasRawWindowHandle</span>,
         <span class="ident">id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">SurfaceId</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SurfaceId</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Instance::create_surface&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">surface</span> <span class="op">=</span> <span class="kw">unsafe</span> {
             <span class="ident">Surface</span> {
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
@@ -1163,6 +1187,8 @@
         <span class="ident">unsafe_extensions</span>: <span class="ident">wgt</span>::<span class="ident">UnsafeExtensions</span>,
         <span class="ident">inputs</span>: <span class="ident">AdapterInputs</span><span class="op">&lt;</span><span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">AdapterId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">AdapterId</span><span class="op">&gt;</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Instance::enumerate_adapters&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">instance</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">adapters</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
@@ -1241,6 +1267,8 @@
         <span class="ident">unsafe_extensions</span>: <span class="ident">wgt</span>::<span class="ident">UnsafeExtensions</span>,
         <span class="ident">inputs</span>: <span class="ident">AdapterInputs</span><span class="op">&lt;</span><span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">AdapterId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AdapterId</span><span class="op">&gt;</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Instance::pick_adapter&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">instance</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> (<span class="ident">surface_guard</span>, <span class="kw-2">mut</span> <span class="ident">token</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">surfaces</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
@@ -1444,6 +1472,8 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">adapter_get_info</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">adapter_id</span>: <span class="ident">AdapterId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AdapterInfo</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Adapter::get_info&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> (<span class="ident">adapter_guard</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">adapters</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
@@ -1452,6 +1482,8 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">adapter_extensions</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">adapter_id</span>: <span class="ident">AdapterId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">wgt</span>::<span class="ident">Extensions</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Adapter::extensions&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> (<span class="ident">adapter_guard</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">adapters</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
@@ -1461,6 +1493,8 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">adapter_limits</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">adapter_id</span>: <span class="ident">AdapterId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">wgt</span>::<span class="ident">Limits</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Adapter::limits&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> (<span class="ident">adapter_guard</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">adapters</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
@@ -1470,6 +1504,8 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">adapter_capabilities</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">adapter_id</span>: <span class="ident">AdapterId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">wgt</span>::<span class="ident">Capabilities</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Adapter::capabilities&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> (<span class="ident">adapter_guard</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">adapters</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
@@ -1479,6 +1515,8 @@
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">adapter_destroy</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">adapter_id</span>: <span class="ident">AdapterId</span>) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Adapter::drop&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">guard</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">adapters</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
@@ -1505,6 +1543,8 @@
         <span class="ident">trace_path</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span><span class="op">&gt;</span>,
         <span class="ident">id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">DeviceId</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DeviceId</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Adapter::request_device&quot;</span>);
+
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> <span class="ident">device</span> <span class="op">=</span> {
