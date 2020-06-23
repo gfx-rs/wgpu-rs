@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Value",""]],"struct":[["Number","A wrapper for `f64` which guarantees that the inner value is finite and thus implements `Eq`, `Hash` and `Ord`."]]});

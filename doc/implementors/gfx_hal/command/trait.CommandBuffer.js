@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["gfx_backend_empty"] = [{"text":"impl <a class=\"trait\" href=\"gfx_hal/command/trait.CommandBuffer.html\" title=\"trait gfx_hal::command::CommandBuffer\">CommandBuffer</a>&lt;<a class=\"enum\" href=\"gfx_backend_empty/enum.Backend.html\" title=\"enum gfx_backend_empty::Backend\">Backend</a>&gt; for <a class=\"struct\" href=\"gfx_backend_empty/struct.CommandBuffer.html\" title=\"struct gfx_backend_empty::CommandBuffer\">CommandBuffer</a>","synthetic":false,"types":["gfx_backend_empty::CommandBuffer"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

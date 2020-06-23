@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["make_spirv","Treat the given by slice as a SPIR-V module."]],"struct":[["WordAligned","Wrapper aligning contents to at least 4."]]});

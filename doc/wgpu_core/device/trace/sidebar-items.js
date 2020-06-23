@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["FILE_NAME",""]],"enum":[["Action",""],["BindingResource",""],["Command",""]],"struct":[["ComputePipelineDescriptor",""],["ProgrammableStageDescriptor",""],["RenderBundleDescriptor",""],["RenderPipelineDescriptor",""],["Trace",""],["VertexBufferLayoutDescriptor",""],["VertexStateDescriptor",""]]});

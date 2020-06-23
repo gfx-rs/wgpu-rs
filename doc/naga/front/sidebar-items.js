@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["GENERATOR",""]],"mod":[["spv","SPIR-V frontend"],["wgsl",""]]});

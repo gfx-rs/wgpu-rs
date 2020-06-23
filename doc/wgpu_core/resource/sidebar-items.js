@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["BufferMapAsyncStatus",""],["BufferMapState",""]],"struct":[["Buffer",""],["BufferMapOperation",""],["BufferPendingMapping",""],["Sampler",""],["Texture",""],["TextureView",""]],"type":[["BufferMapCallback",""]]});

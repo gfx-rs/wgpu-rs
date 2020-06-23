@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["AdapterInputs",""],["DeviceType","Supported physical device types."]],"struct":[["Adapter",""],["AdapterInfo","Metadata about a backend adapter."],["Instance",""],["RequestAdapterOptions",""],["Surface",""]]});

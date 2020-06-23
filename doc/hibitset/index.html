@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `hibitset` crate."><meta name="keywords" content="rust, rustlang, rust-lang, hibitset"><title>hibitset - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../dark.css"><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../hibitset/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><p class='location'>Crate hibitset</p><div class="sidebar-elems"><a id='all-types' href='all.html'><p>See all hibitset's items</p></a><div class="block items"><ul><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></div><p class='location'></p><script>window.sidebarCurrent = {name: 'hibitset', ty: 'mod', relpath: '../'};</script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/hibitset/lib.rs.html#1-870' title='goto source code'>[src]</a></span><span class='in-band'>Crate <a class="mod" href=''>hibitset</a></span></h1><div class='docblock'><h1 id="hibitset" class="section-header"><a href="#hibitset">hibitset</a></h1>
+<p>Provides hierarchical bit sets,
+which allow very fast iteration
+on sparse data structures.</p>
+<h2 id="what-it-does" class="section-header"><a href="#what-it-does">What it does</a></h2>
+<p>A <code>BitSet</code> may be considered analogous to a <code>HashSet&lt;u32&gt;</code>. It
+tracks whether or not certain indices exist within it. Its
+implementation is very different, however.</p>
+<p>At its root, a <code>BitSet</code> relies on an array of bits, which express
+whether or not indices exist. This provides the functionality to
+<code>add( )</code> and <code>remove( )</code> indices.</p>
+<p>This array is referred to as Layer 0. Above it, there is another
+layer: Layer 1. Layer 1 acts as a 'summary' of Layer 0. It contains
+one bit for each <code>usize</code> bits of Layer 0. If any bit in that <code>usize</code>
+of Layer 0 is set, the bit in Layer 1 will be set.</p>
+<p>There are, in total, four layers. Layers 1 through 3 are each a
+a summary of the layer immediately below them.</p>
+<pre><code class="language-no_compile">Example, with an imaginary 4-bit usize:
+
+Layer 3: 1------------------------------------------------ ...
+Layer 2: 1------------------ 1------------------ 0-------- ...
+Layer 1: 1--- 0--- 0--- 0--- 1--- 0--- 1--- 0--- 0--- 0--- ...
+Layer 0: 0010 0000 0000 0000 0011 0000 1111 0000 0000 0000 ...
+</code></pre>
+<p>This method makes operations that operate over the whole <code>BitSet</code>,
+such as unions, intersections, and iteration, very fast (because if
+any bit in any summary layer is zero, an entire range of bits
+below it can be skipped.)</p>
+<p>However, there is a maximum on index size. The top layer (Layer 3)
+of the BitSet is a single <code>usize</code> long. This makes the maximum index
+<code>usize**4</code> (<code>1,048,576</code> for a 32-bit <code>usize</code>, <code>16,777,216</code> for a
+64-bit <code>usize</code>). Attempting to add indices larger than that will cause
+the <code>BitSet</code> to panic.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table><tr class='module-item'><td><a class="struct" href="struct.AtomicBitSet.html" title='hibitset::AtomicBitSet struct'>AtomicBitSet</a></td><td class='docblock-short'><p>This is similar to a <a href="../struct.BitSet.html"><code>BitSet</code></a> but allows setting of value
+without unique ownership of the structure</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.BitIter.html" title='hibitset::BitIter struct'>BitIter</a></td><td class='docblock-short'><p>An <code>Iterator</code> over a <a href="../trait.BitSetLike.html"><code>BitSetLike</code></a> structure.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.BitSet.html" title='hibitset::BitSet struct'>BitSet</a></td><td class='docblock-short'><p>A <code>BitSet</code> is a simple set designed to track which indices are placed
+into it.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.BitSetAll.html" title='hibitset::BitSetAll struct'>BitSetAll</a></td><td class='docblock-short'><p><code>BitSetAll</code> is a bitset with all bits set. Essentially the same as
+<code>BitSetNot(BitSet::new())</code> but without any allocation.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.BitSetAnd.html" title='hibitset::BitSetAnd struct'>BitSetAnd</a></td><td class='docblock-short'><p><code>BitSetAnd</code> takes two <a href="../trait.BitSetLike.html"><code>BitSetLike</code></a> items, and merges the masks
+returning a new virtual set, which represents an intersection of the
+two original sets.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.BitSetNot.html" title='hibitset::BitSetNot struct'>BitSetNot</a></td><td class='docblock-short'><p><code>BitSetNot</code> takes a <a href="../trait.BitSetLike.html"><code>BitSetLike</code></a> item, and produced an inverted virtual set.
+Note: the implementation is sub-optimal because layers 1-3 are not active.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.BitSetOr.html" title='hibitset::BitSetOr struct'>BitSetOr</a></td><td class='docblock-short'><p><code>BitSetOr</code> takes two <a href="../trait.BitSetLike.html"><code>BitSetLike</code></a> items, and merges the masks
+returning a new virtual set, which represents an merged of the
+two original sets.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.BitSetXor.html" title='hibitset::BitSetXor struct'>BitSetXor</a></td><td class='docblock-short'><p><code>BitSetXor</code> takes two <a href="../trait.BitSetLike.html"><code>BitSetLike</code></a> items, and merges the masks
+returning a new virtual set, which represents an merged of the
+two original sets.</p>
+</td></tr><tr class='module-item'><td><a class="struct" href="struct.DrainBitIter.html" title='hibitset::DrainBitIter struct'>DrainBitIter</a></td><td class='docblock-short'><p>A draining <code>Iterator</code> over a <a href="../trait.DrainableBitSet.html"><code>DrainableBitSet</code></a> structure.</p>
+</td></tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
+<table><tr class='module-item'><td><a class="trait" href="trait.BitSetLike.html" title='hibitset::BitSetLike trait'>BitSetLike</a></td><td class='docblock-short'><p>A generic interface for <a href="../trait.BitSetLike.html"><code>BitSetLike</code></a>-like types.</p>
+</td></tr><tr class='module-item'><td><a class="trait" href="trait.DrainableBitSet.html" title='hibitset::DrainableBitSet trait'>DrainableBitSet</a></td><td class='docblock-short'><p>A extension to the [<code>BitSetLike</code>] trait which allows draining it.</p>
+</td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "hibitset";</script><script src="../aliases.js"></script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>
