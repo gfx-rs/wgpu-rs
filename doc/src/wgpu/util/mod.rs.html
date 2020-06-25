@@ -27,9 +27,17 @@
 <span id="27">27</span>
 <span id="28">28</span>
 <span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
 </pre><div class="example-wrap"><pre class="rust ">
+<span class="kw">mod</span> <span class="ident">belt</span>;
+
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;subscriber&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgc</span>::<span class="ident">logging</span>::<span class="ident">subscriber</span>::{<span class="ident">initialize_default_subscriber</span>, <span class="ident">ChromeTracingLayer</span>};
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">belt</span>::<span class="ident">StagingBelt</span>;
 
 <span class="doccomment">/// Wrapper aligning contents to at least 4.</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">align</span>(<span class="number">4</span>))]</span>

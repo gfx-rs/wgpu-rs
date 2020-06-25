@@ -3521,7 +3521,7 @@
     }
 }
 
-<span class="kw">impl</span> <span class="ident">BufferSlice</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">BufferSlice</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="comment">//TODO: fn slice(&amp;self) -&gt; Self</span>
 
     <span class="doccomment">/// Map the buffer. Buffer is ready to map once the future is resolved.</span>
@@ -3561,7 +3561,7 @@
 
     <span class="doccomment">/// Synchronously and immediately map a buffer for reading. If the buffer is not immediately mappable</span>
     <span class="doccomment">/// through [`BufferDescriptor::mapped_at_creation`] or [`BufferSlice::map_async`], will panic.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mapped_range</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BufferView</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mapped_range</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BufferView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">map_context</span>.<span class="ident">lock</span>().<span class="ident">add</span>(<span class="self">self</span>.<span class="ident">offset</span>, <span class="self">self</span>.<span class="ident">size</span>);
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Context</span>::<span class="ident">buffer_get_mapped_range</span>(
             <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">context</span>,
@@ -3573,7 +3573,7 @@
 
     <span class="doccomment">/// Synchronously and immediately map a buffer for writing. If the buffer is not immediately mappable</span>
     <span class="doccomment">/// through [`BufferDescriptor::mapped_at_creation`] or [`BufferSlice::map_async`], will panic.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mapped_range_mut</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BufferViewMut</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_mapped_range_mut</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BufferViewMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">map_context</span>.<span class="ident">lock</span>().<span class="ident">add</span>(<span class="self">self</span>.<span class="ident">offset</span>, <span class="self">self</span>.<span class="ident">size</span>);
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Context</span>::<span class="ident">buffer_get_mapped_range_mut</span>(
             <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">context</span>,
