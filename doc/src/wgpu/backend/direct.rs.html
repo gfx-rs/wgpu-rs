@@ -1020,21 +1020,13 @@
 <span id="1020">1020</span>
 <span id="1021">1021</span>
 <span id="1022">1022</span>
-<span id="1023">1023</span>
-<span id="1024">1024</span>
-<span id="1025">1025</span>
-<span id="1026">1026</span>
-<span id="1027">1027</span>
-<span id="1028">1028</span>
-<span id="1029">1029</span>
-<span id="1030">1030</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">backend</span>::<span class="ident">native_gpu_future</span>, <span class="ident">BindGroupDescriptor</span>, <span class="ident">BindGroupLayoutDescriptor</span>, <span class="ident">BindingResource</span>,
-    <span class="ident">BufferDescriptor</span>, <span class="ident">Capabilities</span>, <span class="ident">CommandEncoderDescriptor</span>, <span class="ident">ComputePipelineDescriptor</span>,
-    <span class="ident">Extensions</span>, <span class="ident">Limits</span>, <span class="ident">LoadOp</span>, <span class="ident">MapMode</span>, <span class="ident">Operations</span>, <span class="ident">PipelineLayoutDescriptor</span>,
-    <span class="ident">RenderPipelineDescriptor</span>, <span class="ident">SamplerDescriptor</span>, <span class="ident">ShaderModuleSource</span>, <span class="ident">SwapChainStatus</span>,
-    <span class="ident">TextureDescriptor</span>, <span class="ident">TextureViewDescriptor</span>,
+    <span class="ident">BufferDescriptor</span>, <span class="ident">CommandEncoderDescriptor</span>, <span class="ident">ComputePipelineDescriptor</span>, <span class="ident">Features</span>, <span class="ident">Limits</span>,
+    <span class="ident">LoadOp</span>, <span class="ident">MapMode</span>, <span class="ident">Operations</span>, <span class="ident">PipelineLayoutDescriptor</span>, <span class="ident">RenderPipelineDescriptor</span>,
+    <span class="ident">SamplerDescriptor</span>, <span class="ident">ShaderModuleSource</span>, <span class="ident">SwapChainStatus</span>, <span class="ident">TextureDescriptor</span>,
+    <span class="ident">TextureViewDescriptor</span>,
 };
 
 <span class="kw">use</span> <span class="ident">arrayvec</span>::<span class="ident">ArrayVec</span>;
@@ -1396,14 +1388,14 @@
     <span class="kw">fn</span> <span class="ident">instance_request_adapter</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">RequestAdapterOptions</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-        <span class="ident">unsafe_extensions</span>: <span class="ident">wgt</span>::<span class="ident">UnsafeExtensions</span>,
+        <span class="ident">unsafe_features</span>: <span class="ident">wgt</span>::<span class="ident">UnsafeFeatures</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">RequestAdapterFuture</span> {
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pick_adapter</span>(
             <span class="kw-2">&amp;</span><span class="ident">wgc</span>::<span class="ident">instance</span>::<span class="ident">RequestAdapterOptions</span> {
                 <span class="ident">power_preference</span>: <span class="ident">options</span>.<span class="ident">power_preference</span>,
                 <span class="ident">compatible_surface</span>: <span class="ident">options</span>.<span class="ident">compatible_surface</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">surface</span><span class="op">|</span> <span class="ident">surface</span>.<span class="ident">id</span>),
             },
-            <span class="ident">unsafe_extensions</span>,
+            <span class="ident">unsafe_features</span>,
             <span class="ident">wgc</span>::<span class="ident">instance</span>::<span class="ident">AdapterInputs</span>::<span class="ident">Mask</span>(<span class="ident">wgt</span>::<span class="ident">BackendBit</span>::<span class="ident">all</span>(), <span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">PhantomData</span>),
         );
         <span class="ident">ready</span>(<span class="ident">id</span>)
@@ -1419,28 +1411,20 @@
         <span class="ident">ready</span>(<span class="prelude-val">Ok</span>((<span class="ident">device_id</span>, <span class="ident">device_id</span>)))
     }
 
-    <span class="kw">fn</span> <span class="ident">adapter_extensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">adapter</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">AdapterId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Extensions</span> {
-        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">adapter</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">adapter_extensions</span>(<span class="kw-2">*</span><span class="ident">adapter</span>))
+    <span class="kw">fn</span> <span class="ident">adapter_features</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">adapter</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">AdapterId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Features</span> {
+        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">adapter</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">adapter_features</span>(<span class="kw-2">*</span><span class="ident">adapter</span>))
     }
 
     <span class="kw">fn</span> <span class="ident">adapter_limits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">adapter</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">AdapterId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Limits</span> {
         <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">adapter</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">adapter_limits</span>(<span class="kw-2">*</span><span class="ident">adapter</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">adapter_capabilities</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">adapter</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">AdapterId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Capabilities</span> {
-        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">adapter</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">adapter_capabilities</span>(<span class="kw-2">*</span><span class="ident">adapter</span>))
-    }
-
-    <span class="kw">fn</span> <span class="ident">device_extensions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">DeviceId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Extensions</span> {
-        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">device</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">device_extensions</span>(<span class="kw-2">*</span><span class="ident">device</span>))
+    <span class="kw">fn</span> <span class="ident">device_features</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">DeviceId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Features</span> {
+        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">device</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">device_features</span>(<span class="kw-2">*</span><span class="ident">device</span>))
     }
 
     <span class="kw">fn</span> <span class="ident">device_limits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">DeviceId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Limits</span> {
         <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">device</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">device_limits</span>(<span class="kw-2">*</span><span class="ident">device</span>))
-    }
-
-    <span class="kw">fn</span> <span class="ident">device_capabilities</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">DeviceId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Capabilities</span> {
-        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">device</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">device_capabilities</span>(<span class="kw-2">*</span><span class="ident">device</span>))
     }
 
     <span class="kw">fn</span> <span class="ident">device_create_swap_chain</span>(

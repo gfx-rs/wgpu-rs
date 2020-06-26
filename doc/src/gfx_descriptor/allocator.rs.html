@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/gfx-extras-6ec8fcf90b8901d1/0f7dac1/gfx-descriptor/src/allocator.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>allocator.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gfx_descriptor/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/gfx-extras-6ec8fcf90b8901d1/6387d81/gfx-descriptor/src/allocator.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>allocator.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gfx_descriptor/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -379,6 +379,14 @@
 <span id="379">379</span>
 <span id="380">380</span>
 <span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> {
     <span class="kw">crate</span>::<span class="ident">counts</span>::<span class="ident">DescriptorCounts</span>,
@@ -428,19 +436,21 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Allocation</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">grow</span>(
+    <span class="kw">fn</span> <span class="ident">grow</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">pool</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span>::<span class="ident">DescriptorPool</span>,
         <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">DescriptorSetLayout</span>,
         <span class="ident">count</span>: <span class="ident">u32</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">sets_were</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">sets</span>.<span class="ident">len</span>();
-        <span class="kw">match</span> <span class="ident">pool</span>.<span class="ident">allocate</span>(
-            <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">repeat</span>(<span class="ident">layout</span>).<span class="ident">take</span>(<span class="ident">count</span> <span class="kw">as</span> <span class="ident">usize</span>),
-            <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">sets</span>,
-        ) {
+        <span class="kw">match</span> <span class="kw">unsafe</span> {
+            <span class="ident">pool</span>.<span class="ident">allocate</span>(
+                <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">repeat</span>(<span class="ident">layout</span>).<span class="ident">take</span>(<span class="ident">count</span> <span class="kw">as</span> <span class="ident">usize</span>),
+                <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">sets</span>,
+            )
+        } {
             <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">pool</span>.<span class="ident">free_sets</span>(<span class="self">self</span>.<span class="ident">sets</span>.<span class="ident">drain</span>(<span class="ident">sets_were</span>..));
+                <span class="kw">unsafe</span> { <span class="ident">pool</span>.<span class="ident">free_sets</span>(<span class="self">self</span>.<span class="ident">sets</span>.<span class="ident">drain</span>(<span class="ident">sets_were</span>..)) };
                 <span class="prelude-val">Err</span>(<span class="kw">match</span> <span class="ident">err</span> {
                     <span class="ident">AllocationError</span>::<span class="ident">Host</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">OutOfMemory</span>::<span class="ident">Host</span>,
                     <span class="ident">AllocationError</span>::<span class="ident">Device</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">OutOfMemory</span>::<span class="ident">Device</span>,
@@ -499,7 +509,7 @@
             .<span class="ident">next_power_of_two</span>() <span class="comment">// rounded up to nearest 2^N</span>
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">dispose</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) {
+    <span class="kw">fn</span> <span class="ident">dispose</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">total</span> <span class="op">&gt;</span> <span class="number">0</span> {
             <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Not all descriptor sets were deallocated&quot;</span>);
         }
@@ -511,11 +521,11 @@
                     <span class="ident">pool</span>
                 );
             }
-            <span class="ident">device</span>.<span class="ident">destroy_descriptor_pool</span>(<span class="ident">pool</span>.<span class="ident">raw</span>);
+            <span class="kw">unsafe</span> { <span class="ident">device</span>.<span class="ident">destroy_descriptor_pool</span>(<span class="ident">pool</span>.<span class="ident">raw</span>) };
         }
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allocate</span>(
+    <span class="kw">fn</span> <span class="ident">allocate</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
         <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">DescriptorSetLayout</span>,
@@ -555,11 +565,13 @@
                 <span class="ident">size</span>,
                 <span class="ident">pool_counts</span>,
             );
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">raw</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">create_descriptor_pool</span>(
-                <span class="ident">size</span> <span class="kw">as</span> <span class="ident">usize</span>,
-                <span class="ident">pool_counts</span>.<span class="ident">iter</span>(),
-                <span class="ident">DescriptorPoolCreateFlags</span>::<span class="ident">FREE_DESCRIPTOR_SET</span>,
-            )<span class="question-mark">?</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">raw</span> <span class="op">=</span> <span class="kw">unsafe</span> {
+                <span class="ident">device</span>.<span class="ident">create_descriptor_pool</span>(
+                    <span class="ident">size</span> <span class="kw">as</span> <span class="ident">usize</span>,
+                    <span class="ident">pool_counts</span>.<span class="ident">iter</span>(),
+                    <span class="ident">DescriptorPoolCreateFlags</span>::<span class="ident">FREE_DESCRIPTOR_SET</span>,
+                )<span class="question-mark">?</span>
+            };
 
             <span class="kw">let</span> <span class="ident">allocate</span> <span class="op">=</span> <span class="ident">size</span>.<span class="ident">min</span>(<span class="ident">count</span>);
             <span class="ident">allocation</span>.<span class="ident">grow</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">raw</span>, <span class="ident">layout</span>, <span class="ident">allocate</span>)<span class="question-mark">?</span>;
@@ -581,30 +593,28 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">free</span>(
-        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">sets</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">DescriptorSet</span><span class="op">&gt;</span>,
-        <span class="ident">pool_id</span>: <span class="ident">PoolIndex</span>,
-    ) {
+    <span class="kw">fn</span> <span class="ident">free</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">sets</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">DescriptorSet</span><span class="op">&gt;</span>, <span class="ident">pool_id</span>: <span class="ident">PoolIndex</span>) {
         <span class="kw">let</span> <span class="ident">pool</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">pools</span>[(<span class="ident">pool_id</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">pools_offset</span>) <span class="kw">as</span> <span class="ident">usize</span>];
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="ident">pool</span>.<span class="ident">raw</span>.<span class="ident">free_sets</span>(<span class="ident">sets</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">set</span><span class="op">|</span> {
-            <span class="ident">count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-            <span class="ident">set</span>
-        }));
+        <span class="kw">unsafe</span> {
+            <span class="ident">pool</span>.<span class="ident">raw</span>.<span class="ident">free_sets</span>(<span class="ident">sets</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">set</span><span class="op">|</span> {
+                <span class="ident">count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                <span class="ident">set</span>
+            }))
+        };
         <span class="ident">pool</span>.<span class="ident">available</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count</span>;
         <span class="self">self</span>.<span class="ident">total</span> <span class="op">-</span><span class="op">=</span> <span class="ident">count</span> <span class="kw">as</span> <span class="ident">u64</span>;
         <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Freed {} from descriptor bucket&quot;</span>, <span class="ident">count</span>);
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">cleanup</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) {
+    <span class="kw">fn</span> <span class="ident">cleanup</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) {
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">pool</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">pools</span>.<span class="ident">pop_front</span>() {
             <span class="kw">if</span> <span class="ident">pool</span>.<span class="ident">available</span> <span class="op">&lt;</span> <span class="ident">pool</span>.<span class="ident">capacity</span> {
                 <span class="self">self</span>.<span class="ident">pools</span>.<span class="ident">push_front</span>(<span class="ident">pool</span>);
                 <span class="kw">break</span>;
             }
             <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Destroying used up descriptor pool&quot;</span>);
-            <span class="ident">device</span>.<span class="ident">destroy_descriptor_pool</span>(<span class="ident">pool</span>.<span class="ident">raw</span>);
+            <span class="kw">unsafe</span> { <span class="ident">device</span>.<span class="ident">destroy_descriptor_pool</span>(<span class="ident">pool</span>.<span class="ident">raw</span>) };
             <span class="self">self</span>.<span class="ident">pools_offset</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         }
     }
@@ -630,7 +640,10 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">DescriptorAllocator</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create new allocator instance.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">/// All later operations assume the device is not lost.</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">DescriptorAllocator</span> {
             <span class="ident">buckets</span>: <span class="ident">HashMap</span>::<span class="ident">default</span>(),
             <span class="ident">allocation</span>: <span class="ident">Allocation</span> {
@@ -642,21 +655,13 @@
         }
     }
 
-    <span class="doccomment">/// Clear the allocator instance.</span>
-    <span class="doccomment">/// All sets allocated from this allocator become invalid.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">clear</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) {
-        <span class="kw">for</span> (<span class="kw">_</span>, <span class="ident">bucket</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">buckets</span>.<span class="ident">drain</span>() {
-            <span class="ident">bucket</span>.<span class="ident">dispose</span>(<span class="ident">device</span>);
-        }
-    }
-
     <span class="doccomment">/// Allocate descriptor set with specified layout.</span>
     <span class="doccomment">/// `DescriptorCounts` must match descriptor numbers of the layout.</span>
     <span class="doccomment">/// `DescriptorCounts` can be constructed [from bindings] that were used</span>
     <span class="doccomment">/// to create layout instance.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [from bindings]: .</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allocate</span>(
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">allocate</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
         <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">DescriptorSetLayout</span>,
@@ -754,8 +759,19 @@
         }
     }
 
+    <span class="doccomment">/// Clear the allocator instance.</span>
+    <span class="doccomment">/// All sets allocated from this allocator become invalid.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">/// Assumes none of the allocated blocks will be used from here.</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">clear</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) {
+        <span class="kw">for</span> (<span class="kw">_</span>, <span class="ident">bucket</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">buckets</span>.<span class="ident">drain</span>() {
+            <span class="ident">bucket</span>.<span class="ident">dispose</span>(<span class="ident">device</span>);
+        }
+    }
+
     <span class="doccomment">/// Perform cleanup to allow resources reuse.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">cleanup</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cleanup</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) {
         <span class="kw">for</span> <span class="ident">bucket</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">buckets</span>.<span class="ident">values_mut</span>() {
             <span class="ident">bucket</span>.<span class="ident">cleanup</span>(<span class="ident">device</span>)
         }

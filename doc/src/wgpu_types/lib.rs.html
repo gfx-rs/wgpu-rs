@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/285b31a/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/3b6e128/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1733,70 +1733,16 @@
 <span id="1733">1733</span>
 <span id="1734">1734</span>
 <span id="1735">1735</span>
-<span id="1736">1736</span>
-<span id="1737">1737</span>
-<span id="1738">1738</span>
-<span id="1739">1739</span>
-<span id="1740">1740</span>
-<span id="1741">1741</span>
-<span id="1742">1742</span>
-<span id="1743">1743</span>
-<span id="1744">1744</span>
-<span id="1745">1745</span>
-<span id="1746">1746</span>
-<span id="1747">1747</span>
-<span id="1748">1748</span>
-<span id="1749">1749</span>
-<span id="1750">1750</span>
-<span id="1751">1751</span>
-<span id="1752">1752</span>
-<span id="1753">1753</span>
-<span id="1754">1754</span>
-<span id="1755">1755</span>
-<span id="1756">1756</span>
-<span id="1757">1757</span>
-<span id="1758">1758</span>
-<span id="1759">1759</span>
-<span id="1760">1760</span>
-<span id="1761">1761</span>
-<span id="1762">1762</span>
-<span id="1763">1763</span>
-<span id="1764">1764</span>
-<span id="1765">1765</span>
-<span id="1766">1766</span>
-<span id="1767">1767</span>
-<span id="1768">1768</span>
-<span id="1769">1769</span>
-<span id="1770">1770</span>
-<span id="1771">1771</span>
-<span id="1772">1772</span>
-<span id="1773">1773</span>
-<span id="1774">1774</span>
-<span id="1775">1775</span>
-<span id="1776">1776</span>
-<span id="1777">1777</span>
-<span id="1778">1778</span>
-<span id="1779">1779</span>
-<span id="1780">1780</span>
-<span id="1781">1781</span>
-<span id="1782">1782</span>
-<span id="1783">1783</span>
-<span id="1784">1784</span>
-<span id="1785">1785</span>
-<span id="1786">1786</span>
-<span id="1787">1787</span>
-<span id="1788">1788</span>
-<span id="1789">1789</span>
-<span id="1790">1790</span>
-<span id="1791">1791</span>
-<span id="1792">1792</span>
-<span id="1793">1793</span>
-<span id="1794">1794</span>
-<span id="1795">1795</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
+
+<span class="comment">// The intra doc links to the wgpu crate in this crate actually succesfully link to the types in the wgpu crate, when built from the wgpu crate.</span>
+<span class="comment">// However when building from both the wgpu crate or this crate cargo doc will claim all the links cannot be resolved</span>
+<span class="comment">// despite the fact that it works fine when it needs to.</span>
+<span class="comment">// So we just disable those warnings.</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">intra_doc_link_resolution_failure</span>)]</span>
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
@@ -1916,30 +1862,17 @@
 }
 
 <span class="ident">bitflags</span>::<span class="macro">bitflags</span><span class="macro">!</span> {
-    <span class="doccomment">/// Extensions to the webgpu standard that are supported by wgpu.</span>
+    <span class="doccomment">/// Features that are not guarenteed to be supported. These are either part of the webgpu standard,</span>
+    <span class="doccomment">/// or are extension features supported by wgpu when targeting native.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// If you want to use an extension, you need to first verify that the adapter supports</span>
-    <span class="doccomment">/// the extension. If the adapter does not support the extension, requesting a device with it enabled</span>
+    <span class="doccomment">/// If you want to use a feature, you need to first verify that the adapter supports</span>
+    <span class="doccomment">/// the feature. If the adapter does not support the feature, requesting a device with it enabled</span>
     <span class="doccomment">/// will panic.</span>
     <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Extensions</span>: <span class="ident">u64</span> {
-        <span class="doccomment">/// Allow anisotropic filtering in samplers.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Supported platforms:</span>
-        <span class="doccomment">/// - OpenGL 4.6+ (or 1.2+ with widespread GL_EXT_texture_filter_anisotropic)</span>
-        <span class="doccomment">/// - DX11/12</span>
-        <span class="doccomment">/// - Metal</span>
-        <span class="doccomment">/// - Vulkan</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Provided Capabilities:</span>
-        <span class="doccomment">/// - None</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This is a native only extension. Support is planned to be added to webgpu,</span>
-        <span class="doccomment">/// but it is not yet implemented.</span>
-        <span class="kw">const</span> <span class="ident">ANISOTROPIC_FILTERING</span> <span class="op">=</span> <span class="number">0x0000_0000_0001_0000</span>;
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Features</span>: <span class="ident">u64</span> {
         <span class="doccomment">/// Webgpu only allows the MAP_READ and MAP_WRITE buffer usage to be matched with</span>
         <span class="doccomment">/// COPY_DST and COPY_SRC respectively. This removes this requirement.</span>
         <span class="doccomment">///</span>
@@ -1950,72 +1883,105 @@
         <span class="doccomment">/// Supported platforms:</span>
         <span class="doccomment">/// - All</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// Provided Capabilities:</span>
-        <span class="doccomment">/// - None</span>
+        <span class="doccomment">/// This is a native only feature.</span>
+        <span class="kw">const</span> <span class="ident">MAPPABLE_PRIMARY_BUFFERS</span> <span class="op">=</span> <span class="number">0x0000_0000_0001_0000</span>;
+        <span class="doccomment">/// Allows the user to create uniform arrays of sampled textures in shaders:</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// This is a native only extension.</span>
-        <span class="kw">const</span> <span class="ident">MAPPABLE_PRIMARY_BUFFERS</span> <span class="op">=</span> <span class="number">0x0000_0000_0002_0000</span>;
-        <span class="doccomment">/// Allows shaders to index arrays of bindings with dynamically non-uniform values:</span>
+        <span class="doccomment">/// eg. `uniform texture2D textures[10]`.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This capability allows them to exist and to be indexed by compile time constant</span>
+        <span class="doccomment">/// values.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Supported platforms:</span>
+        <span class="doccomment">/// - DX12</span>
+        <span class="doccomment">/// - Metal (with MSL 2.0+ on macOS 10.13+)</span>
+        <span class="doccomment">/// - Vulkan</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This is a native only feature.</span>
+        <span class="kw">const</span> <span class="ident">SAMPLED_TEXTURE_BINDING_ARRAY</span> <span class="op">=</span> <span class="number">0x0000_0000_0002_0000</span>;
+        <span class="doccomment">/// Allows shaders to index sampled texture arrays with dynamically uniform values:</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// eg. `texture_array[uniform_value]`</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This capability means the hardware will also support SAMPLED_TEXTURE_BINDING_ARRAY.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Supported platforms:</span>
+        <span class="doccomment">/// - DX12</span>
+        <span class="doccomment">/// - Metal (with MSL 2.0+ on macOS 10.13+)</span>
+        <span class="doccomment">/// - Vulkan&#39;s shaderSampledImageArrayDynamicIndexing feature</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This is a native only feature.</span>
+        <span class="kw">const</span> <span class="ident">SAMPLED_TEXTURE_ARRAY_DYNAMIC_INDEXING</span> <span class="op">=</span> <span class="number">0x0000_0000_0004_0000</span>;
+        <span class="doccomment">/// Allows shaders to index sampled texture arrays with dynamically non-uniform values:</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// eg. `texture_array[vertex_data]`</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// In order to use this extension, the corresponding GLSL extension must be enabled like so:</span>
+        <span class="doccomment">/// In order to use this capability, the corresponding GLSL extension must be enabled like so:</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// `#extension GL_EXT_nonuniform_qualifier : require`</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// HLSL does not need any extension.</span>
         <span class="doccomment">///</span>
+        <span class="doccomment">/// This capability means the hardware will also support SAMPLED_TEXTURE_ARRAY_DYNAMIC_INDEXING</span>
+        <span class="doccomment">/// and SAMPLED_TEXTURE_BINDING_ARRAY.</span>
+        <span class="doccomment">///</span>
         <span class="doccomment">/// Supported platforms:</span>
         <span class="doccomment">/// - DX12</span>
         <span class="doccomment">/// - Metal (with MSL 2.0+ on macOS 10.13+)</span>
-        <span class="doccomment">/// - Vulkan 1.2+ (or via VK_EXT_descriptor_indexing)</span>
+        <span class="doccomment">/// - Vulkan 1.2+ (or VK_EXT_descriptor_indexing)&#39;s shaderSampledImageArrayNonUniformIndexing feature)</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// Provided Capabilities:</span>
-        <span class="doccomment">/// - [`SAMPLED_TEXTURE_ARRAY_NON_UNIFORM_INDEXING`]</span>
-        <span class="doccomment">/// - [`UNSIZED_BINDING_ARRAY`]</span>
+        <span class="doccomment">/// This is a native only feature.</span>
+        <span class="kw">const</span> <span class="ident">SAMPLED_TEXTURE_ARRAY_NON_UNIFORM_INDEXING</span> <span class="op">=</span> <span class="number">0x0000_0000_0008_0000</span>;
+        <span class="doccomment">/// Allows the user to create unsized uniform arrays of bindings:</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// This is a native only extension.</span>
+        <span class="doccomment">/// eg. `uniform texture2D textures[]`.</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// [`SAMPLED_TEXTURE_ARRAY_NON_UNIFORM_INDEXING`]: struct.Capabilities.html#associatedconstant.SAMPLED_TEXTURE_ARRAY_NON_UNIFORM_INDEXING</span>
-        <span class="doccomment">/// [`UNSIZED_BINDING_ARRAY`]: struct.Capabilities.html#associatedconstant.UNSIZED_BINDING_ARRAY</span>
-        <span class="kw">const</span> <span class="ident">BINDING_INDEXING</span> <span class="op">=</span> <span class="number">0x0000_0000_0004_0000</span>;
-        <span class="doccomment">/// Extensions which are part of the upstream webgpu standard</span>
+        <span class="doccomment">/// If this capability is supported, SAMPLED_TEXTURE_ARRAY_NON_UNIFORM_INDEXING is very likely</span>
+        <span class="doccomment">/// to also be supported</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Supported platforms:</span>
+        <span class="doccomment">/// - DX12</span>
+        <span class="doccomment">/// - Vulkan 1.2+ (or VK_EXT_descriptor_indexing)&#39;s runtimeDescriptorArray feature</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This is a native only feature.</span>
+        <span class="kw">const</span> <span class="ident">UNSIZED_BINDING_ARRAY</span> <span class="op">=</span> <span class="number">0x0000_0000_0010_0000</span>;
+        <span class="doccomment">/// Features which are part of the upstream webgpu standard</span>
         <span class="kw">const</span> <span class="ident">ALL_WEBGPU</span> <span class="op">=</span> <span class="number">0x0000_0000_0000_FFFF</span>;
-        <span class="doccomment">/// Extensions that require activating the unsafe extension flag</span>
+        <span class="doccomment">/// Features that require activating the unsafe feature flag</span>
         <span class="kw">const</span> <span class="ident">ALL_UNSAFE</span> <span class="op">=</span> <span class="number">0xFFFF_0000_0000_0000</span>;
-        <span class="doccomment">/// Extensions that are only available when targeting native (not web)</span>
+        <span class="doccomment">/// Features that are only available when targeting native (not web)</span>
         <span class="kw">const</span> <span class="ident">ALL_NATIVE</span> <span class="op">=</span> <span class="number">0xFFFF_FFFF_FFFF_0000</span>;
     }
 }
 
-<span class="doccomment">/// Marker type signalling if unsafe extensions are allowed to be enabled.</span>
+<span class="doccomment">/// Marker type signalling if unsafe features are allowed to be enabled.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This doesn&#39;t enable any unsafe extensions, but must be set to `allow` if</span>
-<span class="doccomment">/// an unsafe extension is enabled.</span>
+<span class="doccomment">/// This doesn&#39;t enable any unsafe features, but must be set to `allow` if</span>
+<span class="doccomment">/// an unsafe features is enabled.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// The safety contract of safe Rust is that it is impossible to cause Undefined Behavior (UB)</span>
-<span class="doccomment">/// from safe Rust. If an extension would allow UB to happen, it must preset an unsafe interface.</span>
-<span class="doccomment">/// Enabling unsafe extensions is therefore an inherently unsafe operation.</span>
+<span class="doccomment">/// from safe Rust. If a feature would allow UB to happen, it must preset an unsafe interface.</span>
+<span class="doccomment">/// Enabling unsafe features is therefore an inherently unsafe operation.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnsafeExtensions</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnsafeFeatures</span> {
     <span class="ident">allow_unsafe</span>: <span class="ident">bool</span>,
 }
-<span class="kw">impl</span> <span class="ident">UnsafeExtensions</span> {
-    <span class="doccomment">/// Allow unsafe extensions to be enabled. This is an unsafe function and by calling this</span>
-    <span class="doccomment">/// function, you assert that even with these extensions on, it is impossible to cause UB</span>
+<span class="kw">impl</span> <span class="ident">UnsafeFeatures</span> {
+    <span class="doccomment">/// Allow unsafe features to be enabled. This is an unsafe function and by calling this</span>
+    <span class="doccomment">/// function, you assert that even with these features on, it is impossible to cause UB</span>
     <span class="doccomment">/// from within safe Rust.</span>
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allow</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">allow_unsafe</span>: <span class="bool-val">true</span> }
     }
-    <span class="doccomment">/// Disallow unsafe extensions.</span>
+    <span class="doccomment">/// Disallow unsafe features.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">disallow</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">allow_unsafe</span>: <span class="bool-val">false</span>,
         }
     }
-    <span class="doccomment">/// Does this marker allow unsafe extensions.</span>
+    <span class="doccomment">/// Does this marker allow unsafe features.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">allowed</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">allow_unsafe</span>
     }
@@ -2053,98 +2019,15 @@
     }
 }
 
-<span class="ident">bitflags</span>::<span class="macro">bitflags</span><span class="macro">!</span> {
-    <span class="doccomment">/// Capabilities of devices/adapters.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// These can be used if they are enabled and will be enabled either automatically, or by the extension</span>
-    <span class="doccomment">/// that provides them.</span>
-    <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Capabilities</span>: <span class="ident">u64</span> {
-        <span class="doccomment">/// Allows the user to create uniform arrays of sampled textures in shaders:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// eg. `uniform texture2D textures[10]`.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This capability allows them to exist and to be indexed by compile time constant</span>
-        <span class="doccomment">/// values.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Supported platforms:</span>
-        <span class="doccomment">/// - DX12</span>
-        <span class="doccomment">/// - Metal (with MSL 2.0+ on macOS 10.13+)</span>
-        <span class="doccomment">/// - Vulkan</span>
-        <span class="kw">const</span> <span class="ident">SAMPLED_TEXTURE_BINDING_ARRAY</span> <span class="op">=</span> <span class="number">0x0000_0000_0000_0001</span>;
-        <span class="doccomment">/// Allows shaders to index sampled texture arrays with dynamically uniform values:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// eg. `texture_array[uniform_value]`</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This capability means the hardware will also support SAMPLED_TEXTURE_BINDING_ARRAY.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Supported platforms:</span>
-        <span class="doccomment">/// - DX12</span>
-        <span class="doccomment">/// - Metal (with MSL 2.0+ on macOS 10.13+)</span>
-        <span class="doccomment">/// - Vulkan&#39;s shaderSampledImageArrayDynamicIndexing feature</span>
-        <span class="kw">const</span> <span class="ident">SAMPLED_TEXTURE_ARRAY_DYNAMIC_INDEXING</span> <span class="op">=</span> <span class="number">0x0000_0000_0000_0002</span>;
-        <span class="doccomment">/// Allows shaders to index sampled texture arrays with dynamically non-uniform values:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// eg. `texture_array[vertex_data]`</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// In order to use this capability, the corresponding GLSL extension must be enabled like so:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// `#extension GL_EXT_nonuniform_qualifier : require`</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// HLSL does not need any extension.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This capability means the hardware will also support SAMPLED_TEXTURE_ARRAY_DYNAMIC_INDEXING</span>
-        <span class="doccomment">/// and SAMPLED_TEXTURE_BINDING_ARRAY.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Supported platforms:</span>
-        <span class="doccomment">/// - DX12</span>
-        <span class="doccomment">/// - Metal (with MSL 2.0+ on macOS 10.13+)</span>
-        <span class="doccomment">/// - Vulkan 1.2+ (or VK_EXT_descriptor_indexing)&#39;s shaderSampledImageArrayNonUniformIndexing feature)</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Provided by the [`BINDING_INDEXING`] extension. This extension must be enabled for this capability</span>
-        <span class="doccomment">/// to be anything but false.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// [`BINDING_INDEXING`]: struct.Extensions.html#associatedconstant.BINDING_INDEXING</span>
-        <span class="kw">const</span> <span class="ident">SAMPLED_TEXTURE_ARRAY_NON_UNIFORM_INDEXING</span> <span class="op">=</span> <span class="number">0x0000_0000_0000_0004</span>;
-        <span class="doccomment">/// Allows the user to create unsized uniform arrays of bindings:</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// eg. `uniform texture2D textures[]`.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// If this capability is supported, SAMPLED_TEXTURE_ARRAY_NON_UNIFORM_INDEXING is very likely</span>
-        <span class="doccomment">/// to also be supported</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Supported platforms:</span>
-        <span class="doccomment">/// - DX12</span>
-        <span class="doccomment">/// - Vulkan 1.2+ (or VK_EXT_descriptor_indexing)&#39;s runtimeDescriptorArray feature</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// Provided by the [`BINDING_INDEXING`] extension. This extension must be enabled for this capability</span>
-        <span class="doccomment">/// to be anything but false.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// [`BINDING_INDEXING`]: struct.Extensions.html#associatedconstant.BINDING_INDEXING</span>
-        <span class="kw">const</span> <span class="ident">UNSIZED_BINDING_ARRAY</span> <span class="op">=</span> <span class="number">0x0000_0000_0000_0008</span>;
-        <span class="doccomment">/// All capabilities that are not provided by an extension</span>
-        <span class="kw">const</span> <span class="ident">ALL_BUILT_IN</span> <span class="op">=</span>
-            <span class="self">Self</span>::<span class="ident">SAMPLED_TEXTURE_BINDING_ARRAY</span>.<span class="ident">bits</span> <span class="op">|</span>
-            <span class="self">Self</span>::<span class="ident">SAMPLED_TEXTURE_ARRAY_DYNAMIC_INDEXING</span>.<span class="ident">bits</span>;
-        <span class="doccomment">/// All capabilities that are provided by the BINDING_INDEXING extension</span>
-        <span class="kw">const</span> <span class="ident">ALL_BINDING_INDEXING</span> <span class="op">=</span>
-            <span class="self">Self</span>::<span class="ident">SAMPLED_TEXTURE_ARRAY_NON_UNIFORM_INDEXING</span>.<span class="ident">bits</span> <span class="op">|</span>
-            <span class="self">Self</span>::<span class="ident">UNSIZED_BINDING_ARRAY</span>.<span class="ident">bits</span>;
-    }
-}
-
 <span class="doccomment">/// Describes a [`Device`].</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DeviceDescriptor</span> {
-    <span class="doccomment">/// Extensions that the device should support. If any extension is not supported by</span>
+    <span class="doccomment">/// Features that the device should support. If any feature is not supported by</span>
     <span class="doccomment">/// the adapter, creating a device will panic.</span>
-    <span class="kw">pub</span> <span class="ident">extensions</span>: <span class="ident">Extensions</span>,
+    <span class="kw">pub</span> <span class="ident">features</span>: <span class="ident">Features</span>,
     <span class="doccomment">/// Limits that the device should support. If any limit is &quot;better&quot; than the limit exposed by</span>
     <span class="doccomment">/// the adapter, creating a device will panic.</span>
     <span class="kw">pub</span> <span class="ident">limits</span>: <span class="ident">Limits</span>,
@@ -2758,13 +2641,13 @@
         <span class="doccomment">/// Allow a buffer to be mapped for reading using [`Buffer::map_async`] + [`Buffer::get_mapped_range`].</span>
         <span class="doccomment">/// This does not include creating a buffer with [`BufferDescriptor::mapped_at_creation`] set.</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// If [`Extensions::MAPPABLE_PRIMARY_BUFFERS`] isn&#39;t enabled, the only other usage a buffer</span>
+        <span class="doccomment">/// If [`Features::MAPPABLE_PRIMARY_BUFFERS`] isn&#39;t enabled, the only other usage a buffer</span>
         <span class="doccomment">/// may have is COPY_DST.</span>
         <span class="kw">const</span> <span class="ident">MAP_READ</span> <span class="op">=</span> <span class="number">1</span>;
         <span class="doccomment">/// Allow a buffer to be mapped for writing using [`Buffer::map_async`] + [`Buffer::get_mapped_range_mut`].</span>
         <span class="doccomment">/// This does not include creating a buffer with `mapped_at_creation` set.</span>
         <span class="doccomment">///</span>
-        <span class="doccomment">/// If [`Extensions::MAPPABLE_PRIMARY_BUFFERS`] extension isn&#39;t enabled, the only other usage a buffer</span>
+        <span class="doccomment">/// If [`Features::MAPPABLE_PRIMARY_BUFFERS`] feature isn&#39;t enabled, the only other usage a buffer</span>
         <span class="doccomment">/// may have is COPY_SRC.</span>
         <span class="kw">const</span> <span class="ident">MAP_WRITE</span> <span class="op">=</span> <span class="number">2</span>;
         <span class="doccomment">/// Allow a buffer to be the source buffer for a [`CommandEncoder::copy_buffer_to_buffer`] or [`CommandEncoder::copy_buffer_to_texture`]</span>
@@ -3251,9 +3134,6 @@
     <span class="kw">pub</span> <span class="ident">lod_max_clamp</span>: <span class="ident">f32</span>,
     <span class="doccomment">/// If this is enabled, this is a comparison sampler using the given comparison function.</span>
     <span class="kw">pub</span> <span class="ident">compare</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">CompareFunction</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// Anisotropic filtering extension must be enabled if this value is</span>
-    <span class="doccomment">/// anything other than 0 or 1.</span>
-    <span class="doccomment">///</span>
     <span class="doccomment">/// Valid values: 1, 2, 4, 8, and 16.</span>
     <span class="kw">pub</span> <span class="ident">anisotropy_clamp</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
     <span class="doccomment">/// This struct must be partially constructed from its default</span>
