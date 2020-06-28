@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libloading-0.5.2/src/os/unix/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../libloading/index.html'><div class='logo-container'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libloading-0.6.2/src/os/unix/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script src="../../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../../libloading/index.html'><div class='logo-container'><img src='../../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../../settings.html"><img src="../../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -334,54 +334,113 @@
 <span id="334">334</span>
 <span id="335">335</span>
 <span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
+<span id="352">352</span>
+<span id="353">353</span>
+<span id="354">354</span>
+<span id="355">355</span>
+<span id="356">356</span>
+<span id="357">357</span>
+<span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">util</span>::{<span class="ident">ensure_compatible_types</span>, <span class="ident">cstr_cow_from_bytes</span>};
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ffi</span>::{<span class="ident">CStr</span>, <span class="ident">OsStr</span>};
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">io</span>, <span class="ident">marker</span>, <span class="ident">mem</span>, <span class="ident">ptr</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">marker</span>, <span class="ident">mem</span>, <span class="ident">ptr</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">raw</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">os</span>::<span class="ident">unix</span>::<span class="ident">ffi</span>::<span class="ident">OsStrExt</span>;
 
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">fn</span> <span class="ident">rust_libloading_dlerror_mutex_lock</span>();
-    <span class="kw">fn</span> <span class="ident">rust_libloading_dlerror_mutex_unlock</span>();
-}
-
-<span class="kw">struct</span> <span class="ident">DlerrorMutexGuard</span>(());
-
-<span class="kw">impl</span> <span class="ident">DlerrorMutexGuard</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DlerrorMutexGuard</span> {
-        <span class="kw">unsafe</span> {
-            <span class="ident">rust_libloading_dlerror_mutex_lock</span>();
-        }
-        <span class="ident">DlerrorMutexGuard</span>(())
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">DlerrorMutexGuard</span> {
-    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">unsafe</span> {
-            <span class="ident">rust_libloading_dlerror_mutex_unlock</span>();
-        }
-    }
-}
-
-<span class="comment">// libdl is crazy.</span>
+<span class="comment">// dl* family of functions did not have enough thought put into it.</span>
 <span class="comment">//</span>
-<span class="comment">// First of all, whole error handling scheme in libdl is done via setting and querying some global</span>
-<span class="comment">// state, therefore it is not safe to use libdl in MT-capable environment at all. Only in POSIX</span>
-<span class="comment">// 2008+TC1 a thread-local state was allowed, which for our purposes is way too late.</span>
-<span class="kw">fn</span> <span class="ident">with_dlerror</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">closure</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>
+<span class="comment">// Whole error handling scheme is done via setting and querying some global state, therefore it is</span>
+<span class="comment">// not safe to use dynamic library loading in MT-capable environment at all. Only in POSIX 2008+TC1</span>
+<span class="comment">// a thread-local state was allowed for `dlerror`, making the dl* family of functions MT-safe.</span>
+<span class="comment">//</span>
+<span class="comment">// In practice (as of 2020-04-01) most of the widely used targets use a thread-local for error</span>
+<span class="comment">// state and have been doing so for a long time. Regardless the comments in this function shall</span>
+<span class="comment">// remain as a documentation for the future generations.</span>
+<span class="kw">fn</span> <span class="ident">with_dlerror</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">wrap</span>: <span class="kw">fn</span>(<span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">DlDescription</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">Error</span>, <span class="ident">closure</span>: <span class="ident">F</span>)
+<span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>
 <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="comment">// We will guard all uses of libdl library with our own mutex. This makes libdl</span>
-    <span class="comment">// safe to use in MT programs provided the only way a program uses libdl is via this library.</span>
-    <span class="kw">let</span> <span class="ident">_lock</span> <span class="op">=</span> <span class="ident">DlerrorMutexGuard</span>::<span class="ident">new</span>();
-    <span class="comment">// While we could could call libdl here to clear the previous error value, only the dlsym</span>
-    <span class="comment">// depends on it being cleared beforehand and only in some cases too. We will instead clear the</span>
-    <span class="comment">// error inside the dlsym binding instead.</span>
+    <span class="comment">// We used to guard all uses of dl* functions with our own mutex. This made them safe to use in</span>
+    <span class="comment">// MT programs provided the only way a program used dl* was via this library. However, it also</span>
+    <span class="comment">// had a number of downsides or cases where it failed to handle the problems. For instance,</span>
+    <span class="comment">// if any other library called `dlerror` internally concurrently with `libloading` things would</span>
+    <span class="comment">// still go awry.</span>
+    <span class="comment">//</span>
+    <span class="comment">// On platforms where `dlerror` is still MT-unsafe, `dlsym` (`Library::get`) can spuriously</span>
+    <span class="comment">// succeed and return a null pointer for a symbol when the actual symbol look-up operation</span>
+    <span class="comment">// fails. Instances where the actual symbol _could_ be `NULL` are platform specific. For</span>
+    <span class="comment">// instance on GNU glibc based-systems (an excerpt from dlsym(3)):</span>
+    <span class="comment">//</span>
+    <span class="comment">// &gt; The value of a symbol returned by dlsym() will never be NULL if the shared object is the</span>
+    <span class="comment">// &gt; result of normal compilation,  since  a  global  symbol is never placed at the NULL</span>
+    <span class="comment">// &gt; address. There are nevertheless cases where a lookup using dlsym() may return NULL as the</span>
+    <span class="comment">// &gt; value of a symbol. For example, the symbol value may be  the  result of a GNU indirect</span>
+    <span class="comment">// &gt; function (IFUNC) resolver function that returns NULL as the resolved value.</span>
+
+    <span class="comment">// While we could could call `dlerror` here to clear the previous error value, only the `dlsym`</span>
+    <span class="comment">// call depends on it being cleared beforehand and only in some cases too. We will instead</span>
+    <span class="comment">// clear the error inside the dlsym binding instead.</span>
     <span class="comment">//</span>
     <span class="comment">// In all the other cases, clearing the error here will only be hiding misuse of these bindings</span>
-    <span class="comment">// or the libdl.</span>
+    <span class="comment">// or a bug in implementation of dl* family of functions.</span>
     <span class="ident">closure</span>().<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> {
         <span class="comment">// This code will only get executed if the `closure` returns `None`.</span>
         <span class="kw">let</span> <span class="ident">error</span> <span class="op">=</span> <span class="ident">dlerror</span>();
@@ -395,8 +454,8 @@
             <span class="comment">// ownership over the message?</span>
             <span class="comment">// TODO: should do locale-aware conversion here. OTOH Rust doesn’t seem to work well in</span>
             <span class="comment">// any system that uses non-utf8 locale, so I doubt there’s a problem here.</span>
-            <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">error</span>).<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>();
-            <span class="prelude-val">Some</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="ident">message</span>))
+            <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="ident">CStr</span>::<span class="ident">from_ptr</span>(<span class="ident">error</span>).<span class="ident">into</span>();
+            <span class="prelude-val">Some</span>(<span class="ident">wrap</span>(<span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">DlDescription</span>(<span class="ident">message</span>)))
             <span class="comment">// Since we do a copy of the error string above, maybe we should call dlerror again to</span>
             <span class="comment">// let libdl know it may free its copy of the string now?</span>
         }
@@ -434,7 +493,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Corresponds to `dlopen(filename, RTLD_NOW)`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">OsStr</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> ::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Library</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">OsStr</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">P</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Library</span>, <span class="kw">crate</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="ident">Library</span>::<span class="ident">open</span>(<span class="prelude-val">Some</span>(<span class="ident">filename</span>), <span class="ident">RTLD_NOW</span>)
     }
 
@@ -446,7 +505,7 @@
     <span class="doccomment">/// Corresponds to `dlopen(NULL, RTLD_NOW)`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">this</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Library</span> {
-        <span class="ident">Library</span>::<span class="ident">open</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">OsStr</span><span class="op">&gt;</span>, <span class="ident">RTLD_NOW</span>).<span class="ident">unwrap</span>()
+        <span class="ident">Library</span>::<span class="ident">open</span>(<span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">OsStr</span><span class="op">&gt;</span>, <span class="ident">RTLD_NOW</span>).<span class="ident">expect</span>(<span class="string">&quot;this should never fail&quot;</span>)
     }
 
     <span class="doccomment">/// Find and load a shared library (module).</span>
@@ -457,13 +516,13 @@
     <span class="doccomment">/// If the `filename` is None, null pointer is passed to `dlopen`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Corresponds to `dlopen(filename, flags)`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>, <span class="ident">flags</span>: <span class="ident">raw</span>::<span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> ::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Library</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span>, <span class="ident">flags</span>: <span class="ident">raw</span>::<span class="ident">c_int</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Library</span>, <span class="kw">crate</span>::<span class="ident">Error</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">OsStr</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">filename</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">filename</span> {
             <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">f</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="macro">try</span><span class="macro">!</span>(<span class="ident">cstr_cow_from_bytes</span>(<span class="ident">f</span>.<span class="ident">as_ref</span>().<span class="ident">as_bytes</span>()))),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">f</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">cstr_cow_from_bytes</span>(<span class="ident">f</span>.<span class="ident">as_ref</span>().<span class="ident">as_bytes</span>())<span class="question-mark">?</span>),
         };
-        <span class="ident">with_dlerror</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="ident">with_dlerror</span>(<span class="op">|</span><span class="ident">desc</span><span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Error</span>::<span class="ident">DlOpen</span> { <span class="ident">desc</span> }, <span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> {
                 <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">dlopen</span>(<span class="kw">match</span> <span class="ident">filename</span> {
                     <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ptr</span>::<span class="ident">null</span>(),
@@ -480,9 +539,37 @@
                     <span class="ident">handle</span>: <span class="ident">result</span>
                 })
             }
-        }).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span>
-            <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;dlopen failed but dlerror did not report anything&quot;</span>)
-        ))
+        }).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">unwrap_or</span>(<span class="kw">crate</span>::<span class="ident">Error</span>::<span class="ident">DlOpenUnknown</span>))
+    }
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">symbol</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">on_null</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Symbol</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="kw">crate</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Symbol</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="kw">crate</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    {
+        <span class="ident">ensure_compatible_types</span>::<span class="op">&lt;</span><span class="ident">T</span>, <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">raw</span>::<span class="ident">c_void</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">symbol</span> <span class="op">=</span> <span class="ident">cstr_cow_from_bytes</span>(<span class="ident">symbol</span>)<span class="question-mark">?</span>;
+        <span class="comment">// `dlsym` may return nullptr in two cases: when a symbol genuinely points to a null</span>
+        <span class="comment">// pointer or the symbol cannot be found. In order to detect this case a double dlerror</span>
+        <span class="comment">// pattern must be used, which is, sadly, a little bit racy.</span>
+        <span class="comment">//</span>
+        <span class="comment">// We try to leave as little space as possible for this to occur, but we can’t exactly</span>
+        <span class="comment">// fully prevent it.</span>
+        <span class="kw">match</span> <span class="ident">with_dlerror</span>(<span class="op">|</span><span class="ident">desc</span><span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Error</span>::<span class="ident">DlSym</span> { <span class="ident">desc</span> }, <span class="op">|</span><span class="op">|</span> {
+            <span class="ident">dlerror</span>();
+            <span class="kw">let</span> <span class="ident">symbol</span> <span class="op">=</span> <span class="ident">dlsym</span>(<span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">symbol</span>.<span class="ident">as_ptr</span>());
+            <span class="kw">if</span> <span class="ident">symbol</span>.<span class="ident">is_null</span>() {
+                <span class="prelude-val">None</span>
+            } <span class="kw">else</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">Symbol</span> {
+                    <span class="ident">pointer</span>: <span class="ident">symbol</span>,
+                    <span class="ident">pd</span>: <span class="ident">marker</span>::<span class="ident">PhantomData</span>
+                })
+            }
+        }) {
+            <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">on_null</span>(),
+            <span class="prelude-val">Err</span>(<span class="prelude-val">Some</span>(<span class="ident">e</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+            <span class="prelude-val">Ok</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">x</span>)
+        }
+
     }
 
     <span class="doccomment">/// Get a pointer to function or static variable by symbol name.</span>
@@ -495,41 +582,60 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Unsafety</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Pointer to a value of arbitrary type is returned. Using a value with wrong type is</span>
-    <span class="doccomment">/// undefined.</span>
+    <span class="doccomment">/// This function does not validate the type `T`. It is up to the user of this function to</span>
+    <span class="doccomment">/// ensure that the loaded symbol is in fact a `T`. Using a value with a wrong type has no</span>
+    <span class="doccomment">/// definied behaviour.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ## Platform-specific behaviour</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// OS X uses some sort of lazy initialization scheme, which makes loading TLS variables</span>
     <span class="doccomment">/// impossible. Using a TLS variable loaded this way on OS X is undefined behaviour.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">symbol</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> ::<span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Symbol</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="ident">ensure_compatible_types</span>::<span class="op">&lt;</span><span class="ident">T</span>, <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">raw</span>::<span class="ident">c_void</span><span class="op">&gt;</span>();
-        <span class="kw">let</span> <span class="ident">symbol</span> <span class="op">=</span> <span class="macro">try</span><span class="macro">!</span>(<span class="ident">cstr_cow_from_bytes</span>(<span class="ident">symbol</span>));
-        <span class="comment">// `dlsym` may return nullptr in two cases: when a symbol genuinely points to a null</span>
-        <span class="comment">// pointer or the symbol cannot be found. In order to detect this case a double dlerror</span>
-        <span class="comment">// pattern must be used, which is, sadly, a little bit racy.</span>
-        <span class="comment">//</span>
-        <span class="comment">// We try to leave as little space as possible for this to occur, but we can’t exactly</span>
-        <span class="comment">// fully prevent it.</span>
-        <span class="kw">match</span> <span class="ident">with_dlerror</span>(<span class="op">|</span><span class="op">|</span> {
-            <span class="ident">dlerror</span>();
-            <span class="kw">let</span> <span class="ident">symbol</span> <span class="op">=</span> <span class="ident">dlsym</span>(<span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">symbol</span>.<span class="ident">as_ptr</span>());
-            <span class="kw">if</span> <span class="ident">symbol</span>.<span class="ident">is_null</span>() {
-                <span class="prelude-val">None</span>
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Some</span>(<span class="ident">Symbol</span> {
-                    <span class="ident">pointer</span>: <span class="ident">symbol</span>,
-                    <span class="ident">pd</span>: <span class="ident">marker</span>::<span class="ident">PhantomData</span>
-                })
-            }
-        }) {
-            <span class="prelude-val">Err</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Symbol</span> {
-                <span class="ident">pointer</span>: <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
-                <span class="ident">pd</span>: <span class="ident">marker</span>::<span class="ident">PhantomData</span>
-            }),
-            <span class="prelude-val">Err</span>(<span class="prelude-val">Some</span>(<span class="ident">e</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
-            <span class="prelude-val">Ok</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">x</span>)
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// On POSIX implementations where the `dlerror` function is not confirmed to be MT-safe (such</span>
+    <span class="doccomment">/// as FreeBSD), this function will unconditionally return an error the underlying `dlsym` call</span>
+    <span class="doccomment">/// returns a null pointer. There are rare situations where `dlsym` returns a genuine null</span>
+    <span class="doccomment">/// pointer without it being an error. If loading a null pointer is something you care about,</span>
+    <span class="doccomment">/// consider using the [`Library::get_singlethreaded`] call.</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">symbol</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Symbol</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="kw">crate</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">mtsafe_dlerror</span>)]</span>
+        { <span class="kw">return</span> <span class="self">self</span>.<span class="ident">get_singlethreaded</span>(<span class="ident">symbol</span>); }
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">mtsafe_dlerror</span>))]</span>
+        {
+            <span class="kw">return</span> <span class="self">self</span>.<span class="ident">get_impl</span>(<span class="ident">symbol</span>, <span class="op">|</span><span class="op">|</span> <span class="prelude-val">Err</span>(<span class="kw">crate</span>::<span class="ident">Error</span>::<span class="ident">DlSymUnknown</span>));
         }
+    }
+
+    <span class="doccomment">/// Get a pointer to function or static variable by symbol name.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The `symbol` may not contain any null bytes, with an exception of last byte. A null</span>
+    <span class="doccomment">/// terminated `symbol` may avoid a string allocation in some cases.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Symbol is interpreted as-is; no mangling is done. This means that symbols like `x::y` are</span>
+    <span class="doccomment">/// most likely invalid.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Unsafety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function does not validate the type `T`. It is up to the user of this function to</span>
+    <span class="doccomment">/// ensure that the loaded symbol is in fact a `T`. Using a value with a wrong type has no</span>
+    <span class="doccomment">/// definied behaviour.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// It is up to the user of this library to ensure that no other calls to an MT-unsafe</span>
+    <span class="doccomment">/// implementation of `dlerror` occur while this function is executing. Failing that the</span>
+    <span class="doccomment">/// results of this function are not defined.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// ## Platform-specific behaviour</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// OS X uses some sort of lazy initialization scheme, which makes loading TLS variables</span>
+    <span class="doccomment">/// impossible. Using a TLS variable loaded this way on OS X is undefined behaviour.</span>
+    <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_singlethreaded</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">symbol</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Symbol</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="kw">crate</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">get_impl</span>(<span class="ident">symbol</span>, <span class="op">|</span><span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Symbol</span> {
+            <span class="ident">pointer</span>: <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
+            <span class="ident">pd</span>: <span class="ident">marker</span>::<span class="ident">PhantomData</span>
+        }))
     }
 
     <span class="doccomment">/// Convert the `Library` to a raw handle.</span>
@@ -554,15 +660,33 @@
             <span class="ident">handle</span>: <span class="ident">handle</span>
         }
     }
+
+    <span class="doccomment">/// Unload the library.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method might be a no-op, depending on the flags with which the `Library` was opened,</span>
+    <span class="doccomment">/// what library was opened or other platform specifics.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// You only need to call this if you are interested in handling any errors that may arise when</span>
+    <span class="doccomment">/// library is unloaded. Otherwise the implementation of `Drop` for `Library` will close the</span>
+    <span class="doccomment">/// library and ignore the errors were they arise.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">close</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="kw">crate</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">with_dlerror</span>(<span class="op">|</span><span class="ident">desc</span><span class="op">|</span> <span class="kw">crate</span>::<span class="ident">Error</span>::<span class="ident">DlClose</span> { <span class="ident">desc</span> }, <span class="op">|</span><span class="op">|</span> {
+            <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">dlclose</span>(<span class="self">self</span>.<span class="ident">handle</span>) } <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="prelude-val">Some</span>(())
+            } <span class="kw">else</span> {
+                <span class="prelude-val">None</span>
+            }
+        }).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">unwrap_or</span>(<span class="kw">crate</span>::<span class="ident">Error</span>::<span class="ident">DlCloseUnknown</span>));
+        <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">forget</span>(<span class="self">self</span>);
+        <span class="ident">result</span>
+    }
 }
 
 <span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Library</span> {
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="ident">with_dlerror</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">dlclose</span>(<span class="self">self</span>.<span class="ident">handle</span>) } <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="prelude-val">Some</span>(())
-        } <span class="kw">else</span> {
-            <span class="prelude-val">None</span>
-        }).<span class="ident">unwrap</span>();
+        <span class="kw">unsafe</span> {
+            <span class="ident">dlclose</span>(<span class="self">self</span>.<span class="ident">handle</span>);
+        }
     }
 }
 
@@ -626,8 +750,9 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Symbol</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">unsafe</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">info</span>: <span class="ident">DlInfo</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">uninitialized</span>();
-            <span class="kw">if</span> <span class="ident">dladdr</span>(<span class="self">self</span>.<span class="ident">pointer</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">info</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">info</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">MaybeUninit</span>::<span class="op">&lt;</span><span class="ident">DlInfo</span><span class="op">&gt;</span>::<span class="ident">uninit</span>();
+            <span class="kw">if</span> <span class="ident">dladdr</span>(<span class="self">self</span>.<span class="ident">pointer</span>, <span class="ident">info</span>.<span class="ident">as_mut_ptr</span>()) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="ident">info</span>.<span class="ident">assume_init</span>();
                 <span class="kw">if</span> <span class="ident">info</span>.<span class="ident">dli_sname</span>.<span class="ident">is_null</span>() {
                     <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Symbol@{:p} from {:?}&quot;</span>,
                                          <span class="self">self</span>.<span class="ident">pointer</span>,
@@ -667,9 +792,12 @@
   <span class="ident">dli_saddr</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">raw</span>::<span class="ident">c_void</span>
 }
 
-<span class="attribute">#[<span class="ident">test</span>]</span>
-<span class="kw">fn</span> <span class="ident">this</span>() {
-    <span class="ident">Library</span>::<span class="ident">this</span>();
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">this</span>() {
+        <span class="kw">super</span>::<span class="ident">Library</span>::<span class="ident">this</span>();
+    }
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../../";window.currentCrate = "libloading";</script><script src="../../../../main.js"></script><script src="../../../../source-script.js"></script><script src="../../../../source-files.js"></script><script defer src="../../../../search-index.js"></script></body></html>

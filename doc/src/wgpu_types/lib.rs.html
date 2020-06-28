@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/3b6e128/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/43c67ac/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1733,6 +1733,29 @@
 <span id="1733">1733</span>
 <span id="1734">1734</span>
 <span id="1735">1735</span>
+<span id="1736">1736</span>
+<span id="1737">1737</span>
+<span id="1738">1738</span>
+<span id="1739">1739</span>
+<span id="1740">1740</span>
+<span id="1741">1741</span>
+<span id="1742">1742</span>
+<span id="1743">1743</span>
+<span id="1744">1744</span>
+<span id="1745">1745</span>
+<span id="1746">1746</span>
+<span id="1747">1747</span>
+<span id="1748">1748</span>
+<span id="1749">1749</span>
+<span id="1750">1750</span>
+<span id="1751">1751</span>
+<span id="1752">1752</span>
+<span id="1753">1753</span>
+<span id="1754">1754</span>
+<span id="1755">1755</span>
+<span id="1756">1756</span>
+<span id="1757">1757</span>
+<span id="1758">1758</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1862,8 +1885,10 @@
 }
 
 <span class="ident">bitflags</span>::<span class="macro">bitflags</span><span class="macro">!</span> {
-    <span class="doccomment">/// Features that are not guarenteed to be supported. These are either part of the webgpu standard,</span>
-    <span class="doccomment">/// or are extension features supported by wgpu when targeting native.</span>
+    <span class="doccomment">/// Features that are not guaranteed to be supported.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// These are either part of the webgpu standard, or are extension features supported by</span>
+    <span class="doccomment">/// wgpu when targeting native.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If you want to use a feature, you need to first verify that the adapter supports</span>
     <span class="doccomment">/// the feature. If the adapter does not support the feature, requesting a device with it enabled</span>
@@ -1945,6 +1970,27 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// This is a native only feature.</span>
         <span class="kw">const</span> <span class="ident">UNSIZED_BINDING_ARRAY</span> <span class="op">=</span> <span class="number">0x0000_0000_0010_0000</span>;
+        <span class="doccomment">/// Allows the user to call [`RenderPass::multi_draw_indirect`] and [`RenderPass::multi_draw_indexed_indirect`].</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Allows multiple indirect calls to be dispatched from a single buffer.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Supported platforms:</span>
+        <span class="doccomment">/// - DX12</span>
+        <span class="doccomment">/// - Metal</span>
+        <span class="doccomment">/// - Vulkan</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This is a native only feature.</span>
+        <span class="kw">const</span> <span class="ident">MULTI_DRAW_INDIRECT</span> <span class="op">=</span> <span class="number">0x0000_0000_0020_0000</span>;
+        <span class="doccomment">/// Allows the user to call [`RenderPass::multi_draw_indirect_count`] and [`RenderPass::multi_draw_indexed_indirect_count`].</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This allows the use of a buffer containing the actual number of draw calls.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Supported platforms:</span>
+        <span class="doccomment">/// - DX12</span>
+        <span class="doccomment">/// - Vulkan 1.2+ (or VK_KHR_draw_indirect_count)</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This is a native only feature.</span>
+        <span class="kw">const</span> <span class="ident">MULTI_DRAW_INDIRECT_COUNT</span> <span class="op">=</span> <span class="number">0x0000_0000_0040_0000</span>;
         <span class="doccomment">/// Features which are part of the upstream webgpu standard</span>
         <span class="kw">const</span> <span class="ident">ALL_WEBGPU</span> <span class="op">=</span> <span class="number">0x0000_0000_0000_FFFF</span>;
         <span class="doccomment">/// Features that require activating the unsafe feature flag</span>

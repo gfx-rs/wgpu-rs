@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["DebugMarker",""],["DebugReport",""],["DebugUtils",""]]});
+initSidebarItems({"struct":[["DebugMarker",""],["DebugReport",""],["DebugUtils",""],["MetalSurface",""]]});
