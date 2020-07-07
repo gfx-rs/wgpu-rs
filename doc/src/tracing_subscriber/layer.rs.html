@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-subscriber-0.2.6/src/layer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>layer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing_subscriber/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-subscriber-0.2.7/src/layer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>layer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing_subscriber/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1142,6 +1142,54 @@
 <span id="1142">1142</span>
 <span id="1143">1143</span>
 <span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
+<span id="1153">1153</span>
+<span id="1154">1154</span>
+<span id="1155">1155</span>
+<span id="1156">1156</span>
+<span id="1157">1157</span>
+<span id="1158">1158</span>
+<span id="1159">1159</span>
+<span id="1160">1160</span>
+<span id="1161">1161</span>
+<span id="1162">1162</span>
+<span id="1163">1163</span>
+<span id="1164">1164</span>
+<span id="1165">1165</span>
+<span id="1166">1166</span>
+<span id="1167">1167</span>
+<span id="1168">1168</span>
+<span id="1169">1169</span>
+<span id="1170">1170</span>
+<span id="1171">1171</span>
+<span id="1172">1172</span>
+<span id="1173">1173</span>
+<span id="1174">1174</span>
+<span id="1175">1175</span>
+<span id="1176">1176</span>
+<span id="1177">1177</span>
+<span id="1178">1178</span>
+<span id="1179">1179</span>
+<span id="1180">1180</span>
+<span id="1181">1181</span>
+<span id="1182">1182</span>
+<span id="1183">1183</span>
+<span id="1184">1184</span>
+<span id="1185">1185</span>
+<span id="1186">1186</span>
+<span id="1187">1187</span>
+<span id="1188">1188</span>
+<span id="1189">1189</span>
+<span id="1190">1190</span>
+<span id="1191">1191</span>
+<span id="1192">1192</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! A composable abstraction for building `Subscriber`s.</span>
 <span class="kw">use</span> <span class="ident">tracing_core</span>::{
@@ -1357,13 +1405,23 @@
     <span class="doccomment">/// By default, this returns [`Interest::always()`] if [`self.enabled`] returns</span>
     <span class="doccomment">/// true, or [`Interest::never()`] if it returns false.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This method (and [`Layer::enabled`]) determine whether a</span>
-    <span class="doccomment">/// span or event is globally enabled, _not_ whether the individual layer</span>
-    <span class="doccomment">/// will be notified about that span or event. This is intended to be used</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+    <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This method (and &lt;a href=&quot;#method.enabled&quot;&gt;</span>
+    <span class="doccomment">/// &lt;code&gt;Layer::enabled&lt;/code&gt;&lt;/a&gt;) determine whether a span or event is</span>
+    <span class="doccomment">/// globally enabled, &lt;em&gt;not&lt;/em&gt; whether the individual layer will be</span>
+    <span class="doccomment">/// notified about that span or event. This is intended to be used</span>
     <span class="doccomment">/// by layers that implement filtering for the entire stack. Layers which do</span>
     <span class="doccomment">/// not wish to be notified about certain spans or events but do not wish to</span>
     <span class="doccomment">/// globally disable them should ignore those spans or events in their</span>
-    <span class="doccomment">/// [`on_event`], [`on_enter`], [`on_exit`], and other notification methods.</span>
+    <span class="doccomment">/// &lt;a href=&quot;#method.on_event&quot;&gt;&lt;code&gt;on_event&lt;/code&gt;&lt;/a&gt;,</span>
+    <span class="doccomment">/// &lt;a href=&quot;#method.on_enter&quot;&gt;&lt;code&gt;on_enter&lt;/code&gt;&lt;/a&gt;,</span>
+    <span class="doccomment">/// &lt;a href=&quot;#method.on_exit&quot;&gt;&lt;code&gt;on_exit&lt;code&gt;&lt;/a&gt;, and other notification</span>
+    <span class="doccomment">/// methods.</span>
+    <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [the trait-level documentation] for more information on filtering</span>
     <span class="doccomment">/// with `Layer`s.</span>
@@ -1399,13 +1457,23 @@
     <span class="doccomment">/// By default, this always returns `true`, allowing the wrapped subscriber</span>
     <span class="doccomment">/// to choose to disable the span.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This method (and [`Layer::register_callsite`]) determine whether a</span>
-    <span class="doccomment">/// span or event is globally enabled, _not_ whether the individual layer</span>
-    <span class="doccomment">/// will be notified about that span or event. This is intended to be used</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+    <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This method (and &lt;a href=&quot;#method.register_callsite&quot;&gt;</span>
+    <span class="doccomment">/// &lt;code&gt;Layer::register_callsite&lt;/code&gt;&lt;/a&gt;) determine whether a span or event is</span>
+    <span class="doccomment">/// globally enabled, &lt;em&gt;not&lt;/em&gt; whether the individual layer will be</span>
+    <span class="doccomment">/// notified about that span or event. This is intended to be used</span>
     <span class="doccomment">/// by layers that implement filtering for the entire stack. Layers which do</span>
     <span class="doccomment">/// not wish to be notified about certain spans or events but do not wish to</span>
     <span class="doccomment">/// globally disable them should ignore those spans or events in their</span>
-    <span class="doccomment">/// [`on_event`], [`on_enter`], [`on_exit`], and other notification methods.</span>
+    <span class="doccomment">/// &lt;a href=&quot;#method.on_event&quot;&gt;&lt;code&gt;on_event&lt;/code&gt;&lt;/a&gt;,</span>
+    <span class="doccomment">/// &lt;a href=&quot;#method.on_enter&quot;&gt;&lt;code&gt;on_enter&lt;/code&gt;&lt;/a&gt;,</span>
+    <span class="doccomment">/// &lt;a href=&quot;#method.on_exit&quot;&gt;&lt;code&gt;on_exit&lt;code&gt;&lt;/a&gt;, and other notification</span>
+    <span class="doccomment">/// methods.</span>
+    <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [the trait-level documentation] for more information on filtering</span>
@@ -1993,15 +2061,19 @@
     <span class="doccomment">/// If this returns `None`, then no span exists for that ID (either it has</span>
     <span class="doccomment">/// closed or the ID is invalid).</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note**: This requires the wrapped subscriber to implement the</span>
-    <span class="doccomment">/// [`LookupSpan`] trait. `Layer` implementations that wish to use this</span>
-    <span class="doccomment">/// function can bound their `Subscriber` type parameter with</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+    <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This requires the wrapped subscriber to implement the</span>
+    <span class="doccomment">/// &lt;a href=&quot;../registry/trait.LookupSpan.html&quot;&gt;&lt;code&gt;LookupSpan&lt;/code&gt;&lt;/a&gt; trait.</span>
+    <span class="doccomment">/// &lt;code&gt;Layer&lt;/code&gt; implementations that wish to use this</span>
+    <span class="doccomment">/// function can bound their &lt;code&gt;Subscriber&lt;/code&gt; type parameter with:</span>
+    <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
     <span class="doccomment">/// ```rust,ignore</span>
-    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;a&gt; LookupSpan&lt;&#39;a&gt;,</span>
+    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;a&gt; LookupSpan&lt;&#39;a&gt;,`</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// or similar.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`LookupSpan`]: ../registry/trait.LookupSpan.html</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;registry&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;registry&quot;</span>)))]</span>
@@ -2018,13 +2090,19 @@
     <span class="doccomment">/// If this returns `None`, then no span exists for that ID (either it has</span>
     <span class="doccomment">/// closed or the ID is invalid).</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note**: This requires the wrapped subscriber to implement the</span>
-    <span class="doccomment">/// [`LookupSpan`] trait. `Layer` implementations that wish to use this</span>
-    <span class="doccomment">/// function can bound their `Subscriber` type parameter with</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+    <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This requires the wrapped subscriber to implement the</span>
+    <span class="doccomment">/// &lt;a href=&quot;../registry/trait.LookupSpan.html&quot;&gt;&lt;code&gt;LookupSpan&lt;/code&gt;&lt;/a&gt; trait.</span>
+    <span class="doccomment">/// &lt;code&gt;Layer&lt;/code&gt; implementations that wish to use this</span>
+    <span class="doccomment">/// function can bound their &lt;code&gt;Subscriber&lt;/code&gt; type parameter with:</span>
+    <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
     <span class="doccomment">/// ```rust,ignore</span>
-    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;span&gt; LookupSpan&lt;&#39;span&gt;,</span>
+    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;a&gt; LookupSpan&lt;&#39;a&gt;,`</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// or similar.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [stored data]: ../registry/struct.SpanRef.html</span>
     <span class="doccomment">/// [`LookupSpan`]: ../registry/trait.LookupSpan.html</span>
@@ -2040,13 +2118,19 @@
 
     <span class="doccomment">/// Returns `true` if an active span exists for the given `Id`.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note**: This requires the wrapped subscriber to implement the</span>
-    <span class="doccomment">/// [`LookupSpan`] trait. `Layer` implementations that wish to use this</span>
-    <span class="doccomment">/// function can bound their `Subscriber` type parameter with</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+    <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This requires the wrapped subscriber to implement the</span>
+    <span class="doccomment">/// &lt;a href=&quot;../registry/trait.LookupSpan.html&quot;&gt;&lt;code&gt;LookupSpan&lt;/code&gt;&lt;/a&gt; trait.</span>
+    <span class="doccomment">/// &lt;code&gt;Layer&lt;/code&gt; implementations that wish to use this</span>
+    <span class="doccomment">/// function can bound their &lt;code&gt;Subscriber&lt;/code&gt; type parameter with:</span>
+    <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
     <span class="doccomment">/// ```rust,ignore</span>
-    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;a&gt; LookupSpan&lt;&#39;a&gt;,</span>
+    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;a&gt; LookupSpan&lt;&#39;a&gt;,`</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// or similar.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`LookupSpan`]: ../registry/trait.LookupSpan.html</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -2064,13 +2148,19 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If this returns `None`, then we are not currently within a span.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note**: This requires the wrapped subscriber to implement the</span>
-    <span class="doccomment">/// [`LookupSpan`] trait. `Layer` implementations that wish to use this</span>
-    <span class="doccomment">/// function can bound their `Subscriber` type parameter with</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+    <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This requires the wrapped subscriber to implement the</span>
+    <span class="doccomment">/// &lt;a href=&quot;../registry/trait.LookupSpan.html&quot;&gt;&lt;code&gt;LookupSpan&lt;/code&gt;&lt;/a&gt; trait.</span>
+    <span class="doccomment">/// &lt;code&gt;Layer&lt;/code&gt; implementations that wish to use this</span>
+    <span class="doccomment">/// function can bound their &lt;code&gt;Subscriber&lt;/code&gt; type parameter with:</span>
+    <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
     <span class="doccomment">/// ```rust,ignore</span>
-    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;span&gt; LookupSpan&lt;&#39;span&gt;,</span>
+    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;a&gt; LookupSpan&lt;&#39;a&gt;,`</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// or similar.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [stored data]: ../registry/struct.SpanRef.html</span>
     <span class="doccomment">/// [`LookupSpan`]: ../registry/trait.LookupSpan.html</span>
@@ -2099,13 +2189,19 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If this iterator is empty, then there are no spans in the current context</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note**: This requires the wrapped subscriber to implement the</span>
-    <span class="doccomment">/// [`LookupSpan`] trait. `Layer` implementations that wish to use this</span>
-    <span class="doccomment">/// function can bound their `Subscriber` type parameter with</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+    <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This requires the wrapped subscriber to implement the</span>
+    <span class="doccomment">/// &lt;a href=&quot;../registry/trait.LookupSpan.html&quot;&gt;&lt;code&gt;LookupSpan&lt;/code&gt;&lt;/a&gt; trait.</span>
+    <span class="doccomment">/// &lt;code&gt;Layer&lt;/code&gt; implementations that wish to use this</span>
+    <span class="doccomment">/// function can bound their &lt;code&gt;Subscriber&lt;/code&gt; type parameter with:</span>
+    <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
     <span class="doccomment">/// ```rust,ignore</span>
-    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;span&gt; LookupSpan&lt;&#39;span&gt;,</span>
+    <span class="doccomment">/// where S: Subscriber + for&lt;&#39;a&gt; LookupSpan&lt;&#39;a&gt;,`</span>
     <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// or similar.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [stored data]: ../registry/struct.SpanRef.html</span>
     <span class="doccomment">/// [`LookupSpan`]: ../registry/trait.LookupSpan.html</span>

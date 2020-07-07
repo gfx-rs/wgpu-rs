@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.4.11/src/offset/local.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>local.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../chrono/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.4.13/src/offset/local.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>local.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../chrono/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -191,6 +191,24 @@
 <span id="191">191</span>
 <span id="192">192</span>
 <span id="193">193</span>
+<span id="194">194</span>
+<span id="195">195</span>
+<span id="196">196</span>
+<span id="197">197</span>
+<span id="198">198</span>
+<span id="199">199</span>
+<span id="200">200</span>
+<span id="201">201</span>
+<span id="202">202</span>
+<span id="203">203</span>
+<span id="204">204</span>
+<span id="205">205</span>
+<span id="206">206</span>
+<span id="207">207</span>
+<span id="208">208</span>
+<span id="209">209</span>
+<span id="210">210</span>
+<span id="211">211</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// This is a part of Chrono.</span>
 <span class="comment">// See README.md and LICENSE.txt for details.</span>
@@ -199,11 +217,11 @@
 
 <span class="kw">use</span> <span class="ident">oldtime</span>;
 
-<span class="kw">use</span> {<span class="ident">Datelike</span>, <span class="ident">Timelike</span>};
-<span class="kw">use</span> <span class="ident">naive</span>::{<span class="ident">NaiveDate</span>, <span class="ident">NaiveTime</span>, <span class="ident">NaiveDateTime</span>};
-<span class="kw">use</span> {<span class="ident">Date</span>, <span class="ident">DateTime</span>};
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">TimeZone</span>, <span class="ident">LocalResult</span>};
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">fixed</span>::<span class="ident">FixedOffset</span>;
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">LocalResult</span>, <span class="ident">TimeZone</span>};
+<span class="kw">use</span> <span class="ident">naive</span>::{<span class="ident">NaiveDate</span>, <span class="ident">NaiveDateTime</span>, <span class="ident">NaiveTime</span>};
+<span class="kw">use</span> {<span class="ident">Date</span>, <span class="ident">DateTime</span>};
+<span class="kw">use</span> {<span class="ident">Datelike</span>, <span class="ident">Timelike</span>};
 
 <span class="doccomment">/// Converts a `time::Tm` struct into the timezone-aware `DateTime`.</span>
 <span class="doccomment">/// This assumes that `time` is working correctly, i.e. any error is fatal.</span>
@@ -226,8 +244,12 @@
     }
 
     <span class="kw">let</span> <span class="ident">date</span> <span class="op">=</span> <span class="ident">tm_to_naive_date</span>(<span class="kw-2">&amp;</span><span class="ident">tm</span>);
-    <span class="kw">let</span> <span class="ident">time</span> <span class="op">=</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="ident">tm</span>.<span class="ident">tm_hour</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">tm</span>.<span class="ident">tm_min</span> <span class="kw">as</span> <span class="ident">u32</span>,
-                                        <span class="ident">tm</span>.<span class="ident">tm_sec</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">tm</span>.<span class="ident">tm_nsec</span> <span class="kw">as</span> <span class="ident">u32</span>);
+    <span class="kw">let</span> <span class="ident">time</span> <span class="op">=</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(
+        <span class="ident">tm</span>.<span class="ident">tm_hour</span> <span class="kw">as</span> <span class="ident">u32</span>,
+        <span class="ident">tm</span>.<span class="ident">tm_min</span> <span class="kw">as</span> <span class="ident">u32</span>,
+        <span class="ident">tm</span>.<span class="ident">tm_sec</span> <span class="kw">as</span> <span class="ident">u32</span>,
+        <span class="ident">tm</span>.<span class="ident">tm_nsec</span> <span class="kw">as</span> <span class="ident">u32</span>,
+    );
     <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">FixedOffset</span>::<span class="ident">east</span>(<span class="ident">tm</span>.<span class="ident">tm_utcoff</span>);
     <span class="ident">DateTime</span>::<span class="ident">from_utc</span>(<span class="ident">date</span>.<span class="ident">and_time</span>(<span class="ident">time</span>) <span class="op">-</span> <span class="ident">offset</span>, <span class="ident">offset</span>)
 }
@@ -237,7 +259,7 @@
     <span class="comment">// well, this exploits an undocumented `Tm::to_timespec` behavior</span>
     <span class="comment">// to get the exact function we want (either `timegm` or `mktime`).</span>
     <span class="comment">// the number 1 is arbitrary but should be non-zero to trigger `mktime`.</span>
-    <span class="kw">let</span> <span class="ident">tm_utcoff</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">local</span> {<span class="number">1</span>} <span class="kw">else</span> {<span class="number">0</span>};
+    <span class="kw">let</span> <span class="ident">tm_utcoff</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">local</span> { <span class="number">1</span> } <span class="kw">else</span> { <span class="number">0</span> };
 
     <span class="kw">let</span> <span class="ident">tm</span> <span class="op">=</span> <span class="ident">oldtime</span>::<span class="ident">Tm</span> {
         <span class="ident">tm_sec</span>: <span class="ident">d</span>.<span class="ident">second</span>() <span class="kw">as</span> <span class="ident">i32</span>,
@@ -245,9 +267,9 @@
         <span class="ident">tm_hour</span>: <span class="ident">d</span>.<span class="ident">hour</span>() <span class="kw">as</span> <span class="ident">i32</span>,
         <span class="ident">tm_mday</span>: <span class="ident">d</span>.<span class="ident">day</span>() <span class="kw">as</span> <span class="ident">i32</span>,
         <span class="ident">tm_mon</span>: <span class="ident">d</span>.<span class="ident">month0</span>() <span class="kw">as</span> <span class="ident">i32</span>, <span class="comment">// yes, C is that strange...</span>
-        <span class="ident">tm_year</span>: <span class="ident">d</span>.<span class="ident">year</span>() <span class="op">-</span> <span class="number">1900</span>, <span class="comment">// this doesn&#39;t underflow, we know that d is `NaiveDateTime`.</span>
-        <span class="ident">tm_wday</span>: <span class="number">0</span>, <span class="comment">// to_local ignores this</span>
-        <span class="ident">tm_yday</span>: <span class="number">0</span>, <span class="comment">// and this</span>
+        <span class="ident">tm_year</span>: <span class="ident">d</span>.<span class="ident">year</span>() <span class="op">-</span> <span class="number">1900</span>,  <span class="comment">// this doesn&#39;t underflow, we know that d is `NaiveDateTime`.</span>
+        <span class="ident">tm_wday</span>: <span class="number">0</span>,                <span class="comment">// to_local ignores this</span>
+        <span class="ident">tm_yday</span>: <span class="number">0</span>,                <span class="comment">// and this</span>
         <span class="ident">tm_isdst</span>: <span class="op">-</span><span class="number">1</span>,
         <span class="ident">tm_utcoff</span>: <span class="ident">tm_utcoff</span>,
         <span class="comment">// do not set this, OS APIs are heavily inconsistent in terms of leap second handling</span>
@@ -301,7 +323,9 @@
 <span class="kw">impl</span> <span class="ident">TimeZone</span> <span class="kw">for</span> <span class="ident">Local</span> {
     <span class="kw">type</span> <span class="ident">Offset</span> <span class="op">=</span> <span class="ident">FixedOffset</span>;
 
-    <span class="kw">fn</span> <span class="ident">from_offset</span>(<span class="ident">_offset</span>: <span class="kw-2">&amp;</span><span class="ident">FixedOffset</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Local</span> { <span class="ident">Local</span> }
+    <span class="kw">fn</span> <span class="ident">from_offset</span>(<span class="ident">_offset</span>: <span class="kw-2">&amp;</span><span class="ident">FixedOffset</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Local</span> {
+        <span class="ident">Local</span>
+    }
 
     <span class="comment">// they are easier to define in terms of the finished date and time unlike other offsets</span>
     <span class="kw">fn</span> <span class="ident">offset_from_local_date</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">local</span>: <span class="kw-2">&amp;</span><span class="ident">NaiveDate</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">LocalResult</span><span class="op">&lt;</span><span class="ident">FixedOffset</span><span class="op">&gt;</span> {
@@ -345,6 +369,14 @@
         <span class="ident">Date</span>::<span class="ident">from_utc</span>(<span class="kw-2">*</span><span class="ident">utc</span>, <span class="kw-2">*</span><span class="ident">midnight</span>.<span class="ident">offset</span>())
     }
 
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wasmbind&quot;</span>))]</span>
+    <span class="kw">fn</span> <span class="ident">from_utc_datetime</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">utc</span>: <span class="kw-2">&amp;</span><span class="ident">NaiveDateTime</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">Local</span><span class="op">&gt;</span> {
+        <span class="comment">// Get the offset from the js runtime</span>
+        <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">FixedOffset</span>::<span class="ident">west</span>((<span class="ident">js_sys</span>::<span class="ident">Date</span>::<span class="ident">new_0</span>().<span class="ident">get_timezone_offset</span>() <span class="kw">as</span> <span class="ident">i32</span>) <span class="op">*</span> <span class="number">60</span>);
+        <span class="ident">DateTime</span>::<span class="ident">from_utc</span>(<span class="kw-2">*</span><span class="ident">utc</span>, <span class="ident">offset</span>)
+    }
+
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">all</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wasmbind&quot;</span>)))]</span>
     <span class="kw">fn</span> <span class="ident">from_utc_datetime</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">utc</span>: <span class="kw-2">&amp;</span><span class="ident">NaiveDateTime</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DateTime</span><span class="op">&lt;</span><span class="ident">Local</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">timespec</span> <span class="op">=</span> <span class="ident">datetime_to_timespec</span>(<span class="ident">utc</span>, <span class="bool-val">false</span>);
 
@@ -359,30 +391,34 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="ident">Datelike</span>;
-    <span class="kw">use</span> <span class="ident">offset</span>::<span class="ident">TimeZone</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Local</span>;
+    <span class="kw">use</span> <span class="ident">offset</span>::<span class="ident">TimeZone</span>;
+    <span class="kw">use</span> <span class="ident">Datelike</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_local_date_sanity_check</span>() { <span class="comment">// issue #27</span>
+    <span class="kw">fn</span> <span class="ident">test_local_date_sanity_check</span>() {
+        <span class="comment">// issue #27</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Local</span>.<span class="ident">ymd</span>(<span class="number">2999</span>, <span class="number">12</span>, <span class="number">28</span>).<span class="ident">day</span>(), <span class="number">28</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_leap_second</span>() { <span class="comment">// issue #123</span>
+    <span class="kw">fn</span> <span class="ident">test_leap_second</span>() {
+        <span class="comment">// issue #123</span>
         <span class="kw">let</span> <span class="ident">today</span> <span class="op">=</span> <span class="ident">Local</span>::<span class="ident">today</span>();
 
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">today</span>.<span class="ident">and_hms_milli</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">59</span>, <span class="number">1000</span>);
         <span class="kw">let</span> <span class="ident">timestr</span> <span class="op">=</span> <span class="ident">dt</span>.<span class="ident">time</span>().<span class="ident">to_string</span>();
         <span class="comment">// the OS API may or may not support the leap second,</span>
         <span class="comment">// but there are only two sensible options.</span>
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">timestr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;01:02:60&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">timestr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;01:03:00&quot;</span>,
-                <span class="string">&quot;unexpected timestr {:?}&quot;</span>, <span class="ident">timestr</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">timestr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;01:02:60&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">timestr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;01:03:00&quot;</span>, <span class="string">&quot;unexpected timestr {:?}&quot;</span>, <span class="ident">timestr</span>);
 
         <span class="kw">let</span> <span class="ident">dt</span> <span class="op">=</span> <span class="ident">today</span>.<span class="ident">and_hms_milli</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1234</span>);
         <span class="kw">let</span> <span class="ident">timestr</span> <span class="op">=</span> <span class="ident">dt</span>.<span class="ident">time</span>().<span class="ident">to_string</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">timestr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;01:02:03.234&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">timestr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;01:02:04.234&quot;</span>,
-                <span class="string">&quot;unexpected timestr {:?}&quot;</span>, <span class="ident">timestr</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(
+            <span class="ident">timestr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;01:02:03.234&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">timestr</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;01:02:04.234&quot;</span>,
+            <span class="string">&quot;unexpected timestr {:?}&quot;</span>,
+            <span class="ident">timestr</span>
+        );
     }
 }
 </pre></div>

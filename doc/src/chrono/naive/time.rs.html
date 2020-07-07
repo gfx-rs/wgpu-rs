@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.4.11/src/naive/time.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>time.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../chrono/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.4.13/src/naive/time.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>time.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../chrono/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1737,6 +1737,90 @@
 <span id="1737">1737</span>
 <span id="1738">1738</span>
 <span id="1739">1739</span>
+<span id="1740">1740</span>
+<span id="1741">1741</span>
+<span id="1742">1742</span>
+<span id="1743">1743</span>
+<span id="1744">1744</span>
+<span id="1745">1745</span>
+<span id="1746">1746</span>
+<span id="1747">1747</span>
+<span id="1748">1748</span>
+<span id="1749">1749</span>
+<span id="1750">1750</span>
+<span id="1751">1751</span>
+<span id="1752">1752</span>
+<span id="1753">1753</span>
+<span id="1754">1754</span>
+<span id="1755">1755</span>
+<span id="1756">1756</span>
+<span id="1757">1757</span>
+<span id="1758">1758</span>
+<span id="1759">1759</span>
+<span id="1760">1760</span>
+<span id="1761">1761</span>
+<span id="1762">1762</span>
+<span id="1763">1763</span>
+<span id="1764">1764</span>
+<span id="1765">1765</span>
+<span id="1766">1766</span>
+<span id="1767">1767</span>
+<span id="1768">1768</span>
+<span id="1769">1769</span>
+<span id="1770">1770</span>
+<span id="1771">1771</span>
+<span id="1772">1772</span>
+<span id="1773">1773</span>
+<span id="1774">1774</span>
+<span id="1775">1775</span>
+<span id="1776">1776</span>
+<span id="1777">1777</span>
+<span id="1778">1778</span>
+<span id="1779">1779</span>
+<span id="1780">1780</span>
+<span id="1781">1781</span>
+<span id="1782">1782</span>
+<span id="1783">1783</span>
+<span id="1784">1784</span>
+<span id="1785">1785</span>
+<span id="1786">1786</span>
+<span id="1787">1787</span>
+<span id="1788">1788</span>
+<span id="1789">1789</span>
+<span id="1790">1790</span>
+<span id="1791">1791</span>
+<span id="1792">1792</span>
+<span id="1793">1793</span>
+<span id="1794">1794</span>
+<span id="1795">1795</span>
+<span id="1796">1796</span>
+<span id="1797">1797</span>
+<span id="1798">1798</span>
+<span id="1799">1799</span>
+<span id="1800">1800</span>
+<span id="1801">1801</span>
+<span id="1802">1802</span>
+<span id="1803">1803</span>
+<span id="1804">1804</span>
+<span id="1805">1805</span>
+<span id="1806">1806</span>
+<span id="1807">1807</span>
+<span id="1808">1808</span>
+<span id="1809">1809</span>
+<span id="1810">1810</span>
+<span id="1811">1811</span>
+<span id="1812">1812</span>
+<span id="1813">1813</span>
+<span id="1814">1814</span>
+<span id="1815">1815</span>
+<span id="1816">1816</span>
+<span id="1817">1817</span>
+<span id="1818">1818</span>
+<span id="1819">1819</span>
+<span id="1820">1820</span>
+<span id="1821">1821</span>
+<span id="1822">1822</span>
+<span id="1823">1823</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// This is a part of Chrono.</span>
 <span class="comment">// See README.md and LICENSE.txt for details.</span>
@@ -1745,16 +1829,16 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">test</span>))]</span>
 <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">borrow</span>::<span class="ident">Borrow</span>;
-<span class="kw">use</span> <span class="ident">core</span>::{<span class="ident">str</span>, <span class="ident">fmt</span>, <span class="ident">hash</span>};
-<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">Sub</span>, <span class="ident">AddAssign</span>, <span class="ident">SubAssign</span>};
+<span class="kw">use</span> <span class="ident">core</span>::<span class="ident">ops</span>::{<span class="ident">Add</span>, <span class="ident">AddAssign</span>, <span class="ident">Sub</span>, <span class="ident">SubAssign</span>};
+<span class="kw">use</span> <span class="ident">core</span>::{<span class="ident">fmt</span>, <span class="ident">hash</span>, <span class="ident">str</span>};
 <span class="kw">use</span> <span class="ident">oldtime</span>::<span class="ident">Duration</span> <span class="kw">as</span> <span class="ident">OldDuration</span>;
 
-<span class="kw">use</span> <span class="ident">Timelike</span>;
 <span class="kw">use</span> <span class="ident">div</span>::<span class="ident">div_mod_floor</span>;
-<span class="kw">use</span> <span class="ident">format</span>::{<span class="ident">Item</span>, <span class="ident">Numeric</span>, <span class="ident">Pad</span>, <span class="ident">Fixed</span>};
-<span class="kw">use</span> <span class="ident">format</span>::{<span class="ident">parse</span>, <span class="ident">Parsed</span>, <span class="ident">ParseError</span>, <span class="ident">ParseResult</span>, <span class="ident">StrftimeItems</span>};
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">test</span>))]</span>
 <span class="kw">use</span> <span class="ident">format</span>::<span class="ident">DelayedFormat</span>;
+<span class="kw">use</span> <span class="ident">format</span>::{<span class="ident">parse</span>, <span class="ident">ParseError</span>, <span class="ident">ParseResult</span>, <span class="ident">Parsed</span>, <span class="ident">StrftimeItems</span>};
+<span class="kw">use</span> <span class="ident">format</span>::{<span class="ident">Fixed</span>, <span class="ident">Item</span>, <span class="ident">Numeric</span>, <span class="ident">Pad</span>};
+<span class="kw">use</span> <span class="ident">Timelike</span>;
 
 <span class="doccomment">/// ISO 8601 time without timezone.</span>
 <span class="doccomment">/// Allows for the nanosecond precision and optional leap second representation.</span>
@@ -2017,8 +2101,9 @@
     <span class="doccomment">/// ~~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_hms_milli_opt</span>(<span class="ident">hour</span>: <span class="ident">u32</span>, <span class="ident">min</span>: <span class="ident">u32</span>, <span class="ident">sec</span>: <span class="ident">u32</span>, <span class="ident">milli</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span> {
-        <span class="ident">milli</span>.<span class="ident">checked_mul</span>(<span class="number">1_000_000</span>)
-             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">nano</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano_opt</span>(<span class="ident">hour</span>, <span class="ident">min</span>, <span class="ident">sec</span>, <span class="ident">nano</span>))
+        <span class="ident">milli</span>
+            .<span class="ident">checked_mul</span>(<span class="number">1_000_000</span>)
+            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">nano</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano_opt</span>(<span class="ident">hour</span>, <span class="ident">min</span>, <span class="ident">sec</span>, <span class="ident">nano</span>))
     }
 
     <span class="doccomment">/// Makes a new `NaiveTime` from hour, minute, second and microsecond.</span>
@@ -2068,8 +2153,7 @@
     <span class="doccomment">/// ~~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_hms_micro_opt</span>(<span class="ident">hour</span>: <span class="ident">u32</span>, <span class="ident">min</span>: <span class="ident">u32</span>, <span class="ident">sec</span>: <span class="ident">u32</span>, <span class="ident">micro</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span> {
-        <span class="ident">micro</span>.<span class="ident">checked_mul</span>(<span class="number">1_000</span>)
-             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">nano</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano_opt</span>(<span class="ident">hour</span>, <span class="ident">min</span>, <span class="ident">sec</span>, <span class="ident">nano</span>))
+        <span class="ident">micro</span>.<span class="ident">checked_mul</span>(<span class="number">1_000</span>).<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">nano</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano_opt</span>(<span class="ident">hour</span>, <span class="ident">min</span>, <span class="ident">sec</span>, <span class="ident">nano</span>))
     }
 
     <span class="doccomment">/// Makes a new `NaiveTime` from hour, minute, second and nanosecond.</span>
@@ -2119,7 +2203,9 @@
     <span class="doccomment">/// ~~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_hms_nano_opt</span>(<span class="ident">hour</span>: <span class="ident">u32</span>, <span class="ident">min</span>: <span class="ident">u32</span>, <span class="ident">sec</span>: <span class="ident">u32</span>, <span class="ident">nano</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">hour</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">24</span> <span class="op">|</span><span class="op">|</span> <span class="ident">min</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">60</span> <span class="op">|</span><span class="op">|</span> <span class="ident">sec</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">60</span> <span class="op">|</span><span class="op">|</span> <span class="ident">nano</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">2_000_000_000</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+        <span class="kw">if</span> <span class="ident">hour</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">24</span> <span class="op">|</span><span class="op">|</span> <span class="ident">min</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">60</span> <span class="op">|</span><span class="op">|</span> <span class="ident">sec</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">60</span> <span class="op">|</span><span class="op">|</span> <span class="ident">nano</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">2_000_000_000</span> {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
+        }
         <span class="kw">let</span> <span class="ident">secs</span> <span class="op">=</span> <span class="ident">hour</span> <span class="op">*</span> <span class="number">3600</span> <span class="op">+</span> <span class="ident">min</span> <span class="op">*</span> <span class="number">60</span> <span class="op">+</span> <span class="ident">sec</span>;
         <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span> { <span class="ident">secs</span>: <span class="ident">secs</span>, <span class="ident">frac</span>: <span class="ident">nano</span> })
     }
@@ -2169,7 +2255,9 @@
     <span class="doccomment">/// ~~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_num_seconds_from_midnight_opt</span>(<span class="ident">secs</span>: <span class="ident">u32</span>, <span class="ident">nano</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">secs</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">86_400</span> <span class="op">|</span><span class="op">|</span> <span class="ident">nano</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">2_000_000_000</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+        <span class="kw">if</span> <span class="ident">secs</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">86_400</span> <span class="op">|</span><span class="op">|</span> <span class="ident">nano</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">2_000_000_000</span> {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
+        }
         <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span> { <span class="ident">secs</span>: <span class="ident">secs</span>, <span class="ident">frac</span>: <span class="ident">nano</span> })
     }
 
@@ -2432,9 +2520,21 @@
 
         <span class="comment">// `secs` may contain a leap second yet to be counted</span>
         <span class="kw">let</span> <span class="ident">adjust</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">secs</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="ident">rhs</span>.<span class="ident">secs</span>) {
-            <span class="ident">Ordering</span>::<span class="ident">Greater</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">if</span> <span class="ident">rhs</span>.<span class="ident">frac</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">1_000_000_000</span> { <span class="number">1</span> } <span class="kw">else</span> { <span class="number">0</span> },
+            <span class="ident">Ordering</span>::<span class="ident">Greater</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="ident">rhs</span>.<span class="ident">frac</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">1_000_000_000</span> {
+                    <span class="number">1</span>
+                } <span class="kw">else</span> {
+                    <span class="number">0</span>
+                }
+            }
             <span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
-            <span class="ident">Ordering</span>::<span class="ident">Less</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">frac</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">1_000_000_000</span> { <span class="op">-</span><span class="number">1</span> } <span class="kw">else</span> { <span class="number">0</span> },
+            <span class="ident">Ordering</span>::<span class="ident">Less</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">frac</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">1_000_000_000</span> {
+                    <span class="op">-</span><span class="number">1</span>
+                } <span class="kw">else</span> {
+                    <span class="number">0</span>
+                }
+            }
         };
 
         <span class="ident">OldDuration</span>::<span class="ident">seconds</span>(<span class="ident">secs</span> <span class="op">+</span> <span class="ident">adjust</span>) <span class="op">+</span> <span class="ident">OldDuration</span>::<span class="ident">nanoseconds</span>(<span class="ident">frac</span>)
@@ -2470,7 +2570,10 @@
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">test</span>))]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">format_with_items</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">items</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DelayedFormat</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">=</span><span class="ident">B</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Clone</span>, <span class="ident">B</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">where</span>
+        <span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">B</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Clone</span>,
+        <span class="ident">B</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    {
         <span class="ident">DelayedFormat</span>::<span class="ident">new</span>(<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="kw-2">*</span><span class="self">self</span>), <span class="ident">items</span>)
     }
 
@@ -2622,7 +2725,9 @@
     <span class="doccomment">/// ~~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">with_hour</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">hour</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">hour</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">24</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+        <span class="kw">if</span> <span class="ident">hour</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">24</span> {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
+        }
         <span class="kw">let</span> <span class="ident">secs</span> <span class="op">=</span> <span class="ident">hour</span> <span class="op">*</span> <span class="number">3600</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">secs</span> <span class="op">%</span> <span class="number">3600</span>;
         <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span> { <span class="ident">secs</span>: <span class="ident">secs</span>, ..<span class="kw-2">*</span><span class="self">self</span> })
     }
@@ -2642,7 +2747,9 @@
     <span class="doccomment">/// ~~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">with_minute</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">min</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">min</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">60</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+        <span class="kw">if</span> <span class="ident">min</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">60</span> {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
+        }
         <span class="kw">let</span> <span class="ident">secs</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">secs</span> <span class="op">/</span> <span class="number">3600</span> <span class="op">*</span> <span class="number">3600</span> <span class="op">+</span> <span class="ident">min</span> <span class="op">*</span> <span class="number">60</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">secs</span> <span class="op">%</span> <span class="number">60</span>;
         <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span> { <span class="ident">secs</span>: <span class="ident">secs</span>, ..<span class="kw-2">*</span><span class="self">self</span> })
     }
@@ -2664,7 +2771,9 @@
     <span class="doccomment">/// ~~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">with_second</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">sec</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">sec</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">60</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+        <span class="kw">if</span> <span class="ident">sec</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">60</span> {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
+        }
         <span class="kw">let</span> <span class="ident">secs</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">secs</span> <span class="op">/</span> <span class="number">60</span> <span class="op">*</span> <span class="number">60</span> <span class="op">+</span> <span class="ident">sec</span>;
         <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span> { <span class="ident">secs</span>: <span class="ident">secs</span>, ..<span class="kw-2">*</span><span class="self">self</span> })
     }
@@ -2699,7 +2808,9 @@
     <span class="doccomment">/// ~~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">with_nanosecond</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">nano</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">nano</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">2_000_000_000</span> { <span class="kw">return</span> <span class="prelude-val">None</span>; }
+        <span class="kw">if</span> <span class="ident">nano</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">2_000_000_000</span> {
+            <span class="kw">return</span> <span class="prelude-val">None</span>;
+        }
         <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span> { <span class="ident">frac</span>: <span class="ident">nano</span>, ..<span class="kw-2">*</span><span class="self">self</span> })
     }
 
@@ -2727,7 +2838,6 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Practically this also takes account of fractional seconds, so it is not recommended.</span>
 <span class="doccomment">/// (For the obvious reason this also distinguishes leap seconds from non-leap seconds.)</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cargo-clippy&quot;</span>, <span class="ident">allow</span>(<span class="ident">derive_hash_xor_eq</span>))]</span>
 <span class="kw">impl</span> <span class="ident">hash</span>::<span class="ident">Hash</span> <span class="kw">for</span> <span class="ident">NaiveTime</span> {
     <span class="kw">fn</span> <span class="ident">hash</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">hash</span>::<span class="ident">Hasher</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">H</span>) {
         <span class="self">self</span>.<span class="ident">secs</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
@@ -3018,7 +3128,9 @@
 <span class="doccomment">/// assert_eq!(format!(&quot;{}&quot;, NaiveTime::from_hms_milli(6, 59, 59, 1_500)), &quot;06:59:60.500&quot;);</span>
 <span class="doccomment">/// ~~~~</span>
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">NaiveTime</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> { <span class="ident">fmt</span>::<span class="ident">Debug</span>::<span class="ident">fmt</span>(<span class="self">self</span>, <span class="ident">f</span>) }
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="ident">fmt</span>::<span class="ident">Debug</span>::<span class="ident">fmt</span>(<span class="self">self</span>, <span class="ident">f</span>)
+    }
 }
 
 <span class="doccomment">/// Parsing a `str` into a `NaiveTime` uses the same format,</span>
@@ -3045,12 +3157,15 @@
 
     <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ParseResult</span><span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span> {
         <span class="kw">const</span> <span class="ident">ITEMS</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">Item</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span>] <span class="op">=</span> <span class="kw-2">&amp;</span>[
-                             <span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="ident">Numeric</span>::<span class="ident">Hour</span>, <span class="ident">Pad</span>::<span class="ident">Zero</span>),
-            <span class="ident">Item</span>::<span class="ident">Space</span>(<span class="string">&quot;&quot;</span>), <span class="ident">Item</span>::<span class="ident">Literal</span>(<span class="string">&quot;:&quot;</span>),
-                             <span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="ident">Numeric</span>::<span class="ident">Minute</span>, <span class="ident">Pad</span>::<span class="ident">Zero</span>),
-            <span class="ident">Item</span>::<span class="ident">Space</span>(<span class="string">&quot;&quot;</span>), <span class="ident">Item</span>::<span class="ident">Literal</span>(<span class="string">&quot;:&quot;</span>),
-                             <span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="ident">Numeric</span>::<span class="ident">Second</span>, <span class="ident">Pad</span>::<span class="ident">Zero</span>),
-            <span class="ident">Item</span>::<span class="ident">Fixed</span>(<span class="ident">Fixed</span>::<span class="ident">Nanosecond</span>), <span class="ident">Item</span>::<span class="ident">Space</span>(<span class="string">&quot;&quot;</span>),
+            <span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="ident">Numeric</span>::<span class="ident">Hour</span>, <span class="ident">Pad</span>::<span class="ident">Zero</span>),
+            <span class="ident">Item</span>::<span class="ident">Space</span>(<span class="string">&quot;&quot;</span>),
+            <span class="ident">Item</span>::<span class="ident">Literal</span>(<span class="string">&quot;:&quot;</span>),
+            <span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="ident">Numeric</span>::<span class="ident">Minute</span>, <span class="ident">Pad</span>::<span class="ident">Zero</span>),
+            <span class="ident">Item</span>::<span class="ident">Space</span>(<span class="string">&quot;&quot;</span>),
+            <span class="ident">Item</span>::<span class="ident">Literal</span>(<span class="string">&quot;:&quot;</span>),
+            <span class="ident">Item</span>::<span class="ident">Numeric</span>(<span class="ident">Numeric</span>::<span class="ident">Second</span>, <span class="ident">Pad</span>::<span class="ident">Zero</span>),
+            <span class="ident">Item</span>::<span class="ident">Fixed</span>(<span class="ident">Fixed</span>::<span class="ident">Nanosecond</span>),
+            <span class="ident">Item</span>::<span class="ident">Space</span>(<span class="string">&quot;&quot;</span>),
         ];
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parsed</span> <span class="op">=</span> <span class="ident">Parsed</span>::<span class="ident">new</span>();
@@ -3061,52 +3176,64 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">test</span>, <span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc-serialize&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>)))]</span>
 <span class="kw">fn</span> <span class="ident">test_encodable_json</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">to_string</span>: <span class="ident">F</span>)
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">E</span><span class="op">&gt;</span>, <span class="ident">E</span>: ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span>
+<span class="kw">where</span>
+    <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">E</span><span class="op">&gt;</span>,
+    <span class="ident">E</span>: ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span>,
 {
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;00:00:00&quot;&quot;#</span>.<span class="ident">into</span>()));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">950</span>)).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;00:00:00.950&quot;&quot;#</span>.<span class="ident">into</span>()));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">59</span>, <span class="number">1_000</span>)).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;00:00:60&quot;&quot;#</span>.<span class="ident">into</span>()));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>)).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;00:01:02&quot;&quot;#</span>.<span class="ident">into</span>()));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">98765432</span>)).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;03:05:07.098765432&quot;&quot;#</span>.<span class="ident">into</span>()));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>)).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;07:08:09&quot;&quot;#</span>.<span class="ident">into</span>()));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro</span>(<span class="number">12</span>, <span class="number">34</span>, <span class="number">56</span>, <span class="number">789</span>)).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;12:34:56.000789&quot;&quot;#</span>.<span class="ident">into</span>()));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>, <span class="number">1_999_999_999</span>)).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;23:59:60.999999999&quot;&quot;#</span>.<span class="ident">into</span>()));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;00:00:00&quot;&quot;#</span>.<span class="ident">into</span>()));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">950</span>)).<span class="ident">ok</span>(),
+        <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;00:00:00.950&quot;&quot;#</span>.<span class="ident">into</span>())
+    );
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">59</span>, <span class="number">1_000</span>)).<span class="ident">ok</span>(),
+        <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;00:00:60&quot;&quot;#</span>.<span class="ident">into</span>())
+    );
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>)).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;00:01:02&quot;&quot;#</span>.<span class="ident">into</span>()));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">98765432</span>)).<span class="ident">ok</span>(),
+        <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;03:05:07.098765432&quot;&quot;#</span>.<span class="ident">into</span>())
+    );
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>)).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;07:08:09&quot;&quot;#</span>.<span class="ident">into</span>()));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro</span>(<span class="number">12</span>, <span class="number">34</span>, <span class="number">56</span>, <span class="number">789</span>)).<span class="ident">ok</span>(),
+        <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;12:34:56.000789&quot;&quot;#</span>.<span class="ident">into</span>())
+    );
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>, <span class="number">1_999_999_999</span>)).<span class="ident">ok</span>(),
+        <span class="prelude-val">Some</span>(<span class="string">r#&quot;&quot;23:59:60.999999999&quot;&quot;#</span>.<span class="ident">into</span>())
+    );
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">test</span>, <span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc-serialize&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>)))]</span>
 <span class="kw">fn</span> <span class="ident">test_decodable_json</span><span class="op">&lt;</span><span class="ident">F</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">from_str</span>: <span class="ident">F</span>)
-    <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NaiveTime</span>, <span class="ident">E</span><span class="op">&gt;</span>, <span class="ident">E</span>: ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span>
+<span class="kw">where</span>
+    <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NaiveTime</span>, <span class="ident">E</span><span class="op">&gt;</span>,
+    <span class="ident">E</span>: ::<span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Debug</span>,
 {
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;00:00:00&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;0:0:0&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;00:00:00.950&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">950</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;0:0:0.95&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">950</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;00:00:60&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">59</span>, <span class="number">1_000</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;00:01:02&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;03:05:07.098765432&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">98765432</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;07:08:09&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;12:34:56.000789&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro</span>(<span class="number">12</span>, <span class="number">34</span>, <span class="number">56</span>, <span class="number">789</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;23:59:60.999999999&quot;&quot;#</span>).<span class="ident">ok</span>(),
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>, <span class="number">1_999_999_999</span>)));
-    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;23:59:60.9999999999997&quot;&quot;#</span>).<span class="ident">ok</span>(), <span class="comment">// excess digits are ignored</span>
-               <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>, <span class="number">1_999_999_999</span>)));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;00:00:00&quot;&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;0:0:0&quot;&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;00:00:00.950&quot;&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">950</span>)));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;0:0:0.95&quot;&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">950</span>)));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;00:00:60&quot;&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">59</span>, <span class="number">1_000</span>)));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;00:01:02&quot;&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>)));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="ident">from_str</span>(<span class="string">r#&quot;&quot;03:05:07.098765432&quot;&quot;#</span>).<span class="ident">ok</span>(),
+        <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">98765432</span>))
+    );
+    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;07:08:09&quot;&quot;#</span>).<span class="ident">ok</span>(), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>)));
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="ident">from_str</span>(<span class="string">r#&quot;&quot;12:34:56.000789&quot;&quot;#</span>).<span class="ident">ok</span>(),
+        <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro</span>(<span class="number">12</span>, <span class="number">34</span>, <span class="number">56</span>, <span class="number">789</span>))
+    );
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="ident">from_str</span>(<span class="string">r#&quot;&quot;23:59:60.999999999&quot;&quot;#</span>).<span class="ident">ok</span>(),
+        <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>, <span class="number">1_999_999_999</span>))
+    );
+    <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="ident">from_str</span>(<span class="string">r#&quot;&quot;23:59:60.9999999999997&quot;&quot;#</span>).<span class="ident">ok</span>(), <span class="comment">// excess digits are ignored</span>
+        <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>, <span class="number">1_999_999_999</span>))
+    );
 
     <span class="comment">// bad formats</span>
     <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">from_str</span>(<span class="string">r#&quot;&quot;&quot;&quot;#</span>).<span class="ident">is_err</span>());
@@ -3128,7 +3255,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc-serialize&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">rustc_serialize</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">NaiveTime</span>;
-    <span class="kw">use</span> <span class="ident">rustc_serialize</span>::{<span class="ident">Encodable</span>, <span class="ident">Encoder</span>, <span class="ident">Decodable</span>, <span class="ident">Decoder</span>};
+    <span class="kw">use</span> <span class="ident">rustc_serialize</span>::{<span class="ident">Decodable</span>, <span class="ident">Decoder</span>, <span class="ident">Encodable</span>, <span class="ident">Encoder</span>};
 
     <span class="kw">impl</span> <span class="ident">Encodable</span> <span class="kw">for</span> <span class="ident">NaiveTime</span> {
         <span class="kw">fn</span> <span class="ident">encode</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Encoder</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
@@ -3142,7 +3269,8 @@
         }
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span> <span class="kw">use</span> <span class="ident">rustc_serialize</span>::<span class="ident">json</span>;
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+    <span class="kw">use</span> <span class="ident">rustc_serialize</span>::<span class="ident">json</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_encodable</span>() {
@@ -3157,16 +3285,17 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">serde</span> {
-    <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">NaiveTime</span>;
-    <span class="kw">use</span> <span class="ident">serdelib</span>::{<span class="ident">ser</span>, <span class="ident">de</span>};
+    <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
+    <span class="kw">use</span> <span class="ident">serdelib</span>::{<span class="ident">de</span>, <span class="ident">ser</span>};
 
     <span class="comment">// TODO not very optimized for space (binary formats would want something better)</span>
     <span class="comment">// TODO round-trip for general leap seconds (not just those with second = 60)</span>
 
     <span class="kw">impl</span> <span class="ident">ser</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">NaiveTime</span> {
         <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">S</span>: <span class="ident">ser</span>::<span class="ident">Serializer</span>
+        <span class="kw">where</span>
+            <span class="ident">S</span>: <span class="ident">ser</span>::<span class="ident">Serializer</span>,
         {
             <span class="ident">serializer</span>.<span class="ident">collect_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>)
         }
@@ -3177,13 +3306,13 @@
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">de</span>::<span class="ident">Visitor</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NaiveTimeVisitor</span> {
         <span class="kw">type</span> <span class="ident">Value</span> <span class="op">=</span> <span class="ident">NaiveTime</span>;
 
-        <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span>
-        {
+        <span class="kw">fn</span> <span class="ident">expecting</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">formatter</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
             <span class="macro">write</span><span class="macro">!</span>(<span class="ident">formatter</span>, <span class="string">&quot;a formatted time string&quot;</span>)
         }
 
         <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">NaiveTime</span>, <span class="ident">E</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">E</span>: <span class="ident">de</span>::<span class="ident">Error</span>
+        <span class="kw">where</span>
+            <span class="ident">E</span>: <span class="ident">de</span>::<span class="ident">Error</span>,
         {
             <span class="ident">value</span>.<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="ident">E</span>::<span class="ident">custom</span>)
         }
@@ -3191,14 +3320,17 @@
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">de</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">NaiveTime</span> {
         <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">de</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">D</span>: <span class="ident">de</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
         {
             <span class="ident">deserializer</span>.<span class="ident">deserialize_str</span>(<span class="ident">NaiveTimeVisitor</span>)
         }
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">bincode</span>;
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">bincode</span>;
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+    <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde_json</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_serde_serialize</span>() {
@@ -3214,7 +3346,7 @@
     <span class="kw">fn</span> <span class="ident">test_serde_bincode</span>() {
         <span class="comment">// Bincode is relevant to test separately from JSON because</span>
         <span class="comment">// it is not self-describing.</span>
-        <span class="kw">use</span> <span class="self">self</span>::<span class="ident">bincode</span>::{<span class="ident">Infinite</span>, <span class="ident">serialize</span>, <span class="ident">deserialize</span>};
+        <span class="kw">use</span> <span class="self">self</span>::<span class="ident">bincode</span>::{<span class="ident">deserialize</span>, <span class="ident">serialize</span>, <span class="ident">Infinite</span>};
 
         <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">98765432</span>);
         <span class="kw">let</span> <span class="ident">encoded</span> <span class="op">=</span> <span class="ident">serialize</span>(<span class="kw-2">&amp;</span><span class="ident">t</span>, <span class="ident">Infinite</span>).<span class="ident">unwrap</span>();
@@ -3226,18 +3358,24 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">NaiveTime</span>;
-    <span class="kw">use</span> <span class="ident">Timelike</span>;
-    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">u32</span>;
     <span class="kw">use</span> <span class="ident">oldtime</span>::<span class="ident">Duration</span>;
+    <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">u32</span>;
+    <span class="kw">use</span> <span class="ident">Timelike</span>;
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_time_from_hms_milli</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>)));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">777</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">777_000_000</span>)));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1_999</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1_999_000_000</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>))
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">777</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">777_000_000</span>))
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1_999</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1_999_000_000</span>))
+        );
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">2_000</span>), <span class="prelude-val">None</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">5_000</span>), <span class="prelude-val">None</span>); <span class="comment">// overflow check</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="ident">u32</span>::<span class="ident">MAX</span>), <span class="prelude-val">None</span>);
@@ -3245,14 +3383,22 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_time_from_hms_micro</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>)));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">333</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">333_000</span>)));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">777_777</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">777_777_000</span>)));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1_999_999</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1_999_999_000</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">0</span>))
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">333</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">333_000</span>))
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">777_777</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">777_777_000</span>))
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1_999_999</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_nano</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">1_999_999_000</span>))
+        );
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">2_000_000</span>), <span class="prelude-val">None</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">5_000_000</span>), <span class="prelude-val">None</span>); <span class="comment">// overflow check</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_micro_opt</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="ident">u32</span>::<span class="ident">MAX</span>), <span class="prelude-val">None</span>);
@@ -3261,26 +3407,26 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_time_hms</span>() {
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">hour</span>(), <span class="number">3</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_hour</span>(<span class="number">0</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">5</span>, <span class="number">7</span>)));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_hour</span>(<span class="number">23</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">23</span>, <span class="number">5</span>, <span class="number">7</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_hour</span>(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">0</span>, <span class="number">5</span>, <span class="number">7</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_hour</span>(<span class="number">23</span>), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">23</span>, <span class="number">5</span>, <span class="number">7</span>)));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_hour</span>(<span class="number">24</span>), <span class="prelude-val">None</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_hour</span>(<span class="ident">u32</span>::<span class="ident">MAX</span>), <span class="prelude-val">None</span>);
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">minute</span>(), <span class="number">5</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_minute</span>(<span class="number">0</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">0</span>, <span class="number">7</span>)));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_minute</span>(<span class="number">59</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">59</span>, <span class="number">7</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_minute</span>(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">0</span>, <span class="number">7</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_minute</span>(<span class="number">59</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">59</span>, <span class="number">7</span>))
+        );
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_minute</span>(<span class="number">60</span>), <span class="prelude-val">None</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_minute</span>(<span class="ident">u32</span>::<span class="ident">MAX</span>), <span class="prelude-val">None</span>);
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">second</span>(), <span class="number">7</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_second</span>(<span class="number">0</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">0</span>)));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_second</span>(<span class="number">59</span>),
-                   <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">59</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_second</span>(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">0</span>)));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_second</span>(<span class="number">59</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">59</span>))
+        );
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_second</span>(<span class="number">60</span>), <span class="prelude-val">None</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>).<span class="ident">with_second</span>(<span class="ident">u32</span>::<span class="ident">MAX</span>), <span class="prelude-val">None</span>);
     }
@@ -3288,13 +3434,13 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_time_add</span>() {
         <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">check</span> {
-            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sum</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> ({
+            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sum</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs</span> <span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sum</span>);
                 <span class="comment">//assert_eq!($rhs + $lhs, $sum);</span>
-            })
+            }};
         }
 
-        <span class="kw">let</span> <span class="ident">hmsm</span> <span class="op">=</span> <span class="op">|</span><span class="ident">h</span>,<span class="ident">m</span>,<span class="ident">s</span>,<span class="ident">mi</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="ident">h</span>, <span class="ident">m</span>, <span class="ident">s</span>, <span class="ident">mi</span>);
+        <span class="kw">let</span> <span class="ident">hmsm</span> <span class="op">=</span> <span class="op">|</span><span class="ident">h</span>, <span class="ident">m</span>, <span class="ident">s</span>, <span class="ident">mi</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="ident">h</span>, <span class="ident">m</span>, <span class="ident">s</span>, <span class="ident">mi</span>);
 
         <span class="macro">check</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">900</span>), <span class="ident">Duration</span>::<span class="ident">zero</span>(), <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">900</span>));
         <span class="macro">check</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">900</span>), <span class="ident">Duration</span>::<span class="ident">milliseconds</span>(<span class="number">100</span>), <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">0</span>));
@@ -3319,18 +3465,28 @@
     <span class="kw">fn</span> <span class="ident">test_time_overflowing_add</span>() {
         <span class="kw">let</span> <span class="ident">hmsm</span> <span class="op">=</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>;
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="number">11</span>)),
-                   (<span class="ident">hmsm</span>(<span class="number">14</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>), <span class="number">0</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="number">23</span>)),
-                   (<span class="ident">hmsm</span>(<span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>), <span class="number">86_400</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="op">-</span><span class="number">7</span>)),
-                   (<span class="ident">hmsm</span>(<span class="number">20</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>), <span class="op">-</span><span class="number">86_400</span>));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="number">11</span>)),
+            (<span class="ident">hmsm</span>(<span class="number">14</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>), <span class="number">0</span>)
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="number">23</span>)),
+            (<span class="ident">hmsm</span>(<span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>), <span class="number">86_400</span>)
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">hours</span>(<span class="op">-</span><span class="number">7</span>)),
+            (<span class="ident">hmsm</span>(<span class="number">20</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>), <span class="op">-</span><span class="number">86_400</span>)
+        );
 
         <span class="comment">// overflowing_add_signed with leap seconds may be counter-intuitive</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1_678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">days</span>(<span class="number">1</span>)),
-                   (<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>), <span class="number">86_400</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1_678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">days</span>(<span class="op">-</span><span class="number">1</span>)),
-                   (<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">678</span>), <span class="op">-</span><span class="number">86_400</span>));
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1_678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">days</span>(<span class="number">1</span>)),
+            (<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">678</span>), <span class="number">86_400</span>)
+        );
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1_678</span>).<span class="ident">overflowing_add_signed</span>(<span class="ident">Duration</span>::<span class="ident">days</span>(<span class="op">-</span><span class="number">1</span>)),
+            (<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">678</span>), <span class="op">-</span><span class="number">86_400</span>)
+        );
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -3356,20 +3512,23 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_time_sub</span>() {
         <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">check</span> {
-            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">diff</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> ({
+            (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">diff</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
                 <span class="comment">// `time1 - time2 = duration` is equivalent to `time2 - time1 = -duration`</span>
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs</span>.<span class="ident">signed_duration_since</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>), <span class="macro-nonterminal">$</span><span class="macro-nonterminal">diff</span>);
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rhs</span>.<span class="ident">signed_duration_since</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">lhs</span>), <span class="op">-</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">diff</span>);
-            })
+            }};
         }
 
-        <span class="kw">let</span> <span class="ident">hmsm</span> <span class="op">=</span> <span class="op">|</span><span class="ident">h</span>,<span class="ident">m</span>,<span class="ident">s</span>,<span class="ident">mi</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="ident">h</span>, <span class="ident">m</span>, <span class="ident">s</span>, <span class="ident">mi</span>);
+        <span class="kw">let</span> <span class="ident">hmsm</span> <span class="op">=</span> <span class="op">|</span><span class="ident">h</span>, <span class="ident">m</span>, <span class="ident">s</span>, <span class="ident">mi</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="ident">h</span>, <span class="ident">m</span>, <span class="ident">s</span>, <span class="ident">mi</span>);
 
         <span class="macro">check</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">900</span>), <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">900</span>), <span class="ident">Duration</span>::<span class="ident">zero</span>());
         <span class="macro">check</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">900</span>), <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">600</span>), <span class="ident">Duration</span>::<span class="ident">milliseconds</span>(<span class="number">300</span>));
         <span class="macro">check</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">200</span>), <span class="ident">hmsm</span>(<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">200</span>), <span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="number">3600</span> <span class="op">+</span> <span class="number">60</span> <span class="op">+</span> <span class="number">1</span>));
-        <span class="macro">check</span><span class="macro">!</span>(<span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">200</span>), <span class="ident">hmsm</span>(<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">300</span>),
-               <span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="number">3600</span> <span class="op">+</span> <span class="number">60</span>) <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">milliseconds</span>(<span class="number">900</span>));
+        <span class="macro">check</span><span class="macro">!</span>(
+            <span class="ident">hmsm</span>(<span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">200</span>),
+            <span class="ident">hmsm</span>(<span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">300</span>),
+            <span class="ident">Duration</span>::<span class="ident">seconds</span>(<span class="number">3600</span> <span class="op">+</span> <span class="number">60</span>) <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">milliseconds</span>(<span class="number">900</span>)
+        );
 
         <span class="comment">// treats the leap second as if it coincides with the prior non-leap second,</span>
         <span class="comment">// as required by `time1 - time2 = duration` and `time2 - time1 = -duration` equivalence.</span>
@@ -3410,17 +3569,24 @@
         <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">s</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">valid</span> {
             <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span>() {
                 <span class="prelude-val">Ok</span>(<span class="ident">d</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">d</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;parsing `{}` has failed: {}&quot;</span>, <span class="ident">s</span>, <span class="ident">e</span>)
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;parsing `{}` has failed: {}&quot;</span>, <span class="ident">s</span>, <span class="ident">e</span>),
             };
             <span class="kw">let</span> <span class="ident">s_</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">d</span>);
             <span class="comment">// `s` and `s_` may differ, but `s.parse()` and `s_.parse()` must be same</span>
             <span class="kw">let</span> <span class="ident">d_</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s_</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">NaiveTime</span><span class="op">&gt;</span>() {
                 <span class="prelude-val">Ok</span>(<span class="ident">d</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">d</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;`{}` is parsed into `{:?}`, but reparsing that has failed: {}&quot;</span>,
-                                 <span class="ident">s</span>, <span class="ident">d</span>, <span class="ident">e</span>)
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;`{}` is parsed into `{:?}`, but reparsing that has failed: {}&quot;</span>, <span class="ident">s</span>, <span class="ident">d</span>, <span class="ident">e</span>)
+                }
             };
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">d</span> <span class="op">=</span><span class="op">=</span> <span class="ident">d_</span>, <span class="string">&quot;`{}` is parsed into `{:?}`, but reparsed result \
-                              `{:?}` does not match&quot;</span>, <span class="ident">s</span>, <span class="ident">d</span>, <span class="ident">d_</span>);
+            <span class="macro">assert</span><span class="macro">!</span>(
+                <span class="ident">d</span> <span class="op">=</span><span class="op">=</span> <span class="ident">d_</span>,
+                <span class="string">&quot;`{}` is parsed into `{:?}`, but reparsed result \
+                              `{:?}` does not match&quot;</span>,
+                <span class="ident">s</span>,
+                <span class="ident">d</span>,
+                <span class="ident">d_</span>
+            );
         }
 
         <span class="comment">// some invalid cases</span>
@@ -3438,11 +3604,12 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_time_parse_from_str</span>() {
-        <span class="kw">let</span> <span class="ident">hms</span> <span class="op">=</span> <span class="op">|</span><span class="ident">h</span>,<span class="ident">m</span>,<span class="ident">s</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="ident">h</span>,<span class="ident">m</span>,<span class="ident">s</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">parse_from_str</span>(<span class="string">&quot;2014-5-7T12:34:56+09:30&quot;</span>, <span class="string">&quot;%Y-%m-%dT%H:%M:%S%z&quot;</span>),
-                   <span class="prelude-val">Ok</span>(<span class="ident">hms</span>(<span class="number">12</span>, <span class="number">34</span>, <span class="number">56</span>))); <span class="comment">// ignore date and offset</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">parse_from_str</span>(<span class="string">&quot;PM 12:59&quot;</span>, <span class="string">&quot;%P %H:%M&quot;</span>),
-                   <span class="prelude-val">Ok</span>(<span class="ident">hms</span>(<span class="number">12</span>, <span class="number">59</span>, <span class="number">0</span>)));
+        <span class="kw">let</span> <span class="ident">hms</span> <span class="op">=</span> <span class="op">|</span><span class="ident">h</span>, <span class="ident">m</span>, <span class="ident">s</span><span class="op">|</span> <span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="ident">h</span>, <span class="ident">m</span>, <span class="ident">s</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">parse_from_str</span>(<span class="string">&quot;2014-5-7T12:34:56+09:30&quot;</span>, <span class="string">&quot;%Y-%m-%dT%H:%M:%S%z&quot;</span>),
+            <span class="prelude-val">Ok</span>(<span class="ident">hms</span>(<span class="number">12</span>, <span class="number">34</span>, <span class="number">56</span>))
+        ); <span class="comment">// ignore date and offset</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">parse_from_str</span>(<span class="string">&quot;PM 12:59&quot;</span>, <span class="string">&quot;%P %H:%M&quot;</span>), <span class="prelude-val">Ok</span>(<span class="ident">hms</span>(<span class="number">12</span>, <span class="number">59</span>, <span class="number">0</span>)));
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">parse_from_str</span>(<span class="string">&quot;12:3456&quot;</span>, <span class="string">&quot;%H:%M:%S&quot;</span>).<span class="ident">is_err</span>());
     }
 
@@ -3472,10 +3639,11 @@
 
         <span class="comment">// corner cases</span>
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms</span>(<span class="number">13</span>, <span class="number">57</span>, <span class="number">9</span>).<span class="ident">format</span>(<span class="string">&quot;%r&quot;</span>).<span class="ident">to_string</span>(), <span class="string">&quot;01:57:09 PM&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>, <span class="number">1_000</span>).<span class="ident">format</span>(<span class="string">&quot;%X&quot;</span>).<span class="ident">to_string</span>(),
-                   <span class="string">&quot;23:59:60&quot;</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">NaiveTime</span>::<span class="ident">from_hms_milli</span>(<span class="number">23</span>, <span class="number">59</span>, <span class="number">59</span>, <span class="number">1_000</span>).<span class="ident">format</span>(<span class="string">&quot;%X&quot;</span>).<span class="ident">to_string</span>(),
+            <span class="string">&quot;23:59:60&quot;</span>
+        );
     }
 }
-
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "chrono";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

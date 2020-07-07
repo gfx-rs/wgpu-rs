@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/43c67ac/wgpu-core/src/pipeline.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pipeline.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/cfd21d4/wgpu-core/src/pipeline.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>pipeline.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -118,26 +118,6 @@
 <span id="118">118</span>
 <span id="119">119</span>
 <span id="120">120</span>
-<span id="121">121</span>
-<span id="122">122</span>
-<span id="123">123</span>
-<span id="124">124</span>
-<span id="125">125</span>
-<span id="126">126</span>
-<span id="127">127</span>
-<span id="128">128</span>
-<span id="129">129</span>
-<span id="130">130</span>
-<span id="131">131</span>
-<span id="132">132</span>
-<span id="133">133</span>
-<span id="134">134</span>
-<span id="135">135</span>
-<span id="136">136</span>
-<span id="137">137</span>
-<span id="138">138</span>
-<span id="139">139</span>
-<span id="140">140</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -147,30 +127,13 @@
     <span class="ident">device</span>::<span class="ident">RenderPassContext</span>,
     <span class="ident">id</span>::{<span class="ident">DeviceId</span>, <span class="ident">PipelineLayoutId</span>, <span class="ident">ShaderModuleId</span>},
     <span class="ident">validation</span>::<span class="ident">StageError</span>,
-    <span class="ident">LifeGuard</span>, <span class="ident">RawString</span>, <span class="ident">RefCount</span>, <span class="ident">Stored</span>,
+    <span class="ident">LifeGuard</span>, <span class="ident">RefCount</span>, <span class="ident">Stored</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Borrow</span>;
 <span class="kw">use</span> <span class="ident">wgt</span>::{
     <span class="ident">BufferAddress</span>, <span class="ident">ColorStateDescriptor</span>, <span class="ident">DepthStencilStateDescriptor</span>, <span class="ident">IndexFormat</span>, <span class="ident">InputStepMode</span>,
-    <span class="ident">PrimitiveTopology</span>, <span class="ident">RasterizationStateDescriptor</span>, <span class="ident">VertexAttributeDescriptor</span>,
+    <span class="ident">PrimitiveTopology</span>, <span class="ident">RasterizationStateDescriptor</span>, <span class="ident">VertexStateDescriptor</span>,
 };
-
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VertexBufferLayoutDescriptor</span> {
-    <span class="kw">pub</span> <span class="ident">array_stride</span>: <span class="ident">BufferAddress</span>,
-    <span class="kw">pub</span> <span class="ident">step_mode</span>: <span class="ident">InputStepMode</span>,
-    <span class="kw">pub</span> <span class="ident">attributes</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">VertexAttributeDescriptor</span>,
-    <span class="kw">pub</span> <span class="ident">attributes_length</span>: <span class="ident">usize</span>,
-}
-
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VertexStateDescriptor</span> {
-    <span class="kw">pub</span> <span class="ident">index_format</span>: <span class="ident">IndexFormat</span>,
-    <span class="kw">pub</span> <span class="ident">vertex_buffers</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">VertexBufferLayoutDescriptor</span>,
-    <span class="kw">pub</span> <span class="ident">vertex_buffers_length</span>: <span class="ident">usize</span>,
-}
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -187,18 +150,17 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">module</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">naga</span>::<span class="ident">Module</span><span class="op">&gt;</span>,
 }
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProgrammableStageDescriptor</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">module</span>: <span class="ident">ShaderModuleId</span>,
-    <span class="kw">pub</span> <span class="ident">entry_point</span>: <span class="ident">RawString</span>,
+    <span class="kw">pub</span> <span class="ident">entry_point</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
 }
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputePipelineDescriptor</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputePipelineDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">layout</span>: <span class="ident">PipelineLayoutId</span>,
-    <span class="kw">pub</span> <span class="ident">compute_stage</span>: <span class="ident">ProgrammableStageDescriptor</span>,
+    <span class="kw">pub</span> <span class="ident">compute_stage</span>: <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
@@ -220,18 +182,16 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RenderPipelineDescriptor</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RenderPipelineDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">layout</span>: <span class="ident">PipelineLayoutId</span>,
-    <span class="kw">pub</span> <span class="ident">vertex_stage</span>: <span class="ident">ProgrammableStageDescriptor</span>,
-    <span class="kw">pub</span> <span class="ident">fragment_stage</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ProgrammableStageDescriptor</span>,
+    <span class="kw">pub</span> <span class="ident">vertex_stage</span>: <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">fragment_stage</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">primitive_topology</span>: <span class="ident">PrimitiveTopology</span>,
-    <span class="kw">pub</span> <span class="ident">rasterization_state</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">RasterizationStateDescriptor</span>,
-    <span class="kw">pub</span> <span class="ident">color_states</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">ColorStateDescriptor</span>,
-    <span class="kw">pub</span> <span class="ident">color_states_length</span>: <span class="ident">usize</span>,
-    <span class="kw">pub</span> <span class="ident">depth_stencil_state</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">DepthStencilStateDescriptor</span>,
-    <span class="kw">pub</span> <span class="ident">vertex_state</span>: <span class="ident">VertexStateDescriptor</span>,
+    <span class="kw">pub</span> <span class="ident">rasterization_state</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RasterizationStateDescriptor</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">color_states</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">ColorStateDescriptor</span>],
+    <span class="kw">pub</span> <span class="ident">depth_stencil_state</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DepthStencilStateDescriptor</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">vertex_state</span>: <span class="ident">VertexStateDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">sample_count</span>: <span class="ident">u32</span>,
     <span class="kw">pub</span> <span class="ident">sample_mask</span>: <span class="ident">u32</span>,
     <span class="kw">pub</span> <span class="ident">alpha_to_coverage_enabled</span>: <span class="ident">bool</span>,

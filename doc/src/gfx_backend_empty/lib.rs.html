@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/gfx-backend-empty-0.5.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gfx_backend_empty/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/gfx-backend-empty-0.5.2/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../gfx_backend_empty/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1020,31 +1020,120 @@
 <span id="1020">1020</span>
 <span id="1021">1021</span>
 <span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
+<span id="1101">1101</span>
+<span id="1102">1102</span>
+<span id="1103">1103</span>
+<span id="1104">1104</span>
+<span id="1105">1105</span>
+<span id="1106">1106</span>
+<span id="1107">1107</span>
+<span id="1108">1108</span>
+<span id="1109">1109</span>
+<span id="1110">1110</span>
+<span id="1111">1111</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">//! Dummy backend implementation to test the code for compile errors</span>
+<span class="doccomment">//! Mock backend implementation to test the code for compile errors</span>
 <span class="doccomment">//! outside of the graphics development environment.</span>
 
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">gfx_hal</span> <span class="kw">as</span> <span class="ident">hal</span>;
 
-<span class="kw">use</span> <span class="ident">hal</span>::{
-    <span class="ident">adapter</span>,
-    <span class="ident">buffer</span>,
-    <span class="ident">command</span>,
-    <span class="ident">device</span>,
-    <span class="ident">format</span>,
-    <span class="ident">image</span>,
-    <span class="ident">memory</span>,
-    <span class="ident">pass</span>,
-    <span class="ident">pool</span>,
-    <span class="ident">pso</span>,
-    <span class="ident">query</span>,
-    <span class="ident">queue</span>,
-    <span class="ident">window</span>,
-};
+<span class="kw">use</span> <span class="ident">hal</span>::{<span class="ident">adapter</span>, <span class="ident">command</span>, <span class="ident">device</span>, <span class="ident">format</span>, <span class="ident">pass</span>, <span class="ident">pool</span>, <span class="ident">pso</span>, <span class="ident">query</span>, <span class="ident">queue</span>, <span class="ident">window</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">borrow</span>::<span class="ident">Borrow</span>;
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Range</span>;
 
-<span class="kw">const</span> <span class="ident">DO_NOT_USE_MESSAGE</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;You need to enable a native API feature (vulkan/metal/dx11/dx12/gl/wgl) in order to use gfx-rs&quot;</span>;
+<span class="kw">use</span> <span class="ident">log</span>::<span class="ident">debug</span>;
+
+<span class="kw">mod</span> <span class="ident">buffer</span>;
+<span class="kw">mod</span> <span class="ident">descriptor</span>;
+<span class="kw">mod</span> <span class="ident">image</span>;
+<span class="kw">mod</span> <span class="ident">memory</span>;
+
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">buffer</span>::<span class="ident">Buffer</span>,
+    <span class="ident">descriptor</span>::{<span class="ident">DescriptorPool</span>, <span class="ident">DescriptorSet</span>, <span class="ident">DescriptorSetLayout</span>},
+    <span class="ident">image</span>::<span class="ident">Image</span>,
+    <span class="ident">memory</span>::<span class="ident">Memory</span>,
+};
+
+<span class="kw">const</span> <span class="ident">NOT_SUPPORTED_MESSAGE</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;This function is not currently mocked by the empty backend&quot;</span>;
 
 <span class="doccomment">/// Dummy backend.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
@@ -1061,16 +1150,16 @@
     <span class="kw">type</span> <span class="ident">CommandQueue</span> <span class="op">=</span> <span class="ident">CommandQueue</span>;
     <span class="kw">type</span> <span class="ident">CommandBuffer</span> <span class="op">=</span> <span class="ident">CommandBuffer</span>;
 
-    <span class="kw">type</span> <span class="ident">Memory</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">Memory</span> <span class="op">=</span> <span class="ident">Memory</span>;
     <span class="kw">type</span> <span class="ident">CommandPool</span> <span class="op">=</span> <span class="ident">CommandPool</span>;
 
     <span class="kw">type</span> <span class="ident">ShaderModule</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">RenderPass</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">Framebuffer</span> <span class="op">=</span> ();
 
-    <span class="kw">type</span> <span class="ident">Buffer</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">Buffer</span> <span class="op">=</span> <span class="ident">Buffer</span>;
     <span class="kw">type</span> <span class="ident">BufferView</span> <span class="op">=</span> ();
-    <span class="kw">type</span> <span class="ident">Image</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">Image</span> <span class="op">=</span> <span class="ident">Image</span>;
     <span class="kw">type</span> <span class="ident">ImageView</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">Sampler</span> <span class="op">=</span> ();
 
@@ -1078,9 +1167,9 @@
     <span class="kw">type</span> <span class="ident">GraphicsPipeline</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">PipelineCache</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">PipelineLayout</span> <span class="op">=</span> ();
-    <span class="kw">type</span> <span class="ident">DescriptorSetLayout</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">DescriptorSetLayout</span> <span class="op">=</span> <span class="ident">DescriptorSetLayout</span>;
     <span class="kw">type</span> <span class="ident">DescriptorPool</span> <span class="op">=</span> <span class="ident">DescriptorPool</span>;
-    <span class="kw">type</span> <span class="ident">DescriptorSet</span> <span class="op">=</span> ();
+    <span class="kw">type</span> <span class="ident">DescriptorSet</span> <span class="op">=</span> <span class="ident">DescriptorSet</span>;
 
     <span class="kw">type</span> <span class="ident">Fence</span> <span class="op">=</span> ();
     <span class="kw">type</span> <span class="ident">Semaphore</span> <span class="op">=</span> ();
@@ -1094,41 +1183,90 @@
 <span class="kw">impl</span> <span class="ident">adapter</span>::<span class="ident">PhysicalDevice</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PhysicalDevice</span> {
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">open</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">QueueFamily</span>, <span class="kw-2">&amp;</span>[<span class="ident">queue</span>::<span class="ident">QueuePriority</span>])],
-        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">Features</span>,
+        <span class="ident">families</span>: <span class="kw-2">&amp;</span>[(<span class="kw-2">&amp;</span><span class="ident">QueueFamily</span>, <span class="kw-2">&amp;</span>[<span class="ident">queue</span>::<span class="ident">QueuePriority</span>])],
+        <span class="ident">_requested_features</span>: <span class="ident">hal</span>::<span class="ident">Features</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">adapter</span>::<span class="ident">Gpu</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span>, <span class="ident">device</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="comment">// Validate the arguments</span>
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">families</span>.<span class="ident">len</span>(),
+            <span class="number">1</span>,
+            <span class="string">&quot;Empty backend doesn&#39;t have multiple queue families&quot;</span>
+        );
+        <span class="kw">let</span> (<span class="ident">_family</span>, <span class="ident">priorities</span>) <span class="op">=</span> <span class="ident">families</span>[<span class="number">0</span>];
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">priorities</span>.<span class="ident">len</span>(),
+            <span class="number">1</span>,
+            <span class="string">&quot;Empty backend doesn&#39;t support multiple queues&quot;</span>
+        );
+        <span class="kw">let</span> <span class="ident">priority</span> <span class="op">=</span> <span class="ident">priorities</span>[<span class="number">0</span>];
+        <span class="macro">assert</span><span class="macro">!</span>(
+            <span class="number">0.0</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">priority</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">priority</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">1.0</span>,
+            <span class="string">&quot;Queue priority is out of range&quot;</span>
+        );
+
+        <span class="comment">// Create the queues</span>
+        <span class="kw">let</span> <span class="ident">queue_groups</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">queue_group</span> <span class="op">=</span> <span class="ident">queue</span>::<span class="ident">QueueGroup</span>::<span class="ident">new</span>(<span class="ident">QUEUE_FAMILY_ID</span>);
+            <span class="ident">queue_group</span>.<span class="ident">add_queue</span>(<span class="ident">CommandQueue</span>);
+            <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">queue_group</span>]
+        };
+        <span class="kw">let</span> <span class="ident">gpu</span> <span class="op">=</span> <span class="ident">adapter</span>::<span class="ident">Gpu</span> {
+            <span class="ident">device</span>: <span class="ident">Device</span>,
+            <span class="ident">queue_groups</span>,
+        };
+        <span class="prelude-val">Ok</span>(<span class="ident">gpu</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">format_properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Format</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">format</span>::<span class="ident">Properties</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">image_format_properties</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw">_</span>: <span class="ident">format</span>::<span class="ident">Format</span>,
         <span class="ident">_dim</span>: <span class="ident">u8</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Tiling</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Usage</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">ViewCapabilities</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">image</span>::<span class="ident">FormatProperties</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Tiling</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Usage</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">ViewCapabilities</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">FormatProperties</span><span class="op">&gt;</span> {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">memory_properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">adapter</span>::<span class="ident">MemoryProperties</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="kw">let</span> <span class="ident">memory_types</span> <span class="op">=</span> {
+            <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Properties</span>;
+            <span class="kw">let</span> <span class="ident">properties</span> <span class="op">=</span> <span class="ident">Properties</span>::<span class="ident">DEVICE_LOCAL</span>
+                <span class="op">|</span> <span class="ident">Properties</span>::<span class="ident">CPU_VISIBLE</span>
+                <span class="op">|</span> <span class="ident">Properties</span>::<span class="ident">COHERENT</span>
+                <span class="op">|</span> <span class="ident">Properties</span>::<span class="ident">CPU_CACHED</span>;
+            <span class="kw">let</span> <span class="ident">memory_type</span> <span class="op">=</span> <span class="ident">adapter</span>::<span class="ident">MemoryType</span> {
+                <span class="ident">properties</span>,
+                <span class="ident">heap_index</span>: <span class="number">0</span>,
+            };
+            <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">memory_type</span>]
+        };
+        <span class="comment">// TODO: perhaps get an estimate of free RAM to report here?</span>
+        <span class="kw">let</span> <span class="ident">memory_heaps</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="number">64</span> <span class="op">*</span> <span class="number">1024</span>];
+        <span class="ident">adapter</span>::<span class="ident">MemoryProperties</span> {
+            <span class="ident">memory_types</span>,
+            <span class="ident">memory_heaps</span>,
+        }
     }
 
     <span class="kw">fn</span> <span class="ident">features</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">Features</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">hints</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">Hints</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">limits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">Limits</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="ident">hal</span>::<span class="ident">Limits</span> {
+            <span class="ident">non_coherent_atom_size</span>: <span class="number">1</span>,
+            <span class="ident">optimal_buffer_copy_pitch_alignment</span>: <span class="number">1</span>,
+            ..<span class="ident">Default</span>::<span class="ident">default</span>()
+        }
     }
 }
 
@@ -1147,7 +1285,6 @@
         <span class="ident">Iw</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">S</span>, <span class="ident">pso</span>::<span class="ident">PipelineStage</span>)<span class="op">&gt;</span>,
         <span class="ident">Is</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">S</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">present</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">W</span>, <span class="ident">Is</span>, <span class="ident">S</span>, <span class="ident">Iw</span><span class="op">&gt;</span>(
@@ -1161,7 +1298,7 @@
         <span class="ident">S</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
         <span class="ident">Iw</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">S</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">present_surface</span>(
@@ -1170,11 +1307,11 @@
         <span class="ident">_image</span>: (),
         <span class="ident">_wait_semaphore</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>()<span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">window</span>::<span class="ident">Suboptimal</span><span class="op">&gt;</span>, <span class="ident">window</span>::<span class="ident">PresentError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">wait_idle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 }
 
@@ -1187,19 +1324,17 @@
         <span class="kw">_</span>: <span class="ident">queue</span>::<span class="ident">QueueFamilyId</span>,
         <span class="kw">_</span>: <span class="ident">pool</span>::<span class="ident">CommandPoolCreateFlags</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CommandPool</span>, <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">CommandPool</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_command_pool</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">CommandPool</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_command_pool</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">CommandPool</span>) {}
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allocate_memory</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">MemoryTypeId</span>,
-        <span class="kw">_</span>: <span class="ident">u64</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">AllocationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="ident">memory_type</span>: <span class="ident">hal</span>::<span class="ident">MemoryTypeId</span>,
+        <span class="ident">size</span>: <span class="ident">u64</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Memory</span>, <span class="ident">device</span>::<span class="ident">AllocationError</span><span class="op">&gt;</span> {
+        <span class="ident">Memory</span>::<span class="ident">allocate</span>(<span class="ident">memory_type</span>, <span class="ident">size</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_render_pass</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">IA</span>, <span class="ident">IS</span>, <span class="ident">ID</span><span class="op">&gt;</span>(
@@ -1216,32 +1351,32 @@
         <span class="ident">ID</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">ID</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">pass</span>::<span class="ident">SubpassDependency</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_pipeline_layout</span><span class="op">&lt;</span><span class="ident">IS</span>, <span class="ident">IR</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">IS</span>, <span class="kw">_</span>: <span class="ident">IR</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">IS</span>: <span class="ident">IntoIterator</span>,
-        <span class="ident">IS</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+        <span class="ident">IS</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">DescriptorSetLayout</span><span class="op">&gt;</span>,
         <span class="ident">IR</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">IR</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>(<span class="ident">pso</span>::<span class="ident">ShaderStageFlags</span>, <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>)<span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_pipeline_cache</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">_data</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_pipeline_cache_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_cache</span>: <span class="kw-2">&amp;</span>()) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_pipeline_cache</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_graphics_pipeline</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
@@ -1249,7 +1384,7 @@
         <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">GraphicsPipelineDesc</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Backend</span><span class="op">&gt;</span>,
         <span class="kw">_</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>()<span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">pso</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_compute_pipeline</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
@@ -1257,7 +1392,7 @@
         <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">ComputePipelineDesc</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Backend</span><span class="op">&gt;</span>,
         <span class="kw">_</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>()<span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">pso</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">merge_pipeline_caches</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span>
@@ -1265,97 +1400,110 @@
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_framebuffer</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
         <span class="kw">_</span>: <span class="ident">I</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Extent</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Extent</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_shader_module</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">u32</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">ShaderError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_sampler</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">image</span>::<span class="ident">SamplerDesc</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">AllocationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">u64</span>, <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">Usage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">buffer</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_sampler</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">SamplerDesc</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">AllocationError</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_buffer_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">memory</span>::<span class="ident">Requirements</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_buffer</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">size</span>: <span class="ident">u64</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">Usage</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Buffer</span>, <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">Buffer</span>::<span class="ident">new</span>(<span class="ident">size</span>))
+    }
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_buffer_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Requirements</span> {
+        <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Requirements</span> {
+            <span class="ident">size</span>: <span class="ident">buffer</span>.<span class="ident">size</span>,
+            <span class="comment">// TODO: perhaps require stronger alignments?</span>
+            <span class="ident">alignment</span>: <span class="number">1</span>,
+            <span class="ident">type_mask</span>: <span class="op">!</span><span class="number">0</span>,
+        }
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_buffer_memory</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
+        <span class="ident">_memory</span>: <span class="kw-2">&amp;</span><span class="ident">Memory</span>,
         <span class="kw">_</span>: <span class="ident">u64</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (),
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">BindError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_buffer_view</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>,
         <span class="kw">_</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Format</span><span class="op">&gt;</span>,
-        <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">SubRange</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">buffer</span>::<span class="ident">ViewCreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">ViewCreationError</span><span class="op">&gt;</span> {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_image</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Kind</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Level</span>,
+        <span class="ident">kind</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Kind</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Level</span>,
         <span class="kw">_</span>: <span class="ident">format</span>::<span class="ident">Format</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Tiling</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Usage</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">ViewCapabilities</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">image</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Tiling</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Usage</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">ViewCapabilities</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Image</span>, <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">Image</span>::<span class="ident">new</span>(<span class="ident">kind</span>))
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_image_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">memory</span>::<span class="ident">Requirements</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_image_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">image</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Requirements</span> {
+        <span class="ident">image</span>.<span class="ident">get_requirements</span>()
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_image_subresource_footprint</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Subresource</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">image</span>::<span class="ident">SubresourceFootprint</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Subresource</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">SubresourceFootprint</span> {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_image_memory</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
+        <span class="ident">_memory</span>: <span class="kw-2">&amp;</span><span class="ident">Memory</span>,
         <span class="kw">_</span>: <span class="ident">u64</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (),
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Image</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">BindError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_image_view</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">ViewKind</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">ViewKind</span>,
         <span class="kw">_</span>: <span class="ident">format</span>::<span class="ident">Format</span>,
         <span class="kw">_</span>: <span class="ident">format</span>::<span class="ident">Swizzle</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">SubresourceRange</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">image</span>::<span class="ident">ViewCreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">SubresourceRange</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">ViewCreationError</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_descriptor_pool</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(
@@ -1368,21 +1516,24 @@
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">pso</span>::<span class="ident">DescriptorRangeDesc</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">DescriptorPool</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_descriptor_set_layout</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">J</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="ident">I</span>,
-        <span class="kw">_</span>: <span class="ident">J</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span>
+        <span class="ident">_bindings</span>: <span class="ident">I</span>,
+        <span class="ident">_samplers</span>: <span class="ident">J</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DescriptorSetLayout</span>, <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">pso</span>::<span class="ident">DescriptorSetLayoutBinding</span><span class="op">&gt;</span>,
         <span class="ident">J</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">J</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="kw">let</span> <span class="ident">layout</span> <span class="op">=</span> <span class="ident">DescriptorSetLayout</span> {
+            <span class="ident">name</span>: <span class="ident">String</span>::<span class="ident">new</span>(),
+        };
+        <span class="prelude-val">Ok</span>(<span class="ident">layout</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">write_descriptor_sets</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">J</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">I</span>)
@@ -1391,7 +1542,6 @@
         <span class="ident">J</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">J</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">pso</span>::<span class="ident">Descriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Backend</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_descriptor_sets</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">I</span>)
@@ -1399,43 +1549,43 @@
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">pso</span>::<span class="ident">DescriptorSetCopy</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Backend</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">create_semaphore</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">fn</span> <span class="ident">create_fence</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_fence_status</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">device</span>::<span class="ident">DeviceLost</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">create_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_event_status</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">device</span>::<span class="ident">OomOrDeviceLost</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_query_pool</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">query</span>::<span class="ident">Type</span>, <span class="kw">_</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">query</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_query_pool</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_query_pool_results</span>(
@@ -1443,95 +1593,77 @@
         <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
         <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">query</span>::<span class="ident">Id</span><span class="op">&gt;</span>,
         <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>],
-        <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">Offset</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">Offset</span>,
         <span class="kw">_</span>: <span class="ident">query</span>::<span class="ident">ResultFlags</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">device</span>::<span class="ident">OomOrDeviceLost</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">map_memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">memory</span>::<span class="ident">Segment</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>, <span class="ident">device</span>::<span class="ident">MapError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">map_memory</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">memory</span>: <span class="kw-2">&amp;</span><span class="ident">Memory</span>,
+        <span class="ident">segment</span>: <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>, <span class="ident">device</span>::<span class="ident">MapError</span><span class="op">&gt;</span> {
+        <span class="ident">memory</span>.<span class="ident">map</span>(<span class="ident">segment</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">unmap_memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">unmap_memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_memory</span>: <span class="kw-2">&amp;</span><span class="ident">Memory</span>) {}
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">flush_mapped_memory_ranges</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
-        <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> (), <span class="ident">memory</span>::<span class="ident">Segment</span>)<span class="op">&gt;</span>,
+        <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Memory</span>, <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span>)<span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">invalidate_mapped_memory_ranges</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
-        <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> (), <span class="ident">memory</span>::<span class="ident">Segment</span>)<span class="op">&gt;</span>,
+        <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Memory</span>, <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span>)<span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">free_memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">free_memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_memory</span>: <span class="ident">Memory</span>) {
+        <span class="comment">// Let memory drop</span>
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_shader_module</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_shader_module</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {}
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_render_pass</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_render_pass</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {}
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_pipeline_layout</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_graphics_pipeline</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_pipeline_layout</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {}
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_graphics_pipeline</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {}
+
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_compute_pipeline</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_framebuffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_framebuffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {}
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">Buffer</span>) {}
+
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_buffer_view</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_image</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_image_view</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_sampler</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_descriptor_pool</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">DescriptorPool</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_image</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">Image</span>) {}
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_descriptor_set_layout</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_image_view</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {}
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_fence</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_sampler</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {}
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_semaphore</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_descriptor_pool</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">DescriptorPool</span>) {}
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_descriptor_set_layout</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">DescriptorSetLayout</span>) {}
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_fence</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {}
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_semaphore</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {}
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: ()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_swapchain</span>(
@@ -1539,52 +1671,60 @@
         <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Surface</span>,
         <span class="kw">_</span>: <span class="ident">window</span>::<span class="ident">SwapchainConfig</span>,
         <span class="kw">_</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Swapchain</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Swapchain</span>, <span class="ident">Vec</span><span class="op">&lt;</span>()<span class="op">&gt;</span>), <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Swapchain</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Image</span><span class="op">&gt;</span>), <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_swapchain</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">Swapchain</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">wait_idle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_image_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (), <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_image_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Image</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_buffer_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (), <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_buffer_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Buffer</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_command_buffer_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">CommandBuffer</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_semaphore_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (), <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_fence_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (), <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_framebuffer_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (), <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_render_pass_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (), <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_descriptor_set_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (), <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_descriptor_set_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">set</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DescriptorSet</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="ident">set</span>.<span class="ident">name</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">to_string</span>();
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_descriptor_set_layout_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> (), <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_descriptor_set_layout_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">DescriptorSetLayout</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) {
+        <span class="ident">layout</span>.<span class="ident">name</span> <span class="op">=</span> <span class="ident">name</span>.<span class="ident">to_string</span>();
+    }
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset_fence</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">wait_for_fence</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">device</span>::<span class="ident">OomOrDeviceLost</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
     }
 }
 
@@ -1592,29 +1732,38 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueueFamily</span>;
 <span class="kw">impl</span> <span class="ident">queue</span>::<span class="ident">QueueFamily</span> <span class="kw">for</span> <span class="ident">QueueFamily</span> {
     <span class="kw">fn</span> <span class="ident">queue_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">queue</span>::<span class="ident">QueueType</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="ident">queue</span>::<span class="ident">QueueType</span>::<span class="ident">General</span>
     }
     <span class="kw">fn</span> <span class="ident">max_queues</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="number">1</span>
     }
     <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">queue</span>::<span class="ident">QueueFamilyId</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="ident">QUEUE_FAMILY_ID</span>
     }
 }
+
+<span class="kw">const</span> <span class="ident">QUEUE_FAMILY_ID</span>: <span class="ident">queue</span>::<span class="ident">QueueFamilyId</span> <span class="op">=</span> <span class="ident">queue</span>::<span class="ident">QueueFamilyId</span>(<span class="number">0</span>);
 
 <span class="doccomment">/// Dummy raw command pool.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CommandPool</span>;
 <span class="kw">impl</span> <span class="ident">pool</span>::<span class="ident">CommandPool</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CommandPool</span> {
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">bool</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allocate_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">level</span>: <span class="ident">command</span>::<span class="ident">Level</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CommandBuffer</span> {
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">level</span>,
+            <span class="ident">command</span>::<span class="ident">Level</span>::<span class="ident">Primary</span>,
+            <span class="string">&quot;Only primary command buffers are supported&quot;</span>
+        );
+        <span class="ident">CommandBuffer</span>
     }
+
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">bool</span>) {}
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">free</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">I</span>)
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">CommandBuffer</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 }
 
@@ -1627,43 +1776,44 @@
         <span class="kw">_</span>: <span class="ident">command</span>::<span class="ident">CommandBufferFlags</span>,
         <span class="kw">_</span>: <span class="ident">command</span>::<span class="ident">CommandBufferInheritanceInfo</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span>,
     ) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">finish</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">finish</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {}
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">bool</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">pipeline_barrier</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">pso</span>::<span class="ident">PipelineStage</span><span class="op">&gt;</span>,
-        <span class="kw">_</span>: <span class="ident">memory</span>::<span class="ident">Dependencies</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Dependencies</span>,
         <span class="kw">_</span>: <span class="ident">T</span>,
     ) <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
-        <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">memory</span>::<span class="ident">Barrier</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Backend</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Barrier</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Backend</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">fill_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">SubRange</span>, <span class="kw">_</span>: <span class="ident">u32</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">fill_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>, <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span>, <span class="kw">_</span>: <span class="ident">u32</span>) {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">update_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">Offset</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">update_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>, <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">Offset</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">clear_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Layout</span>, <span class="kw">_</span>: <span class="ident">command</span>::<span class="ident">ClearValue</span>, <span class="kw">_</span>: <span class="ident">T</span>)
-    <span class="kw">where</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">clear_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>,
+        <span class="kw">_</span>: <span class="ident">command</span>::<span class="ident">ClearValue</span>,
+        <span class="kw">_</span>: <span class="ident">T</span>,
+    ) <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
-        <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">image</span>::<span class="ident">SubresourceRange</span><span class="op">&gt;</span>,
+        <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">SubresourceRange</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">clear_attachments</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">T</span>, <span class="kw">_</span>: <span class="ident">U</span>)
@@ -1673,42 +1823,47 @@
         <span class="ident">U</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">U</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">pso</span>::<span class="ident">ClearRect</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">resolve_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Layout</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Layout</span>, <span class="kw">_</span>: <span class="ident">T</span>)
-    <span class="kw">where</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">resolve_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>,
+        <span class="kw">_</span>: <span class="ident">T</span>,
+    ) <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">command</span>::<span class="ident">ImageResolve</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">blit_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Layout</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Layout</span>,
-        <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Filter</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Filter</span>,
         <span class="kw">_</span>: <span class="ident">T</span>,
     ) <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">command</span>::<span class="ident">ImageBlit</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_index_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">IndexBufferView</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_index_buffer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">IndexBufferView</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span>) {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_vertex_buffers</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">u32</span>, <span class="kw">_</span>: <span class="ident">I</span>)
     <span class="kw">where</span>
-        <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">T</span>, <span class="ident">buffer</span>::<span class="ident">SubRange</span>)<span class="op">&gt;</span>,
-        <span class="ident">T</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+        <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">T</span>, <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span>)<span class="op">&gt;</span>,
+        <span class="ident">T</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">Buffer</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_viewports</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">u32</span>, <span class="kw">_</span>: <span class="ident">T</span>)
@@ -1716,7 +1871,6 @@
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">pso</span>::<span class="ident">Viewport</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_scissors</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">u32</span>, <span class="kw">_</span>: <span class="ident">T</span>)
@@ -1724,35 +1878,34 @@
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">pso</span>::<span class="ident">Rect</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_stencil_reference</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">Face</span>, <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">StencilValue</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_stencil_read_mask</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">Face</span>, <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">StencilValue</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_stencil_write_mask</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">Face</span>, <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">StencilValue</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_blend_constants</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">ColorValue</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_depth_bounds</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_line_width</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">f32</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_depth_bias</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">DepthBias</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">begin_render_pass</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
@@ -1766,88 +1919,86 @@
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">command</span>::<span class="ident">ClearValue</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">next_subpass</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">command</span>::<span class="ident">SubpassContents</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">end_render_pass</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">end_render_pass</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {}
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_graphics_pipeline</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_graphics_pipeline</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) {}
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_graphics_descriptor_sets</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">J</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">usize</span>, <span class="kw">_</span>: <span class="ident">I</span>, <span class="kw">_</span>: <span class="ident">J</span>)
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
-        <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+        <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">DescriptorSet</span><span class="op">&gt;</span>,
         <span class="ident">J</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">J</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">command</span>::<span class="ident">DescriptorSetOffset</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="comment">// Do nothing</span>
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_compute_pipeline</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>()) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_compute_descriptor_sets</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">J</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">usize</span>, <span class="kw">_</span>: <span class="ident">I</span>, <span class="kw">_</span>: <span class="ident">J</span>)
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
-        <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+        <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">DescriptorSet</span><span class="op">&gt;</span>,
         <span class="ident">J</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">J</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">command</span>::<span class="ident">DescriptorSetOffset</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="comment">// Do nothing</span>
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">dispatch</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">WorkGroupCount</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">dispatch_indirect</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">Offset</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">dispatch_indirect</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>, <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">Offset</span>) {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_buffer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">T</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_buffer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>, <span class="kw">_</span>: <span class="ident">T</span>)
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">command</span>::<span class="ident">BufferCopy</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Layout</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Layout</span>, <span class="kw">_</span>: <span class="ident">T</span>)
-    <span class="kw">where</span>
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>,
+        <span class="kw">_</span>: <span class="ident">T</span>,
+    ) <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">command</span>::<span class="ident">ImageCopy</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_buffer_to_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Layout</span>, <span class="kw">_</span>: <span class="ident">T</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_buffer_to_image</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>, <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>, <span class="kw">_</span>: <span class="ident">T</span>)
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">command</span>::<span class="ident">BufferImageCopy</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_image_to_buffer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">image</span>::<span class="ident">Layout</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">T</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_image_to_buffer</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Image</span>, <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>, <span class="kw">_</span>: <span class="ident">T</span>)
     <span class="kw">where</span>
         <span class="ident">T</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">T</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">command</span>::<span class="ident">BufferImageCopy</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">draw</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">VertexCount</span><span class="op">&gt;</span>, <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">InstanceCount</span><span class="op">&gt;</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">draw</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">VertexCount</span><span class="op">&gt;</span>, <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">InstanceCount</span><span class="op">&gt;</span>) {}
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">draw_indexed</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
@@ -1855,29 +2006,35 @@
         <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">VertexOffset</span>,
         <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">InstanceCount</span><span class="op">&gt;</span>,
     ) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">draw_indirect</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">Offset</span>, <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">DrawCount</span>, <span class="kw">_</span>: <span class="ident">u32</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">draw_indirect</span>(
+        <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">Offset</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">DrawCount</span>,
+        <span class="kw">_</span>: <span class="ident">u32</span>,
+    ) {
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">draw_indexed_indirect</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
-        <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">Offset</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">Offset</span>,
         <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">DrawCount</span>,
         <span class="kw">_</span>: <span class="ident">u32</span>,
     ) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_event</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">PipelineStage</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset_event</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">PipelineStage</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">wait_events</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span>, <span class="ident">J</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">I</span>, <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">pso</span>::<span class="ident">PipelineStage</span><span class="op">&gt;</span>, <span class="kw">_</span>: <span class="ident">J</span>)
@@ -1885,37 +2042,37 @@
         <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
         <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
         <span class="ident">J</span>: <span class="ident">IntoIterator</span>,
-        <span class="ident">J</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">memory</span>::<span class="ident">Barrier</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Backend</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">J</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Barrier</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Backend</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">begin_query</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">query</span>::<span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span>, <span class="kw">_</span>: <span class="ident">query</span>::<span class="ident">ControlFlags</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">end_query</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">query</span>::<span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset_query_pool</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">query</span>::<span class="ident">Id</span><span class="op">&gt;</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_query_pool_results</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
         <span class="kw">_</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">query</span>::<span class="ident">Id</span><span class="op">&gt;</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
-        <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">Offset</span>,
-        <span class="kw">_</span>: <span class="ident">buffer</span>::<span class="ident">Offset</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Buffer</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">Offset</span>,
+        <span class="kw">_</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">Offset</span>,
         <span class="kw">_</span>: <span class="ident">query</span>::<span class="ident">ResultFlags</span>,
     ) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">write_timestamp</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">pso</span>::<span class="ident">PipelineStage</span>, <span class="kw">_</span>: <span class="ident">query</span>::<span class="ident">Query</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">push_graphics_constants</span>(
@@ -1925,11 +2082,11 @@
         <span class="kw">_</span>: <span class="ident">u32</span>,
         <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">u32</span>],
     ) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">push_compute_constants</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>(), <span class="kw">_</span>: <span class="ident">u32</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span>[<span class="ident">u32</span>]) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">execute_commands</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="ident">I</span>)
@@ -1937,33 +2094,17 @@
         <span class="ident">T</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">CommandBuffer</span><span class="op">&gt;</span>,
         <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span><span class="op">&gt;</span>,
     {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">insert_debug_marker</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw">_</span>: <span class="ident">u32</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">begin_debug_marker</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw">_</span>: <span class="ident">u32</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">end_debug_marker</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
-}
-
-<span class="comment">// Dummy descriptor pool.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DescriptorPool</span>;
-<span class="kw">impl</span> <span class="ident">pso</span>::<span class="ident">DescriptorPool</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DescriptorPool</span> {
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">free_sets</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">_descriptor_sets</span>: <span class="ident">I</span>)
-    <span class="kw">where</span>
-        <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> ()<span class="op">&gt;</span>,
-    {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
-
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 }
 
@@ -1972,15 +2113,37 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Surface</span>;
 <span class="kw">impl</span> <span class="ident">window</span>::<span class="ident">Surface</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Surface</span> {
     <span class="kw">fn</span> <span class="ident">supports_queue_family</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">QueueFamily</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="bool-val">true</span>
     }
 
     <span class="kw">fn</span> <span class="ident">capabilities</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">PhysicalDevice</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">window</span>::<span class="ident">SurfaceCapabilities</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="kw">let</span> <span class="ident">extents</span> <span class="op">=</span> {
+            <span class="kw">let</span> <span class="ident">min_extent</span> <span class="op">=</span> <span class="ident">window</span>::<span class="ident">Extent2D</span> {
+                <span class="ident">width</span>: <span class="number">0</span>,
+                <span class="ident">height</span>: <span class="number">0</span>,
+            };
+            <span class="kw">let</span> <span class="ident">max_extent</span> <span class="op">=</span> <span class="ident">window</span>::<span class="ident">Extent2D</span> {
+                <span class="ident">width</span>: <span class="number">8192</span>,
+                <span class="ident">height</span>: <span class="number">4096</span>,
+            };
+            <span class="ident">min_extent</span>..<span class="op">=</span><span class="ident">max_extent</span>
+        };
+        <span class="kw">let</span> <span class="ident">usage</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Usage</span>::<span class="ident">COLOR_ATTACHMENT</span>;
+        <span class="kw">let</span> <span class="ident">present_modes</span> <span class="op">=</span> <span class="ident">window</span>::<span class="ident">PresentMode</span>::<span class="ident">all</span>();
+        <span class="kw">let</span> <span class="ident">composite_alpha_modes</span> <span class="op">=</span> <span class="ident">window</span>::<span class="ident">CompositeAlphaMode</span>::<span class="ident">OPAQUE</span>;
+        <span class="ident">window</span>::<span class="ident">SurfaceCapabilities</span> {
+            <span class="ident">image_count</span>: <span class="number">1</span>..<span class="op">=</span><span class="number">1</span>,
+            <span class="ident">current_extent</span>: <span class="prelude-val">None</span>,
+            <span class="ident">extents</span>,
+            <span class="ident">max_image_layers</span>: <span class="number">1</span>,
+            <span class="ident">usage</span>,
+            <span class="ident">present_modes</span>,
+            <span class="ident">composite_alpha_modes</span>,
+        }
     }
 
     <span class="kw">fn</span> <span class="ident">supported_formats</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">PhysicalDevice</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Format</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">None</span>
     }
 }
 <span class="kw">impl</span> <span class="ident">window</span>::<span class="ident">PresentationSurface</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Surface</span> {
@@ -1991,18 +2154,16 @@
         <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Device</span>,
         <span class="kw">_</span>: <span class="ident">window</span>::<span class="ident">SwapchainConfig</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">window</span>::<span class="ident">CreationError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">unconfigure_swapchain</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Device</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">unconfigure_swapchain</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Device</span>) {}
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">acquire_image</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="kw">_</span>: <span class="ident">u64</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>((), <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">window</span>::<span class="ident">Suboptimal</span><span class="op">&gt;</span>), <span class="ident">window</span>::<span class="ident">AcquireError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="prelude-val">Ok</span>(((), <span class="prelude-val">None</span>))
     }
 }
 
@@ -2016,7 +2177,7 @@
         <span class="kw">_</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>()<span class="op">&gt;</span>,
         <span class="kw">_</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>()<span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">window</span>::<span class="ident">SwapImageIndex</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">window</span>::<span class="ident">Suboptimal</span><span class="op">&gt;</span>), <span class="ident">window</span>::<span class="ident">AcquireError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">NOT_SUPPORTED_MESSAGE</span>)
     }
 }
 
@@ -2024,24 +2185,41 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Instance</span>;
 
 <span class="kw">impl</span> <span class="ident">hal</span>::<span class="ident">Instance</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Instance</span> {
-    <span class="kw">fn</span> <span class="ident">create</span>(<span class="ident">_name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">_version</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">hal</span>::<span class="ident">UnsupportedBackend</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">create</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">version</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">hal</span>::<span class="ident">UnsupportedBackend</span><span class="op">&gt;</span> {
+        <span class="macro">debug</span><span class="macro">!</span>(
+            <span class="string">&quot;Creating empty backend instance with name &#39;{}&#39; and version {}&quot;</span>,
+            <span class="ident">name</span>, <span class="ident">version</span>
+        );
         <span class="prelude-val">Ok</span>(<span class="ident">Instance</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">enumerate_adapters</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">adapter</span>::<span class="ident">Adapter</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="macro">vec</span><span class="macro">!</span>[]
+        <span class="comment">// TODO: provide more mock adapters, with various qualities</span>
+        <span class="kw">let</span> <span class="ident">info</span> <span class="op">=</span> <span class="ident">adapter</span>::<span class="ident">AdapterInfo</span> {
+            <span class="ident">name</span>: <span class="string">&quot;Mock Device&quot;</span>.<span class="ident">to_string</span>(),
+            <span class="ident">vendor</span>: <span class="number">0</span>,
+            <span class="ident">device</span>: <span class="number">1234</span>,
+            <span class="ident">device_type</span>: <span class="ident">adapter</span>::<span class="ident">DeviceType</span>::<span class="ident">Other</span>,
+        };
+        <span class="kw">let</span> <span class="ident">adapter</span> <span class="op">=</span> <span class="ident">adapter</span>::<span class="ident">Adapter</span> {
+            <span class="ident">info</span>,
+            <span class="ident">physical_device</span>: <span class="ident">PhysicalDevice</span>,
+            <span class="comment">// TODO: multiple queue families</span>
+            <span class="ident">queue_families</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">QueueFamily</span>],
+        };
+        <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">adapter</span>]
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_surface</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">raw_window_handle</span>::<span class="ident">HasRawWindowHandle</span>,
+        <span class="ident">raw_window_handle</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">raw_window_handle</span>::<span class="ident">HasRawWindowHandle</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Surface</span>, <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">InitError</span><span class="op">&gt;</span> {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
+        <span class="comment">// TODO: maybe check somehow that the given handle is valid?</span>
+        <span class="kw">let</span> <span class="ident">_handle</span> <span class="op">=</span> <span class="ident">raw_window_handle</span>.<span class="ident">raw_window_handle</span>();
+        <span class="prelude-val">Ok</span>(<span class="ident">Surface</span>)
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_surface</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_surface</span>: <span class="ident">Surface</span>) {
-        <span class="macro">panic</span><span class="macro">!</span>(<span class="ident">DO_NOT_USE_MESSAGE</span>)
-    }
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_surface</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_surface</span>: <span class="ident">Surface</span>) {}
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "gfx_backend_empty";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/43c67ac/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/cfd21d4/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1741,21 +1741,6 @@
 <span id="1741">1741</span>
 <span id="1742">1742</span>
 <span id="1743">1743</span>
-<span id="1744">1744</span>
-<span id="1745">1745</span>
-<span id="1746">1746</span>
-<span id="1747">1747</span>
-<span id="1748">1748</span>
-<span id="1749">1749</span>
-<span id="1750">1750</span>
-<span id="1751">1751</span>
-<span id="1752">1752</span>
-<span id="1753">1753</span>
-<span id="1754">1754</span>
-<span id="1755">1755</span>
-<span id="1756">1756</span>
-<span id="1757">1757</span>
-<span id="1758">1758</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1993,43 +1978,8 @@
         <span class="kw">const</span> <span class="ident">MULTI_DRAW_INDIRECT_COUNT</span> <span class="op">=</span> <span class="number">0x0000_0000_0040_0000</span>;
         <span class="doccomment">/// Features which are part of the upstream webgpu standard</span>
         <span class="kw">const</span> <span class="ident">ALL_WEBGPU</span> <span class="op">=</span> <span class="number">0x0000_0000_0000_FFFF</span>;
-        <span class="doccomment">/// Features that require activating the unsafe feature flag</span>
-        <span class="kw">const</span> <span class="ident">ALL_UNSAFE</span> <span class="op">=</span> <span class="number">0xFFFF_0000_0000_0000</span>;
         <span class="doccomment">/// Features that are only available when targeting native (not web)</span>
         <span class="kw">const</span> <span class="ident">ALL_NATIVE</span> <span class="op">=</span> <span class="number">0xFFFF_FFFF_FFFF_0000</span>;
-    }
-}
-
-<span class="doccomment">/// Marker type signalling if unsafe features are allowed to be enabled.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This doesn&#39;t enable any unsafe features, but must be set to `allow` if</span>
-<span class="doccomment">/// an unsafe features is enabled.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The safety contract of safe Rust is that it is impossible to cause Undefined Behavior (UB)</span>
-<span class="doccomment">/// from safe Rust. If a feature would allow UB to happen, it must preset an unsafe interface.</span>
-<span class="doccomment">/// Enabling unsafe features is therefore an inherently unsafe operation.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnsafeFeatures</span> {
-    <span class="ident">allow_unsafe</span>: <span class="ident">bool</span>,
-}
-<span class="kw">impl</span> <span class="ident">UnsafeFeatures</span> {
-    <span class="doccomment">/// Allow unsafe features to be enabled. This is an unsafe function and by calling this</span>
-    <span class="doccomment">/// function, you assert that even with these features on, it is impossible to cause UB</span>
-    <span class="doccomment">/// from within safe Rust.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allow</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">allow_unsafe</span>: <span class="bool-val">true</span> }
-    }
-    <span class="doccomment">/// Disallow unsafe features.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">disallow</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="self">Self</span> {
-            <span class="ident">allow_unsafe</span>: <span class="bool-val">false</span>,
-        }
-    }
-    <span class="doccomment">/// Does this marker allow unsafe features.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">allowed</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">allow_unsafe</span>
     }
 }
 
@@ -2605,6 +2555,26 @@
     <span class="kw">pub</span> <span class="ident">format</span>: <span class="ident">VertexFormat</span>,
     <span class="doccomment">/// Location for this input. Must match the location in the shader.</span>
     <span class="kw">pub</span> <span class="ident">shader_location</span>: <span class="ident">ShaderLocation</span>,
+}
+
+<span class="doccomment">/// Describes how the vertex buffer is interpreted.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VertexBufferDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The stride, in bytes, between elements of this buffer.</span>
+    <span class="kw">pub</span> <span class="ident">stride</span>: <span class="ident">BufferAddress</span>,
+    <span class="doccomment">/// How often this vertex buffer is &quot;stepped&quot; forward.</span>
+    <span class="kw">pub</span> <span class="ident">step_mode</span>: <span class="ident">InputStepMode</span>,
+    <span class="doccomment">/// The list of attributes which comprise a single vertex.</span>
+    <span class="kw">pub</span> <span class="ident">attributes</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">VertexAttributeDescriptor</span>],
+}
+
+<span class="doccomment">/// Describes vertex input state for a render pipeline.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VertexStateDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The format of any index buffers used with this pipeline.</span>
+    <span class="kw">pub</span> <span class="ident">index_format</span>: <span class="ident">IndexFormat</span>,
+    <span class="doccomment">/// The format of any vertex buffers used with this pipeline.</span>
+    <span class="kw">pub</span> <span class="ident">vertex_buffers</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">VertexBufferDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
 }
 
 <span class="doccomment">/// Vertex Format for a Vertex Attribute (input).</span>

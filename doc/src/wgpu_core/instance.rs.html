@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/43c67ac/wgpu-core/src/instance.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>instance.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/cfd21d4/wgpu-core/src/instance.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>instance.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -702,6 +702,13 @@
 <span id="702">702</span>
 <span id="703">703</span>
 <span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -728,6 +735,7 @@
     <span class="ident">window</span>::<span class="ident">Surface</span> <span class="kw">as</span> <span class="kw">_</span>,
     <span class="ident">Instance</span> <span class="kw">as</span> <span class="kw">_</span>,
 };
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span>;
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
@@ -829,12 +837,11 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">raw</span>: <span class="ident">hal</span>::<span class="ident">adapter</span>::<span class="ident">Adapter</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
     <span class="ident">features</span>: <span class="ident">wgt</span>::<span class="ident">Features</span>,
     <span class="ident">limits</span>: <span class="ident">wgt</span>::<span class="ident">Limits</span>,
-    <span class="ident">unsafe_features</span>: <span class="ident">wgt</span>::<span class="ident">UnsafeFeatures</span>,
     <span class="ident">life_guard</span>: <span class="ident">LifeGuard</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Adapter</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">raw</span>: <span class="ident">hal</span>::<span class="ident">adapter</span>::<span class="ident">Adapter</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">unsafe_features</span>: <span class="ident">wgt</span>::<span class="ident">UnsafeFeatures</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">raw</span>: <span class="ident">hal</span>::<span class="ident">adapter</span>::<span class="ident">Adapter</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Adapter::new&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">adapter_features</span> <span class="op">=</span> <span class="ident">raw</span>.<span class="ident">physical_device</span>.<span class="ident">features</span>();
@@ -864,9 +871,6 @@
             <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">MULTI_DRAW_INDIRECT_COUNT</span>,
             <span class="ident">adapter_features</span>.<span class="ident">contains</span>(<span class="ident">hal</span>::<span class="ident">Features</span>::<span class="ident">DRAW_INDIRECT_COUNT</span>),
         );
-        <span class="kw">if</span> <span class="ident">unsafe_features</span>.<span class="ident">allowed</span>() {
-            <span class="comment">// Unsafe features go here</span>
-        }
 
         <span class="kw">let</span> <span class="ident">adapter_limits</span> <span class="op">=</span> <span class="ident">raw</span>.<span class="ident">physical_device</span>.<span class="ident">limits</span>();
 
@@ -880,7 +884,6 @@
             <span class="ident">raw</span>,
             <span class="ident">features</span>,
             <span class="ident">limits</span>,
-            <span class="ident">unsafe_features</span>,
             <span class="ident">life_guard</span>: <span class="ident">LifeGuard</span>::<span class="ident">new</span>(),
         }
     }
@@ -918,6 +921,30 @@
             <span class="ident">device</span>,
             <span class="ident">device_type</span>: <span class="ident">device_type</span>.<span class="ident">into</span>(),
             <span class="ident">backend</span>,
+        }
+    }
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="doccomment">/// Error when requesting a device from the adaptor</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RequestDeviceError</span> {
+    <span class="doccomment">/// Unsupported feature extension was requested</span>
+    <span class="ident">UnsupportedFeature</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>),
+    <span class="doccomment">/// Requested device limits were exceeded</span>
+    <span class="ident">LimitsExceeded</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">RequestDeviceError</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="self">self</span> {
+            <span class="ident">RequestDeviceError</span>::<span class="ident">UnsupportedFeature</span>(<span class="ident">features</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;Cannot enable features that adapter doesn&#39;t support. Unsupported extensions: {:?}&quot;</span>,
+                <span class="ident">features</span>
+            ),
+            <span class="ident">RequestDeviceError</span>::<span class="ident">LimitsExceeded</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Some of the requested limits are not supported&quot;</span>,)
+            }
         }
     }
 }
@@ -1005,11 +1032,7 @@
         <span class="self">self</span>.<span class="ident">surfaces</span>.<span class="ident">register_identity</span>(<span class="ident">id_in</span>, <span class="ident">surface</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">enumerate_adapters</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">unsafe_features</span>: <span class="ident">wgt</span>::<span class="ident">UnsafeFeatures</span>,
-        <span class="ident">inputs</span>: <span class="ident">AdapterInputs</span><span class="op">&lt;</span><span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">AdapterId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">AdapterId</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">enumerate_adapters</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">inputs</span>: <span class="ident">AdapterInputs</span><span class="op">&lt;</span><span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">AdapterId</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">AdapterId</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Instance::enumerate_adapters&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">instance</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">instance</span>;
@@ -1021,7 +1044,7 @@
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">inst</span>) <span class="op">=</span> <span class="ident">instance_field</span> {
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">id_backend</span>) <span class="op">=</span> <span class="ident">inputs</span>.<span class="ident">find</span>(<span class="ident">backend</span>) {
                         <span class="kw">for</span> <span class="ident">raw</span> <span class="kw">in</span> <span class="ident">inst</span>.<span class="ident">enumerate_adapters</span>() {
-                            <span class="kw">let</span> <span class="ident">adapter</span> <span class="op">=</span> <span class="ident">Adapter</span>::<span class="ident">new</span>(<span class="ident">raw</span>, <span class="ident">unsafe_features</span>);
+                            <span class="kw">let</span> <span class="ident">adapter</span> <span class="op">=</span> <span class="ident">Adapter</span>::<span class="ident">new</span>(<span class="ident">raw</span>);
                             <span class="ident">log</span>::<span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;Adapter {} {:?}&quot;</span>, <span class="ident">backend_info</span>, <span class="ident">adapter</span>.<span class="ident">raw</span>.<span class="ident">info</span>);
                             <span class="ident">adapters</span>.<span class="ident">push</span>(<span class="ident">backend_hub</span>(<span class="self">self</span>).<span class="ident">adapters</span>.<span class="ident">register_identity</span>(
                                 <span class="ident">id_backend</span>.<span class="ident">clone</span>(),
@@ -1049,7 +1072,6 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pick_adapter</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">RequestAdapterOptions</span>,
-        <span class="ident">unsafe_features</span>: <span class="ident">wgt</span>::<span class="ident">UnsafeFeatures</span>,
         <span class="ident">inputs</span>: <span class="ident">AdapterInputs</span><span class="op">&lt;</span><span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">AdapterId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AdapterId</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Instance::pick_adapter&quot;</span>);
@@ -1162,7 +1184,7 @@
         <span class="macro">backends_map</span><span class="macro">!</span> {
             <span class="kw">let</span> <span class="ident">map</span> <span class="op">=</span> <span class="op">|</span>(<span class="ident">info_adapter</span>, <span class="ident">id_backend</span>, <span class="kw-2">mut</span> <span class="ident">adapters_backend</span>, <span class="ident">backend_hub</span>)<span class="op">|</span> {
                 <span class="kw">if</span> <span class="ident">selected</span> <span class="op">&lt;</span> <span class="ident">adapters_backend</span>.<span class="ident">len</span>() {
-                    <span class="kw">let</span> <span class="ident">adapter</span> <span class="op">=</span> <span class="ident">Adapter</span>::<span class="ident">new</span>(<span class="ident">adapters_backend</span>.<span class="ident">swap_remove</span>(<span class="ident">selected</span>), <span class="ident">unsafe_features</span>);
+                    <span class="kw">let</span> <span class="ident">adapter</span> <span class="op">=</span> <span class="ident">Adapter</span>::<span class="ident">new</span>(<span class="ident">adapters_backend</span>.<span class="ident">swap_remove</span>(<span class="ident">selected</span>));
                     <span class="ident">log</span>::<span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;Adapter {} {:?}&quot;</span>, <span class="ident">info_adapter</span>, <span class="ident">adapter</span>.<span class="ident">raw</span>.<span class="ident">info</span>);
                     <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">backend_hub</span>(<span class="self">self</span>).<span class="ident">adapters</span>.<span class="ident">register_identity</span>(
                         <span class="ident">id_backend</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>(),
@@ -1255,7 +1277,7 @@
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">DeviceDescriptor</span>,
         <span class="ident">trace_path</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">std</span>::<span class="ident">path</span>::<span class="ident">Path</span><span class="op">&gt;</span>,
         <span class="ident">id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">DeviceId</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DeviceId</span> {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">DeviceId</span>, <span class="ident">RequestDeviceError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Adapter::request_device&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -1265,19 +1287,12 @@
             <span class="kw">let</span> <span class="ident">adapter</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">adapter_guard</span>[<span class="ident">adapter_id</span>];
             <span class="kw">let</span> <span class="ident">phd</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">adapter</span>.<span class="ident">raw</span>.<span class="ident">physical_device</span>;
 
-            <span class="comment">// Verify all features  were exposed by the adapter</span>
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">adapter</span>.<span class="ident">unsafe_features</span>.<span class="ident">allowed</span>() {
-                <span class="macro">assert</span><span class="macro">!</span>(
-                    <span class="op">!</span><span class="ident">desc</span>.<span class="ident">features</span>.<span class="ident">intersects</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">ALL_UNSAFE</span>),
-                    <span class="string">&quot;Cannot enable unsafe features without passing UnsafeFeatures::allow() when getting an adapter. Enabled unsafe extensions: {:?}&quot;</span>,
-                    <span class="ident">desc</span>.<span class="ident">features</span> <span class="op">&amp;</span> <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">ALL_UNSAFE</span>
-                )
+            <span class="comment">// Verify all features were exposed by the adapter</span>
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">adapter</span>.<span class="ident">features</span>.<span class="ident">contains</span>(<span class="ident">desc</span>.<span class="ident">features</span>) {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeviceError</span>::<span class="ident">UnsupportedFeature</span>(
+                    <span class="ident">desc</span>.<span class="ident">features</span> <span class="op">-</span> <span class="ident">adapter</span>.<span class="ident">features</span>,
+                ));
             }
-            <span class="macro">assert</span><span class="macro">!</span>(
-                <span class="ident">adapter</span>.<span class="ident">features</span>.<span class="ident">contains</span>(<span class="ident">desc</span>.<span class="ident">features</span>),
-                <span class="string">&quot;Cannot enable features that adapter doesn&#39;t support. Unsupported extensions: {:?}&quot;</span>,
-                <span class="ident">desc</span>.<span class="ident">features</span> <span class="op">-</span> <span class="ident">adapter</span>.<span class="ident">features</span>
-            );
 
             <span class="comment">// Verify feature preconditions</span>
             <span class="kw">if</span> <span class="ident">desc</span>
@@ -1370,10 +1385,9 @@
             <span class="kw">if</span> <span class="ident">limits</span>.<span class="ident">max_bound_descriptor_sets</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
                 <span class="ident">log</span>::<span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;max_bind_groups limit is missing&quot;</span>);
             } <span class="kw">else</span> {
-                <span class="macro">assert</span><span class="macro">!</span>(
-                    <span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">limits</span>.<span class="ident">max_bound_descriptor_sets</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">desc</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>,
-                    <span class="string">&quot;Adapter does not support the requested max_bind_groups&quot;</span>
-                );
+                <span class="kw">if</span> <span class="ident">adapter</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span> <span class="op">&lt;</span> <span class="ident">desc</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span> {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RequestDeviceError</span>::<span class="ident">LimitsExceeded</span>);
+                }
             }
 
             <span class="kw">let</span> <span class="ident">mem_props</span> <span class="op">=</span> <span class="ident">phd</span>.<span class="ident">memory_properties</span>();
@@ -1404,7 +1418,7 @@
             )
         };
 
-        <span class="ident">hub</span>.<span class="ident">devices</span>.<span class="ident">register_identity</span>(<span class="ident">id_in</span>, <span class="ident">device</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>)
+        <span class="prelude-val">Ok</span>(<span class="ident">hub</span>.<span class="ident">devices</span>.<span class="ident">register_identity</span>(<span class="ident">id_in</span>, <span class="ident">device</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>))
     }
 }
 </pre></div>

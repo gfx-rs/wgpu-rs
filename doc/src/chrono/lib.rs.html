@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.4.11/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../chrono/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/chrono-0.4.13/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../chrono/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1123,6 +1123,33 @@
 <span id="1123">1123</span>
 <span id="1124">1124</span>
 <span id="1125">1125</span>
+<span id="1126">1126</span>
+<span id="1127">1127</span>
+<span id="1128">1128</span>
+<span id="1129">1129</span>
+<span id="1130">1130</span>
+<span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
+<span id="1135">1135</span>
+<span id="1136">1136</span>
+<span id="1137">1137</span>
+<span id="1138">1138</span>
+<span id="1139">1139</span>
+<span id="1140">1140</span>
+<span id="1141">1141</span>
+<span id="1142">1142</span>
+<span id="1143">1143</span>
+<span id="1144">1144</span>
+<span id="1145">1145</span>
+<span id="1146">1146</span>
+<span id="1147">1147</span>
+<span id="1148">1148</span>
+<span id="1149">1149</span>
+<span id="1150">1150</span>
+<span id="1151">1151</span>
+<span id="1152">1152</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">// This is a part of Chrono.</span>
 <span class="comment">// See README.md and LICENSE.txt for details.</span>
@@ -1504,97 +1531,121 @@
 <span class="doccomment">//! For example, &quot;a month later&quot; of 2014-01-30 is not well-defined</span>
 <span class="doccomment">//! and consequently `Utc.ymd(2014, 1, 30).with_month(2)` returns `None`.</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! Non ISO week handling is not yet supported.</span>
+<span class="doccomment">//! For now you can use the [chrono_ext](https://crates.io/crates/chrono_ext)</span>
+<span class="doccomment">//! crate ([sources](https://github.com/bcourtine/chrono-ext/)).</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! Advanced time zone handling is not yet supported.</span>
 <span class="doccomment">//! For now you can try the [Chrono-tz](https://github.com/chronotope/chrono-tz/) crate instead.</span>
 
 <span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://docs.rs/chrono/latest/&quot;</span>)]</span>
-
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bench&quot;</span>, <span class="ident">feature</span>(<span class="ident">test</span>))]</span> <span class="comment">// lib stability features as per RFC #507</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_debug_implementations</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">dead_code</span>)]</span>
-
+<span class="comment">// lints are added all the time, we test on 1.13</span>
+<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">unknown_lints</span>)]</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">test</span>)), <span class="ident">no_std</span>)]</span>
-
-<span class="comment">// The explicit &#39;static lifetimes are still needed for rustc 1.13-16</span>
-<span class="comment">// backward compatibility, and this appeases clippy. If minimum rustc</span>
-<span class="comment">// becomes 1.17, should be able to remove this, those &#39;static lifetimes,</span>
-<span class="comment">// and use `static` in a lot of places `const` is used now.</span>
-<span class="comment">//</span>
-<span class="comment">// Similarly, redundant_field_names lints on not using the</span>
-<span class="comment">// field-init-shorthand, which was stabilized in rust 1.17.</span>
-<span class="comment">//</span>
-<span class="comment">// Changing trivially_copy_pass_by_ref would require an incompatible version</span>
-<span class="comment">// bump.</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cargo-clippy&quot;</span>, <span class="ident">allow</span>(
-    <span class="ident">const_static_lifetime</span>,
+    <span class="ident">renamed_and_removed_lints</span>,
+    <span class="comment">// The explicit &#39;static lifetimes are still needed for rustc 1.13-16</span>
+    <span class="comment">// backward compatibility, and this appeases clippy. If minimum rustc</span>
+    <span class="comment">// becomes 1.17, should be able to remove this, those &#39;static lifetimes,</span>
+    <span class="comment">// and use `static` in a lot of places `const` is used now.</span>
+    <span class="ident">redundant_static_lifetimes</span>,
+    <span class="comment">// Similarly, redundant_field_names lints on not using the</span>
+    <span class="comment">// field-init-shorthand, which was stabilized in rust 1.17.</span>
     <span class="ident">redundant_field_names</span>,
+    <span class="comment">// Changing trivially_copy_pass_by_ref would require an incompatible version</span>
+    <span class="comment">// bump.</span>
     <span class="ident">trivially_copy_pass_by_ref</span>,
+    <span class="ident">try_err</span>,
+    <span class="comment">// Currently deprecated, we use the separate implementation to add docs</span>
+    <span class="comment">// warning that putting a time in a hash table is probably a bad idea</span>
+    <span class="ident">derive_hash_xor_eq</span>,
 ))]</span>
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">alloc</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)))]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">std</span> <span class="kw">as</span> <span class="ident">alloc</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">test</span>))]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">std</span> <span class="kw">as</span> <span class="ident">core</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">not</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;alloc&quot;</span>)))]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">std</span> <span class="kw">as</span> <span class="ident">alloc</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;clock&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clock&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">time</span> <span class="kw">as</span> <span class="ident">oldtime</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clock&quot;</span>))]</span>
+<span class="kw">mod</span> <span class="ident">oldtime</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_integer</span>;
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_traits</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc-serialize&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rustc_serialize</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">serde</span> <span class="kw">as</span> <span class="ident">serdelib</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;__doctest&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;__doctest&quot;</span>, <span class="ident">cfg</span>(<span class="ident">doctest</span>))]</span>
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">doc_comment</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wasmbind&quot;</span>))]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">wasm_bindgen</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wasmbind&quot;</span>))]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">js_sys</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bench&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">test</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>, <span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;wasmbind&quot;</span>))]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">wasm_bindgen</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;__doctest&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;__doctest&quot;</span>, <span class="ident">cfg</span>(<span class="ident">doctest</span>))]</span>
 <span class="macro">doctest</span><span class="macro">!</span>(<span class="string">&quot;../README.md&quot;</span>);
 
 <span class="comment">// this reexport is to aid the transition and should not be in the prelude!</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">oldtime</span>::<span class="ident">Duration</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;clock&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">offset</span>::<span class="ident">Local</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">offset</span>::{<span class="ident">TimeZone</span>, <span class="ident">Offset</span>, <span class="ident">LocalResult</span>, <span class="ident">Utc</span>, <span class="ident">FixedOffset</span>};
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">naive</span>::{<span class="ident">NaiveDate</span>, <span class="ident">IsoWeek</span>, <span class="ident">NaiveTime</span>, <span class="ident">NaiveDateTime</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">date</span>::{<span class="ident">Date</span>, <span class="ident">MIN_DATE</span>, <span class="ident">MAX_DATE</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">datetime</span>::{<span class="ident">DateTime</span>, <span class="ident">SecondsFormat</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">date</span>::{<span class="ident">Date</span>, <span class="ident">MAX_DATE</span>, <span class="ident">MIN_DATE</span>};
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc-serialize&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">datetime</span>::<span class="ident">rustc_serialize</span>::<span class="ident">TsSeconds</span>;
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">datetime</span>::{<span class="ident">DateTime</span>, <span class="ident">SecondsFormat</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">format</span>::{<span class="ident">ParseError</span>, <span class="ident">ParseResult</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">round</span>::<span class="ident">SubsecRound</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">naive</span>::{<span class="ident">IsoWeek</span>, <span class="ident">NaiveDate</span>, <span class="ident">NaiveDateTime</span>, <span class="ident">NaiveTime</span>};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clock&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">offset</span>::<span class="ident">Local</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">offset</span>::{<span class="ident">FixedOffset</span>, <span class="ident">LocalResult</span>, <span class="ident">Offset</span>, <span class="ident">TimeZone</span>, <span class="ident">Utc</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">round</span>::{<span class="ident">DurationRound</span>, <span class="ident">RoundingError</span>, <span class="ident">SubsecRound</span>};
 
 <span class="doccomment">/// A convenience module appropriate for glob imports (`use chrono::prelude::*;`).</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">prelude</span> {
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">Datelike</span>, <span class="ident">Timelike</span>, <span class="ident">Weekday</span>};
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">TimeZone</span>, <span class="ident">Offset</span>};
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;clock&quot;</span>)]</span>
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">Local</span>;
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">Utc</span>, <span class="ident">FixedOffset</span>};
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">NaiveDate</span>, <span class="ident">NaiveTime</span>, <span class="ident">NaiveDateTime</span>};
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">Date</span>;
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">DateTime</span>, <span class="ident">SecondsFormat</span>};
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span> <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">SubsecRound</span>;
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">Date</span>;
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clock&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">Local</span>;
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">SubsecRound</span>;
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">DateTime</span>, <span class="ident">SecondsFormat</span>};
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">Datelike</span>, <span class="ident">Timelike</span>, <span class="ident">Weekday</span>};
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">FixedOffset</span>, <span class="ident">Utc</span>};
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">NaiveDate</span>, <span class="ident">NaiveDateTime</span>, <span class="ident">NaiveTime</span>};
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">no_inline</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">use</span> {<span class="ident">Offset</span>, <span class="ident">TimeZone</span>};
 }
 
 <span class="comment">// useful throughout the codebase</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">try_opt</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> (<span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> { <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span>, <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span> })
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span>,
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+        }
+    };
 }
 
 <span class="kw">mod</span> <span class="ident">div</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span><span class="op">=</span><span class="string">&quot;clock&quot;</span>))]</span>
-<span class="kw">mod</span> <span class="ident">oldtime</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">offset</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">naive</span> {
     <span class="doccomment">//! Date and time types unconcerned with timezones.</span>
@@ -1603,24 +1654,23 @@
     <span class="doccomment">//! (e.g. [`TimeZone`](../offset/trait.TimeZone.html)),</span>
     <span class="doccomment">//! but can be also used for the simpler date and time handling.</span>
 
-    <span class="kw">mod</span> <span class="ident">internals</span>;
     <span class="kw">mod</span> <span class="ident">date</span>;
+    <span class="kw">mod</span> <span class="ident">datetime</span>;
+    <span class="kw">mod</span> <span class="ident">internals</span>;
     <span class="kw">mod</span> <span class="ident">isoweek</span>;
     <span class="kw">mod</span> <span class="ident">time</span>;
-    <span class="kw">mod</span> <span class="ident">datetime</span>;
 
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">date</span>::{<span class="ident">NaiveDate</span>, <span class="ident">MIN_DATE</span>, <span class="ident">MAX_DATE</span>};
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">isoweek</span>::<span class="ident">IsoWeek</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">time</span>::<span class="ident">NaiveTime</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">datetime</span>::<span class="ident">NaiveDateTime</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">date</span>::{<span class="ident">NaiveDate</span>, <span class="ident">MAX_DATE</span>, <span class="ident">MIN_DATE</span>};
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rustc-serialize&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
     <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">datetime</span>::<span class="ident">rustc_serialize</span>::<span class="ident">TsSeconds</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">datetime</span>::<span class="ident">NaiveDateTime</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">isoweek</span>::<span class="ident">IsoWeek</span>;
+    <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">time</span>::<span class="ident">NaiveTime</span>;
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;__internal_bench&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
     <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">internals</span>::<span class="ident">YearFlags</span> <span class="kw">as</span> <span class="ident">__BenchYearFlags</span>;
-
 
     <span class="doccomment">/// Serialization/Deserialization of naive types in alternate formats</span>
     <span class="doccomment">///</span>
@@ -1683,11 +1733,14 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>, <span class="ident">D</span>: <span class="ident">fmt</span>::<span class="ident">Display</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">SerdeError</span><span class="op">&lt;</span><span class="ident">V</span>, <span class="ident">D</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="kw-2">&amp;</span><span class="ident">SerdeError</span>::<span class="ident">NonExistent</span> { <span class="kw-2">ref</span> <span class="ident">timestamp</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
-                <span class="ident">f</span>, <span class="string">&quot;value is not a legal timestamp: {}&quot;</span>, <span class="ident">timestamp</span>),
+            <span class="kw-2">&amp;</span><span class="ident">SerdeError</span>::<span class="ident">NonExistent</span> { <span class="kw-2">ref</span> <span class="ident">timestamp</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;value is not a legal timestamp: {}&quot;</span>, <span class="ident">timestamp</span>)
+            }
             <span class="kw-2">&amp;</span><span class="ident">SerdeError</span>::<span class="ident">Ambiguous</span> { <span class="kw-2">ref</span> <span class="ident">timestamp</span>, <span class="kw-2">ref</span> <span class="ident">min</span>, <span class="kw-2">ref</span> <span class="ident">max</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
-                <span class="ident">f</span>, <span class="string">&quot;value is an ambiguous timestamp: {}, could be either of {}, {}&quot;</span>,
-                <span class="ident">timestamp</span>, <span class="ident">min</span>, <span class="ident">max</span>),
+                <span class="ident">f</span>,
+                <span class="string">&quot;value is an ambiguous timestamp: {}, could be either of {}, {}&quot;</span>,
+                <span class="ident">timestamp</span>, <span class="ident">min</span>, <span class="ident">max</span>
+            ),
         }
     }
 }
@@ -1893,11 +1946,12 @@
 <span class="kw">mod</span> <span class="ident">weekday_serde</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Weekday</span>;
     <span class="kw">use</span> <span class="ident">core</span>::<span class="ident">fmt</span>;
-    <span class="kw">use</span> <span class="ident">serdelib</span>::{<span class="ident">ser</span>, <span class="ident">de</span>};
+    <span class="kw">use</span> <span class="ident">serdelib</span>::{<span class="ident">de</span>, <span class="ident">ser</span>};
 
     <span class="kw">impl</span> <span class="ident">ser</span>::<span class="ident">Serialize</span> <span class="kw">for</span> <span class="ident">Weekday</span> {
         <span class="kw">fn</span> <span class="ident">serialize</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">serializer</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">S</span>::<span class="prelude-val">Ok</span>, <span class="ident">S</span>::<span class="ident">Error</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">S</span>: <span class="ident">ser</span>::<span class="ident">Serializer</span>
+        <span class="kw">where</span>
+            <span class="ident">S</span>: <span class="ident">ser</span>::<span class="ident">Serializer</span>,
         {
             <span class="ident">serializer</span>.<span class="ident">collect_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>)
         }
@@ -1913,7 +1967,8 @@
         }
 
         <span class="kw">fn</span> <span class="ident">visit_str</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Value</span>, <span class="ident">E</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">E</span>: <span class="ident">de</span>::<span class="ident">Error</span>
+        <span class="kw">where</span>
+            <span class="ident">E</span>: <span class="ident">de</span>::<span class="ident">Error</span>,
         {
             <span class="ident">value</span>.<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">E</span>::<span class="ident">custom</span>(<span class="string">&quot;short or long weekday names expected&quot;</span>))
         }
@@ -1921,7 +1976,8 @@
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="ident">de</span>::<span class="ident">Deserialize</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Weekday</span> {
         <span class="kw">fn</span> <span class="ident">deserialize</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">deserializer</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">D</span>::<span class="ident">Error</span><span class="op">&gt;</span>
-            <span class="kw">where</span> <span class="ident">D</span>: <span class="ident">de</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>
+        <span class="kw">where</span>
+            <span class="ident">D</span>: <span class="ident">de</span>::<span class="ident">Deserializer</span><span class="op">&lt;</span><span class="lifetime">&#39;de</span><span class="op">&gt;</span>,
         {
             <span class="ident">deserializer</span>.<span class="ident">deserialize_str</span>(<span class="ident">WeekdayVisitor</span>)
         }
@@ -1980,14 +2036,8 @@
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">weekday</span>, <span class="ident">expected_weekday</span>);
         }
 
-        <span class="kw">let</span> <span class="ident">errors</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="string">&quot;\&quot;not a weekday\&quot;&quot;</span>,
-            <span class="string">&quot;\&quot;monDAYs\&quot;&quot;</span>,
-            <span class="string">&quot;\&quot;mond\&quot;&quot;</span>,
-            <span class="string">&quot;mon&quot;</span>,
-            <span class="string">&quot;\&quot;thur\&quot;&quot;</span>,
-            <span class="string">&quot;\&quot;thurs\&quot;&quot;</span>,
-        ];
+        <span class="kw">let</span> <span class="ident">errors</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="op">=</span>
+            <span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;\&quot;not a weekday\&quot;&quot;</span>, <span class="string">&quot;\&quot;monDAYs\&quot;&quot;</span>, <span class="string">&quot;\&quot;mond\&quot;&quot;</span>, <span class="string">&quot;mon&quot;</span>, <span class="string">&quot;\&quot;thur\&quot;&quot;</span>, <span class="string">&quot;\&quot;thurs\&quot;&quot;</span>];
 
         <span class="kw">for</span> <span class="ident">str</span> <span class="kw">in</span> <span class="ident">errors</span> {
             <span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">Weekday</span><span class="op">&gt;</span>(<span class="ident">str</span>).<span class="ident">unwrap_err</span>();
@@ -2172,7 +2222,8 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_iter</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">num_iter</span>;
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_readme_doomsday</span>() {
@@ -2221,11 +2272,11 @@
     <span class="kw">fn</span> <span class="ident">in_between</span>(<span class="ident">start</span>: <span class="ident">i32</span>, <span class="ident">end</span>: <span class="ident">i32</span>, <span class="ident">div</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">div</span> <span class="op">&gt;</span> <span class="number">0</span>, <span class="string">&quot;in_between: nonpositive div = {}&quot;</span>, <span class="ident">div</span>);
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> (<span class="ident">start</span>.<span class="ident">div_euclid</span>(<span class="ident">div</span>), <span class="ident">start</span>.<span class="ident">rem_euclid</span>(<span class="ident">div</span>));
-        <span class="kw">let</span>   <span class="ident">end</span> <span class="op">=</span> (  <span class="ident">end</span>.<span class="ident">div_euclid</span>(<span class="ident">div</span>),   <span class="ident">end</span>.<span class="ident">rem_euclid</span>(<span class="ident">div</span>));
+        <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> (<span class="ident">end</span>.<span class="ident">div_euclid</span>(<span class="ident">div</span>), <span class="ident">end</span>.<span class="ident">rem_euclid</span>(<span class="ident">div</span>));
         <span class="comment">// The lowest multiple of `div` greater than or equal to `start`, divided.</span>
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">start</span>.<span class="number">0</span> <span class="op">+</span> (<span class="ident">start</span>.<span class="number">1</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>) <span class="kw">as</span> <span class="ident">i32</span>;
         <span class="comment">// The lowest multiple of `div` greater than or equal to   `end`, divided.</span>
-        <span class="kw">let</span>   <span class="ident">end</span> <span class="op">=</span>   <span class="ident">end</span>.<span class="number">0</span> <span class="op">+</span> (  <span class="ident">end</span>.<span class="number">1</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>) <span class="kw">as</span> <span class="ident">i32</span>;
+        <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">end</span>.<span class="number">0</span> <span class="op">+</span> (<span class="ident">end</span>.<span class="number">1</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>) <span class="kw">as</span> <span class="ident">i32</span>;
         <span class="ident">end</span> <span class="op">-</span> <span class="ident">start</span>
     }
 
@@ -2242,11 +2293,14 @@
 
     <span class="kw">for</span> <span class="ident">year</span> <span class="kw">in</span> <span class="ident">range_inclusive</span>(<span class="ident">naive</span>::<span class="ident">MIN_DATE</span>.<span class="ident">year</span>(), <span class="ident">naive</span>::<span class="ident">MAX_DATE</span>.<span class="ident">year</span>()) {
         <span class="kw">let</span> <span class="ident">jan1_year</span> <span class="op">=</span> <span class="ident">NaiveDate</span>::<span class="ident">from_ymd</span>(<span class="ident">year</span>, <span class="number">1</span>, <span class="number">1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">jan1_year</span>.<span class="ident">num_days_from_ce</span>(), <span class="ident">num_days_from_ce</span>(<span class="kw-2">&amp;</span><span class="ident">jan1_year</span>),
-            <span class="string">&quot;on {:?}&quot;</span>, <span class="ident">jan1_year</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(
+            <span class="ident">jan1_year</span>.<span class="ident">num_days_from_ce</span>(),
+            <span class="ident">num_days_from_ce</span>(<span class="kw-2">&amp;</span><span class="ident">jan1_year</span>),
+            <span class="string">&quot;on {:?}&quot;</span>,
+            <span class="ident">jan1_year</span>
+        );
         <span class="kw">let</span> <span class="ident">mid_year</span> <span class="op">=</span> <span class="ident">jan1_year</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">days</span>(<span class="number">133</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">mid_year</span>.<span class="ident">num_days_from_ce</span>(), <span class="ident">num_days_from_ce</span>(<span class="kw-2">&amp;</span><span class="ident">mid_year</span>),
-            <span class="string">&quot;on {:?}&quot;</span>, <span class="ident">mid_year</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">mid_year</span>.<span class="ident">num_days_from_ce</span>(), <span class="ident">num_days_from_ce</span>(<span class="kw-2">&amp;</span><span class="ident">mid_year</span>), <span class="string">&quot;on {:?}&quot;</span>, <span class="ident">mid_year</span>);
     }
 }
 </pre></div>
