@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-core-0.1.10/src/dispatcher.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dispatcher.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-core-0.1.11/src/dispatcher.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dispatcher.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -851,6 +851,41 @@
 <span id="851">851</span>
 <span id="852">852</span>
 <span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
+<span id="883">883</span>
+<span id="884">884</span>
+<span id="885">885</span>
+<span id="886">886</span>
+<span id="887">887</span>
+<span id="888">888</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Dispatches trace events to [`Subscriber`]s.</span>
 <span class="doccomment">//!</span>
@@ -962,9 +997,17 @@
 <span class="doccomment">//! // `my_subscriber` is now the default</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! **Note**: the thread-local scoped dispatcher (`with_default`) requires the</span>
-<span class="doccomment">//! Rust standard library. `no_std` users should use [`set_global_default`]</span>
+<span class="doccomment">//! &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">//!     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">//! &lt;/div&gt;</span>
+<span class="doccomment">//! &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+<span class="doccomment">//! &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">//! &lt;strong&gt;Note&lt;/strong&gt;:the thread-local scoped dispatcher</span>
+<span class="doccomment">//! (&lt;a href=&quot;#fn.with_default&quot;&gt;&lt;code&gt;with_default&lt;/code&gt;&lt;/a&gt;) requires the</span>
+<span class="doccomment">//! Rust standard library. &lt;code&gt;no_std&lt;/code&gt; users should use</span>
+<span class="doccomment">//! &lt;a href=&quot;#fn.set_global_default&quot;&gt;&lt;code&gt;set_global_default&lt;/code&gt;&lt;/a&gt;</span>
 <span class="doccomment">//! instead.</span>
+<span class="doccomment">//! &lt;/pre&gt;&lt;/div&gt;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! Finally, `tokio` users should note that versions of `tokio` &gt;= 0.1.22</span>
 <span class="doccomment">//! support an `experimental-tracing` feature flag. When this flag is enabled,</span>
@@ -1058,8 +1101,15 @@
 <span class="doccomment">/// The default dispatcher is used when creating a new [span] or</span>
 <span class="doccomment">/// [`Event`].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// **Note**: This function requires the Rust standard library. `no_std` users</span>
-<span class="doccomment">/// should use [`set_global_default`] instead.</span>
+<span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">/// &lt;/div&gt;</span>
+<span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+<span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This function required the Rust standard library.</span>
+<span class="doccomment">/// &lt;code&gt;no_std&lt;/code&gt; users should use &lt;a href=&quot;../fn.set_global_default.html&quot;&gt;</span>
+<span class="doccomment">/// &lt;code&gt;set_global_default&lt;/code&gt;&lt;/a&gt; instead.</span>
+<span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [span]: ../span/index.html</span>
 <span class="doccomment">/// [`Subscriber`]: ../subscriber/trait.Subscriber.html</span>
@@ -1079,12 +1129,20 @@
 <span class="doccomment">/// Sets the dispatch as the default dispatch for the duration of the lifetime</span>
 <span class="doccomment">/// of the returned DefaultGuard</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// **Note**: This function required the Rust standard library. `no_std`  users</span>
-<span class="doccomment">/// should use [`set_global_default`] instead.</span>
+<span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">/// &lt;/div&gt;</span>
+<span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+<span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This function required the Rust standard library.</span>
+<span class="doccomment">/// &lt;code&gt;no_std&lt;/code&gt; users should use &lt;a href=&quot;../fn.set_global_default.html&quot;&gt;</span>
+<span class="doccomment">/// &lt;code&gt;set_global_default&lt;/code&gt;&lt;/a&gt; instead.</span>
+<span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`set_global_default`]: ../fn.set_global_default.html</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)))]</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;Dropping the guard unregisters the dispatcher.&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_default</span>(<span class="ident">dispatcher</span>: <span class="kw-2">&amp;</span><span class="ident">Dispatch</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DefaultGuard</span> {
     <span class="comment">// When this guard is dropped, the default dispatcher will be reset to the</span>
     <span class="comment">// prior default. Using this ensures that we always reset to the prior</span>
@@ -1099,8 +1157,14 @@
 <span class="doccomment">/// Can only be set once; subsequent attempts to set the global default will fail.</span>
 <span class="doccomment">/// Returns `Err` if the global default has already been set.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Note: Libraries should *NOT* call `set_global_default()`! That will cause conflicts when</span>
-<span class="doccomment">/// executables try to set them later.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">///     &lt;div class=&quot;tooltip compile_fail&quot; style=&quot;&quot;&gt;&amp;#x26a0; &amp;#xfe0f;&lt;span class=&quot;tooltiptext&quot;&gt;Warning&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">/// &lt;/div&gt;&lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;&lt;pre class=&quot;compile_fail&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">/// &lt;strong&gt;Warning&lt;/strong&gt;: In general, libraries should &lt;em&gt;not&lt;/em&gt; call</span>
+<span class="doccomment">/// &lt;code&gt;set_global_default()&lt;/code&gt;! Doing so will cause conflicts when</span>
+<span class="doccomment">/// executables that depend on the library try to set the default later.</span>
+<span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [span]: ../span/index.html</span>
 <span class="doccomment">/// [`Subscriber`]: ../subscriber/trait.Subscriber.html</span>
@@ -1375,11 +1439,17 @@
     <span class="doccomment">/// this guarantee and any other libraries implementing instrumentation APIs</span>
     <span class="doccomment">/// must as well.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This calls the [`drop_span`]  function on the [`Subscriber`] that this</span>
+    <span class="doccomment">/// This calls the [`drop_span`] function on the [`Subscriber`] that this</span>
     <span class="doccomment">///  `Dispatch` forwards to.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** the [`try_close`] function is functionally identical, but</span>
-    <span class="doccomment">/// returns `true` if the span is now closed.</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip compile_fail&quot; style=&quot;&quot;&gt;&amp;#x26a0; &amp;#xfe0f;&lt;span class=&quot;tooltiptext&quot;&gt;Warning&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;&lt;pre class=&quot;compile_fail&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Deprecated&lt;/strong&gt;: The &lt;a href=&quot;#method.try_close&quot;&gt;&lt;code&gt;try_close&lt;/code&gt;&lt;/a&gt;</span>
+    <span class="doccomment">/// method is functionally identical, but returns &lt;code&gt;true&lt;/code&gt; if the span is now closed.</span>
+    <span class="doccomment">/// It should be used instead of this method.</span>
+    <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [span ID]: ../span/struct.Id.html</span>
     <span class="doccomment">/// [`Subscriber`]: ../subscriber/trait.Subscriber.html</span>
@@ -1401,7 +1471,7 @@
     <span class="doccomment">/// this guarantee and any other libraries implementing instrumentation APIs</span>
     <span class="doccomment">/// must as well.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This calls the [`try_close`]  function on the [`Subscriber`] that this</span>
+    <span class="doccomment">/// This calls the [`try_close`] function on the [`Subscriber`] that this</span>
     <span class="doccomment">///  `Dispatch` forwards to.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [span ID]: ../span/struct.Id.html</span>

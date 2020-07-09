@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.15/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.16/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -843,6 +843,43 @@
 <span id="843">843</span>
 <span id="844">844</span>
 <span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+<span id="862">862</span>
+<span id="863">863</span>
+<span id="864">864</span>
+<span id="865">865</span>
+<span id="866">866</span>
+<span id="867">867</span>
+<span id="868">868</span>
+<span id="869">869</span>
+<span id="870">870</span>
+<span id="871">871</span>
+<span id="872">872</span>
+<span id="873">873</span>
+<span id="874">874</span>
+<span id="875">875</span>
+<span id="876">876</span>
+<span id="877">877</span>
+<span id="878">878</span>
+<span id="879">879</span>
+<span id="880">880</span>
+<span id="881">881</span>
+<span id="882">882</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! A scoped, structured logging and diagnostics system.</span>
 <span class="doccomment">//!</span>
@@ -895,11 +932,21 @@
 <span class="doccomment">//! The [`span` module][span]&#39;s documentation provides further details on how to</span>
 <span class="doccomment">//! use spans.</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">//!     &lt;div class=&quot;tooltip compile_fail&quot; style=&quot;&quot;&gt;&amp;#x26a0; &amp;#xfe0f;&lt;span class=&quot;tooltiptext&quot;&gt;Warning&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">//! &lt;/div&gt;&lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;&lt;pre class=&quot;compile_fail&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">//!     &lt;strong&gt;Warning&lt;/strong&gt;: In asynchronous code that uses async/await syntax,</span>
+<span class="doccomment">//!     &lt;code&gt;Span::enter&lt;/code&gt; may produce incorrect traces if the returned drop</span>
+<span class="doccomment">//!     guard is held across an await point. See</span>
+<span class="doccomment">//!     &lt;a href=&quot;span/struct.Span.html#in-asynchronous-code&quot;&gt;the method documentation&lt;/a&gt;</span>
+<span class="doccomment">//!     for details.</span>
+<span class="doccomment">//! &lt;/pre&gt;&lt;/div&gt;</span>
+<span class="doccomment">//!</span>
 <span class="doccomment">//! ## Events</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! An [`Event`] represents a _moment_ in time. It signifies something that</span>
 <span class="doccomment">//! happened while a trace was being recorded. `Event`s are comparable to the log</span>
-<span class="doccomment">//! records emitted by unstructured logging code, but unlike a typical log line,</span>
+<span class="doccomment">//! records emitted by unstructured logging code, but unlike a typical log line,``s</span>
 <span class="doccomment">//! an `Event` may occur within the context of a span.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! For example:</span>
@@ -1006,8 +1053,15 @@
 <span class="doccomment">//! # fn main() {}</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! **Note**: using `#[instrument]` on `async fn`s requires the</span>
-<span class="doccomment">//! [`tracing-futures`] crate as a dependency, as well.</span>
+<span class="doccomment">//! &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">//!     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">//! &lt;/div&gt;</span>
+<span class="doccomment">//! &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+<span class="doccomment">//! &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">//!     &lt;strong&gt;Note&lt;/strong&gt;: Using &lt;code&gt;#[instrument]&lt;/code&gt; on</span>
+<span class="doccomment">//!     &lt;code&gt;async fn&lt;/code&gt;s requires the &lt;a href=&quot;https://crates.io/crates/tracing-futures&quot;&gt;</span>
+<span class="doccomment">//!     &lt;code&gt;tracing-futures&lt;/code&gt; crate&lt;/a&gt; as a dependency as well.</span>
+<span class="doccomment">//! &lt;/pre&gt;&lt;/div&gt;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! You can find more examples showing how to use this crate [here][examples].</span>
 <span class="doccomment">//!</span>
@@ -1383,8 +1437,13 @@
 <span class="doccomment">//! # }</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! **Note:** Libraries should *NOT* call `set_global_default()`! That will</span>
-<span class="doccomment">//! cause conflicts when executables try to set the default later.</span>
+<span class="doccomment">//! &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">//!     &lt;div class=&quot;tooltip compile_fail&quot; style=&quot;&quot;&gt;&amp;#x26a0; &amp;#xfe0f;&lt;span class=&quot;tooltiptext&quot;&gt;Warning&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">//! &lt;/div&gt;&lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;&lt;pre class=&quot;compile_fail&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">//! &lt;strong&gt;Warning&lt;/strong&gt;: In general, libraries should &lt;em&gt;not&lt;/em&gt; call</span>
+<span class="doccomment">//! &lt;code&gt;set_global_default()&lt;/code&gt;! Doing so will cause conflicts when</span>
+<span class="doccomment">//! executables that depend on the library try to set the default later.</span>
+<span class="doccomment">//! &lt;/pre&gt;&lt;/div&gt;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! This subscriber will be used as the default in all threads for the</span>
 <span class="doccomment">//! remainder of the duration of the program, similar to setting the logger</span>
@@ -1541,9 +1600,15 @@
 <span class="doccomment">//! [`tracing-bunyan-formatter`]: https://crates.io/crates/tracing-bunyan-formatter</span>
 <span class="doccomment">//! [bunyan]: https://github.com/trentm/node-bunyan</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! **Note:** that some of the ecosystem crates are currently unreleased and</span>
-<span class="doccomment">//! undergoing active development. They may be less stable than `tracing` and</span>
-<span class="doccomment">//! `tracing-core`.</span>
+<span class="doccomment">//! &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">//!     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">//! &lt;/div&gt;</span>
+<span class="doccomment">//! &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+<span class="doccomment">//! &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">//! &lt;strong&gt;Note&lt;/strong&gt;: Some of these ecosystem crates are currently</span>
+<span class="doccomment">//! unreleased and/or in earlier stages of development. They may be less stable</span>
+<span class="doccomment">//! than &lt;code&gt;tracing&lt;/code&gt; and &lt;code&gt;tracing-core&lt;/code&gt;.</span>
+<span class="doccomment">//! &lt;/pre&gt;&lt;/div&gt;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ## Crate Feature Flags</span>
 <span class="doccomment">//!</span>
@@ -1554,8 +1619,6 @@
 <span class="doccomment">//!   as trace events, if a default `tracing` subscriber has not been set. This</span>
 <span class="doccomment">//!   is intended for use in libraries whose users may be using either `tracing`</span>
 <span class="doccomment">//!   or `log`.</span>
-<span class="doccomment">//!   **Note:** `log` support will not work when `tracing` is renamed in `Cargo.toml`,</span>
-<span class="doccomment">//!   due to oddities in macro expansion.</span>
 <span class="doccomment">//! * `log-always`: Emit `log` records from all `tracing` spans and events, even</span>
 <span class="doccomment">//!   a `tracing` subscriber has been set. This should be set only by</span>
 <span class="doccomment">//!   applications which intend to collect traces and logs separately; if an</span>
@@ -1570,12 +1633,20 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//!   ```toml</span>
 <span class="doccomment">//!   [dependencies]</span>
-<span class="doccomment">//!   tracing = { version = &quot;0.1.15&quot;, default-features = false }</span>
+<span class="doccomment">//!   tracing = { version = &quot;0.1.16&quot;, default-features = false }</span>
 <span class="doccomment">//!   ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//!   *Compiler support: requires rustc 1.39+*</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//!   **Note**:`tracing`&#39;s `no_std` support requires `liballoc`.</span>
+<span class="doccomment">//! &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">//!     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">//! &lt;/div&gt;</span>
+<span class="doccomment">//! &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+<span class="doccomment">//! &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">//! &lt;strong&gt;Note&lt;/strong&gt;: &lt;code&gt;tracing&lt;/code&gt;&#39;s &lt;code&gt;no_std&lt;/code&gt; support</span>
+<span class="doccomment">//! requires &lt;code&gt;liballoc&lt;/code&gt;.</span>
+<span class="doccomment">//! &lt;/div&gt;</span>
+<span class="doccomment">//! &lt;/pre&gt;&lt;/div&gt;</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [`log`]: https://docs.rs/log/0.4.6/log/</span>
 <span class="doccomment">//! [span]: span/index.html</span>
@@ -1606,7 +1677,7 @@
 <span class="doccomment">//! [flags]: #crate-feature-flags</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">feature</span>(<span class="ident">doc_cfg</span>))]</span>
-<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://docs.rs/tracing/0.1.15&quot;</span>)]</span>
+<span class="attribute">#![<span class="ident">doc</span>(<span class="ident">html_root_url</span> <span class="op">=</span> <span class="string">&quot;https://docs.rs/tracing/0.1.16&quot;</span>)]</span>
 <span class="attribute">#![<span class="ident">warn</span>(
     <span class="ident">missing_debug_implementations</span>,
     <span class="ident">missing_docs</span>,
@@ -1678,12 +1749,15 @@
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">__macro_support</span> {
     <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">stdlib</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::{<span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>};
+    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Once</span> <span class="op">=</span> <span class="ident">tracing_core</span>::<span class="ident">Once</span>;
+}
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">stdlib</span>::<span class="ident">sync</span>::<span class="ident">Once</span>;
-
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">Once</span> <span class="op">=</span> <span class="ident">tracing_core</span>::<span class="ident">Once</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+<span class="comment">// resolves https://github.com/tokio-rs/tracing/issues/783 by forcing a monomorphization</span>
+<span class="comment">// in tracing, not downstream crates.</span>
+<span class="attribute">#[<span class="ident">inline</span>]</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_enabled</span>(<span class="ident">meta</span>: <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">crate</span>::<span class="ident">dispatcher</span>::<span class="ident">get_default</span>(<span class="op">|</span><span class="ident">current</span><span class="op">|</span> <span class="ident">current</span>.<span class="ident">enabled</span>(<span class="ident">meta</span>))
 }
 
 <span class="kw">mod</span> <span class="ident">sealed</span> {

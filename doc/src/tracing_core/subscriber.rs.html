@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-core-0.1.10/src/subscriber.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>subscriber.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-core-0.1.11/src/subscriber.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>subscriber.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -905,12 +905,12 @@
     <span class="doccomment">/// It&#39;s guaranteed that if this function has been called once more than the</span>
     <span class="doccomment">/// number of times `clone_span` was called with the same `id`, then no more</span>
     <span class="doccomment">/// handles that can enter the span with that `id` exist. This means that it</span>
-    <span class="doccomment">/// can be used in  conjunction with [`clone_span`] to track the number of</span>
+    <span class="doccomment">/// can be used in conjunction with [`clone_span`] to track the number of</span>
     <span class="doccomment">/// handles capable of `enter`ing a span. When all the handles have been</span>
     <span class="doccomment">/// dropped (i.e., `try_close` has been called one more time than</span>
     <span class="doccomment">/// `clone_span` for a given ID), the subscriber may assume that the span</span>
     <span class="doccomment">/// will not be entered again, and should return `true`. It is then free to</span>
-    <span class="doccomment">/// deallocate storage for data associated with  that span, write data from</span>
+    <span class="doccomment">/// deallocate storage for data associated with that span, write data from</span>
     <span class="doccomment">/// that span to IO, and so on.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// **Note**: since this function is called when spans are dropped,</span>
@@ -1028,7 +1028,7 @@
         <span class="ident">Interest</span>(<span class="ident">InterestKind</span>::<span class="ident">Never</span>)
     }
 
-    <span class="doccomment">/// Returns an `Interest` indicating  the subscriber is sometimes interested</span>
+    <span class="doccomment">/// Returns an `Interest` indicating the subscriber is sometimes interested</span>
     <span class="doccomment">/// in being notified about a callsite.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If all active subscribers are `sometimes` or `never` interested in a</span>
@@ -1040,7 +1040,7 @@
         <span class="ident">Interest</span>(<span class="ident">InterestKind</span>::<span class="ident">Sometimes</span>)
     }
 
-    <span class="doccomment">/// Returns an `Interest` indicating  the subscriber is always interested in</span>
+    <span class="doccomment">/// Returns an `Interest` indicating the subscriber is always interested in</span>
     <span class="doccomment">/// being notified about a callsite.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If any subscriber expresses that it is `always()` interested in a given</span>

@@ -14,7 +14,7 @@ is ready to be <code>poll</code>ed again.</p>
 provides access to a <a href="../../futures_util/task/struct.Waker.html"><code>&amp;Waker</code></a>.</li>
 </ul>
 </div>
-            <h2 id='required-methods' class='small-section-header'>Required methods<a href='#required-methods' class='anchor'></a></h2><div class='methods'><h3 id='tymethod.wake_by_ref' class='method'><code id='wake_by_ref.v'>fn <a href='#tymethod.wake_by_ref' class='fnname'>wake_by_ref</a>(arc_self: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;Self&gt;)</code></h3><div class='docblock'><p>Indicates that the associated task is ready to make progress and should
+            <h2 id='required-methods' class='small-section-header'>Required methods<a href='#required-methods' class='anchor'></a></h2><div class='methods'><h3 id='tymethod.wake_by_ref' class='method'><code>fn <a href='#tymethod.wake_by_ref' class='fnname'>wake_by_ref</a>(arc_self: &amp;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;Self&gt;)</code></h3><div class='docblock'><p>Indicates that the associated task is ready to make progress and should
 be <code>poll</code>ed.</p>
 <p>This function can be called from an arbitrary thread, including threads which
 did not create the <code>ArcWake</code> based <a href="../../futures_util/task/struct.Waker.html"><code>Waker</code></a>.</p>
@@ -23,7 +23,7 @@ the associated task onto this queue.</p>
 <p>This function is similar to <a href="../../futures_util/task/trait.ArcWake.html#method.wake"><code>wake</code></a>, but must not consume the provided data
 pointer.</p>
 </div></div><span class='loading-content'>Loading content...</span>
-            <h2 id='provided-methods' class='small-section-header'>Provided methods<a href='#provided-methods' class='anchor'></a></h2><div class='methods'><h3 id='method.wake' class='method'><code id='wake.v'>fn <a href='#method.wake' class='fnname'>wake</a>(self: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;Self&gt;)</code></h3><div class='docblock'><p>Indicates that the associated task is ready to make progress and should
+            <h2 id='provided-methods' class='small-section-header'>Provided methods<a href='#provided-methods' class='anchor'></a></h2><div class='methods'><h3 id='method.wake' class='method'><code>fn <a href='#method.wake' class='fnname'>wake</a>(self: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;Self&gt;)</code></h3><div class='docblock'><p>Indicates that the associated task is ready to make progress and should
 be <code>poll</code>ed.</p>
 <p>This function can be called from an arbitrary thread, including threads which
 did not create the <code>ArcWake</code> based <a href="../../futures_util/task/struct.Waker.html"><code>Waker</code></a>.</p>

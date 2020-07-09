@@ -5,9 +5,9 @@
 }</pre></div><div class='docblock'><p>Additional methods for RwLocks which support upgradable locks and fair
 unlocking.</p>
 </div>
-            <h2 id='required-methods' class='small-section-header'>Required methods<a href='#required-methods' class='anchor'></a></h2><div class='methods'><h3 id='tymethod.unlock_upgradable_fair' class='method'><code id='unlock_upgradable_fair.v'>fn <a href='#tymethod.unlock_upgradable_fair' class='fnname'>unlock_upgradable_fair</a>(&amp;self)</code></h3><div class='docblock'><p>Releases an upgradable lock using a fair unlock protocol.</p>
+            <h2 id='required-methods' class='small-section-header'>Required methods<a href='#required-methods' class='anchor'></a></h2><div class='methods'><h3 id='tymethod.unlock_upgradable_fair' class='method'><code>fn <a href='#tymethod.unlock_upgradable_fair' class='fnname'>unlock_upgradable_fair</a>(&amp;self)</code></h3><div class='docblock'><p>Releases an upgradable lock using a fair unlock protocol.</p>
 </div></div><span class='loading-content'>Loading content...</span>
-            <h2 id='provided-methods' class='small-section-header'>Provided methods<a href='#provided-methods' class='anchor'></a></h2><div class='methods'><h3 id='method.bump_upgradable' class='method'><code id='bump_upgradable.v'>fn <a href='#method.bump_upgradable' class='fnname'>bump_upgradable</a>(&amp;self)</code></h3><div class='docblock'><p>Temporarily yields an upgradable lock to a waiting thread if there is one.</p>
+            <h2 id='provided-methods' class='small-section-header'>Provided methods<a href='#provided-methods' class='anchor'></a></h2><div class='methods'><h3 id='method.bump_upgradable' class='method'><code>fn <a href='#method.bump_upgradable' class='fnname'>bump_upgradable</a>(&amp;self)</code></h3><div class='docblock'><p>Temporarily yields an upgradable lock to a waiting thread if there is one.</p>
 <p>This method is functionally equivalent to calling <code>unlock_upgradable_fair</code> followed
 by <code>lock_upgradable</code>, however it can be much more efficient in the case where there
 are no waiting threads.</p>

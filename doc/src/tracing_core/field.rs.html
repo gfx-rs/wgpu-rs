@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-core-0.1.10/src/field.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>field.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-core-0.1.11/src/field.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>field.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -916,10 +916,66 @@
 <span id="916">916</span>
 <span id="917">917</span>
 <span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Span and `Event` key-value data.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! Spans and events  may be annotated with key-value data, referred to as known</span>
+<span class="doccomment">//! Spans and events may be annotated with key-value data, referred to as known</span>
 <span class="doccomment">//! as _fields_. These fields consist of a mapping from a key (corresponding to</span>
 <span class="doccomment">//! a `&amp;str` but represented internally as an array index) to a [`Value`].</span>
 <span class="doccomment">//!</span>
@@ -936,15 +992,15 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! `tracing` represents values as either one of a set of Rust primitives</span>
 <span class="doccomment">//! (`i64`, `u64`, `bool`, and `&amp;str`) or using a `fmt::Display` or `fmt::Debug`</span>
-<span class="doccomment">//! implementation. The [`record`] trait method on the `Subscriber` trait</span>
-<span class="doccomment">//! allow `Subscriber` implementations to provide type-specific behaviour for</span>
-<span class="doccomment">//! consuming values of each type.</span>
+<span class="doccomment">//! implementation. `Subscriber`s are provided these primitive value types as</span>
+<span class="doccomment">//! `dyn Value` trait objects.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! Instances of the [`Visit`] trait are provided by `Subscriber`s to record the</span>
-<span class="doccomment">//! values attached to spans and `Event`. This trait represents the behavior</span>
-<span class="doccomment">//! used to record values of various types. For example, we might record</span>
-<span class="doccomment">//! integers by incrementing counters for their field names, rather than printing</span>
-<span class="doccomment">//! them.</span>
+<span class="doccomment">//! These trait objects can be formatted using `fmt::Debug`, but may also be</span>
+<span class="doccomment">//! recorded as typed data by calling the [`Value::record`] method on these</span>
+<span class="doccomment">//! trait objects with a _visitor_ implementing the [`Visit`] trait. This trait</span>
+<span class="doccomment">//! represents the behavior used to record values of various types. For example,</span>
+<span class="doccomment">//! we might record integers by incrementing counters for their field names,</span>
+<span class="doccomment">//! rather than printing them.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [`Value`]: trait.Value.html</span>
 <span class="doccomment">//! [span]: ../span/</span>
@@ -954,7 +1010,8 @@
 <span class="doccomment">//! [`Record`]: ../span/struct.Record.html</span>
 <span class="doccomment">//! [`new_span`]: ../subscriber/trait.Subscriber.html#method.new_span</span>
 <span class="doccomment">//! [`record`]: ../subscriber/trait.Subscriber.html#method.record</span>
-<span class="doccomment">//! [`event`]:  ../subscriber/trait.Subscriber.html#method.record</span>
+<span class="doccomment">//! [`event`]:  ../subscriber/trait.Subscriber.html#method.event</span>
+<span class="doccomment">//! [`Value::record`]: trait.Value.html#method.record</span>
 <span class="doccomment">//! [`Visit`]: trait.Visit.html</span>
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">callsite</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">stdlib</span>::{
@@ -1087,8 +1144,15 @@
 <span class="doccomment">/// `examples/counters.rs`, which demonstrates a very simple metrics system</span>
 <span class="doccomment">/// implemented using `tracing`.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// **Note:** the `record_error` trait method is only available when the Rust</span>
-<span class="doccomment">/// standard library is present, as it requires the `std::error::Error` trait.</span>
+<span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">/// &lt;/div&gt;</span>
+<span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+<span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: The &lt;code&gt;record_error&lt;/code&gt; trait method is only</span>
+<span class="doccomment">/// available when the Rust standard library is present, as it requires the</span>
+<span class="doccomment">/// &lt;code&gt;std::error::Error&lt;/code&gt; trait.</span>
+<span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`Value`]: trait.Value.html</span>
 <span class="doccomment">/// [recorded]: trait.Value.html#method.record</span>
@@ -1120,8 +1184,14 @@
 
     <span class="doccomment">/// Records a type implementing `Error`.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note**: this is only enabled when the Rust standard library is</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+    <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: This is only enabled when the Rust standard library is</span>
     <span class="doccomment">/// present.</span>
+    <span class="doccomment">/// &lt;/pre&gt;</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)))]</span>
     <span class="kw">fn</span> <span class="ident">record_error</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)) {
@@ -1346,6 +1416,41 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="kw">dyn</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="comment">// We are only going to be recording the field value, so we don&#39;t</span>
+        <span class="comment">// actually care about the field name here.</span>
+        <span class="kw">struct</span> <span class="ident">NullCallsite</span>;
+        <span class="kw">static</span> <span class="ident">NULL_CALLSITE</span>: <span class="ident">NullCallsite</span> <span class="op">=</span> <span class="ident">NullCallsite</span>;
+        <span class="kw">impl</span> <span class="kw">crate</span>::<span class="ident">callsite</span>::<span class="ident">Callsite</span> <span class="kw">for</span> <span class="ident">NullCallsite</span> {
+            <span class="kw">fn</span> <span class="ident">set_interest</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw">crate</span>::<span class="ident">subscriber</span>::<span class="ident">Interest</span>) {
+                <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;you somehow managed to register the null callsite?&quot;</span>)
+            }
+
+            <span class="kw">fn</span> <span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
+                <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;you somehow managed to access the null callsite?&quot;</span>)
+            }
+        }
+
+        <span class="kw">static</span> <span class="ident">FIELD</span>: <span class="ident">Field</span> <span class="op">=</span> <span class="ident">Field</span> {
+            <span class="ident">i</span>: <span class="number">0</span>,
+            <span class="ident">fields</span>: <span class="ident">FieldSet</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[], <span class="kw">crate</span>::<span class="macro">identify_callsite</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">NULL_CALLSITE</span>)),
+        };
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="prelude-val">Ok</span>(());
+        <span class="self">self</span>.<span class="ident">record</span>(<span class="kw-2">&amp;</span><span class="ident">FIELD</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="op">|</span><span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>, <span class="ident">val</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Debug</span><span class="op">|</span> {
+            <span class="ident">res</span> <span class="op">=</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="ident">val</span>);
+        });
+        <span class="ident">res</span>
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="kw">dyn</span> <span class="ident">Value</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="ident">fmt</span>::<span class="ident">Debug</span>::<span class="ident">fmt</span>(<span class="self">self</span>, <span class="ident">f</span>)
+    }
+}
+
 <span class="comment">// ===== impl DisplayValue =====</span>
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">sealed</span>::<span class="ident">Sealed</span> <span class="kw">for</span> <span class="ident">DisplayValue</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
@@ -1487,11 +1592,18 @@
 
     <span class="doccomment">/// Returns `true` if `self` contains the given `field`.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note**: If `field` shares a name with a field in this `FieldSet`, but</span>
-    <span class="doccomment">/// was created by a `FieldSet` with a different callsite, this `FieldSet`</span>
-    <span class="doccomment">/// does _not_ contain it. This is so that if two separate span callsites</span>
-    <span class="doccomment">/// define a field named &quot;foo&quot;, the `Field` corresponding to &quot;foo&quot; for each</span>
+    <span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+    <span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;/div&gt;</span>
+    <span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+    <span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+    <span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: If &lt;code&gt;field&lt;/code&gt; shares a name with a field</span>
+    <span class="doccomment">/// in this &lt;code&gt;FieldSet&lt;/code&gt;, but was created by a &lt;code&gt;FieldSet&lt;/code&gt;</span>
+    <span class="doccomment">/// with a different callsite, this &lt;code&gt;FieldSet&lt;/code&gt; does &lt;em&gt;not&lt;/em&gt;</span>
+    <span class="doccomment">/// contain it. This is so that if two separate span callsites define a field</span>
+    <span class="doccomment">/// named &quot;foo&quot;, the &lt;code&gt;Field&lt;/code&gt; corresponding to &quot;foo&quot; for each</span>
     <span class="doccomment">/// of those callsites are not equivalent.</span>
+    <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
         <span class="ident">field</span>.<span class="ident">callsite</span>() <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">callsite</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">field</span>.<span class="ident">i</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>()
     }

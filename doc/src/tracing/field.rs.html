@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.15/src/field.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>field.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1"> 1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-0.1.16/src/field.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>field.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../tracing/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1"> 1</span>
 <span id="2"> 2</span>
 <span id="3"> 3</span>
 <span id="4"> 4</span>
@@ -54,6 +54,12 @@
 <span id="54">54</span>
 <span id="55">55</span>
 <span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Structured data associated with `Span`s and `Event`s.</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">tracing_core</span>::<span class="ident">field</span>::<span class="kw-2">*</span>;
@@ -62,13 +68,19 @@
 
 <span class="doccomment">/// Trait implemented to allow a type to be used as a field key.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// **Note**: Although this is implemented for both the [`Field`] type *and* any</span>
-<span class="doccomment">/// type that can be borrowed as an `&amp;str`, only `Field` allows _O_(1) access.</span>
+<span class="doccomment">/// &lt;div class=&quot;information&quot;&gt;</span>
+<span class="doccomment">///     &lt;div class=&quot;tooltip ignore&quot; style=&quot;&quot;&gt;ⓘ&lt;span class=&quot;tooltiptext&quot;&gt;Note&lt;/span&gt;&lt;/div&gt;</span>
+<span class="doccomment">/// &lt;/div&gt;</span>
+<span class="doccomment">/// &lt;div class=&quot;example-wrap&quot; style=&quot;display:inline-block&quot;&gt;</span>
+<span class="doccomment">/// &lt;pre class=&quot;ignore&quot; style=&quot;white-space:normal;font:inherit;&quot;&gt;</span>
+<span class="doccomment">/// &lt;strong&gt;Note&lt;/strong&gt;: Although this is implemented for both the</span>
+<span class="doccomment">/// &lt;a href=&quot;./struct.Field.html&quot;&gt;&lt;code&gt;Field&lt;/code&gt;&lt;/a&gt; type &lt;em&gt;and&lt;/em&gt; any</span>
+<span class="doccomment">/// type that can be borrowed as an &lt;code&gt;&amp;str&lt;/code&gt;, only &lt;code&gt;Field&lt;/code&gt;</span>
+<span class="doccomment">/// allows &lt;em&gt;O&lt;/em&gt;(1) access.</span>
 <span class="doccomment">/// Indexing a field with a string results in an iterative search that performs</span>
 <span class="doccomment">/// string comparisons. Thus, if possible, once the key for a field is known, it</span>
 <span class="doccomment">/// should be used whenever possible.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [`Field`]: ./struct.Field.html</span>
+<span class="doccomment">/// &lt;/pre&gt;</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">AsField</span>: <span class="kw">crate</span>::<span class="ident">sealed</span>::<span class="ident">Sealed</span> {
     <span class="doccomment">/// Attempts to convert `&amp;self` into a `Field` with the specified `metadata`.</span>
     <span class="doccomment">///</span>

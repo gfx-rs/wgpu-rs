@@ -10,14 +10,14 @@ thread if there is one, without giving other threads the opportunity to
 &quot;steal&quot; the lock in the meantime. This is typically slower than unfair
 unlocking, but may be necessary in certain circumstances.</p>
 </div>
-            <h2 id='required-methods' class='small-section-header'>Required methods<a href='#required-methods' class='anchor'></a></h2><div class='methods'><h3 id='tymethod.unlock_shared_fair' class='method'><code id='unlock_shared_fair.v'>fn <a href='#tymethod.unlock_shared_fair' class='fnname'>unlock_shared_fair</a>(&amp;self)</code></h3><div class='docblock'><p>Releases a shared lock using a fair unlock protocol.</p>
-</div><h3 id='tymethod.unlock_exclusive_fair' class='method'><code id='unlock_exclusive_fair.v'>fn <a href='#tymethod.unlock_exclusive_fair' class='fnname'>unlock_exclusive_fair</a>(&amp;self)</code></h3><div class='docblock'><p>Releases an exclusive lock using a fair unlock protocol.</p>
+            <h2 id='required-methods' class='small-section-header'>Required methods<a href='#required-methods' class='anchor'></a></h2><div class='methods'><h3 id='tymethod.unlock_shared_fair' class='method'><code>fn <a href='#tymethod.unlock_shared_fair' class='fnname'>unlock_shared_fair</a>(&amp;self)</code></h3><div class='docblock'><p>Releases a shared lock using a fair unlock protocol.</p>
+</div><h3 id='tymethod.unlock_exclusive_fair' class='method'><code>fn <a href='#tymethod.unlock_exclusive_fair' class='fnname'>unlock_exclusive_fair</a>(&amp;self)</code></h3><div class='docblock'><p>Releases an exclusive lock using a fair unlock protocol.</p>
 </div></div><span class='loading-content'>Loading content...</span>
-            <h2 id='provided-methods' class='small-section-header'>Provided methods<a href='#provided-methods' class='anchor'></a></h2><div class='methods'><h3 id='method.bump_shared' class='method'><code id='bump_shared.v'>fn <a href='#method.bump_shared' class='fnname'>bump_shared</a>(&amp;self)</code></h3><div class='docblock'><p>Temporarily yields a shared lock to a waiting thread if there is one.</p>
+            <h2 id='provided-methods' class='small-section-header'>Provided methods<a href='#provided-methods' class='anchor'></a></h2><div class='methods'><h3 id='method.bump_shared' class='method'><code>fn <a href='#method.bump_shared' class='fnname'>bump_shared</a>(&amp;self)</code></h3><div class='docblock'><p>Temporarily yields a shared lock to a waiting thread if there is one.</p>
 <p>This method is functionally equivalent to calling <code>unlock_shared_fair</code> followed
 by <code>lock_shared</code>, however it can be much more efficient in the case where there
 are no waiting threads.</p>
-</div><h3 id='method.bump_exclusive' class='method'><code id='bump_exclusive.v'>fn <a href='#method.bump_exclusive' class='fnname'>bump_exclusive</a>(&amp;self)</code></h3><div class='docblock'><p>Temporarily yields an exclusive lock to a waiting thread if there is one.</p>
+</div><h3 id='method.bump_exclusive' class='method'><code>fn <a href='#method.bump_exclusive' class='fnname'>bump_exclusive</a>(&amp;self)</code></h3><div class='docblock'><p>Temporarily yields an exclusive lock to a waiting thread if there is one.</p>
 <p>This method is functionally equivalent to calling <code>unlock_exclusive_fair</code> followed
 by <code>lock_exclusive</code>, however it can be much more efficient in the case where there
 are no waiting threads.</p>
