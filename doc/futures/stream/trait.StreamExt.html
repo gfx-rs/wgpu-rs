@@ -131,16 +131,16 @@ the next value.</p>
 <p>The stream returned yields pairs <code>(i, val)</code>, where <code>i</code> is the
 current index of iteration and <code>val</code> is the value returned by the
 stream.</p>
-<p><code>enumerate()</code> keeps its count as a <a href="/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.5/src/std/primitive.usize.html" title="`usize`"><code>usize</code></a>. If you want to count by a
+<p><code>enumerate()</code> keeps its count as a <a href="../../std/primitive.usize.html" title="`usize`"><code>usize</code></a>. If you want to count by a
 different sized integer, the <a href="../../futures/stream/trait.StreamExt.html#method.zip"><code>zip</code></a> function provides similar
 functionality.</p>
 <h1 id="overflow-behavior" class="section-header"><a href="#overflow-behavior">Overflow Behavior</a></h1>
 <p>The method does no guarding against overflows, so enumerating more than
-<a href="/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.5/src/std/primitive.usize.html#method.max_value" title="`usize::max_value()`"><code>usize::max_value()</code></a> elements either produces the wrong result or panics. If
+<a href="../../std/primitive.usize.html#method.max_value" title="`usize::max_value()`"><code>usize::max_value()</code></a> elements either produces the wrong result or panics. If
 debug assertions are enabled, a panic is guaranteed.</p>
 <h1 id="panics" class="section-header"><a href="#panics">Panics</a></h1>
 <p>The returned stream might panic if the to-be-returned index would
-overflow a <a href="/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/futures-util-0.3.5/src/std/primitive.usize.html" title="`usize`"><code>usize</code></a>.</p>
+overflow a <a href="../../std/primitive.usize.html" title="`usize`"><code>usize</code></a>.</p>
 <h1 id="examples-3" class="section-header"><a href="#examples-3">Examples</a></h1>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">stream</span>::{<span class="self">self</span>, <span class="ident">StreamExt</span>};
