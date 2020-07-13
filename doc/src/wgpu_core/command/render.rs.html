@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/d7ee890/wgpu-core/src/command/render.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>render.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/f67771f/wgpu-core/src/command/render.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>render.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css"><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1771,6 +1771,91 @@
 <span id="1771">1771</span>
 <span id="1772">1772</span>
 <span id="1773">1773</span>
+<span id="1774">1774</span>
+<span id="1775">1775</span>
+<span id="1776">1776</span>
+<span id="1777">1777</span>
+<span id="1778">1778</span>
+<span id="1779">1779</span>
+<span id="1780">1780</span>
+<span id="1781">1781</span>
+<span id="1782">1782</span>
+<span id="1783">1783</span>
+<span id="1784">1784</span>
+<span id="1785">1785</span>
+<span id="1786">1786</span>
+<span id="1787">1787</span>
+<span id="1788">1788</span>
+<span id="1789">1789</span>
+<span id="1790">1790</span>
+<span id="1791">1791</span>
+<span id="1792">1792</span>
+<span id="1793">1793</span>
+<span id="1794">1794</span>
+<span id="1795">1795</span>
+<span id="1796">1796</span>
+<span id="1797">1797</span>
+<span id="1798">1798</span>
+<span id="1799">1799</span>
+<span id="1800">1800</span>
+<span id="1801">1801</span>
+<span id="1802">1802</span>
+<span id="1803">1803</span>
+<span id="1804">1804</span>
+<span id="1805">1805</span>
+<span id="1806">1806</span>
+<span id="1807">1807</span>
+<span id="1808">1808</span>
+<span id="1809">1809</span>
+<span id="1810">1810</span>
+<span id="1811">1811</span>
+<span id="1812">1812</span>
+<span id="1813">1813</span>
+<span id="1814">1814</span>
+<span id="1815">1815</span>
+<span id="1816">1816</span>
+<span id="1817">1817</span>
+<span id="1818">1818</span>
+<span id="1819">1819</span>
+<span id="1820">1820</span>
+<span id="1821">1821</span>
+<span id="1822">1822</span>
+<span id="1823">1823</span>
+<span id="1824">1824</span>
+<span id="1825">1825</span>
+<span id="1826">1826</span>
+<span id="1827">1827</span>
+<span id="1828">1828</span>
+<span id="1829">1829</span>
+<span id="1830">1830</span>
+<span id="1831">1831</span>
+<span id="1832">1832</span>
+<span id="1833">1833</span>
+<span id="1834">1834</span>
+<span id="1835">1835</span>
+<span id="1836">1836</span>
+<span id="1837">1837</span>
+<span id="1838">1838</span>
+<span id="1839">1839</span>
+<span id="1840">1840</span>
+<span id="1841">1841</span>
+<span id="1842">1842</span>
+<span id="1843">1843</span>
+<span id="1844">1844</span>
+<span id="1845">1845</span>
+<span id="1846">1846</span>
+<span id="1847">1847</span>
+<span id="1848">1848</span>
+<span id="1849">1849</span>
+<span id="1850">1850</span>
+<span id="1851">1851</span>
+<span id="1852">1852</span>
+<span id="1853">1853</span>
+<span id="1854">1854</span>
+<span id="1855">1855</span>
+<span id="1856">1856</span>
+<span id="1857">1857</span>
+<span id="1858">1858</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1881,6 +1966,15 @@
         <span class="ident">depth_max</span>: <span class="ident">f32</span>,
     },
     <span class="ident">SetScissor</span>(<span class="ident">Rect</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>),
+    <span class="ident">SetPushConstant</span> {
+        <span class="ident">stages</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
+        <span class="ident">offset</span>: <span class="ident">u32</span>,
+        <span class="ident">size_bytes</span>: <span class="ident">u32</span>,
+        <span class="doccomment">/// None means there is no data and the data should be an array of zeros.</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Facilitates clears in renderbundles which explicitly do their clears.</span>
+        <span class="ident">values_offset</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+    },
     <span class="ident">Draw</span> {
         <span class="ident">vertex_count</span>: <span class="ident">u32</span>,
         <span class="ident">instance_count</span>: <span class="ident">u32</span>,
@@ -1948,12 +2042,13 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">write</span><span class="macro">!</span>(
             <span class="ident">f</span>,
-            <span class="string">&quot;RenderPass {{ encoder_id: {:?}, color_targets: {:?}, depth_stencil_target: {:?}, data: {:?} commands and {:?} dynamic offsets }}&quot;</span>,
+            <span class="string">&quot;RenderPass {{ encoder_id: {:?}, color_targets: {:?}, depth_stencil_target: {:?}, data: {:?} commands, {:?} dynamic offsets, and {:?} push constant u32s }}&quot;</span>,
             <span class="self">self</span>.<span class="ident">parent_id</span>,
             <span class="self">self</span>.<span class="ident">color_targets</span>,
             <span class="self">self</span>.<span class="ident">depth_stencil_target</span>,
             <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">commands</span>.<span class="ident">len</span>(),
-            <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">dynamic_offsets</span>.<span class="ident">len</span>()
+            <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">dynamic_offsets</span>.<span class="ident">len</span>(),
+            <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">push_constant_data</span>.<span class="ident">len</span>(),
         )
     }
 }
@@ -2750,6 +2845,27 @@
                                 }
                             }
                         }
+
+                        <span class="comment">// Clear push constant ranges</span>
+                        <span class="kw">let</span> <span class="ident">non_overlapping</span> <span class="op">=</span> <span class="kw">super</span>::<span class="ident">bind</span>::<span class="ident">compute_nonoverlapping_ranges</span>(
+                            <span class="kw-2">&amp;</span><span class="ident">pipeline_layout</span>.<span class="ident">push_constant_ranges</span>,
+                        );
+                        <span class="kw">for</span> <span class="ident">range</span> <span class="kw">in</span> <span class="ident">non_overlapping</span> {
+                            <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span>;
+                            <span class="kw">let</span> <span class="ident">size_bytes</span> <span class="op">=</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span> <span class="op">-</span> <span class="ident">offset</span>;
+                            <span class="kw">super</span>::<span class="ident">push_constant_clear</span>(
+                                <span class="ident">offset</span>,
+                                <span class="ident">size_bytes</span>,
+                                <span class="op">|</span><span class="ident">clear_offset</span>, <span class="ident">clear_data</span><span class="op">|</span> <span class="kw">unsafe</span> {
+                                    <span class="ident">raw</span>.<span class="ident">push_graphics_constants</span>(
+                                        <span class="kw-2">&amp;</span><span class="ident">pipeline_layout</span>.<span class="ident">raw</span>,
+                                        <span class="ident">conv</span>::<span class="ident">map_shader_stage_flags</span>(<span class="ident">range</span>.<span class="ident">stages</span>),
+                                        <span class="ident">clear_offset</span>,
+                                        <span class="ident">clear_data</span>,
+                                    );
+                                },
+                            );
+                        }
                     }
 
                     <span class="comment">// Rebind index buffer if the index format has changed with the pipeline switch</span>
@@ -2884,6 +3000,38 @@
                                 <span class="ident">depth</span>: <span class="ident">depth_min</span>..<span class="ident">depth_max</span>,
                             }),
                         );
+                    }
+                }
+                <span class="ident">RenderCommand</span>::<span class="ident">SetPushConstant</span> {
+                    <span class="ident">stages</span>,
+                    <span class="ident">offset</span>,
+                    <span class="ident">size_bytes</span>,
+                    <span class="ident">values_offset</span>,
+                } <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="kw">let</span> <span class="ident">values_offset</span> <span class="op">=</span> <span class="ident">values_offset</span>
+                        .<span class="ident">expect</span>(<span class="string">&quot;values_offset of None is only for internal use in renderbundles&quot;</span>);
+
+                    <span class="kw">let</span> <span class="ident">end_offset_bytes</span> <span class="op">=</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">size_bytes</span>;
+                    <span class="kw">let</span> <span class="ident">values_end_offset</span> <span class="op">=</span> (<span class="ident">values_offset</span> <span class="op">+</span> <span class="ident">size_bytes</span> <span class="op">/</span> <span class="number">4</span>) <span class="kw">as</span> <span class="ident">usize</span>;
+                    <span class="kw">let</span> <span class="ident">data_slice</span> <span class="op">=</span>
+                        <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">push_constant_data</span>[(<span class="ident">values_offset</span> <span class="kw">as</span> <span class="ident">usize</span>)..<span class="ident">values_end_offset</span>];
+
+                    <span class="kw">let</span> <span class="ident">pipeline_layout</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pipeline_layout_guard</span>[<span class="ident">state</span>
+                        .<span class="ident">binder</span>
+                        .<span class="ident">pipeline_layout_id</span>
+                        .<span class="ident">expect</span>(<span class="string">&quot;Must have a pipeline bound to use push constants&quot;</span>)];
+
+                    <span class="ident">pipeline_layout</span>
+                        .<span class="ident">validate_push_constant_ranges</span>(<span class="ident">stages</span>, <span class="ident">offset</span>, <span class="ident">end_offset_bytes</span>)
+                        .<span class="ident">unwrap</span>();
+
+                    <span class="kw">unsafe</span> {
+                        <span class="ident">raw</span>.<span class="ident">push_graphics_constants</span>(
+                            <span class="kw-2">&amp;</span><span class="ident">pipeline_layout</span>.<span class="ident">raw</span>,
+                            <span class="ident">conv</span>::<span class="ident">map_shader_stage_flags</span>(<span class="ident">stages</span>),
+                            <span class="ident">offset</span>,
+                            <span class="ident">data_slice</span>,
+                        )
                     }
                 }
                 <span class="ident">RenderCommand</span>::<span class="ident">SetScissor</span>(<span class="kw-2">ref</span> <span class="ident">rect</span>) <span class="op">=</span><span class="op">&gt;</span> {
@@ -3345,6 +3493,28 @@
         <span class="ident">pass</span>.<span class="ident">base</span>
             .<span class="ident">commands</span>
             .<span class="ident">push</span>(<span class="ident">RenderCommand</span>::<span class="ident">SetScissor</span>(<span class="ident">Rect</span> { <span class="ident">x</span>, <span class="ident">y</span>, <span class="ident">w</span>, <span class="ident">h</span> }));
+    }
+
+    <span class="attribute">#[<span class="ident">no_mangle</span>]</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">wgpu_render_pass_set_push_constants</span>(
+        <span class="ident">pass</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RenderPass</span>,
+        <span class="ident">stages</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
+        <span class="ident">offset</span>: <span class="ident">u32</span>,
+        <span class="ident">size_bytes</span>: <span class="ident">u32</span>,
+        <span class="ident">data</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">u32</span>,
+    ) {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">DEBUG</span>, <span class="string">&quot;RenderPass::set_push_constants&quot;</span>);
+        <span class="kw">let</span> <span class="ident">data_slice</span> <span class="op">=</span> <span class="ident">slice</span>::<span class="ident">from_raw_parts</span>(<span class="ident">data</span>, (<span class="ident">size_bytes</span> <span class="op">/</span> <span class="number">4</span>) <span class="kw">as</span> <span class="ident">usize</span>);
+        <span class="kw">let</span> <span class="ident">value_offset</span> <span class="op">=</span> <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">push_constant_data</span>.<span class="ident">len</span>().<span class="ident">try_into</span>().<span class="ident">expect</span>(
+            <span class="string">&quot;Ran out of push constant space. Don&#39;t set 4gb of push constants per RenderPass.&quot;</span>,
+        );
+        <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">push_constant_data</span>.<span class="ident">extend_from_slice</span>(<span class="ident">data_slice</span>);
+        <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">commands</span>.<span class="ident">push</span>(<span class="ident">RenderCommand</span>::<span class="ident">SetPushConstant</span> {
+            <span class="ident">stages</span>,
+            <span class="ident">offset</span>,
+            <span class="ident">size_bytes</span>,
+            <span class="ident">values_offset</span>: <span class="prelude-val">Some</span>(<span class="ident">value_offset</span>),
+        });
     }
 
     <span class="attribute">#[<span class="ident">no_mangle</span>]</span>

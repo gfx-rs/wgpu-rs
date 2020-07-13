@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/d7ee890/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/f67771f/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1859,6 +1859,55 @@
 <span id="1859">1859</span>
 <span id="1860">1860</span>
 <span id="1861">1861</span>
+<span id="1862">1862</span>
+<span id="1863">1863</span>
+<span id="1864">1864</span>
+<span id="1865">1865</span>
+<span id="1866">1866</span>
+<span id="1867">1867</span>
+<span id="1868">1868</span>
+<span id="1869">1869</span>
+<span id="1870">1870</span>
+<span id="1871">1871</span>
+<span id="1872">1872</span>
+<span id="1873">1873</span>
+<span id="1874">1874</span>
+<span id="1875">1875</span>
+<span id="1876">1876</span>
+<span id="1877">1877</span>
+<span id="1878">1878</span>
+<span id="1879">1879</span>
+<span id="1880">1880</span>
+<span id="1881">1881</span>
+<span id="1882">1882</span>
+<span id="1883">1883</span>
+<span id="1884">1884</span>
+<span id="1885">1885</span>
+<span id="1886">1886</span>
+<span id="1887">1887</span>
+<span id="1888">1888</span>
+<span id="1889">1889</span>
+<span id="1890">1890</span>
+<span id="1891">1891</span>
+<span id="1892">1892</span>
+<span id="1893">1893</span>
+<span id="1894">1894</span>
+<span id="1895">1895</span>
+<span id="1896">1896</span>
+<span id="1897">1897</span>
+<span id="1898">1898</span>
+<span id="1899">1899</span>
+<span id="1900">1900</span>
+<span id="1901">1901</span>
+<span id="1902">1902</span>
+<span id="1903">1903</span>
+<span id="1904">1904</span>
+<span id="1905">1905</span>
+<span id="1906">1906</span>
+<span id="1907">1907</span>
+<span id="1908">1908</span>
+<span id="1909">1909</span>
+<span id="1910">1910</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1872,6 +1921,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
+<span class="kw">use</span> <span class="ident">std</span>::<span class="ident">ops</span>::<span class="ident">Range</span>;
 
 <span class="doccomment">/// Integral type used for buffer offsets.</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BufferAddress</span> <span class="op">=</span> <span class="ident">u64</span>;
@@ -1888,6 +1938,8 @@
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">BIND_BUFFER_ALIGNMENT</span>: <span class="ident">BufferAddress</span> <span class="op">=</span> <span class="number">256</span>;
 <span class="doccomment">/// Buffer to buffer copy offsets and sizes must be aligned to this number.</span>
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">COPY_BUFFER_ALIGNMENT</span>: <span class="ident">BufferAddress</span> <span class="op">=</span> <span class="number">4</span>;
+<span class="doccomment">/// Alignment all push constants need</span>
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PUSH_CONSTANT_ALIGNMENT</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">4</span>;
 
 <span class="doccomment">/// Backends supported by wgpu.</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u8</span>)]</span>
@@ -2077,15 +2129,32 @@
         <span class="doccomment">///</span>
         <span class="doccomment">/// This allows the use of a buffer containing the actual number of draw calls.</span>
         <span class="doccomment">///</span>
+        <span class="doccomment">/// A block of push constants can be declared with `layout(push_constant) uniform Name {..}` in shaders.</span>
+        <span class="doccomment">///</span>
         <span class="doccomment">/// Supported platforms:</span>
         <span class="doccomment">/// - DX12</span>
         <span class="doccomment">/// - Vulkan 1.2+ (or VK_KHR_draw_indirect_count)</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// This is a native only feature.</span>
         <span class="kw">const</span> <span class="ident">MULTI_DRAW_INDIRECT_COUNT</span> <span class="op">=</span> <span class="number">0x0000_0000_0040_0000</span>;
-        <span class="doccomment">/// Features which are part of the upstream webgpu standard</span>
+        <span class="doccomment">/// Allows the use of push constants: small, fast bits of memory that can be updated</span>
+        <span class="doccomment">/// inside a [`RenderPass`].</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Allows the user to call [`RenderPass::set_push_constants`], provide a non-empty array</span>
+        <span class="doccomment">/// to [`PipelineLayoutDescriptor`], and provide a non-zero limit to [`Limits::max_push_constant_size`].</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// Supported platforms:</span>
+        <span class="doccomment">/// - DX12</span>
+        <span class="doccomment">/// - Vulkan</span>
+        <span class="doccomment">/// - Metal</span>
+        <span class="doccomment">/// - DX11 (emulated with uniforms)</span>
+        <span class="doccomment">/// - OpenGL (emulated with uniforms)</span>
+        <span class="doccomment">///</span>
+        <span class="doccomment">/// This is a native only feature.</span>
+        <span class="kw">const</span> <span class="ident">PUSH_CONSTANTS</span> <span class="op">=</span> <span class="number">0x0000_0000_0080_0000</span>;
+        <span class="doccomment">/// Features which are part of the upstream WebGPU standard.</span>
         <span class="kw">const</span> <span class="ident">ALL_WEBGPU</span> <span class="op">=</span> <span class="number">0x0000_0000_0000_FFFF</span>;
-        <span class="doccomment">/// Features that are only available when targeting native (not web)</span>
+        <span class="doccomment">/// Features that are only available when targeting native (not web).</span>
         <span class="kw">const</span> <span class="ident">ALL_NATIVE</span> <span class="op">=</span> <span class="number">0xFFFF_FFFF_FFFF_0000</span>;
     }
 }
@@ -2125,6 +2194,16 @@
     <span class="kw">pub</span> <span class="ident">max_uniform_buffers_per_shader_stage</span>: <span class="ident">u32</span>,
     <span class="doccomment">/// Maximum size in bytes of a binding to a uniform buffer. Defaults to 16384. Higher is &quot;better&quot;.</span>
     <span class="kw">pub</span> <span class="ident">max_uniform_buffer_binding_size</span>: <span class="ident">u32</span>,
+    <span class="doccomment">/// Amount of storage available for push constants in bytes. Defaults to 0. Higher is &quot;better&quot;.</span>
+    <span class="doccomment">/// Requesting more than 0 during device creation requires [`Features::PUSH_CONSTANTS`] to be enabled.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Expect the size to be:</span>
+    <span class="doccomment">/// - Vulkan: 128-256 bytes</span>
+    <span class="doccomment">/// - DX12: 256 bytes</span>
+    <span class="doccomment">/// - Metal: 4096 bytes</span>
+    <span class="doccomment">/// - DX11 &amp; OpenGL don&#39;t natively support push constants, and are emulated with uniforms,</span>
+    <span class="doccomment">///   so this number is less useful.</span>
+    <span class="kw">pub</span> <span class="ident">max_push_constant_size</span>: <span class="ident">u32</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Limits</span> {
@@ -2139,6 +2218,7 @@
             <span class="ident">max_storage_textures_per_shader_stage</span>: <span class="number">4</span>,
             <span class="ident">max_uniform_buffers_per_shader_stage</span>: <span class="number">12</span>,
             <span class="ident">max_uniform_buffer_binding_size</span>: <span class="number">16384</span>,
+            <span class="ident">max_push_constant_size</span>: <span class="number">0</span>,
         }
     }
 }
@@ -2167,8 +2247,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// `ShaderStage::VERTEX | ShaderStage::FRAGMENT`</span>
     <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>))]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ShaderStage</span>: <span class="ident">u32</span> {
         <span class="doccomment">/// Binding is not visible from any shader stage</span>
         <span class="kw">const</span> <span class="ident">NONE</span> <span class="op">=</span> <span class="number">0</span>;
@@ -3356,6 +3435,25 @@
     <span class="doccomment">/// Bind groups that this pipeline uses. The first entry will provide all the bindings for</span>
     <span class="doccomment">/// &quot;set = 0&quot;, second entry will provide all the bindings for &quot;set = 1&quot; etc.</span>
     <span class="kw">pub</span> <span class="ident">bind_group_layouts</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">B</span>],
+    <span class="doccomment">/// Set of push constant ranges this pipeline uses. Each shader stage that uses push constants</span>
+    <span class="doccomment">/// must define the range in push constant memory that corresponds to its single `layout(push_constant)`</span>
+    <span class="doccomment">/// uniform block.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this array is non-empty, the [`Features::PUSH_CONSTANTS`] must be enabled.</span>
+    <span class="kw">pub</span> <span class="ident">push_constant_ranges</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">PushConstantRange</span>],
+}
+
+<span class="doccomment">/// A range of push constant memory to pass to a shader stage.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PushConstantRange</span> {
+    <span class="doccomment">/// Stage push constant range is visible from. Each stage can only be served by at most one range.</span>
+    <span class="doccomment">/// One range can serve multiple stages however.</span>
+    <span class="kw">pub</span> <span class="ident">stages</span>: <span class="ident">ShaderStage</span>,
+    <span class="doccomment">/// Range in push constant memory to use for the stage. Must be less than [`Limits::max_push_constant_size`].</span>
+    <span class="doccomment">/// Start and end must be aligned to the 4s.</span>
+    <span class="kw">pub</span> <span class="ident">range</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// Describes a programmable pipeline stage.</span>

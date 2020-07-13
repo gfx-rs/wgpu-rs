@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/d7ee890/wgpu-core/src/instance.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>instance.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/f67771f/wgpu-core/src/instance.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>instance.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -724,6 +724,16 @@
 <span id="724">724</span>
 <span id="725">725</span>
 <span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -751,6 +761,12 @@
     <span class="ident">Instance</span> <span class="kw">as</span> <span class="kw">_</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span>;
+
+<span class="doccomment">/// Size that is guaranteed to be available in push constants.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This is needed because non-vulkan backends might not</span>
+<span class="doccomment">/// provide a push-constant size limit.</span>
+<span class="kw">const</span> <span class="ident">MIN_PUSH_CONSTANT_SIZE</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">128</span>;
 
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">RequestAdapterOptions</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">RequestAdapterOptions</span><span class="op">&lt;</span><span class="ident">SurfaceId</span><span class="op">&gt;</span>;
 
@@ -845,7 +861,9 @@
 
         <span class="kw">let</span> <span class="ident">adapter_features</span> <span class="op">=</span> <span class="ident">raw</span>.<span class="ident">physical_device</span>.<span class="ident">features</span>();
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">features</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">default</span>() <span class="op">|</span> <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">MAPPABLE_PRIMARY_BUFFERS</span>;
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">features</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">default</span>()
+            <span class="op">|</span> <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">MAPPABLE_PRIMARY_BUFFERS</span>
+            <span class="op">|</span> <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">PUSH_CONSTANTS</span>;
         <span class="ident">features</span>.<span class="ident">set</span>(
             <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">SAMPLED_TEXTURE_BINDING_ARRAY</span>,
             <span class="ident">adapter_features</span>.<span class="ident">contains</span>(<span class="ident">hal</span>::<span class="ident">Features</span>::<span class="ident">TEXTURE_DESCRIPTOR_ARRAY</span>),
@@ -911,6 +929,8 @@
                 .<span class="ident">max</span>(<span class="ident">default_limits</span>.<span class="ident">max_uniform_buffers_per_shader_stage</span>),
             <span class="ident">max_uniform_buffer_binding_size</span>: (<span class="ident">adapter_limits</span>.<span class="ident">max_uniform_buffer_range</span> <span class="kw">as</span> <span class="ident">u32</span>)
                 .<span class="ident">max</span>(<span class="ident">default_limits</span>.<span class="ident">max_uniform_buffer_binding_size</span>),
+            <span class="ident">max_push_constant_size</span>: (<span class="ident">adapter_limits</span>.<span class="ident">max_push_constants_size</span> <span class="kw">as</span> <span class="ident">u32</span>)
+                .<span class="ident">max</span>(<span class="ident">MIN_PUSH_CONSTANT_SIZE</span>), <span class="comment">// As an extension, the default is always 0, so define a separate minimum.</span>
         };
 
         <span class="ident">Adapter</span> {

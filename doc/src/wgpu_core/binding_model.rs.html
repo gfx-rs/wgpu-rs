@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/d7ee890/wgpu-core/src/binding_model.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>binding_model.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/f67771f/wgpu-core/src/binding_model.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>binding_model.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -356,12 +356,121 @@
 <span id="356">356</span>
 <span id="357">357</span>
 <span id="358">358</span>
+<span id="359">359</span>
+<span id="360">360</span>
+<span id="361">361</span>
+<span id="362">362</span>
+<span id="363">363</span>
+<span id="364">364</span>
+<span id="365">365</span>
+<span id="366">366</span>
+<span id="367">367</span>
+<span id="368">368</span>
+<span id="369">369</span>
+<span id="370">370</span>
+<span id="371">371</span>
+<span id="372">372</span>
+<span id="373">373</span>
+<span id="374">374</span>
+<span id="375">375</span>
+<span id="376">376</span>
+<span id="377">377</span>
+<span id="378">378</span>
+<span id="379">379</span>
+<span id="380">380</span>
+<span id="381">381</span>
+<span id="382">382</span>
+<span id="383">383</span>
+<span id="384">384</span>
+<span id="385">385</span>
+<span id="386">386</span>
+<span id="387">387</span>
+<span id="388">388</span>
+<span id="389">389</span>
+<span id="390">390</span>
+<span id="391">391</span>
+<span id="392">392</span>
+<span id="393">393</span>
+<span id="394">394</span>
+<span id="395">395</span>
+<span id="396">396</span>
+<span id="397">397</span>
+<span id="398">398</span>
+<span id="399">399</span>
+<span id="400">400</span>
+<span id="401">401</span>
+<span id="402">402</span>
+<span id="403">403</span>
+<span id="404">404</span>
+<span id="405">405</span>
+<span id="406">406</span>
+<span id="407">407</span>
+<span id="408">408</span>
+<span id="409">409</span>
+<span id="410">410</span>
+<span id="411">411</span>
+<span id="412">412</span>
+<span id="413">413</span>
+<span id="414">414</span>
+<span id="415">415</span>
+<span id="416">416</span>
+<span id="417">417</span>
+<span id="418">418</span>
+<span id="419">419</span>
+<span id="420">420</span>
+<span id="421">421</span>
+<span id="422">422</span>
+<span id="423">423</span>
+<span id="424">424</span>
+<span id="425">425</span>
+<span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">device</span>::<span class="ident">SHADER_STAGE_COUNT</span>,
     <span class="ident">id</span>::{<span class="ident">BindGroupLayoutId</span>, <span class="ident">BufferId</span>, <span class="ident">DeviceId</span>, <span class="ident">SamplerId</span>, <span class="ident">TextureViewId</span>},
     <span class="ident">track</span>::{<span class="ident">TrackerSet</span>, <span class="ident">DUMMY_SELECTOR</span>},
     <span class="ident">FastHashMap</span>, <span class="ident">LifeGuard</span>, <span class="ident">MultiRefCount</span>, <span class="ident">RefCount</span>, <span class="ident">Stored</span>, <span class="ident">MAX_BIND_GROUPS</span>,
@@ -588,12 +697,23 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">count_validator</span>: <span class="ident">BindingTypeMaxCountValidator</span>,
 }
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PipelineLayoutDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">PipelineLayoutDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">BindGroupLayoutId</span><span class="op">&gt;</span>;
-
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PipelineLayoutError</span> {
     <span class="ident">TooManyGroups</span>(<span class="ident">usize</span>),
     <span class="ident">TooManyBindings</span>(<span class="ident">BindingTypeMaxCountError</span>),
+    <span class="ident">PushConstantRangeTooLarge</span> { <span class="ident">index</span>: <span class="ident">usize</span> },
+    <span class="ident">MoreThanOnePushConstantRangePerStage</span> { <span class="ident">index</span>: <span class="ident">usize</span> },
+    <span class="ident">MisalignedPushConstantRange</span> { <span class="ident">index</span>: <span class="ident">usize</span> },
+    <span class="ident">MissingFeature</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>),
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PushConstantUploadError</span> {
+    <span class="ident">TooLarge</span>,
+    <span class="ident">PartialRangeMatch</span>,
+    <span class="ident">MissingStages</span>,
+    <span class="ident">UnmatchedStages</span>,
+    <span class="ident">Unaligned</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -602,6 +722,102 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">device_id</span>: <span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">DeviceId</span><span class="op">&gt;</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">life_guard</span>: <span class="ident">LifeGuard</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">bind_group_layout_ids</span>: <span class="ident">ArrayVec</span><span class="op">&lt;</span>[<span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">BindGroupLayoutId</span><span class="op">&gt;</span>; <span class="ident">MAX_BIND_GROUPS</span>]<span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">push_constant_ranges</span>: <span class="ident">ArrayVec</span><span class="op">&lt;</span>[<span class="ident">wgt</span>::<span class="ident">PushConstantRange</span>; <span class="ident">SHADER_STAGE_COUNT</span>]<span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">PipelineLayout</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Validate push constants match up with expected ranges.</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">validate_push_constant_ranges</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">stages</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
+        <span class="ident">offset</span>: <span class="ident">u32</span>,
+        <span class="ident">end_offset</span>: <span class="ident">u32</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">PushConstantUploadError</span><span class="op">&gt;</span> {
+        <span class="comment">// Don&#39;t need to validate size against the push constant size limit here,</span>
+        <span class="comment">// as push constant ranges are already validated to be within bounds,</span>
+        <span class="comment">// and we validate that they are within the ranges.</span>
+
+        <span class="kw">if</span> <span class="ident">offset</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
+                <span class="string">&quot;Provided push constant offset {} must be aligned to {}&quot;</span>,
+                <span class="ident">offset</span>,
+                <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span>
+            );
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PushConstantUploadError</span>::<span class="ident">Unaligned</span>);
+        }
+
+        <span class="comment">// Push constant validation looks very complicated on the surface, but</span>
+        <span class="comment">// the problem can be range-reduced pretty well.</span>
+        <span class="comment">//</span>
+        <span class="comment">// Push constants require (summarized from the vulkan spec):</span>
+        <span class="comment">// 1. For each byte in the range and for each shader stage in stageFlags,</span>
+        <span class="comment">//    there must be a push constant range in the layout that includes that</span>
+        <span class="comment">//    byte and that stage.</span>
+        <span class="comment">// 2. For each byte in the range and for each push constant range that overlaps that byte,</span>
+        <span class="comment">//    `stage` must include all stages in that push constant range’s `stage`.</span>
+        <span class="comment">//</span>
+        <span class="comment">// However there are some additional constraints that help us:</span>
+        <span class="comment">// 3. All push constant ranges are the only range that can access that stage.</span>
+        <span class="comment">//    i.e. if one range has VERTEX, no other range has VERTEX</span>
+        <span class="comment">//</span>
+        <span class="comment">// Therefore we can simplify the checks in the following ways:</span>
+        <span class="comment">// - Because 3 guarantees that the push constant range has a unique stage,</span>
+        <span class="comment">//   when we check for 1, we can simply check that our entire updated range</span>
+        <span class="comment">//   is within a push constant range. i.e. our range for a specific stage cannot</span>
+        <span class="comment">//   intersect more than one push constant range.</span>
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">used_stages</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">NONE</span>;
+        <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">range</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">push_constant_ranges</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
+            <span class="comment">// contains not intersects due to 2</span>
+            <span class="kw">if</span> <span class="ident">stages</span>.<span class="ident">contains</span>(<span class="ident">range</span>.<span class="ident">stages</span>) {
+                <span class="kw">if</span> <span class="op">!</span>(<span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">offset</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">end_offset</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span>) {
+                    <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
+                        <span class="string">&quot;Provided push constant with indices {}..{} overruns matching push constant range (index {}) with stage(s) {:?} and indices {}..{}&quot;</span>,
+                        <span class="ident">offset</span>,
+                        <span class="ident">end_offset</span>,
+                        <span class="ident">idx</span>,
+                        <span class="ident">range</span>.<span class="ident">stages</span>,
+                        <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span>,
+                        <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span>,
+                    );
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PushConstantUploadError</span>::<span class="ident">TooLarge</span>);
+                }
+                <span class="ident">used_stages</span> <span class="op">|</span><span class="op">=</span> <span class="ident">range</span>.<span class="ident">stages</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">stages</span>.<span class="ident">intersects</span>(<span class="ident">range</span>.<span class="ident">stages</span>) {
+                <span class="comment">// Will be caught by used stages check below, but we can do this because of 1</span>
+                <span class="comment">// and is more helpful to the user.</span>
+                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
+                    <span class="string">&quot;Provided push constant is for stage(s) {:?}, stage with a partial match found at index {} with stage(s) {:?}, however push constants must be complete matches.&quot;</span>,
+                    <span class="ident">stages</span>,
+                    <span class="ident">idx</span>,
+                    <span class="ident">range</span>.<span class="ident">stages</span>,
+                );
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PushConstantUploadError</span>::<span class="ident">PartialRangeMatch</span>);
+            }
+
+            <span class="comment">// The push constant range intersects range we are uploading</span>
+            <span class="kw">if</span> <span class="ident">offset</span> <span class="op">&lt;</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span> <span class="op">&lt;</span> <span class="ident">end_offset</span> {
+                <span class="comment">// But requires stages we don&#39;t provide</span>
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">stages</span>.<span class="ident">contains</span>(<span class="ident">range</span>.<span class="ident">stages</span>) {
+                    <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
+                        <span class="string">&quot;Provided push constant is for stage(s) {:?}, but intersects a push constant range (at index {}) with stage(s) {:?}. Push constants must provide the stages for all ranges they intersect.&quot;</span>,
+                        <span class="ident">stages</span>,
+                        <span class="ident">idx</span>,
+                        <span class="ident">range</span>.<span class="ident">stages</span>,
+                    );
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PushConstantUploadError</span>::<span class="ident">MissingStages</span>);
+                }
+            }
+        }
+        <span class="kw">if</span> <span class="ident">used_stages</span> <span class="op">!</span><span class="op">=</span> <span class="ident">stages</span> {
+            <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
+                <span class="string">&quot;Provided push constant is for stage(s) {:?}, however the pipeline layout has no push constant range for the stage(s) {:?}.&quot;</span>,
+                <span class="ident">stages</span>,
+                <span class="ident">stages</span> <span class="op">-</span> <span class="ident">used_stages</span>
+            );
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PushConstantUploadError</span>::<span class="ident">UnmatchedStages</span>);
+        }
+        <span class="prelude-val">Ok</span>(())
+    }
 }
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
