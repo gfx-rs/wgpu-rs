@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/8a038ba/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/d7ee890/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css"><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1729,6 +1729,136 @@
 <span id="1729">1729</span>
 <span id="1730">1730</span>
 <span id="1731">1731</span>
+<span id="1732">1732</span>
+<span id="1733">1733</span>
+<span id="1734">1734</span>
+<span id="1735">1735</span>
+<span id="1736">1736</span>
+<span id="1737">1737</span>
+<span id="1738">1738</span>
+<span id="1739">1739</span>
+<span id="1740">1740</span>
+<span id="1741">1741</span>
+<span id="1742">1742</span>
+<span id="1743">1743</span>
+<span id="1744">1744</span>
+<span id="1745">1745</span>
+<span id="1746">1746</span>
+<span id="1747">1747</span>
+<span id="1748">1748</span>
+<span id="1749">1749</span>
+<span id="1750">1750</span>
+<span id="1751">1751</span>
+<span id="1752">1752</span>
+<span id="1753">1753</span>
+<span id="1754">1754</span>
+<span id="1755">1755</span>
+<span id="1756">1756</span>
+<span id="1757">1757</span>
+<span id="1758">1758</span>
+<span id="1759">1759</span>
+<span id="1760">1760</span>
+<span id="1761">1761</span>
+<span id="1762">1762</span>
+<span id="1763">1763</span>
+<span id="1764">1764</span>
+<span id="1765">1765</span>
+<span id="1766">1766</span>
+<span id="1767">1767</span>
+<span id="1768">1768</span>
+<span id="1769">1769</span>
+<span id="1770">1770</span>
+<span id="1771">1771</span>
+<span id="1772">1772</span>
+<span id="1773">1773</span>
+<span id="1774">1774</span>
+<span id="1775">1775</span>
+<span id="1776">1776</span>
+<span id="1777">1777</span>
+<span id="1778">1778</span>
+<span id="1779">1779</span>
+<span id="1780">1780</span>
+<span id="1781">1781</span>
+<span id="1782">1782</span>
+<span id="1783">1783</span>
+<span id="1784">1784</span>
+<span id="1785">1785</span>
+<span id="1786">1786</span>
+<span id="1787">1787</span>
+<span id="1788">1788</span>
+<span id="1789">1789</span>
+<span id="1790">1790</span>
+<span id="1791">1791</span>
+<span id="1792">1792</span>
+<span id="1793">1793</span>
+<span id="1794">1794</span>
+<span id="1795">1795</span>
+<span id="1796">1796</span>
+<span id="1797">1797</span>
+<span id="1798">1798</span>
+<span id="1799">1799</span>
+<span id="1800">1800</span>
+<span id="1801">1801</span>
+<span id="1802">1802</span>
+<span id="1803">1803</span>
+<span id="1804">1804</span>
+<span id="1805">1805</span>
+<span id="1806">1806</span>
+<span id="1807">1807</span>
+<span id="1808">1808</span>
+<span id="1809">1809</span>
+<span id="1810">1810</span>
+<span id="1811">1811</span>
+<span id="1812">1812</span>
+<span id="1813">1813</span>
+<span id="1814">1814</span>
+<span id="1815">1815</span>
+<span id="1816">1816</span>
+<span id="1817">1817</span>
+<span id="1818">1818</span>
+<span id="1819">1819</span>
+<span id="1820">1820</span>
+<span id="1821">1821</span>
+<span id="1822">1822</span>
+<span id="1823">1823</span>
+<span id="1824">1824</span>
+<span id="1825">1825</span>
+<span id="1826">1826</span>
+<span id="1827">1827</span>
+<span id="1828">1828</span>
+<span id="1829">1829</span>
+<span id="1830">1830</span>
+<span id="1831">1831</span>
+<span id="1832">1832</span>
+<span id="1833">1833</span>
+<span id="1834">1834</span>
+<span id="1835">1835</span>
+<span id="1836">1836</span>
+<span id="1837">1837</span>
+<span id="1838">1838</span>
+<span id="1839">1839</span>
+<span id="1840">1840</span>
+<span id="1841">1841</span>
+<span id="1842">1842</span>
+<span id="1843">1843</span>
+<span id="1844">1844</span>
+<span id="1845">1845</span>
+<span id="1846">1846</span>
+<span id="1847">1847</span>
+<span id="1848">1848</span>
+<span id="1849">1849</span>
+<span id="1850">1850</span>
+<span id="1851">1851</span>
+<span id="1852">1852</span>
+<span id="1853">1853</span>
+<span id="1854">1854</span>
+<span id="1855">1855</span>
+<span id="1856">1856</span>
+<span id="1857">1857</span>
+<span id="1858">1858</span>
+<span id="1859">1859</span>
+<span id="1860">1860</span>
+<span id="1861">1861</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -1831,6 +1961,19 @@
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">backend</span>: <span class="ident">Backend</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="ident">BackendBit</span>::<span class="ident">from_bits</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">backend</span> <span class="kw">as</span> <span class="ident">u32</span>).<span class="ident">unwrap</span>()
     }
+}
+
+<span class="doccomment">/// Options for requesting adapter.</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestAdapterOptions</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Power preference for the adapter.</span>
+    <span class="kw">pub</span> <span class="ident">power_preference</span>: <span class="ident">PowerPreference</span>,
+    <span class="doccomment">/// Surface that is required to be presentable with the requested adapter. This does not</span>
+    <span class="doccomment">/// create the surface, only guarantees that the adapter can present to said surface.</span>
+    <span class="kw">pub</span> <span class="ident">compatible_surface</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>,
 }
 
 <span class="ident">bitflags</span>::<span class="macro">bitflags</span><span class="macro">!</span> {
@@ -2864,6 +3007,15 @@
     <span class="kw">pub</span> <span class="ident">stencil</span>: <span class="ident">PassChannel</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
 }
 
+<span class="doccomment">/// Describes the attachments of a render pass.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RenderPassDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">C</span>, <span class="ident">D</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The color attachments of the render pass.</span>
+    <span class="kw">pub</span> <span class="ident">color_attachments</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">C</span>],
+    <span class="doccomment">/// The depth and stencil attachment of the render pass, if any.</span>
+    <span class="kw">pub</span> <span class="ident">depth_stencil_attachment</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
+}
+
 <span class="doccomment">/// RGBA double precision color.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is not to be used as a generic color type, only for specific wgpu interfaces.</span>
@@ -3175,6 +3327,90 @@
     }
 }
 
+<span class="doccomment">/// Bindable resource and the slot to bind it to.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="ident">R</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Slot for which binding provides resource. Corresponds to an entry of the same</span>
+    <span class="doccomment">/// binding index in the [`BindGroupLayoutDescriptor`].</span>
+    <span class="kw">pub</span> <span class="ident">binding</span>: <span class="ident">u32</span>,
+    <span class="doccomment">/// Resource to attach to the binding</span>
+    <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">R</span>,
+}
+
+<span class="doccomment">/// Describes a group of bindings and the resources to be bound.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BindGroupDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">L</span>, <span class="ident">B</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Debug label of the bind group. This will show up in graphics debuggers for easy identification.</span>
+    <span class="kw">pub</span> <span class="ident">label</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The [`BindGroupLayout`] that corresponds to this bind group.</span>
+    <span class="kw">pub</span> <span class="ident">layout</span>: <span class="ident">L</span>,
+    <span class="doccomment">/// The resources to bind to this bind group.</span>
+    <span class="kw">pub</span> <span class="ident">entries</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">B</span>],
+}
+
+<span class="doccomment">/// Describes a pipeline layout.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// A `PipelineLayoutDescriptor` can be used to create a pipeline layout.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PipelineLayoutDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Bind groups that this pipeline uses. The first entry will provide all the bindings for</span>
+    <span class="doccomment">/// &quot;set = 0&quot;, second entry will provide all the bindings for &quot;set = 1&quot; etc.</span>
+    <span class="kw">pub</span> <span class="ident">bind_group_layouts</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">B</span>],
+}
+
+<span class="doccomment">/// Describes a programmable pipeline stage.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">M</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The compiled shader module for this stage.</span>
+    <span class="kw">pub</span> <span class="ident">module</span>: <span class="ident">M</span>,
+    <span class="doccomment">/// The name of the entry point in the compiled shader. There must be a function that returns</span>
+    <span class="doccomment">/// void with this name in the shader.</span>
+    <span class="kw">pub</span> <span class="ident">entry_point</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
+}
+
+<span class="doccomment">/// Describes a render (graphics) pipeline.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RenderPipelineDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">L</span>, <span class="ident">D</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The layout of bind groups for this pipeline.</span>
+    <span class="kw">pub</span> <span class="ident">layout</span>: <span class="ident">L</span>,
+    <span class="doccomment">/// The compiled vertex stage and its entry point.</span>
+    <span class="kw">pub</span> <span class="ident">vertex_stage</span>: <span class="ident">D</span>,
+    <span class="doccomment">/// The compiled fragment stage and its entry point, if any.</span>
+    <span class="kw">pub</span> <span class="ident">fragment_stage</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The rasterization process for this pipeline.</span>
+    <span class="kw">pub</span> <span class="ident">rasterization_state</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RasterizationStateDescriptor</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The primitive topology used to interpret vertices.</span>
+    <span class="kw">pub</span> <span class="ident">primitive_topology</span>: <span class="ident">PrimitiveTopology</span>,
+    <span class="doccomment">/// The effect of draw calls on the color aspect of the output target.</span>
+    <span class="kw">pub</span> <span class="ident">color_states</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">ColorStateDescriptor</span>],
+    <span class="doccomment">/// The effect of draw calls on the depth and stencil aspects of the output target, if any.</span>
+    <span class="kw">pub</span> <span class="ident">depth_stencil_state</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DepthStencilStateDescriptor</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The vertex input state for this pipeline.</span>
+    <span class="kw">pub</span> <span class="ident">vertex_state</span>: <span class="ident">VertexStateDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// The number of samples calculated per pixel (for MSAA). For non-multisampled textures,</span>
+    <span class="doccomment">/// this should be `1`</span>
+    <span class="kw">pub</span> <span class="ident">sample_count</span>: <span class="ident">u32</span>,
+    <span class="doccomment">/// Bitmask that restricts the samples of a pixel modified by this pipeline. All samples</span>
+    <span class="doccomment">/// can be enabled using the value `!0`</span>
+    <span class="kw">pub</span> <span class="ident">sample_mask</span>: <span class="ident">u32</span>,
+    <span class="doccomment">/// When enabled, produces another sample mask per pixel based on the alpha output value, that</span>
+    <span class="doccomment">/// is ANDed with the sample_mask and the primitive coverage to restrict the set of samples</span>
+    <span class="doccomment">/// affected by a primitive.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The implicit mask produced for alpha of zero is guaranteed to be zero, and for alpha of one</span>
+    <span class="doccomment">/// is guaranteed to be all 1-s.</span>
+    <span class="kw">pub</span> <span class="ident">alpha_to_coverage_enabled</span>: <span class="ident">bool</span>,
+}
+
+<span class="doccomment">/// Describes a compute pipeline.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputePipelineDescriptor</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">D</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The layout of bind groups for this pipeline.</span>
+    <span class="kw">pub</span> <span class="ident">layout</span>: <span class="ident">L</span>,
+    <span class="doccomment">/// The compiled compute stage and its entry point.</span>
+    <span class="kw">pub</span> <span class="ident">compute_stage</span>: <span class="ident">D</span>,
+}
+
 <span class="doccomment">/// Describes a [`CommandBuffer`].</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
@@ -3460,6 +3696,30 @@
 
     <span class="doccomment">/// Array of entries in this BindGroupLayout</span>
     <span class="kw">pub</span> <span class="ident">entries</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">BindGroupLayoutEntry</span>],
+}
+
+<span class="doccomment">/// View of a buffer which can be used to copy to/from a texture.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">serde</span>::<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">serde</span>::<span class="ident">Deserialize</span>))]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BufferCopyView</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The buffer to be copied to/from.</span>
+    <span class="kw">pub</span> <span class="ident">buffer</span>: <span class="ident">B</span>,
+    <span class="doccomment">/// The layout of the texture data in this buffer.</span>
+    <span class="kw">pub</span> <span class="ident">layout</span>: <span class="ident">TextureDataLayout</span>,
+}
+
+<span class="doccomment">/// View of a texture which can be used to copy to/from a buffer/texture.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">serde</span>::<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">serde</span>::<span class="ident">Deserialize</span>))]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextureCopyView</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// The texture to be copied to/from.</span>
+    <span class="kw">pub</span> <span class="ident">texture</span>: <span class="ident">T</span>,
+    <span class="doccomment">/// The target mip level of the texture.</span>
+    <span class="kw">pub</span> <span class="ident">mip_level</span>: <span class="ident">u32</span>,
+    <span class="doccomment">/// The base texel of the texture in the selected `mip_level`.</span>
+    <span class="kw">pub</span> <span class="ident">origin</span>: <span class="ident">Origin3d</span>,
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "wgpu_types";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

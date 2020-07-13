@@ -2174,99 +2174,6 @@
 <span id="2174">2174</span>
 <span id="2175">2175</span>
 <span id="2176">2176</span>
-<span id="2177">2177</span>
-<span id="2178">2178</span>
-<span id="2179">2179</span>
-<span id="2180">2180</span>
-<span id="2181">2181</span>
-<span id="2182">2182</span>
-<span id="2183">2183</span>
-<span id="2184">2184</span>
-<span id="2185">2185</span>
-<span id="2186">2186</span>
-<span id="2187">2187</span>
-<span id="2188">2188</span>
-<span id="2189">2189</span>
-<span id="2190">2190</span>
-<span id="2191">2191</span>
-<span id="2192">2192</span>
-<span id="2193">2193</span>
-<span id="2194">2194</span>
-<span id="2195">2195</span>
-<span id="2196">2196</span>
-<span id="2197">2197</span>
-<span id="2198">2198</span>
-<span id="2199">2199</span>
-<span id="2200">2200</span>
-<span id="2201">2201</span>
-<span id="2202">2202</span>
-<span id="2203">2203</span>
-<span id="2204">2204</span>
-<span id="2205">2205</span>
-<span id="2206">2206</span>
-<span id="2207">2207</span>
-<span id="2208">2208</span>
-<span id="2209">2209</span>
-<span id="2210">2210</span>
-<span id="2211">2211</span>
-<span id="2212">2212</span>
-<span id="2213">2213</span>
-<span id="2214">2214</span>
-<span id="2215">2215</span>
-<span id="2216">2216</span>
-<span id="2217">2217</span>
-<span id="2218">2218</span>
-<span id="2219">2219</span>
-<span id="2220">2220</span>
-<span id="2221">2221</span>
-<span id="2222">2222</span>
-<span id="2223">2223</span>
-<span id="2224">2224</span>
-<span id="2225">2225</span>
-<span id="2226">2226</span>
-<span id="2227">2227</span>
-<span id="2228">2228</span>
-<span id="2229">2229</span>
-<span id="2230">2230</span>
-<span id="2231">2231</span>
-<span id="2232">2232</span>
-<span id="2233">2233</span>
-<span id="2234">2234</span>
-<span id="2235">2235</span>
-<span id="2236">2236</span>
-<span id="2237">2237</span>
-<span id="2238">2238</span>
-<span id="2239">2239</span>
-<span id="2240">2240</span>
-<span id="2241">2241</span>
-<span id="2242">2242</span>
-<span id="2243">2243</span>
-<span id="2244">2244</span>
-<span id="2245">2245</span>
-<span id="2246">2246</span>
-<span id="2247">2247</span>
-<span id="2248">2248</span>
-<span id="2249">2249</span>
-<span id="2250">2250</span>
-<span id="2251">2251</span>
-<span id="2252">2252</span>
-<span id="2253">2253</span>
-<span id="2254">2254</span>
-<span id="2255">2255</span>
-<span id="2256">2256</span>
-<span id="2257">2257</span>
-<span id="2258">2258</span>
-<span id="2259">2259</span>
-<span id="2260">2260</span>
-<span id="2261">2261</span>
-<span id="2262">2262</span>
-<span id="2263">2263</span>
-<span id="2264">2264</span>
-<span id="2265">2265</span>
-<span id="2266">2266</span>
-<span id="2267">2267</span>
-<span id="2268">2268</span>
-<span id="2269">2269</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! A cross-platform graphics and compute library based on [WebGPU](https://gpuweb.github.io/gpuweb/).</span>
 <span class="doccomment">//!</span>
@@ -2665,16 +2572,6 @@
     <span class="ident">id</span>: <span class="op">&lt;</span><span class="ident">C</span> <span class="kw">as</span> <span class="ident">Context</span><span class="op">&gt;</span>::<span class="ident">AdapterId</span>,
 }
 
-<span class="doccomment">/// Options for requesting adapter.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RequestAdapterOptions</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Power preference for the adapter.</span>
-    <span class="kw">pub</span> <span class="ident">power_preference</span>: <span class="ident">PowerPreference</span>,
-    <span class="doccomment">/// Surface that is required to be presentable with the requested adapter. This does not</span>
-    <span class="doccomment">/// create the surface, only guarantees that the adapter can present to said surface.</span>
-    <span class="kw">pub</span> <span class="ident">compatible_surface</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Surface</span><span class="op">&gt;</span>,
-}
-
 <span class="doccomment">/// Open connection to a graphics and/or compute device.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Responsible for the creation of most rendering and compute resources.</span>
@@ -3071,104 +2968,6 @@
     <span class="ident">TextureViewArray</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">TextureView</span>]),
 }
 
-<span class="doccomment">/// Bindable resource and the slot to bind it to.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Binding</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Slot for which binding provides resource. Corresponds to an entry of the same</span>
-    <span class="doccomment">/// binding index in the [`BindGroupLayoutDescriptor`].</span>
-    <span class="kw">pub</span> <span class="ident">binding</span>: <span class="ident">u32</span>,
-    <span class="doccomment">/// Resource to attach to the binding</span>
-    <span class="kw">pub</span> <span class="ident">resource</span>: <span class="ident">BindingResource</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
-}
-
-<span class="doccomment">/// Describes a group of bindings and the resources to be bound.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BindGroupDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The [`BindGroupLayout`] that corresponds to this bind group.</span>
-    <span class="kw">pub</span> <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">BindGroupLayout</span>,
-
-    <span class="doccomment">/// The resources to bind to this bind group.</span>
-    <span class="kw">pub</span> <span class="ident">bindings</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">Binding</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
-
-    <span class="doccomment">/// Debug label of the bind group. This will show up in graphics debuggers for easy identification.</span>
-    <span class="kw">pub</span> <span class="ident">label</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
-}
-
-<span class="doccomment">/// Describes a pipeline layout.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// A `PipelineLayoutDescriptor` can be passed to [`Device::create_pipeline_layout`] to obtain a</span>
-<span class="doccomment">/// [`PipelineLayout`].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PipelineLayoutDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Bind groups that this pipeline uses. The first entry will provide all the bindings for</span>
-    <span class="doccomment">/// &quot;set = 0&quot;, second entry will provide all the bindings for &quot;set = 1&quot; etc.</span>
-    <span class="kw">pub</span> <span class="ident">bind_group_layouts</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">BindGroupLayout</span>],
-}
-
-<span class="doccomment">/// Describes a programmable pipeline stage.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The compiled shader module for this stage.</span>
-    <span class="kw">pub</span> <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">ShaderModule</span>,
-
-    <span class="doccomment">/// The name of the entry point in the compiled shader. There must be a function that returns</span>
-    <span class="doccomment">/// void with this name in the shader.</span>
-    <span class="kw">pub</span> <span class="ident">entry_point</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
-}
-
-<span class="doccomment">/// Describes a render (graphics) pipeline.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RenderPipelineDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The layout of bind groups for this pipeline.</span>
-    <span class="kw">pub</span> <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PipelineLayout</span>,
-
-    <span class="doccomment">/// The compiled vertex stage and its entry point.</span>
-    <span class="kw">pub</span> <span class="ident">vertex_stage</span>: <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
-
-    <span class="doccomment">/// The compiled fragment stage and its entry point, if any.</span>
-    <span class="kw">pub</span> <span class="ident">fragment_stage</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-
-    <span class="doccomment">/// The rasterization process for this pipeline.</span>
-    <span class="kw">pub</span> <span class="ident">rasterization_state</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RasterizationStateDescriptor</span><span class="op">&gt;</span>,
-
-    <span class="doccomment">/// The primitive topology used to interpret vertices.</span>
-    <span class="kw">pub</span> <span class="ident">primitive_topology</span>: <span class="ident">PrimitiveTopology</span>,
-
-    <span class="doccomment">/// The effect of draw calls on the color aspect of the output target.</span>
-    <span class="kw">pub</span> <span class="ident">color_states</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">ColorStateDescriptor</span>],
-
-    <span class="doccomment">/// The effect of draw calls on the depth and stencil aspects of the output target, if any.</span>
-    <span class="kw">pub</span> <span class="ident">depth_stencil_state</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">DepthStencilStateDescriptor</span><span class="op">&gt;</span>,
-
-    <span class="doccomment">/// The vertex input state for this pipeline.</span>
-    <span class="kw">pub</span> <span class="ident">vertex_state</span>: <span class="ident">VertexStateDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
-
-    <span class="doccomment">/// The number of samples calculated per pixel (for MSAA). For non-multisampled textures,</span>
-    <span class="doccomment">/// this should be `1`</span>
-    <span class="kw">pub</span> <span class="ident">sample_count</span>: <span class="ident">u32</span>,
-
-    <span class="doccomment">/// Bitmask that restricts the samples of a pixel modified by this pipeline. All samples</span>
-    <span class="doccomment">/// can be enabled using the value `!0`</span>
-    <span class="kw">pub</span> <span class="ident">sample_mask</span>: <span class="ident">u32</span>,
-
-    <span class="doccomment">/// When enabled, produces another sample mask per pixel based on the alpha output value, that</span>
-    <span class="doccomment">/// is ANDed with the sample_mask and the primitive coverage to restrict the set of samples</span>
-    <span class="doccomment">/// affected by a primitive.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The implicit mask produced for alpha of zero is guaranteed to be zero, and for alpha of one</span>
-    <span class="doccomment">/// is guaranteed to be all 1-s.</span>
-    <span class="kw">pub</span> <span class="ident">alpha_to_coverage_enabled</span>: <span class="ident">bool</span>,
-}
-
-<span class="doccomment">/// Describes a compute pipeline.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ComputePipelineDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The layout of bind groups for this pipeline.</span>
-    <span class="kw">pub</span> <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PipelineLayout</span>,
-
-    <span class="doccomment">/// The compiled compute stage and its entry point.</span>
-    <span class="kw">pub</span> <span class="ident">compute_stage</span>: <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
-}
-
 <span class="doccomment">/// Operation to perform to the output attachment at the start of a renderpass.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LoadOp</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span> {
@@ -3197,6 +2996,7 @@
     <span class="doccomment">/// What operations will be performed on this color attachment.</span>
     <span class="kw">pub</span> <span class="ident">ops</span>: <span class="ident">Operations</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
 }
+
 <span class="doccomment">/// Describes a depth/stencil attachment to a [`RenderPass`].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RenderPassDepthStencilAttachmentDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -3208,17 +3008,11 @@
     <span class="kw">pub</span> <span class="ident">stencil_ops</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Operations</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
-<span class="doccomment">/// Describes the attachments of a [`RenderPass`].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RenderPassDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The color attachments of the render pass.</span>
-    <span class="kw">pub</span> <span class="ident">color_attachments</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> [<span class="ident">RenderPassColorAttachmentDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>],
-
-    <span class="doccomment">/// The depth and stencil attachment of the render pass, if any.</span>
-    <span class="kw">pub</span> <span class="ident">depth_stencil_attachment</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RenderPassDepthStencilAttachmentDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-}
-
 <span class="comment">// The underlying types are also exported so that documentation shows up for them</span>
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">RequestAdapterOptions</span> <span class="kw">as</span> <span class="ident">RequestAdapterOptionsBase</span>;
+<span class="doccomment">/// Additional information required when requesting an adapter.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">RequestAdapterOptions</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">RequestAdapterOptionsBase</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Surface</span><span class="op">&gt;</span>;
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">BufferDescriptor</span> <span class="kw">as</span> <span class="ident">BufferDescriptorBase</span>;
 <span class="doccomment">/// Describes a [`Buffer`].</span>
@@ -3243,6 +3037,49 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">SamplerDescriptor</span> <span class="kw">as</span> <span class="ident">SamplerDescriptorBase</span>;
 <span class="doccomment">/// Describes a [`Sampler`].</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">SamplerDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">SamplerDescriptorBase</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">BindGroupEntry</span> <span class="kw">as</span> <span class="ident">BindGroupEntryBase</span>;
+<span class="doccomment">/// Bindable resource and the slot to bind it to.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">BindGroupEntryBase</span><span class="op">&lt;</span><span class="ident">BindingResource</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">BindGroupDescriptor</span> <span class="kw">as</span> <span class="ident">BindGroupDescriptorBase</span>;
+<span class="doccomment">/// Describes a group of bindings and the resources to be bound.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BindGroupDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span>
+    <span class="ident">BindGroupDescriptorBase</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">BindGroupLayout</span>, <span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">PipelineLayoutDescriptor</span> <span class="kw">as</span> <span class="ident">PipelineLayoutDescriptorBase</span>;
+<span class="doccomment">/// Describes a pipeline layout.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">PipelineLayoutDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">PipelineLayoutDescriptorBase</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">BindGroupLayout</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">ProgrammableStageDescriptor</span> <span class="kw">as</span> <span class="ident">ProgrammableStageDescriptorBase</span>;
+<span class="doccomment">/// Describes a programmable pipeline stage.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">ShaderModule</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">RenderPassDescriptor</span> <span class="kw">as</span> <span class="ident">RenderPassDescriptorBase</span>;
+<span class="doccomment">/// Describes the attachments of a [`RenderPass`];</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">RenderPassDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;b</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">RenderPassDescriptorBase</span><span class="op">&lt;</span>
+    <span class="lifetime">&#39;b</span>,
+    <span class="ident">RenderPassColorAttachmentDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+    <span class="ident">RenderPassDepthStencilAttachmentDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+<span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">RenderPipelineDescriptor</span> <span class="kw">as</span> <span class="ident">RenderPipelineDescriptorBase</span>;
+<span class="doccomment">/// Describes a render (graphics) pipeline.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">RenderPipelineDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span>
+    <span class="ident">RenderPipelineDescriptorBase</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PipelineLayout</span>, <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">ComputePipelineDescriptor</span> <span class="kw">as</span> <span class="ident">ComputePipelineDescriptorBase</span>;
+<span class="doccomment">/// Describes a compute pipeline.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ComputePipelineDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span>
+    <span class="ident">wgt</span>::<span class="ident">ComputePipelineDescriptor</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">PipelineLayout</span>, <span class="ident">ProgrammableStageDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">BufferCopyView</span> <span class="kw">as</span> <span class="ident">BufferCopyViewBase</span>;
+<span class="doccomment">/// View of a buffer which can be used to copy to/from a texture.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BufferCopyView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">BufferCopyViewBase</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Buffer</span><span class="op">&gt;</span>;
+
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgt</span>::<span class="ident">TextureCopyView</span> <span class="kw">as</span> <span class="ident">TextureCopyViewBase</span>;
+<span class="doccomment">/// View of a texture which can be used to copy to/from a buffer/texture.</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">TextureCopyView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">TextureCopyViewBase</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Texture</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Swap chain image that can be rendered to.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SwapChainTexture</span> {
@@ -3271,29 +3108,6 @@
     <span class="ident">Lost</span>,
     <span class="doccomment">/// There is no more memory left to allocate a new frame.</span>
     <span class="ident">OutOfMemory</span>,
-}
-
-<span class="doccomment">/// View of a buffer which can be used to copy to/from a texture.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BufferCopyView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The buffer to be copied to/from.</span>
-    <span class="kw">pub</span> <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Buffer</span>,
-
-    <span class="doccomment">/// The layout of the texture data in this buffer.</span>
-    <span class="kw">pub</span> <span class="ident">layout</span>: <span class="ident">TextureDataLayout</span>,
-}
-
-<span class="doccomment">/// View of a texture which can be used to copy to/from a buffer/texture.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TextureCopyView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The texture to be copied to/from.</span>
-    <span class="kw">pub</span> <span class="ident">texture</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Texture</span>,
-
-    <span class="doccomment">/// The target mip level of the texture.</span>
-    <span class="kw">pub</span> <span class="ident">mip_level</span>: <span class="ident">u32</span>,
-
-    <span class="doccomment">/// The base texel of the texture in the selected `mip_level`.</span>
-    <span class="kw">pub</span> <span class="ident">origin</span>: <span class="ident">Origin3d</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Instance</span> {
@@ -3335,7 +3149,7 @@
     <span class="doccomment">/// If no adapters are found that suffice all the &quot;hard&quot; options, `None` is returned.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">request_adapter</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">RequestAdapterOptions</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
+        <span class="ident">options</span>: <span class="kw-2">&amp;</span><span class="ident">RequestAdapterOptions</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Adapter</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> {
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">context</span>);
         <span class="self">self</span>.<span class="ident">context</span>
