@@ -1076,6 +1076,10 @@
 <span id="1076">1076</span>
 <span id="1077">1077</span>
 <span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">backend</span>::<span class="ident">native_gpu_future</span>, <span class="ident">BindGroupDescriptor</span>, <span class="ident">BindGroupLayoutDescriptor</span>, <span class="ident">BindingResource</span>,
@@ -1649,7 +1653,7 @@
             <span class="kw-2">&amp;</span><span class="ident">bm</span>::<span class="ident">BindGroupDescriptor</span> {
                 <span class="ident">label</span>: <span class="ident">desc</span>.<span class="ident">label</span>,
                 <span class="ident">layout</span>: <span class="ident">desc</span>.<span class="ident">layout</span>.<span class="ident">id</span>,
-                <span class="ident">bindings</span>: <span class="kw-2">&amp;</span><span class="ident">bindings</span>,
+                <span class="ident">entries</span>: <span class="kw-2">&amp;</span><span class="ident">bindings</span>,
             },
             <span class="ident">PhantomData</span>
         ))
@@ -1977,6 +1981,7 @@
             <span class="ident">destination_offset</span>,
             <span class="ident">copy_size</span>
         ))
+        .<span class="ident">unwrap</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">command_encoder_copy_buffer_to_texture</span>(
@@ -1992,6 +1997,7 @@
             <span class="kw-2">&amp;</span><span class="ident">map_texture_copy_view</span>(<span class="ident">destination</span>),
             <span class="kw-2">&amp;</span><span class="ident">copy_size</span>
         ))
+        .<span class="ident">unwrap</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">command_encoder_copy_texture_to_buffer</span>(
@@ -2007,6 +2013,7 @@
             <span class="kw-2">&amp;</span><span class="ident">map_buffer_copy_view</span>(<span class="ident">destination</span>),
             <span class="kw-2">&amp;</span><span class="ident">copy_size</span>
         ))
+        .<span class="ident">unwrap</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">command_encoder_copy_texture_to_texture</span>(
@@ -2022,6 +2029,7 @@
             <span class="kw-2">&amp;</span><span class="ident">map_texture_copy_view</span>(<span class="ident">destination</span>),
             <span class="kw-2">&amp;</span><span class="ident">copy_size</span>
         ))
+        .<span class="ident">unwrap</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">command_encoder_begin_compute_pass</span>(
