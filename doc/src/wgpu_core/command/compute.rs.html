@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/f67771f/wgpu-core/src/command/compute.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compute.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/a0ed09a/wgpu-core/src/command/compute.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>compute.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -498,12 +498,69 @@
 <span id="498">498</span>
 <span id="499">499</span>
 <span id="500">500</span>
+<span id="501">501</span>
+<span id="502">502</span>
+<span id="503">503</span>
+<span id="504">504</span>
+<span id="505">505</span>
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+<span id="515">515</span>
+<span id="516">516</span>
+<span id="517">517</span>
+<span id="518">518</span>
+<span id="519">519</span>
+<span id="520">520</span>
+<span id="521">521</span>
+<span id="522">522</span>
+<span id="523">523</span>
+<span id="524">524</span>
+<span id="525">525</span>
+<span id="526">526</span>
+<span id="527">527</span>
+<span id="528">528</span>
+<span id="529">529</span>
+<span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">binding_model</span>::{<span class="ident">BindError</span>, <span class="ident">PushConstantUploadError</span>},
     <span class="ident">command</span>::{
         <span class="ident">bind</span>::{<span class="ident">Binder</span>, <span class="ident">LayoutChange</span>},
         <span class="ident">BasePass</span>, <span class="ident">BasePassRef</span>, <span class="ident">CommandBuffer</span>,
@@ -608,6 +665,57 @@
     <span class="ident">debug_scope_depth</span>: <span class="ident">u32</span>,
 }
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ComputePassError</span> {
+    <span class="ident">BindGroupIndexOutOfRange</span> {
+        <span class="ident">index</span>: <span class="ident">u8</span>,
+        <span class="ident">max</span>: <span class="ident">u32</span>,
+    },
+    <span class="ident">UnboundPipeline</span>,
+    <span class="ident">MissingBufferUsage</span> {
+        <span class="ident">actual</span>: <span class="ident">BufferUsage</span>,
+        <span class="ident">expected</span>: <span class="ident">BufferUsage</span>,
+    },
+    <span class="ident">InvalidPopDebugGroup</span>,
+    <span class="ident">Bind</span>(<span class="ident">BindError</span>),
+    <span class="ident">PushConstants</span>(<span class="ident">PushConstantUploadError</span>),
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">PushConstantUploadError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ComputePassError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">PushConstantUploadError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">PushConstants</span>(<span class="ident">error</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">BindError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ComputePassError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">BindError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">Bind</span>(<span class="ident">error</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ComputePassError</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="self">Self</span>::<span class="ident">BindGroupIndexOutOfRange</span> { <span class="ident">index</span>, <span class="ident">max</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;bind group index {} is greater than the device&#39;s requested `max_bind_group` limit {}&quot;</span>,
+                <span class="ident">index</span>,
+                <span class="ident">max</span>,
+            ),
+            <span class="self">Self</span>::<span class="ident">UnboundPipeline</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;a compute pipeline must be bound&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">MissingBufferUsage</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;buffer usage is {:?} which does not contain required usage {:?}&quot;</span>,
+                <span class="ident">actual</span>,
+                <span class="ident">expected</span>,
+            ),
+            <span class="self">Self</span>::<span class="ident">InvalidPopDebugGroup</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;cannot pop debug group, because number of pushed debug groups is zero&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">Bind</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
+            <span class="self">Self</span>::<span class="ident">PushConstants</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
+        }
+    }
+}
+
 <span class="comment">// Common routines between render/compute</span>
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">GlobalIdentityHandlerFactory</span><span class="op">&gt;</span> <span class="ident">Global</span><span class="op">&lt;</span><span class="ident">G</span><span class="op">&gt;</span> {
@@ -615,7 +723,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">encoder_id</span>: <span class="ident">id</span>::<span class="ident">CommandEncoderId</span>,
         <span class="ident">pass</span>: <span class="kw-2">&amp;</span><span class="ident">ComputePass</span>,
-    ) {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ComputePassError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">command_encoder_run_compute_pass_impl</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>(<span class="ident">encoder_id</span>, <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">as_ref</span>())
     }
 
@@ -624,7 +732,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">encoder_id</span>: <span class="ident">id</span>::<span class="ident">CommandEncoderId</span>,
         <span class="kw-2">mut</span> <span class="ident">base</span>: <span class="ident">BasePassRef</span><span class="op">&lt;</span><span class="ident">ComputeCommand</span><span class="op">&gt;</span>,
-    ) {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">ComputePassError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;CommandEncoder::run_compute_pass&quot;</span>);
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
@@ -663,12 +771,13 @@
                     <span class="ident">num_dynamic_offsets</span>,
                     <span class="ident">bind_group_id</span>,
                 } <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        (<span class="ident">index</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span> <span class="ident">cmb</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>,
-                        <span class="string">&quot;Bind group index {0} is out of range 0..{1} provided by requested max_bind_group limit {1}&quot;</span>,
-                        <span class="ident">index</span>,
-                        <span class="ident">cmb</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>
-                    );
+                    <span class="kw">let</span> <span class="ident">max_bind_groups</span> <span class="op">=</span> <span class="ident">cmb</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>;
+                    <span class="kw">if</span> (<span class="ident">index</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">max_bind_groups</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ComputePassError</span>::<span class="ident">BindGroupIndexOutOfRange</span> {
+                            <span class="ident">index</span>,
+                            <span class="ident">max</span>: <span class="ident">max_bind_groups</span>,
+                        });
+                    }
 
                     <span class="kw">let</span> <span class="ident">offsets</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">dynamic_offsets</span>[..<span class="ident">num_dynamic_offsets</span> <span class="kw">as</span> <span class="ident">usize</span>];
                     <span class="ident">base</span>.<span class="ident">dynamic_offsets</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">dynamic_offsets</span>[<span class="ident">num_dynamic_offsets</span> <span class="kw">as</span> <span class="ident">usize</span>..];
@@ -678,7 +787,7 @@
                         .<span class="ident">bind_groups</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">bind_group_guard</span>, <span class="ident">bind_group_id</span>, (), ())
                         .<span class="ident">unwrap</span>();
-                    <span class="ident">bind_group</span>.<span class="ident">validate_dynamic_bindings</span>(<span class="ident">offsets</span>).<span class="ident">unwrap</span>();
+                    <span class="ident">bind_group</span>.<span class="ident">validate_dynamic_bindings</span>(<span class="ident">offsets</span>)<span class="question-mark">?</span>;
 
                     <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(
                         <span class="string">&quot;Encoding barriers on binding of {:?} to {:?}&quot;</span>,
@@ -795,10 +904,11 @@
                     <span class="kw">let</span> <span class="ident">data_slice</span> <span class="op">=</span>
                         <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">push_constant_data</span>[(<span class="ident">values_offset</span> <span class="kw">as</span> <span class="ident">usize</span>)..<span class="ident">values_end_offset</span>];
 
-                    <span class="kw">let</span> <span class="ident">pipeline_layout</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pipeline_layout_guard</span>[<span class="ident">state</span>
+                    <span class="kw">let</span> <span class="ident">pipeline_layout_id</span> <span class="op">=</span> <span class="ident">state</span>
                         .<span class="ident">binder</span>
                         .<span class="ident">pipeline_layout_id</span>
-                        .<span class="ident">expect</span>(<span class="string">&quot;Must have a pipeline bound to use push constants&quot;</span>)];
+                        .<span class="ident">ok_or</span>(<span class="ident">ComputePassError</span>::<span class="ident">UnboundPipeline</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="ident">pipeline_layout</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pipeline_layout_guard</span>[<span class="ident">pipeline_layout_id</span>];
 
                     <span class="ident">pipeline_layout</span>
                         .<span class="ident">validate_push_constant_ranges</span>(
@@ -806,33 +916,34 @@
                             <span class="ident">offset</span>,
                             <span class="ident">end_offset_bytes</span>,
                         )
-                        .<span class="ident">unwrap</span>();
+                        .<span class="ident">map_err</span>(<span class="ident">ComputePassError</span>::<span class="ident">from</span>)<span class="question-mark">?</span>;
 
                     <span class="kw">unsafe</span> { <span class="ident">raw</span>.<span class="ident">push_compute_constants</span>(<span class="kw-2">&amp;</span><span class="ident">pipeline_layout</span>.<span class="ident">raw</span>, <span class="ident">offset</span>, <span class="ident">data_slice</span>) }
                 }
                 <span class="ident">ComputeCommand</span>::<span class="ident">Dispatch</span>(<span class="ident">groups</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">assert_eq</span><span class="macro">!</span>(
-                        <span class="ident">state</span>.<span class="ident">pipeline</span>,
-                        <span class="ident">PipelineState</span>::<span class="ident">Set</span>,
-                        <span class="string">&quot;Dispatch DEBUG: Pipeline is missing&quot;</span>
-                    );
+                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">pipeline</span> <span class="op">!</span><span class="op">=</span> <span class="ident">PipelineState</span>::<span class="ident">Set</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ComputePassError</span>::<span class="ident">UnboundPipeline</span>);
+                    }
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">dispatch</span>(<span class="ident">groups</span>);
                     }
                 }
                 <span class="ident">ComputeCommand</span>::<span class="ident">DispatchIndirect</span> { <span class="ident">buffer_id</span>, <span class="ident">offset</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">assert_eq</span><span class="macro">!</span>(
-                        <span class="ident">state</span>.<span class="ident">pipeline</span>,
-                        <span class="ident">PipelineState</span>::<span class="ident">Set</span>,
-                        <span class="string">&quot;Dispatch DEBUG: Pipeline is missing&quot;</span>
-                    );
+                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">pipeline</span> <span class="op">!</span><span class="op">=</span> <span class="ident">PipelineState</span>::<span class="ident">Set</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ComputePassError</span>::<span class="ident">UnboundPipeline</span>);
+                    }
                     <span class="kw">let</span> (<span class="ident">src_buffer</span>, <span class="ident">src_pending</span>) <span class="op">=</span> <span class="ident">cmb</span>.<span class="ident">trackers</span>.<span class="ident">buffers</span>.<span class="ident">use_replace</span>(
                         <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>,
                         <span class="ident">buffer_id</span>,
                         (),
                         <span class="ident">BufferUse</span>::<span class="ident">INDIRECT</span>,
                     );
-                    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">src_buffer</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">BufferUsage</span>::<span class="ident">INDIRECT</span>));
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">src_buffer</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">BufferUsage</span>::<span class="ident">INDIRECT</span>) {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ComputePassError</span>::<span class="ident">MissingBufferUsage</span> {
+                            <span class="ident">actual</span>: <span class="ident">src_buffer</span>.<span class="ident">usage</span>,
+                            <span class="ident">expected</span>: <span class="ident">BufferUsage</span>::<span class="ident">INDIRECT</span>,
+                        });
+                    }
 
                     <span class="kw">let</span> <span class="ident">barriers</span> <span class="op">=</span> <span class="ident">src_pending</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">pending</span><span class="op">|</span> <span class="ident">pending</span>.<span class="ident">into_hal</span>(<span class="ident">src_buffer</span>));
 
@@ -855,10 +966,9 @@
                     <span class="ident">base</span>.<span class="ident">string_data</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">string_data</span>[<span class="ident">len</span>..];
                 }
                 <span class="ident">ComputeCommand</span>::<span class="ident">PopDebugGroup</span> <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">assert_ne</span><span class="macro">!</span>(
-                        <span class="ident">state</span>.<span class="ident">debug_scope_depth</span>, <span class="number">0</span>,
-                        <span class="string">&quot;Can&#39;t pop debug group, because number of pushed debug groups is zero!&quot;</span>
-                    );
+                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ComputePassError</span>::<span class="ident">InvalidPopDebugGroup</span>);
+                    }
                     <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">end_debug_marker</span>();
@@ -871,6 +981,8 @@
                 }
             }
         }
+
+        <span class="prelude-val">Ok</span>(())
     }
 }
 

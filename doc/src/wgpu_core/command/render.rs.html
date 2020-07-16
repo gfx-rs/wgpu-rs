@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/f67771f/wgpu-core/src/command/render.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>render.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/a0ed09a/wgpu-core/src/command/render.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>render.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1856,15 +1856,195 @@
 <span id="1856">1856</span>
 <span id="1857">1857</span>
 <span id="1858">1858</span>
+<span id="1859">1859</span>
+<span id="1860">1860</span>
+<span id="1861">1861</span>
+<span id="1862">1862</span>
+<span id="1863">1863</span>
+<span id="1864">1864</span>
+<span id="1865">1865</span>
+<span id="1866">1866</span>
+<span id="1867">1867</span>
+<span id="1868">1868</span>
+<span id="1869">1869</span>
+<span id="1870">1870</span>
+<span id="1871">1871</span>
+<span id="1872">1872</span>
+<span id="1873">1873</span>
+<span id="1874">1874</span>
+<span id="1875">1875</span>
+<span id="1876">1876</span>
+<span id="1877">1877</span>
+<span id="1878">1878</span>
+<span id="1879">1879</span>
+<span id="1880">1880</span>
+<span id="1881">1881</span>
+<span id="1882">1882</span>
+<span id="1883">1883</span>
+<span id="1884">1884</span>
+<span id="1885">1885</span>
+<span id="1886">1886</span>
+<span id="1887">1887</span>
+<span id="1888">1888</span>
+<span id="1889">1889</span>
+<span id="1890">1890</span>
+<span id="1891">1891</span>
+<span id="1892">1892</span>
+<span id="1893">1893</span>
+<span id="1894">1894</span>
+<span id="1895">1895</span>
+<span id="1896">1896</span>
+<span id="1897">1897</span>
+<span id="1898">1898</span>
+<span id="1899">1899</span>
+<span id="1900">1900</span>
+<span id="1901">1901</span>
+<span id="1902">1902</span>
+<span id="1903">1903</span>
+<span id="1904">1904</span>
+<span id="1905">1905</span>
+<span id="1906">1906</span>
+<span id="1907">1907</span>
+<span id="1908">1908</span>
+<span id="1909">1909</span>
+<span id="1910">1910</span>
+<span id="1911">1911</span>
+<span id="1912">1912</span>
+<span id="1913">1913</span>
+<span id="1914">1914</span>
+<span id="1915">1915</span>
+<span id="1916">1916</span>
+<span id="1917">1917</span>
+<span id="1918">1918</span>
+<span id="1919">1919</span>
+<span id="1920">1920</span>
+<span id="1921">1921</span>
+<span id="1922">1922</span>
+<span id="1923">1923</span>
+<span id="1924">1924</span>
+<span id="1925">1925</span>
+<span id="1926">1926</span>
+<span id="1927">1927</span>
+<span id="1928">1928</span>
+<span id="1929">1929</span>
+<span id="1930">1930</span>
+<span id="1931">1931</span>
+<span id="1932">1932</span>
+<span id="1933">1933</span>
+<span id="1934">1934</span>
+<span id="1935">1935</span>
+<span id="1936">1936</span>
+<span id="1937">1937</span>
+<span id="1938">1938</span>
+<span id="1939">1939</span>
+<span id="1940">1940</span>
+<span id="1941">1941</span>
+<span id="1942">1942</span>
+<span id="1943">1943</span>
+<span id="1944">1944</span>
+<span id="1945">1945</span>
+<span id="1946">1946</span>
+<span id="1947">1947</span>
+<span id="1948">1948</span>
+<span id="1949">1949</span>
+<span id="1950">1950</span>
+<span id="1951">1951</span>
+<span id="1952">1952</span>
+<span id="1953">1953</span>
+<span id="1954">1954</span>
+<span id="1955">1955</span>
+<span id="1956">1956</span>
+<span id="1957">1957</span>
+<span id="1958">1958</span>
+<span id="1959">1959</span>
+<span id="1960">1960</span>
+<span id="1961">1961</span>
+<span id="1962">1962</span>
+<span id="1963">1963</span>
+<span id="1964">1964</span>
+<span id="1965">1965</span>
+<span id="1966">1966</span>
+<span id="1967">1967</span>
+<span id="1968">1968</span>
+<span id="1969">1969</span>
+<span id="1970">1970</span>
+<span id="1971">1971</span>
+<span id="1972">1972</span>
+<span id="1973">1973</span>
+<span id="1974">1974</span>
+<span id="1975">1975</span>
+<span id="1976">1976</span>
+<span id="1977">1977</span>
+<span id="1978">1978</span>
+<span id="1979">1979</span>
+<span id="1980">1980</span>
+<span id="1981">1981</span>
+<span id="1982">1982</span>
+<span id="1983">1983</span>
+<span id="1984">1984</span>
+<span id="1985">1985</span>
+<span id="1986">1986</span>
+<span id="1987">1987</span>
+<span id="1988">1988</span>
+<span id="1989">1989</span>
+<span id="1990">1990</span>
+<span id="1991">1991</span>
+<span id="1992">1992</span>
+<span id="1993">1993</span>
+<span id="1994">1994</span>
+<span id="1995">1995</span>
+<span id="1996">1996</span>
+<span id="1997">1997</span>
+<span id="1998">1998</span>
+<span id="1999">1999</span>
+<span id="2000">2000</span>
+<span id="2001">2001</span>
+<span id="2002">2002</span>
+<span id="2003">2003</span>
+<span id="2004">2004</span>
+<span id="2005">2005</span>
+<span id="2006">2006</span>
+<span id="2007">2007</span>
+<span id="2008">2008</span>
+<span id="2009">2009</span>
+<span id="2010">2010</span>
+<span id="2011">2011</span>
+<span id="2012">2012</span>
+<span id="2013">2013</span>
+<span id="2014">2014</span>
+<span id="2015">2015</span>
+<span id="2016">2016</span>
+<span id="2017">2017</span>
+<span id="2018">2018</span>
+<span id="2019">2019</span>
+<span id="2020">2020</span>
+<span id="2021">2021</span>
+<span id="2022">2022</span>
+<span id="2023">2023</span>
+<span id="2024">2024</span>
+<span id="2025">2025</span>
+<span id="2026">2026</span>
+<span id="2027">2027</span>
+<span id="2028">2028</span>
+<span id="2029">2029</span>
+<span id="2030">2030</span>
+<span id="2031">2031</span>
+<span id="2032">2032</span>
+<span id="2033">2033</span>
+<span id="2034">2034</span>
+<span id="2035">2035</span>
+<span id="2036">2036</span>
+<span id="2037">2037</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">binding_model</span>::<span class="ident">BindError</span>,
     <span class="ident">command</span>::{
         <span class="ident">bind</span>::{<span class="ident">Binder</span>, <span class="ident">LayoutChange</span>},
-        <span class="ident">BasePass</span>, <span class="ident">BasePassRef</span>,
+        <span class="ident">check_buffer_usage</span>, <span class="ident">BasePass</span>, <span class="ident">BasePassRef</span>, <span class="ident">RenderCommandError</span>,
     },
     <span class="ident">conv</span>,
     <span class="ident">device</span>::{
@@ -1883,45 +2063,111 @@
 <span class="kw">use</span> <span class="ident">arrayvec</span>::<span class="ident">ArrayVec</span>;
 <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">CommandBuffer</span> <span class="kw">as</span> <span class="kw">_</span>;
 <span class="kw">use</span> <span class="ident">wgt</span>::{
-    <span class="ident">BufferAddress</span>, <span class="ident">BufferSize</span>, <span class="ident">BufferUsage</span>, <span class="ident">Color</span>, <span class="ident">IndexFormat</span>, <span class="ident">InputStepMode</span>, <span class="ident">LoadOp</span>,
-    <span class="ident">RenderPassColorAttachmentDescriptorBase</span>, <span class="ident">RenderPassDepthStencilAttachmentDescriptorBase</span>,
-    <span class="ident">StoreOp</span>, <span class="ident">TextureUsage</span>,
+    <span class="ident">BufferAddress</span>, <span class="ident">BufferSize</span>, <span class="ident">BufferUsage</span>, <span class="ident">Color</span>, <span class="ident">IndexFormat</span>, <span class="ident">InputStepMode</span>, <span class="ident">TextureUsage</span>,
 };
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>))]</span>
+<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>))]</span>
+<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Serialize</span>;
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow</span>::<span class="ident">Borrow</span>, <span class="ident">collections</span>::<span class="ident">hash_map</span>::<span class="ident">Entry</span>, <span class="ident">fmt</span>, <span class="ident">iter</span>, <span class="ident">ops</span>::<span class="ident">Range</span>, <span class="ident">str</span>};
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">ColorAttachmentDescriptor</span> <span class="op">=</span> <span class="ident">RenderPassColorAttachmentDescriptorBase</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">TextureViewId</span><span class="op">&gt;</span>;
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">DepthStencilAttachmentDescriptor</span> <span class="op">=</span>
-    <span class="ident">RenderPassDepthStencilAttachmentDescriptorBase</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">TextureViewId</span><span class="op">&gt;</span>;
+<span class="doccomment">/// Operation to perform to the output attachment at the start of a renderpass.</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>), <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>), <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">LoadOp</span> {
+    <span class="doccomment">/// Clear the output attachment with the clear color. Clearing is faster than loading.</span>
+    <span class="ident">Clear</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Do not clear output attachment.</span>
+    <span class="ident">Load</span> <span class="op">=</span> <span class="number">1</span>,
+}
+
+<span class="doccomment">/// Operation to perform to the output attachment at the end of a renderpass.</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Hash</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>), <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>), <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StoreOp</span> {
+    <span class="doccomment">/// Clear the render target. If you don&#39;t care about the contents of the target, this can be faster.</span>
+    <span class="ident">Clear</span> <span class="op">=</span> <span class="number">0</span>,
+    <span class="doccomment">/// Store the result of the renderpass.</span>
+    <span class="ident">Store</span> <span class="op">=</span> <span class="number">1</span>,
+}
+
+<span class="doccomment">/// Describes an individual channel within a render pass, such as color, depth, or stencil.</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>), <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>), <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PassChannel</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Operation to perform to the output attachment at the start of a renderpass. This must be clear if it</span>
+    <span class="doccomment">/// is the first renderpass rendering to a swap chain image.</span>
+    <span class="kw">pub</span> <span class="ident">load_op</span>: <span class="ident">LoadOp</span>,
+    <span class="doccomment">/// Operation to perform to the output attachment at the end of a renderpass.</span>
+    <span class="kw">pub</span> <span class="ident">store_op</span>: <span class="ident">StoreOp</span>,
+    <span class="doccomment">/// If load_op is [`LoadOp::Clear`], the attachement will be cleared to this color.</span>
+    <span class="kw">pub</span> <span class="ident">clear_value</span>: <span class="ident">V</span>,
+    <span class="doccomment">/// If true, the relevant channel is not changed by a renderpass, and the corresponding attachment</span>
+    <span class="doccomment">/// can be used inside the pass by other read-only usages.</span>
+    <span class="kw">pub</span> <span class="ident">read_only</span>: <span class="ident">bool</span>,
+}
+
+<span class="doccomment">/// Describes a color attachment to a render pass.</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>), <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>), <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ColorAttachmentDescriptor</span> {
+    <span class="doccomment">/// The view to use as an attachment.</span>
+    <span class="kw">pub</span> <span class="ident">attachment</span>: <span class="ident">id</span>::<span class="ident">TextureViewId</span>,
+    <span class="doccomment">/// The view that will receive the resolved output if multisampling is used.</span>
+    <span class="kw">pub</span> <span class="ident">resolve_target</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">TextureViewId</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// What operations will be performed on this color attachment.</span>
+    <span class="kw">pub</span> <span class="ident">channel</span>: <span class="ident">PassChannel</span><span class="op">&lt;</span><span class="ident">Color</span><span class="op">&gt;</span>,
+}
+
+<span class="doccomment">/// Describes a depth/stencil attachment to a render pass.</span>
+<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>), <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>), <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DepthStencilAttachmentDescriptor</span> {
+    <span class="doccomment">/// The view to use as an attachment.</span>
+    <span class="kw">pub</span> <span class="ident">attachment</span>: <span class="ident">id</span>::<span class="ident">TextureViewId</span>,
+    <span class="doccomment">/// What operations will be performed on the depth part of the attachment.</span>
+    <span class="kw">pub</span> <span class="ident">depth</span>: <span class="ident">PassChannel</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// What operations will be performed on the stencil part of the attachment.</span>
+    <span class="kw">pub</span> <span class="ident">stencil</span>: <span class="ident">PassChannel</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+}
 
 <span class="kw">fn</span> <span class="ident">is_depth_stencil_read_only</span>(
     <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">DepthStencilAttachmentDescriptor</span>,
     <span class="ident">aspects</span>: <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">aspects</span>.<span class="ident">contains</span>(<span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">DEPTH</span>) <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">read_only</span> {
-        <span class="kw">return</span> <span class="bool-val">false</span>;
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>);
     }
-    <span class="macro">assert_eq</span><span class="macro">!</span>(
-        (<span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">load_op</span>, <span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">store_op</span>),
-        (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">StoreOp</span>::<span class="ident">Store</span>),
-        <span class="string">&quot;Unable to clear non-present/read-only depth&quot;</span>
-    );
+    <span class="kw">if</span> (<span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">load_op</span>, <span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">store_op</span>) <span class="op">!</span><span class="op">=</span> (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">StoreOp</span>::<span class="ident">Store</span>) {
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidDepthOps</span>);
+    }
     <span class="kw">if</span> <span class="ident">aspects</span>.<span class="ident">contains</span>(<span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">STENCIL</span>) <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">read_only</span> {
-        <span class="kw">return</span> <span class="bool-val">false</span>;
+        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>);
     }
-    <span class="macro">assert_eq</span><span class="macro">!</span>(
-        (<span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">load_op</span>, <span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">store_op</span>),
-        (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">StoreOp</span>::<span class="ident">Store</span>),
-        <span class="string">&quot;Unable to clear non-present/read-only stencil&quot;</span>
-    );
-    <span class="bool-val">true</span>
+    <span class="kw">if</span> (<span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">load_op</span>, <span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">store_op</span>) <span class="op">!</span><span class="op">=</span> (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">StoreOp</span>::<span class="ident">Store</span>) {
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidStencilOps</span>);
+    }
+    <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
 }
 
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">RenderPassDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span>
     <span class="ident">wgt</span>::<span class="ident">RenderPassDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">ColorAttachmentDescriptor</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">DepthStencilAttachmentDescriptor</span><span class="op">&gt;</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">Default</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>, <span class="ident">derive</span>(<span class="ident">serde</span>::<span class="ident">Deserialize</span>, <span class="ident">serde</span>::<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>), <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>), <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Rect</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">pub</span> <span class="ident">x</span>: <span class="ident">T</span>,
     <span class="kw">pub</span> <span class="ident">y</span>: <span class="ident">T</span>,
@@ -1931,14 +2177,8 @@
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(
-    <span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>),
-    <span class="ident">derive</span>(<span class="ident">serde</span>::<span class="ident">Serialize</span>)
-)]</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(
-    <span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>),
-    <span class="ident">derive</span>(<span class="ident">serde</span>::<span class="ident">Deserialize</span>)
-)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>), <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>), <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RenderCommand</span> {
     <span class="ident">SetBindGroup</span> {
         <span class="ident">index</span>: <span class="ident">u8</span>,
@@ -2015,7 +2255,7 @@
     <span class="ident">ExecuteBundle</span>(<span class="ident">id</span>::<span class="ident">RenderBundleId</span>),
 }
 
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">derive</span>(<span class="ident">serde</span>::<span class="ident">Deserialize</span>, <span class="ident">serde</span>::<span class="ident">Serialize</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serial-pass&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RenderPass</span> {
     <span class="ident">base</span>: <span class="ident">BasePass</span><span class="op">&lt;</span><span class="ident">RenderCommand</span><span class="op">&gt;</span>,
     <span class="ident">parent_id</span>: <span class="ident">id</span>::<span class="ident">CommandEncoderId</span>,
@@ -2068,8 +2308,8 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">PartialEq</span>)]</span>
-<span class="kw">enum</span> <span class="ident">DrawError</span> {
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DrawError</span> {
     <span class="ident">MissingBlendColor</span>,
     <span class="ident">MissingStencilReference</span>,
     <span class="ident">MissingPipeline</span>,
@@ -2080,13 +2320,13 @@
     },
 }
 
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">DrawError</span> {
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">DrawError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">DrawError</span>::<span class="ident">MissingBlendColor</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;MissingBlendColor. A blend color is required to be set using RenderPass::set_blend_color.&quot;</span>),
-            <span class="ident">DrawError</span>::<span class="ident">MissingStencilReference</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;MissingStencilReference. A stencil reference is required to be set using RenderPass::set_stencil_reference.&quot;</span>),
-            <span class="ident">DrawError</span>::<span class="ident">MissingPipeline</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;MissingPipeline. You must first set the render pipeline using RenderPass::set_pipeline.&quot;</span>),
-            <span class="ident">DrawError</span>::<span class="ident">IncompatibleBindGroup</span> { <span class="ident">index</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;IncompatibleBindGroup. The current render pipeline has a layout which is incompatible with a currently set bind group. They first differ at entry index {}.&quot;</span>, <span class="ident">index</span>),
+            <span class="ident">DrawError</span>::<span class="ident">MissingBlendColor</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;blend color needs to be set&quot;</span>),
+            <span class="ident">DrawError</span>::<span class="ident">MissingStencilReference</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;stencil reference needs to be set&quot;</span>),
+            <span class="ident">DrawError</span>::<span class="ident">MissingPipeline</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;render pipeline must be set&quot;</span>),
+            <span class="ident">DrawError</span>::<span class="ident">IncompatibleBindGroup</span> { <span class="ident">index</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;current render pipeline has a layout which is incompatible with a currently set bind group, first differing at entry index {}&quot;</span>, <span class="ident">index</span>),
         }
     }
 }
@@ -2205,6 +2445,131 @@
     }
 }
 
+<span class="doccomment">/// Error encountered when performing a render pass.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">RenderPassError</span> {
+    <span class="ident">InvalidSampleCount</span>(<span class="ident">u8</span>),
+    <span class="ident">InvalidResolveSourceSampleCount</span>,
+    <span class="ident">InvalidResolveTargetSampleCount</span>,
+    <span class="ident">ExtentStateMismatch</span> {
+        <span class="ident">state_extent</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Extent</span>,
+        <span class="ident">view_extent</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Extent</span>,
+    },
+    <span class="ident">SwapChainImageAsDepthStencil</span>,
+    <span class="ident">InvalidDepthOps</span>,
+    <span class="ident">InvalidStencilOps</span>,
+    <span class="ident">SampleCountMismatch</span> {
+        <span class="ident">actual</span>: <span class="ident">u8</span>,
+        <span class="ident">expected</span>: <span class="ident">u8</span>,
+    },
+    <span class="ident">SwapChainMismatch</span>,
+    <span class="ident">InvalidValuesOffset</span>,
+    <span class="ident">MissingDeviceFeatures</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>),
+    <span class="ident">IndirectBufferOverrun</span> {
+        <span class="ident">offset</span>: <span class="ident">u64</span>,
+        <span class="ident">count</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+        <span class="ident">begin_offset</span>: <span class="ident">u64</span>,
+        <span class="ident">end_offset</span>: <span class="ident">u64</span>,
+        <span class="ident">buffer_size</span>: <span class="ident">u64</span>,
+    },
+    <span class="ident">IndirectCountBufferOverrun</span> {
+        <span class="ident">begin_count_offset</span>: <span class="ident">u64</span>,
+        <span class="ident">end_count_offset</span>: <span class="ident">u64</span>,
+        <span class="ident">count_buffer_size</span>: <span class="ident">u64</span>,
+    },
+    <span class="ident">InvalidPopDebugGroup</span>,
+    <span class="ident">IncompatibleRenderBundle</span>,
+    <span class="ident">RenderCommand</span>(<span class="ident">RenderCommandError</span>),
+    <span class="ident">Draw</span>(<span class="ident">DrawError</span>),
+    <span class="ident">Bind</span>(<span class="ident">BindError</span>),
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">RenderCommandError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RenderPassError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">RenderCommandError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">RenderCommand</span>(<span class="ident">error</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">DrawError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RenderPassError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">DrawError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">Draw</span>(<span class="ident">error</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">BindError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RenderPassError</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">BindError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">Bind</span>(<span class="ident">error</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">RenderPassError</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="self">Self</span>::<span class="ident">InvalidSampleCount</span>(<span class="ident">count</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;attachment&#39;s sample count {} is invalid&quot;</span>,
+                <span class="ident">count</span>,
+            ),
+            <span class="self">Self</span>::<span class="ident">InvalidResolveSourceSampleCount</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;attachment with resolve target must be multi-sampled&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidResolveTargetSampleCount</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;resolve target must have a sample count of 1&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">ExtentStateMismatch</span> { <span class="ident">state_extent</span>, <span class="ident">view_extent</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;extent state {:?} must match extent from view {:?}&quot;</span>,
+                <span class="ident">state_extent</span>,
+                <span class="ident">view_extent</span>,
+            ),
+            <span class="self">Self</span>::<span class="ident">SwapChainImageAsDepthStencil</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;attempted to use a swap chain image as a depth/stencil attachment&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidDepthOps</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;unable to clear non-present/read-only depth&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidStencilOps</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;unable to clear non-present/read-only stencil&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">SampleCountMismatch</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;all attachments must have the same sample count, found {} != {}&quot;</span>,
+                <span class="ident">actual</span>,
+                <span class="ident">expected</span>,
+            ),
+            <span class="self">Self</span>::<span class="ident">SwapChainMismatch</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;texture view&#39;s swap chain must match swap chain in use&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidValuesOffset</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;setting `values_offset` to be `None` is only for internal use in render bundles&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">MissingDeviceFeatures</span>(<span class="ident">expected</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;required device features not enabled: {:?}&quot;</span>,
+                <span class="ident">expected</span>,
+            ),
+            <span class="self">Self</span>::<span class="ident">IndirectBufferOverrun</span> { <span class="ident">offset</span>, <span class="ident">count</span>, <span class="ident">begin_offset</span>, <span class="ident">end_offset</span>, <span class="ident">buffer_size</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;indirect draw with offset {}{} uses bytes {}..{} which overruns indirect buffer of size {}&quot;</span>,
+                <span class="ident">offset</span>,
+                <span class="ident">count</span>.<span class="ident">map_or_else</span>(<span class="ident">String</span>::<span class="ident">new</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot; and count {}&quot;</span>, <span class="ident">v</span>)),
+                <span class="ident">begin_offset</span>,
+                <span class="ident">end_offset</span>,
+                <span class="ident">buffer_size</span>,
+            ),
+            <span class="self">Self</span>::<span class="ident">IndirectCountBufferOverrun</span> { <span class="ident">begin_count_offset</span>, <span class="ident">end_count_offset</span>, <span class="ident">count_buffer_size</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+                <span class="ident">f</span>,
+                <span class="string">&quot;indirect draw uses bytes {}..{} which overruns indirect buffer of size {}&quot;</span>,
+                <span class="ident">begin_count_offset</span>,
+                <span class="ident">end_count_offset</span>,
+                <span class="ident">count_buffer_size</span>,
+            ),
+            <span class="self">Self</span>::<span class="ident">InvalidPopDebugGroup</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;cannot pop debug group, because number of pushed debug groups is zero&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">IncompatibleRenderBundle</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;render bundle output formats do not match render pass attachment formats&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">RenderCommand</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
+            <span class="self">Self</span>::<span class="ident">Draw</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
+            <span class="self">Self</span>::<span class="ident">Bind</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
+        }
+    }
+}
+
+<span class="kw">fn</span> <span class="ident">check_device_features</span>(
+    <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">Features</span>,
+    <span class="ident">expected</span>: <span class="ident">wgt</span>::<span class="ident">Features</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">actual</span>.<span class="ident">contains</span>(<span class="ident">expected</span>) {
+        <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">MissingDeviceFeatures</span>(<span class="ident">expected</span>))
+    } <span class="kw">else</span> {
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
 <span class="comment">// Common routines between render/compute</span>
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">GlobalIdentityHandlerFactory</span><span class="op">&gt;</span> <span class="ident">Global</span><span class="op">&lt;</span><span class="ident">G</span><span class="op">&gt;</span> {
@@ -2212,7 +2577,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">encoder_id</span>: <span class="ident">id</span>::<span class="ident">CommandEncoderId</span>,
         <span class="ident">pass</span>: <span class="kw-2">&amp;</span><span class="ident">RenderPass</span>,
-    ) {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">command_encoder_run_render_pass_impl</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>(
             <span class="ident">encoder_id</span>,
             <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">as_ref</span>(),
@@ -2228,7 +2593,7 @@
         <span class="kw-2">mut</span> <span class="ident">base</span>: <span class="ident">BasePassRef</span><span class="op">&lt;</span><span class="ident">RenderCommand</span><span class="op">&gt;</span>,
         <span class="ident">color_attachments</span>: <span class="kw-2">&amp;</span>[<span class="ident">ColorAttachmentDescriptor</span>],
         <span class="ident">depth_stencil_attachment</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">DepthStencilAttachmentDescriptor</span><span class="op">&gt;</span>,
-    ) {
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;CommandEncoder::run_render_pass&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -2283,7 +2648,7 @@
         <span class="kw">let</span> <span class="ident">context</span> <span class="op">=</span> {
             <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">Device</span> <span class="kw">as</span> <span class="kw">_</span>;
 
-            <span class="kw">let</span> <span class="ident">samples_count_limit</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">hal_limits</span>.<span class="ident">framebuffer_color_sample_counts</span>;
+            <span class="kw">let</span> <span class="ident">sample_count_limit</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">hal_limits</span>.<span class="ident">framebuffer_color_sample_counts</span>;
             <span class="kw">let</span> <span class="ident">base_trackers</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">cmb</span>.<span class="ident">trackers</span>;
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">extent</span> <span class="op">=</span> <span class="prelude-val">None</span>;
@@ -2293,10 +2658,9 @@
                 .<span class="ident">get</span>(<span class="number">0</span>)
                 .<span class="ident">map</span>(<span class="op">|</span><span class="ident">at</span><span class="op">|</span> <span class="ident">view_guard</span>[<span class="ident">at</span>.<span class="ident">attachment</span>].<span class="ident">samples</span>)
                 .<span class="ident">unwrap_or</span>(<span class="number">1</span>);
-            <span class="macro">assert</span><span class="macro">!</span>(
-                <span class="ident">sample_count</span> <span class="op">&amp;</span> <span class="ident">samples_count_limit</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>,
-                <span class="string">&quot;Attachment sample_count must be supported by physical device limits&quot;</span>
-            );
+            <span class="kw">if</span> <span class="ident">sample_count</span> <span class="op">&amp;</span> <span class="ident">sample_count_limit</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidSampleCount</span>(<span class="ident">sample_count</span>));
+            }
 
             <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(
                 <span class="string">&quot;Encoding render pass begin in command buffer {:?}&quot;</span>,
@@ -2310,14 +2674,19 @@
                             .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">view_guard</span>, <span class="ident">at</span>.<span class="ident">attachment</span>, (), ())
                             .<span class="ident">unwrap</span>();
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">ex</span>) <span class="op">=</span> <span class="ident">extent</span> {
-                            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ex</span>, <span class="ident">view</span>.<span class="ident">extent</span>, <span class="string">&quot;Extent state must match extent from view&quot;</span>);
+                            <span class="kw">if</span> <span class="ident">ex</span> <span class="op">!</span><span class="op">=</span> <span class="ident">view</span>.<span class="ident">extent</span> {
+                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">ExtentStateMismatch</span> {
+                                    <span class="ident">state_extent</span>: <span class="ident">ex</span>,
+                                    <span class="ident">view_extent</span>: <span class="ident">view</span>.<span class="ident">extent</span>,
+                                });
+                            }
                         } <span class="kw">else</span> {
                             <span class="ident">extent</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">view</span>.<span class="ident">extent</span>);
                         }
                         <span class="kw">let</span> <span class="ident">source_id</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">view</span>.<span class="ident">inner</span> {
                             <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source_id</span>,
                             <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
-                                <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected depth/stencil use of swapchain image!&quot;</span>)
+                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">SwapChainImageAsDepthStencil</span>)
                             }
                         };
 
@@ -2325,7 +2694,7 @@
                         <span class="kw">let</span> <span class="ident">previous_use</span> <span class="op">=</span> <span class="ident">base_trackers</span>
                             .<span class="ident">textures</span>
                             .<span class="ident">query</span>(<span class="ident">source_id</span>.<span class="ident">value</span>, <span class="ident">view</span>.<span class="ident">range</span>.<span class="ident">clone</span>());
-                        <span class="kw">let</span> <span class="ident">new_use</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">is_depth_stencil_read_only</span>(<span class="ident">at</span>, <span class="ident">view</span>.<span class="ident">range</span>.<span class="ident">aspects</span>) {
+                        <span class="kw">let</span> <span class="ident">new_use</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">is_depth_stencil_read_only</span>(<span class="ident">at</span>, <span class="ident">view</span>.<span class="ident">range</span>.<span class="ident">aspects</span>)<span class="question-mark">?</span> {
                             <span class="ident">is_ds_read_only</span> <span class="op">=</span> <span class="bool-val">true</span>;
                             <span class="ident">TextureUse</span>::<span class="ident">ATTACHMENT_READ</span>
                         } <span class="kw">else</span> {
@@ -2368,14 +2737,21 @@
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">view_guard</span>, <span class="ident">at</span>.<span class="ident">attachment</span>, (), ())
                         .<span class="ident">unwrap</span>();
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">ex</span>) <span class="op">=</span> <span class="ident">extent</span> {
-                        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ex</span>, <span class="ident">view</span>.<span class="ident">extent</span>, <span class="string">&quot;Extent state must match extent from view&quot;</span>);
+                        <span class="kw">if</span> <span class="ident">ex</span> <span class="op">!</span><span class="op">=</span> <span class="ident">view</span>.<span class="ident">extent</span> {
+                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">ExtentStateMismatch</span> {
+                                <span class="ident">state_extent</span>: <span class="ident">ex</span>,
+                                <span class="ident">view_extent</span>: <span class="ident">view</span>.<span class="ident">extent</span>,
+                            });
+                        }
                     } <span class="kw">else</span> {
                         <span class="ident">extent</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">view</span>.<span class="ident">extent</span>);
                     }
-                    <span class="macro">assert_eq</span><span class="macro">!</span>(
-                        <span class="ident">view</span>.<span class="ident">samples</span>, <span class="ident">sample_count</span>,
-                        <span class="string">&quot;All attachments must have the same sample_count&quot;</span>
-                    );
+                    <span class="kw">if</span> <span class="ident">view</span>.<span class="ident">samples</span> <span class="op">!</span><span class="op">=</span> <span class="ident">sample_count</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">SampleCountMismatch</span> {
+                            <span class="ident">actual</span>: <span class="ident">view</span>.<span class="ident">samples</span>,
+                            <span class="ident">expected</span>: <span class="ident">sample_count</span>,
+                        });
+                    }
 
                     <span class="kw">let</span> <span class="ident">layouts</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">view</span>.<span class="ident">inner</span> {
                         <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
@@ -2402,10 +2778,9 @@
                         }
                         <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="kw-2">ref</span> <span class="ident">sc_id</span>, <span class="kw">_</span>)) <span class="op">=</span> <span class="ident">cmb</span>.<span class="ident">used_swap_chain</span> {
-                                <span class="macro">assert_eq</span><span class="macro">!</span>(
-                                    <span class="ident">source_id</span>.<span class="ident">value</span>, <span class="ident">sc_id</span>.<span class="ident">value</span>,
-                                    <span class="string">&quot;Texture view&#39;s swap chain must match swap chain in use&quot;</span>
-                                );
+                                <span class="kw">if</span> <span class="ident">source_id</span>.<span class="ident">value</span> <span class="op">!</span><span class="op">=</span> <span class="ident">sc_id</span>.<span class="ident">value</span> {
+                                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">SwapChainMismatch</span>);
+                                }
                             } <span class="kw">else</span> {
                                 <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">used_swap_chain</span>.<span class="ident">is_none</span>());
                                 <span class="ident">used_swap_chain</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">source_id</span>.<span class="ident">clone</span>());
@@ -2438,15 +2813,15 @@
                         .<span class="ident">views</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">view_guard</span>, <span class="ident">resolve_target</span>, (), ())
                         .<span class="ident">unwrap</span>();
-                    <span class="macro">assert_eq</span><span class="macro">!</span>(
-                        <span class="ident">extent</span>,
-                        <span class="prelude-val">Some</span>(<span class="ident">view</span>.<span class="ident">extent</span>),
-                        <span class="string">&quot;Extent state must match extent from view&quot;</span>
-                    );
-                    <span class="macro">assert_eq</span><span class="macro">!</span>(
-                        <span class="ident">view</span>.<span class="ident">samples</span>, <span class="number">1</span>,
-                        <span class="string">&quot;All resolve_targets must have a sample_count of 1&quot;</span>
-                    );
+                    <span class="kw">if</span> <span class="ident">extent</span> <span class="op">!</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">view</span>.<span class="ident">extent</span>) {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">ExtentStateMismatch</span> {
+                            <span class="ident">state_extent</span>: <span class="ident">extent</span>.<span class="ident">unwrap_or_default</span>(),
+                            <span class="ident">view_extent</span>: <span class="ident">view</span>.<span class="ident">extent</span>,
+                        });
+                    }
+                    <span class="kw">if</span> <span class="ident">view</span>.<span class="ident">samples</span> <span class="op">!</span><span class="op">=</span> <span class="number">1</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidResolveTargetSampleCount</span>);
+                    }
 
                     <span class="kw">let</span> <span class="ident">layouts</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">view</span>.<span class="ident">inner</span> {
                         <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
@@ -2473,10 +2848,9 @@
                         }
                         <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="kw-2">ref</span> <span class="ident">sc_id</span>, <span class="kw">_</span>)) <span class="op">=</span> <span class="ident">cmb</span>.<span class="ident">used_swap_chain</span> {
-                                <span class="macro">assert_eq</span><span class="macro">!</span>(
-                                    <span class="ident">source_id</span>.<span class="ident">value</span>, <span class="ident">sc_id</span>.<span class="ident">value</span>,
-                                    <span class="string">&quot;Texture view&#39;s swap chain must match swap chain in use&quot;</span>
-                                );
+                                <span class="kw">if</span> <span class="ident">source_id</span>.<span class="ident">value</span> <span class="op">!</span><span class="op">=</span> <span class="ident">sc_id</span>.<span class="ident">value</span> {
+                                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">SwapChainMismatch</span>);
+                                }
                             } <span class="kw">else</span> {
                                 <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">used_swap_chain</span>.<span class="ident">is_none</span>());
                                 <span class="ident">used_swap_chain</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">source_id</span>.<span class="ident">clone</span>());
@@ -2532,16 +2906,17 @@
                         {
                             <span class="kw">let</span> <span class="ident">real_attachment_index</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">at</span>.<span class="ident">resolve_target</span> {
                                 <span class="prelude-val">Some</span>(<span class="ident">resolve_attachment</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                                    <span class="macro">assert_ne</span><span class="macro">!</span>(
-                                        <span class="ident">view_guard</span>[<span class="ident">at</span>.<span class="ident">attachment</span>].<span class="ident">samples</span>,
-                                        <span class="number">1</span>,
-                                        <span class="string">&quot;RenderPassColorAttachmentDescriptor&#39;s attachment with a resolve_target must be multi-sampled&quot;</span>,
-                                    );
-                                    <span class="macro">assert_eq</span><span class="macro">!</span>(
-                                        <span class="ident">view_guard</span>[<span class="ident">resolve_attachment</span>].<span class="ident">samples</span>,
-                                        <span class="number">1</span>,
-                                        <span class="string">&quot;RenderPassColorAttachmentDescriptor&#39;s resolve_target must not be multi-sampled&quot;</span>,
-                                    );
+                                    <span class="kw">let</span> <span class="ident">attachment_sample_count</span> <span class="op">=</span> <span class="ident">view_guard</span>[<span class="ident">at</span>.<span class="ident">attachment</span>].<span class="ident">samples</span>;
+                                    <span class="kw">if</span> <span class="ident">attachment_sample_count</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+                                        <span class="kw">return</span> <span class="prelude-val">Err</span>(
+                                            <span class="ident">RenderPassError</span>::<span class="ident">InvalidResolveSourceSampleCount</span>,
+                                        );
+                                    }
+                                    <span class="kw">if</span> <span class="ident">view_guard</span>[<span class="ident">resolve_attachment</span>].<span class="ident">samples</span> <span class="op">!</span><span class="op">=</span> <span class="number">1</span> {
+                                        <span class="kw">return</span> <span class="prelude-val">Err</span>(
+                                            <span class="ident">RenderPassError</span>::<span class="ident">InvalidResolveTargetSampleCount</span>,
+                                        );
+                                    }
                                     <span class="ident">attachment_index</span> <span class="op">+</span> <span class="ident">i</span>
                                 }
                                 <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">pass</span>::<span class="ident">ATTACHMENT_UNUSED</span>,
@@ -2741,12 +3116,14 @@
                     <span class="ident">num_dynamic_offsets</span>,
                     <span class="ident">bind_group_id</span>,
                 } <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        (<span class="ident">index</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span> <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>,
-                        <span class="string">&quot;Bind group index {0} is out of range 0..{1} provided by requested max_bind_group limit {1}&quot;</span>,
-                        <span class="ident">index</span>,
-                        <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>
-                    );
+                    <span class="kw">let</span> <span class="ident">max_bind_groups</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>;
+                    <span class="kw">if</span> (<span class="ident">index</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">max_bind_groups</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">BindGroupIndexOutOfRange</span> {
+                            <span class="ident">index</span>,
+                            <span class="ident">max</span>: <span class="ident">max_bind_groups</span>,
+                        }
+                        .<span class="ident">into</span>());
+                    }
 
                     <span class="kw">let</span> <span class="ident">offsets</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">dynamic_offsets</span>[..<span class="ident">num_dynamic_offsets</span> <span class="kw">as</span> <span class="ident">usize</span>];
                     <span class="ident">base</span>.<span class="ident">dynamic_offsets</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">dynamic_offsets</span>[<span class="ident">num_dynamic_offsets</span> <span class="kw">as</span> <span class="ident">usize</span>..];
@@ -2755,7 +3132,9 @@
                         .<span class="ident">bind_groups</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">bind_group_guard</span>, <span class="ident">bind_group_id</span>, (), ())
                         .<span class="ident">unwrap</span>();
-                    <span class="ident">bind_group</span>.<span class="ident">validate_dynamic_bindings</span>(<span class="ident">offsets</span>).<span class="ident">unwrap</span>();
+                    <span class="ident">bind_group</span>
+                        .<span class="ident">validate_dynamic_bindings</span>(<span class="ident">offsets</span>)
+                        .<span class="ident">map_err</span>(<span class="ident">RenderPassError</span>::<span class="ident">from</span>)<span class="question-mark">?</span>;
 
                     <span class="ident">trackers</span>.<span class="ident">merge_extend</span>(<span class="kw-2">&amp;</span><span class="ident">bind_group</span>.<span class="ident">used</span>);
 
@@ -2790,15 +3169,16 @@
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">pipeline_guard</span>, <span class="ident">pipeline_id</span>, (), ())
                         .<span class="ident">unwrap</span>();
 
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">context</span>.<span class="ident">compatible</span>(<span class="kw-2">&amp;</span><span class="ident">pipeline</span>.<span class="ident">pass_context</span>),
-                        <span class="string">&quot;The render pipeline output formats and sample count do not match render pass attachment formats!&quot;</span>
-                    );
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="op">!</span><span class="ident">is_ds_read_only</span> <span class="op">|</span><span class="op">|</span> <span class="ident">pipeline</span>.<span class="ident">flags</span>.<span class="ident">contains</span>(<span class="ident">PipelineFlags</span>::<span class="ident">DEPTH_STENCIL_READ_ONLY</span>),
-                        <span class="string">&quot;Pipeline {:?} is not compatible with the depth-stencil read-only render pass&quot;</span>,
-                        <span class="ident">pipeline_id</span>
-                    );
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">context</span>.<span class="ident">compatible</span>(<span class="kw-2">&amp;</span><span class="ident">pipeline</span>.<span class="ident">pass_context</span>) {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">IncompatiblePipeline</span>.<span class="ident">into</span>());
+                    }
+                    <span class="kw">if</span> <span class="ident">is_ds_read_only</span>
+                        <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">pipeline</span>
+                            .<span class="ident">flags</span>
+                            .<span class="ident">contains</span>(<span class="ident">PipelineFlags</span>::<span class="ident">DEPTH_STENCIL_READ_ONLY</span>)
+                    {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">IncompatibleReadOnlyDepthStencil</span>.<span class="ident">into</span>());
+                    }
 
                     <span class="ident">state</span>
                         .<span class="ident">blend_color</span>
@@ -2916,7 +3296,7 @@
                         .<span class="ident">buffers</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>, <span class="ident">buffer_id</span>, (), <span class="ident">BufferUse</span>::<span class="ident">INDEX</span>)
                         .<span class="ident">unwrap</span>();
-                    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">BufferUsage</span>::<span class="ident">INDEX</span>), <span class="string">&quot;An invalid setIndexBuffer call has been made. The buffer usage is {:?} which does not contain required usage INDEX&quot;</span>, <span class="ident">buffer</span>.<span class="ident">usage</span>);
+                    <span class="ident">check_buffer_usage</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>, <span class="ident">BufferUsage</span>::<span class="ident">INDEX</span>)<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">size</span> {
                         <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">s</span>.<span class="ident">get</span>(),
@@ -2948,7 +3328,7 @@
                         .<span class="ident">buffers</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>, <span class="ident">buffer_id</span>, (), <span class="ident">BufferUse</span>::<span class="ident">VERTEX</span>)
                         .<span class="ident">unwrap</span>();
-                    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">BufferUsage</span>::<span class="ident">VERTEX</span>), <span class="string">&quot;An invalid setVertexBuffer call has been made. The buffer usage is {:?} which does not contain required usage VERTEX&quot;</span>, <span class="ident">buffer</span>.<span class="ident">usage</span>);
+                    <span class="ident">check_buffer_usage</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>, <span class="ident">BufferUsage</span>::<span class="ident">VERTEX</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">empty_slots</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">+</span> <span class="ident">slot</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">saturating_sub</span>(<span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">inputs</span>.<span class="ident">len</span>());
                     <span class="ident">state</span>
                         .<span class="ident">vertex</span>
@@ -3008,22 +3388,23 @@
                     <span class="ident">size_bytes</span>,
                     <span class="ident">values_offset</span>,
                 } <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">let</span> <span class="ident">values_offset</span> <span class="op">=</span> <span class="ident">values_offset</span>
-                        .<span class="ident">expect</span>(<span class="string">&quot;values_offset of None is only for internal use in renderbundles&quot;</span>);
+                    <span class="kw">let</span> <span class="ident">values_offset</span> <span class="op">=</span>
+                        <span class="ident">values_offset</span>.<span class="ident">ok_or</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidValuesOffset</span>)<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">end_offset_bytes</span> <span class="op">=</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">size_bytes</span>;
                     <span class="kw">let</span> <span class="ident">values_end_offset</span> <span class="op">=</span> (<span class="ident">values_offset</span> <span class="op">+</span> <span class="ident">size_bytes</span> <span class="op">/</span> <span class="number">4</span>) <span class="kw">as</span> <span class="ident">usize</span>;
                     <span class="kw">let</span> <span class="ident">data_slice</span> <span class="op">=</span>
                         <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">push_constant_data</span>[(<span class="ident">values_offset</span> <span class="kw">as</span> <span class="ident">usize</span>)..<span class="ident">values_end_offset</span>];
 
-                    <span class="kw">let</span> <span class="ident">pipeline_layout</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pipeline_layout_guard</span>[<span class="ident">state</span>
+                    <span class="kw">let</span> <span class="ident">pipeline_layout_id</span> <span class="op">=</span> <span class="ident">state</span>
                         .<span class="ident">binder</span>
                         .<span class="ident">pipeline_layout_id</span>
-                        .<span class="ident">expect</span>(<span class="string">&quot;Must have a pipeline bound to use push constants&quot;</span>)];
+                        .<span class="ident">ok_or</span>(<span class="ident">RenderCommandError</span>::<span class="ident">UnboundPipeline</span>)<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="ident">pipeline_layout</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pipeline_layout_guard</span>[<span class="ident">pipeline_layout_id</span>];
 
                     <span class="ident">pipeline_layout</span>
                         .<span class="ident">validate_push_constant_ranges</span>(<span class="ident">stages</span>, <span class="ident">offset</span>, <span class="ident">end_offset_bytes</span>)
-                        .<span class="ident">unwrap</span>();
+                        .<span class="ident">map_err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">from</span>)<span class="question-mark">?</span>;
 
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">push_graphics_constants</span>(
@@ -3052,19 +3433,25 @@
                     <span class="ident">first_vertex</span>,
                     <span class="ident">first_instance</span>,
                 } <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="ident">state</span>.<span class="ident">is_ready</span>().<span class="ident">unwrap</span>();
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">first_vertex</span> <span class="op">+</span> <span class="ident">vertex_count</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">vertex_limit</span>,
-                        <span class="string">&quot;Vertex {} extends beyond limit {}&quot;</span>,
-                        <span class="ident">first_vertex</span> <span class="op">+</span> <span class="ident">vertex_count</span>,
-                        <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">vertex_limit</span>
-                    );
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">first_instance</span> <span class="op">+</span> <span class="ident">instance_count</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">instance_limit</span>,
-                        <span class="string">&quot;Instance {} extends beyond limit {}&quot;</span>,
-                        <span class="ident">first_instance</span> <span class="op">+</span> <span class="ident">instance_count</span>,
-                        <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">instance_limit</span>
-                    );
+                    <span class="ident">state</span>.<span class="ident">is_ready</span>()<span class="question-mark">?</span>;
+                    <span class="kw">let</span> <span class="ident">last_vertex</span> <span class="op">=</span> <span class="ident">first_vertex</span> <span class="op">+</span> <span class="ident">vertex_count</span>;
+                    <span class="kw">let</span> <span class="ident">vertex_limit</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">vertex_limit</span>;
+                    <span class="kw">if</span> <span class="ident">last_vertex</span> <span class="op">&gt;</span> <span class="ident">vertex_limit</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">VertexBeyondLimit</span> {
+                            <span class="ident">last_vertex</span>,
+                            <span class="ident">vertex_limit</span>,
+                        }
+                        .<span class="ident">into</span>());
+                    }
+                    <span class="kw">let</span> <span class="ident">last_instance</span> <span class="op">=</span> <span class="ident">first_instance</span> <span class="op">+</span> <span class="ident">instance_count</span>;
+                    <span class="kw">let</span> <span class="ident">instance_limit</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">instance_limit</span>;
+                    <span class="kw">if</span> <span class="ident">last_instance</span> <span class="op">&gt;</span> <span class="ident">instance_limit</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">InstanceBeyondLimit</span> {
+                            <span class="ident">last_instance</span>,
+                            <span class="ident">instance_limit</span>,
+                        }
+                        .<span class="ident">into</span>());
+                    }
 
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">draw</span>(
@@ -3080,21 +3467,27 @@
                     <span class="ident">base_vertex</span>,
                     <span class="ident">first_instance</span>,
                 } <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="ident">state</span>.<span class="ident">is_ready</span>().<span class="ident">unwrap</span>();
+                    <span class="ident">state</span>.<span class="ident">is_ready</span>()<span class="question-mark">?</span>;
 
                     <span class="comment">//TODO: validate that base_vertex + max_index() is within the provided range</span>
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">first_index</span> <span class="op">+</span> <span class="ident">index_count</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">limit</span>,
-                        <span class="string">&quot;Index {} extends beyond limit {}&quot;</span>,
-                        <span class="ident">first_index</span> <span class="op">+</span> <span class="ident">index_count</span>,
-                        <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">limit</span>
-                    );
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">first_instance</span> <span class="op">+</span> <span class="ident">instance_count</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">instance_limit</span>,
-                        <span class="string">&quot;Instance {} extends beyond limit {}&quot;</span>,
-                        <span class="ident">first_instance</span> <span class="op">+</span> <span class="ident">instance_count</span>,
-                        <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">instance_limit</span>
-                    );
+                    <span class="kw">let</span> <span class="ident">last_index</span> <span class="op">=</span> <span class="ident">first_index</span> <span class="op">+</span> <span class="ident">index_count</span>;
+                    <span class="kw">let</span> <span class="ident">index_limit</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">limit</span>;
+                    <span class="kw">if</span> <span class="ident">last_index</span> <span class="op">&gt;</span> <span class="ident">index_limit</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">IndexBeyondLimit</span> {
+                            <span class="ident">last_index</span>,
+                            <span class="ident">index_limit</span>,
+                        }
+                        .<span class="ident">into</span>());
+                    }
+                    <span class="kw">let</span> <span class="ident">last_instance</span> <span class="op">=</span> <span class="ident">first_instance</span> <span class="op">+</span> <span class="ident">instance_count</span>;
+                    <span class="kw">let</span> <span class="ident">instance_limit</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">instance_limit</span>;
+                    <span class="kw">if</span> <span class="ident">last_instance</span> <span class="op">&gt;</span> <span class="ident">instance_limit</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">InstanceBeyondLimit</span> {
+                            <span class="ident">last_instance</span>,
+                            <span class="ident">instance_limit</span>,
+                        }
+                        .<span class="ident">into</span>());
+                    }
 
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">draw_indexed</span>(
@@ -3110,14 +3503,7 @@
                     <span class="ident">count</span>,
                     <span class="ident">indexed</span>,
                 } <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="ident">state</span>.<span class="ident">is_ready</span>().<span class="ident">unwrap</span>();
-
-                    <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">count</span>, <span class="ident">indexed</span>) {
-                        (<span class="prelude-val">None</span>, <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;drawIndirect&quot;</span>,
-                        (<span class="prelude-val">None</span>, <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;drawIndexedIndirect&quot;</span>,
-                        (<span class="prelude-val">Some</span>(..), <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;multiDrawIndirect&quot;</span>,
-                        (<span class="prelude-val">Some</span>(..), <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;multiDrawIndexedIndirect&quot;</span>,
-                    };
+                    <span class="ident">state</span>.<span class="ident">is_ready</span>()<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">stride</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">indexed</span> {
                         <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">16</span>,
@@ -3125,38 +3511,28 @@
                     };
 
                     <span class="kw">if</span> <span class="ident">count</span>.<span class="ident">is_some</span>() {
-                        <span class="macro">assert</span><span class="macro">!</span>(
-                            <span class="ident">device</span>.<span class="ident">features</span>.<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">MULTI_DRAW_INDIRECT</span>),
-                            <span class="string">&quot;The feature MULTI_DRAW_INDIRECT must be enabled to use {}&quot;</span>,
-                            <span class="ident">name</span>
-                        );
+                        <span class="ident">check_device_features</span>(<span class="ident">device</span>.<span class="ident">features</span>, <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">MULTI_DRAW_INDIRECT</span>)<span class="question-mark">?</span>;
                     }
 
                     <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">trackers</span>
                         .<span class="ident">buffers</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>, <span class="ident">buffer_id</span>, (), <span class="ident">BufferUse</span>::<span class="ident">INDIRECT</span>)
                         .<span class="ident">unwrap</span>();
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">buffer</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">BufferUsage</span>::<span class="ident">INDIRECT</span>),
-                        <span class="string">&quot;An invalid {} call has been made. The indirect buffer usage is {:?} which does not contain required usage INDIRECT&quot;</span>,
-                        <span class="ident">name</span>,
-                        <span class="ident">buffer</span>.<span class="ident">usage</span>,
-                    );
+                    <span class="ident">check_buffer_usage</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>, <span class="ident">BufferUsage</span>::<span class="ident">INDIRECT</span>)<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">actual_count</span> <span class="op">=</span> <span class="ident">count</span>.<span class="ident">unwrap_or</span>(<span class="number">1</span>);
 
                     <span class="kw">let</span> <span class="ident">begin_offset</span> <span class="op">=</span> <span class="ident">offset</span>;
                     <span class="kw">let</span> <span class="ident">end_offset</span> <span class="op">=</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">stride</span> <span class="op">*</span> <span class="ident">actual_count</span> <span class="kw">as</span> <span class="ident">u64</span>;
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">end_offset</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">size</span>,
-                        <span class="string">&quot;{} with offset {}{} uses bytes {}..{} which overruns indirect buffer of size {}&quot;</span>,
-                        <span class="ident">name</span>,
-                        <span class="ident">offset</span>,
-                        <span class="ident">count</span>.<span class="ident">map_or_else</span>(<span class="ident">String</span>::<span class="ident">new</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot; and count {}&quot;</span>, <span class="ident">v</span>)),
-                        <span class="ident">begin_offset</span>,
-                        <span class="ident">end_offset</span>,
-                        <span class="ident">buffer</span>.<span class="ident">size</span>
-                    );
+                    <span class="kw">if</span> <span class="ident">end_offset</span> <span class="op">&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">IndirectBufferOverrun</span> {
+                            <span class="ident">offset</span>,
+                            <span class="ident">count</span>,
+                            <span class="ident">begin_offset</span>,
+                            <span class="ident">end_offset</span>,
+                            <span class="ident">buffer_size</span>: <span class="ident">buffer</span>.<span class="ident">size</span>,
+                        });
+                    }
 
                     <span class="kw">match</span> <span class="ident">indexed</span> {
                         <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">unsafe</span> {
@@ -3180,70 +3556,50 @@
                     <span class="ident">max_count</span>,
                     <span class="ident">indexed</span>,
                 } <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="ident">state</span>.<span class="ident">is_ready</span>().<span class="ident">unwrap</span>();
-
-                    <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">indexed</span> {
-                        <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;multiDrawIndirectCount&quot;</span>,
-                        <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;multiDrawIndexedIndirectCount&quot;</span>,
-                    };
+                    <span class="ident">state</span>.<span class="ident">is_ready</span>()<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">stride</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">indexed</span> {
                         <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">16</span>,
                         <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20</span>,
                     };
 
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">device</span>
-                            .<span class="ident">features</span>
-                            .<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">MULTI_DRAW_INDIRECT_COUNT</span>),
-                        <span class="string">&quot;The feature MULTI_DRAW_INDIRECT_COUNT must be enabled to use {}&quot;</span>,
-                        <span class="ident">name</span>
-                    );
+                    <span class="ident">check_device_features</span>(
+                        <span class="ident">device</span>.<span class="ident">features</span>,
+                        <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">MULTI_DRAW_INDIRECT_COUNT</span>,
+                    )<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">trackers</span>
                         .<span class="ident">buffers</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>, <span class="ident">buffer_id</span>, (), <span class="ident">BufferUse</span>::<span class="ident">INDIRECT</span>)
                         .<span class="ident">unwrap</span>();
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">buffer</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">BufferUsage</span>::<span class="ident">INDIRECT</span>),
-                        <span class="string">&quot;An invalid {} call has been made. The indirect buffer usage is {:?} which does not contain required usage INDIRECT&quot;</span>,
-                        <span class="ident">name</span>,
-                        <span class="ident">buffer</span>.<span class="ident">usage</span>
-                    );
+                    <span class="ident">check_buffer_usage</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>, <span class="ident">BufferUsage</span>::<span class="ident">INDIRECT</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">count_buffer</span> <span class="op">=</span> <span class="ident">trackers</span>
                         .<span class="ident">buffers</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>, <span class="ident">count_buffer_id</span>, (), <span class="ident">BufferUse</span>::<span class="ident">INDIRECT</span>)
                         .<span class="ident">unwrap</span>();
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">count_buffer</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">BufferUsage</span>::<span class="ident">INDIRECT</span>),
-                        <span class="string">&quot;An invalid {} call has been made. The count buffer usage is {:?} which does not contain required usage INDIRECT&quot;</span>,
-                        <span class="ident">name</span>,
-                        <span class="ident">count_buffer</span>.<span class="ident">usage</span>
-                    );
+                    <span class="ident">check_buffer_usage</span>(<span class="ident">count_buffer</span>.<span class="ident">usage</span>, <span class="ident">BufferUsage</span>::<span class="ident">INDIRECT</span>)<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">begin_offset</span> <span class="op">=</span> <span class="ident">offset</span>;
                     <span class="kw">let</span> <span class="ident">end_offset</span> <span class="op">=</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">stride</span> <span class="op">*</span> <span class="ident">max_count</span> <span class="kw">as</span> <span class="ident">u64</span>;
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">end_offset</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">size</span>,
-                        <span class="string">&quot;{} with offset {} and max_count {} uses bytes {}..{} which overruns indirect buffer of size {}&quot;</span>,
-                        <span class="ident">name</span>,
-                        <span class="ident">offset</span>,
-                        <span class="ident">max_count</span>,
-                        <span class="ident">begin_offset</span>,
-                        <span class="ident">end_offset</span>,
-                        <span class="ident">buffer</span>.<span class="ident">size</span>
-                    );
+                    <span class="kw">if</span> <span class="ident">end_offset</span> <span class="op">&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">IndirectBufferOverrun</span> {
+                            <span class="ident">offset</span>,
+                            <span class="ident">count</span>: <span class="prelude-val">None</span>,
+                            <span class="ident">begin_offset</span>,
+                            <span class="ident">end_offset</span>,
+                            <span class="ident">buffer_size</span>: <span class="ident">buffer</span>.<span class="ident">size</span>,
+                        });
+                    }
 
                     <span class="kw">let</span> <span class="ident">begin_count_offset</span> <span class="op">=</span> <span class="ident">count_buffer_offset</span>;
                     <span class="kw">let</span> <span class="ident">end_count_offset</span> <span class="op">=</span> <span class="ident">count_buffer_offset</span> <span class="op">+</span> <span class="number">4</span>;
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">end_count_offset</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">count_buffer</span>.<span class="ident">size</span>,
-                        <span class="string">&quot;{} uses bytes {}..{} which overruns count buffer of size {}&quot;</span>,
-                        <span class="ident">name</span>,
-                        <span class="ident">begin_count_offset</span>,
-                        <span class="ident">end_count_offset</span>,
-                        <span class="ident">count_buffer</span>.<span class="ident">size</span>
-                    );
+                    <span class="kw">if</span> <span class="ident">end_count_offset</span> <span class="op">&gt;</span> <span class="ident">count_buffer</span>.<span class="ident">size</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">IndirectCountBufferOverrun</span> {
+                            <span class="ident">begin_count_offset</span>,
+                            <span class="ident">end_count_offset</span>,
+                            <span class="ident">count_buffer_size</span>: <span class="ident">count_buffer</span>.<span class="ident">size</span>,
+                        });
+                    }
 
                     <span class="kw">match</span> <span class="ident">indexed</span> {
                         <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">unsafe</span> {
@@ -3277,10 +3633,9 @@
                     <span class="ident">base</span>.<span class="ident">string_data</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">string_data</span>[<span class="ident">len</span>..];
                 }
                 <span class="ident">RenderCommand</span>::<span class="ident">PopDebugGroup</span> <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">assert_ne</span><span class="macro">!</span>(
-                        <span class="ident">state</span>.<span class="ident">debug_scope_depth</span>, <span class="number">0</span>,
-                        <span class="string">&quot;Can&#39;t pop debug group, because number of pushed debug groups is zero!&quot;</span>
-                    );
+                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidPopDebugGroup</span>);
+                    }
                     <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">end_debug_marker</span>();
@@ -3298,10 +3653,9 @@
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">bundle_guard</span>, <span class="ident">bundle_id</span>, (), ())
                         .<span class="ident">unwrap</span>();
 
-                    <span class="macro">assert</span><span class="macro">!</span>(
-                        <span class="ident">context</span>.<span class="ident">compatible</span>(<span class="kw-2">&amp;</span><span class="ident">bundle</span>.<span class="ident">context</span>),
-                        <span class="string">&quot;The render bundle output formats do not match render pass attachment formats!&quot;</span>
-                    );
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">context</span>.<span class="ident">compatible</span>(<span class="kw-2">&amp;</span><span class="ident">bundle</span>.<span class="ident">context</span>) {
+                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">IncompatibleRenderBundle</span>);
+                    }
 
                     <span class="kw">unsafe</span> {
                         <span class="ident">bundle</span>.<span class="ident">execute</span>(
@@ -3310,8 +3664,8 @@
                             <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">bind_group_guard</span>,
                             <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">pipeline_guard</span>,
                             <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>,
-                        )
-                    };
+                        )<span class="question-mark">?</span>;
+                    }
 
                     <span class="ident">trackers</span>.<span class="ident">merge_extend</span>(<span class="kw-2">&amp;</span><span class="ident">bundle</span>.<span class="ident">used</span>);
                     <span class="ident">state</span>.<span class="ident">reset_bundle</span>();
@@ -3326,11 +3680,13 @@
 
         <span class="kw">for</span> <span class="ident">ot</span> <span class="kw">in</span> <span class="ident">output_attachments</span> {
             <span class="kw">let</span> <span class="ident">texture</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">texture_guard</span>[<span class="ident">ot</span>.<span class="ident">texture_id</span>.<span class="ident">value</span>];
-            <span class="macro">assert</span><span class="macro">!</span>(
-                <span class="ident">texture</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">TextureUsage</span>::<span class="ident">OUTPUT_ATTACHMENT</span>),
-                <span class="string">&quot;Texture usage {:?} must contain the usage flag OUTPUT_ATTACHMENT&quot;</span>,
-                <span class="ident">texture</span>.<span class="ident">usage</span>
-            );
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">texture</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">TextureUsage</span>::<span class="ident">OUTPUT_ATTACHMENT</span>) {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">InvalidTextureUsage</span> {
+                    <span class="ident">actual</span>: <span class="ident">texture</span>.<span class="ident">usage</span>,
+                    <span class="ident">expected</span>: <span class="ident">TextureUsage</span>::<span class="ident">OUTPUT_ATTACHMENT</span>,
+                }
+                .<span class="ident">into</span>());
+            }
 
             <span class="comment">// the tracker set of the pass is always in &quot;extend&quot; mode</span>
             <span class="ident">trackers</span>
@@ -3370,6 +3726,8 @@
             <span class="ident">cmb</span>.<span class="ident">raw</span>.<span class="ident">last_mut</span>().<span class="ident">unwrap</span>().<span class="ident">finish</span>();
         }
         <span class="ident">cmb</span>.<span class="ident">raw</span>.<span class="ident">push</span>(<span class="ident">raw</span>);
+
+        <span class="prelude-val">Ok</span>(())
     }
 }
 

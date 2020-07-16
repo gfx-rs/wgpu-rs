@@ -1129,6 +1129,9 @@
 <span id="1129">1129</span>
 <span id="1130">1130</span>
 <span id="1131">1131</span>
+<span id="1132">1132</span>
+<span id="1133">1133</span>
+<span id="1134">1134</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">backend</span>::<span class="ident">native_gpu_future</span>, <span class="ident">BindGroupDescriptor</span>, <span class="ident">BindGroupLayoutDescriptor</span>, <span class="ident">BindingResource</span>,
@@ -1547,17 +1550,19 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">map_pass_channel</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">Default</span><span class="op">&gt;</span>(<span class="ident">ops</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Operations</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">wgt</span>::<span class="ident">PassChannel</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">map_pass_channel</span><span class="op">&lt;</span><span class="ident">V</span>: <span class="ident">Copy</span> <span class="op">+</span> <span class="ident">Default</span><span class="op">&gt;</span>(
+    <span class="ident">ops</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Operations</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">PassChannel</span><span class="op">&lt;</span><span class="ident">V</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="ident">ops</span> {
         <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Operations</span> {
             <span class="ident">load</span>: <span class="ident">LoadOp</span>::<span class="ident">Clear</span>(<span class="ident">clear_value</span>),
             <span class="ident">store</span>,
-        }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">wgt</span>::<span class="ident">PassChannel</span> {
-            <span class="ident">load_op</span>: <span class="ident">wgt</span>::<span class="ident">LoadOp</span>::<span class="ident">Clear</span>,
+        }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">PassChannel</span> {
+            <span class="ident">load_op</span>: <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">LoadOp</span>::<span class="ident">Clear</span>,
             <span class="ident">store_op</span>: <span class="kw">if</span> <span class="ident">store</span> {
-                <span class="ident">wgt</span>::<span class="ident">StoreOp</span>::<span class="ident">Store</span>
+                <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">StoreOp</span>::<span class="ident">Store</span>
             } <span class="kw">else</span> {
-                <span class="ident">wgt</span>::<span class="ident">StoreOp</span>::<span class="ident">Clear</span>
+                <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">StoreOp</span>::<span class="ident">Clear</span>
             },
             <span class="ident">clear_value</span>,
             <span class="ident">read_only</span>: <span class="bool-val">false</span>,
@@ -1565,19 +1570,19 @@
         <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Operations</span> {
             <span class="ident">load</span>: <span class="ident">LoadOp</span>::<span class="ident">Load</span>,
             <span class="ident">store</span>,
-        }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">wgt</span>::<span class="ident">PassChannel</span> {
-            <span class="ident">load_op</span>: <span class="ident">wgt</span>::<span class="ident">LoadOp</span>::<span class="ident">Load</span>,
+        }) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">PassChannel</span> {
+            <span class="ident">load_op</span>: <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">LoadOp</span>::<span class="ident">Load</span>,
             <span class="ident">store_op</span>: <span class="kw">if</span> <span class="ident">store</span> {
-                <span class="ident">wgt</span>::<span class="ident">StoreOp</span>::<span class="ident">Store</span>
+                <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">StoreOp</span>::<span class="ident">Store</span>
             } <span class="kw">else</span> {
-                <span class="ident">wgt</span>::<span class="ident">StoreOp</span>::<span class="ident">Clear</span>
+                <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">StoreOp</span>::<span class="ident">Clear</span>
             },
             <span class="ident">clear_value</span>: <span class="ident">V</span>::<span class="ident">default</span>(),
             <span class="ident">read_only</span>: <span class="bool-val">false</span>,
         },
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">wgt</span>::<span class="ident">PassChannel</span> {
-            <span class="ident">load_op</span>: <span class="ident">wgt</span>::<span class="ident">LoadOp</span>::<span class="ident">Load</span>,
-            <span class="ident">store_op</span>: <span class="ident">wgt</span>::<span class="ident">StoreOp</span>::<span class="ident">Store</span>,
+        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">PassChannel</span> {
+            <span class="ident">load_op</span>: <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">LoadOp</span>::<span class="ident">Load</span>,
+            <span class="ident">store_op</span>: <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">StoreOp</span>::<span class="ident">Store</span>,
             <span class="ident">clear_value</span>: <span class="ident">V</span>::<span class="ident">default</span>(),
             <span class="ident">read_only</span>: <span class="bool-val">true</span>,
         },
@@ -1902,7 +1907,7 @@
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">DeviceId</span>,
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">RenderBundleEncoderDescriptor</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">RenderBundleEncoderId</span> {
-        <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">RenderBundleEncoder</span>::<span class="ident">new</span>(<span class="ident">desc</span>, <span class="kw-2">*</span><span class="ident">device</span>, <span class="prelude-val">None</span>)
+        <span class="ident">wgc</span>::<span class="ident">command</span>::<span class="ident">RenderBundleEncoder</span>::<span class="ident">new</span>(<span class="ident">desc</span>, <span class="kw-2">*</span><span class="ident">device</span>, <span class="prelude-val">None</span>).<span class="ident">unwrap</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">device_drop</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">DeviceId</span>) {
@@ -2142,7 +2147,7 @@
         <span class="ident">encoder</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">CommandEncoderId</span>,
         <span class="ident">pass</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>::<span class="ident">ComputePassId</span>,
     ) {
-        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">encoder</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">command_encoder_run_compute_pass</span>(<span class="kw-2">*</span><span class="ident">encoder</span>, <span class="ident">pass</span>));
+        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">encoder</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">command_encoder_run_compute_pass</span>(<span class="kw-2">*</span><span class="ident">encoder</span>, <span class="ident">pass</span>)).<span class="ident">unwrap</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">command_encoder_begin_render_pass</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
@@ -2183,7 +2188,7 @@
         <span class="ident">encoder</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">CommandEncoderId</span>,
         <span class="ident">pass</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span>::<span class="ident">RenderPassId</span>,
     ) {
-        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">encoder</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">command_encoder_run_render_pass</span>(<span class="kw-2">*</span><span class="ident">encoder</span>, <span class="ident">pass</span>));
+        <span class="macro">gfx_select</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">encoder</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">command_encoder_run_render_pass</span>(<span class="kw-2">*</span><span class="ident">encoder</span>, <span class="ident">pass</span>)).<span class="ident">unwrap</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">command_encoder_finish</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">encoder</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">CommandEncoderId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">CommandBufferId</span> {
@@ -2202,6 +2207,7 @@
             <span class="kw-2">&amp;</span><span class="ident">desc</span>.<span class="ident">map_label</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">owned_label</span>.<span class="ident">as_ptr</span>()),
             <span class="ident">PhantomData</span>
         ))
+        .<span class="ident">unwrap</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">queue_write_buffer</span>(
