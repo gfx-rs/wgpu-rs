@@ -1,6 +1,6 @@
 //! A cross-platform graphics and compute library based on [WebGPU](https://gpuweb.github.io/gpuweb/).
 //!
-//! To start using the API, create an [`Instance`].
+//! To start using the API, create an [`Instance`](struct.Instance.html).
 
 #![doc(html_logo_url = "https://raw.githubusercontent.com/gfx-rs/wgpu-rs/master/logo.png")]
 #![warn(missing_docs)]
@@ -382,7 +382,7 @@ trait Context: Sized {
 /// Context for all other wgpu objects. Instance of wgpu.
 ///
 /// This is the first thing you create when using wgpu.
-/// Its primary use is to create [`Adapter`]s and [`Surface`]s.
+/// Its primary use is to create [`Adapter`](struct.Adapter.html)s and [`Surface`](struct.Surface.html)s.
 ///
 /// Does not have to be kept alive.
 pub struct Instance {
@@ -391,8 +391,8 @@ pub struct Instance {
 
 /// Handle to a physical graphics and/or compute device.
 ///
-/// Adapters can be used to open a connection to the corresponding [`Device`]
-/// on the host system by using [`Adapter::request_device`].
+/// Adapters can be used to open a connection to the corresponding [`Device`](struct.Device.html)
+/// on the host system by using [`Adapter::request_device`](struct.Adapter.html#method.request_device).
 ///
 /// Does not have to be kept alive.
 pub struct Adapter {
@@ -403,9 +403,9 @@ pub struct Adapter {
 /// Open connection to a graphics and/or compute device.
 ///
 /// Responsible for the creation of most rendering and compute resources.
-/// These are then used in commands, which are submitted to a [`Queue`].
+/// These are then used in commands, which are submitted to a [`Queue`](struct.Queue.html).
 ///
-/// A device may be requested from an adapter with [`Adapter::request_device`].
+/// A device may be requested from an adapter with [`Adapter::request_device`](struct.Adapter.html#method.request_device).
 pub struct Device {
     context: Arc<C>,
     id: <C as Context>::DeviceId,
@@ -484,7 +484,7 @@ impl MapContext {
 
 /// Handle to a GPU-accessible buffer.
 ///
-/// Created with [`Device::create_buffer`] or [`Device::create_buffer_with_data`]
+/// Created with [`Device::create_buffer`](struct.Device.html#method.create_buffer) or [`Device::create_buffer_with_data`](struct.Device.html#method.create_buffer_with_data)
 pub struct Buffer {
     context: Arc<C>,
     id: <C as Context>::BufferId,
@@ -492,9 +492,9 @@ pub struct Buffer {
     usage: BufferUsage,
 }
 
-/// Slice into a [`Buffer`].
+/// Slice into a [`Buffer`](struct.Buffer.html).
 ///
-/// Created by calling [`Buffer::slice`]. To use the whole buffer, call with unbounded slice:
+/// Created by calling [`Buffer::slice`](struct.Buffer.html#method.slice). To use the whole buffer, call with unbounded slice:
 ///
 /// `buffer.slice(..)`
 #[derive(Copy, Clone)]
@@ -506,7 +506,7 @@ pub struct BufferSlice<'a> {
 
 /// Handle to a texture on the GPU.
 ///
-/// Created by calling [`Device::create_texture`]
+/// Created by calling [`Device::create_texture`](struct.Device.html#method.create_texture)
 pub struct Texture {
     context: Arc<C>,
     id: <C as Context>::TextureId,
@@ -516,7 +516,7 @@ pub struct Texture {
 /// Handle to a texture view.
 ///
 /// A `TextureView` object describes a texture and associated metadata needed by a
-/// [`RenderPipeline`] or [`BindGroup`].
+/// [`RenderPipeline`](struct.RenderPipeline.html) or [`BindGroup`](struct.BindGroup.html).
 pub struct TextureView {
     context: Arc<C>,
     id: <C as Context>::TextureViewId,
@@ -525,9 +525,9 @@ pub struct TextureView {
 
 /// Handle to a sampler.
 ///
-/// A `Sampler` object defines how a pipeline will sample from a [`TextureView`]. Samplers define
+/// A `Sampler` object defines how a pipeline will sample from a [`TextureView`](struct.TextureView.html). Samplers define
 /// image filters (including anisotropy) and address (wrapping) modes, among other things. See
-/// the documentation for [`SamplerDescriptor`] for more information.
+/// the documentation for [`SamplerDescriptor`](struct.SamplerDescriptor.html) for more information.
 pub struct Sampler {
     context: Arc<C>,
     id: <C as Context>::SamplerId,
@@ -544,15 +544,15 @@ impl Drop for Sampler {
 /// Handle to a presentable surface.
 ///
 /// A `Surface` represents a platform-specific surface (e.g. a window) onto which rendered images may
-/// be presented. A `Surface` may be created with the unsafe function [`Instance::create_surface`].
+/// be presented. A `Surface` may be created with the unsafe function [`Instance::create_surface`](struct.Instance.html#method.create_surface).
 pub struct Surface {
     id: <C as Context>::SurfaceId,
 }
 
 /// Handle to a swap chain.
 ///
-/// A `SwapChain` represents the image or series of images that will be presented to a [`Surface`].
-/// A `SwapChain` may be created with [`Device::create_swap_chain`].
+/// A `SwapChain` represents the image or series of images that will be presented to a [`Surface`](struct.Surface.html).
+/// A `SwapChain` may be created with [`Device::create_swap_chain`](struct.Device.html#method.create_swap_chain).
 pub struct SwapChain {
     context: Arc<C>,
     id: <C as Context>::SwapChainId,
@@ -561,9 +561,9 @@ pub struct SwapChain {
 /// Handle to a binding group layout.
 ///
 /// A `BindGroupLayout` is a handle to the GPU-side layout of a binding group. It can be used to
-/// create a [`BindGroupDescriptor`] object, which in turn can be used to create a [`BindGroup`]
-/// object with [`Device::create_bind_group`]. A series of `BindGroupLayout`s can also be used to
-/// create a [`PipelineLayoutDescriptor`], which can be used to create a [`PipelineLayout`].
+/// create a [`BindGroupDescriptor`](type.BindGroupDescriptor.html) object, which in turn can be used to create a [`BindGroup`](struct.BindGroup.html)
+/// object with [`Device::create_bind_group`](struct.Device.html#method.create_bind_group). A series of `BindGroupLayout`s can also be used to
+/// create a [`PipelineLayoutDescriptor`](type.PipelineLayoutDescriptor.html), which can be used to create a [`PipelineLayout`](struct.PipelineLayout.html).
 pub struct BindGroupLayout {
     context: Arc<C>,
     id: <C as Context>::BindGroupLayoutId,
@@ -580,9 +580,9 @@ impl Drop for BindGroupLayout {
 /// Handle to a binding group.
 ///
 /// A `BindGroup` represents the set of resources bound to the bindings described by a
-/// [`BindGroupLayout`]. It can be created with [`Device::create_bind_group`]. A `BindGroup` can
-/// be bound to a particular [`RenderPass`] with [`RenderPass::set_bind_group`], or to a
-/// [`ComputePass`] with [`ComputePass::set_bind_group`].
+/// [`BindGroupLayout`](struct.BindGroupLayout.html). It can be created with [`Device::create_bind_group`](struct.Device.html#method.create_bind_group). A `BindGroup` can
+/// be bound to a particular [`RenderPass`](struct.RenderPass.html) with [`RenderPass::set_bind_group`](struct.RenderPass.html#method.set_bind_group), or to a
+/// [`ComputePass`](struct.ComputePass.html) with [`ComputePass::set_bind_group`](struct.ComputePass.html#method.set_bind_group).
 pub struct BindGroup {
     context: Arc<C>,
     id: <C as Context>::BindGroupId,
@@ -599,7 +599,7 @@ impl Drop for BindGroup {
 /// Handle to a compiled shader module.
 ///
 /// A `ShaderModule` represents a compiled shader module on the GPU. It can be created by passing
-/// valid SPIR-V source code to [`Device::create_shader_module`]. Shader modules are used to define
+/// valid SPIR-V source code to [`Device::create_shader_module`](struct.Device.html#method.create_shader_module). Shader modules are used to define
 /// programmable stages of a pipeline.
 pub struct ShaderModule {
     context: Arc<C>,
@@ -666,7 +666,7 @@ impl Drop for RenderPipeline {
 /// Handle to a compute pipeline.
 ///
 /// A `ComputePipeline` object represents a compute pipeline and its single shader stage.
-/// A `ComputePipeline` may be created with [`Device::create_compute_pipeline`].
+/// A `ComputePipeline` may be created with [`Device::create_compute_pipeline`](struct.Device.html#method.create_compute_pipeline).
 pub struct ComputePipeline {
     context: Arc<C>,
     id: <C as Context>::ComputePipelineId,
@@ -683,8 +683,8 @@ impl Drop for ComputePipeline {
 /// Handle to a command buffer on the GPU.
 ///
 /// A `CommandBuffer` represents a complete sequence of commands that may be submitted to a command
-/// queue with [`Queue::submit`]. A `CommandBuffer` is obtained by recording a series of commands to
-/// a [`CommandEncoder`] and then calling [`CommandEncoder::finish`].
+/// queue with [`Queue::submit`](struct.Queue.html#method.submit). A `CommandBuffer` is obtained by recording a series of commands to
+/// a [`CommandEncoder`](struct.CommandEncoder.html) and then calling [`CommandEncoder::finish`](struct.CommandEncoder.html#method.finish).
 pub struct CommandBuffer {
     context: Arc<C>,
     id: Option<<C as Context>::CommandBufferId>,
@@ -702,10 +702,10 @@ impl Drop for CommandBuffer {
 
 /// Encodes a series of GPU operations.
 ///
-/// A command encoder can record [`RenderPass`]es, [`ComputePass`]es,
-/// and transfer operations between driver-managed resources like [`Buffer`]s and [`Texture`]s.
+/// A command encoder can record [`RenderPass`](struct.RenderPass.html)es, [`ComputePass`](struct.ComputePass.html)es,
+/// and transfer operations between driver-managed resources like [`Buffer`](struct.Buffer.html)s and [`Texture`](struct.Texture.html)s.
 ///
-/// When finished recording, call [`CommandEncoder::finish`] to obtain a [`CommandBuffer`] which may
+/// When finished recording, call [`CommandEncoder::finish`](struct.CommandEncoder.html#method.finish) to obtain a [`CommandBuffer`](struct.CommandBuffer.html) which may
 /// be submitted for execution.
 pub struct CommandEncoder {
     context: Arc<C>,
@@ -729,10 +729,10 @@ pub struct ComputePass<'a> {
 
 /// Encodes a series of GPU operations into a reusable "render bundle".
 ///
-/// It only supports a handful of render commands, but it makes them reusable. [`RenderBundle`]s
-/// can be executed onto a [`CommandEncoder`] using [`RenderPass::execute_bundles`].
+/// It only supports a handful of render commands, but it makes them reusable. [`RenderBundle`](struct.RenderBundle.html)s
+/// can be executed onto a [`CommandEncoder`](struct.CommandEncoder.html) using [`RenderPass::execute_bundles`](struct.RenderPass.html#method.execute_bundles).
 ///
-/// Executing a [`RenderBundle`] is often more efficient then issuing the underlying commands manually.
+/// Executing a [`RenderBundle`](struct.RenderBundle.html) is often more efficient then issuing the underlying commands manually.
 pub struct RenderBundleEncoder<'a> {
     context: Arc<C>,
     id: <C as Context>::RenderBundleEncoderId,
@@ -744,10 +744,10 @@ pub struct RenderBundleEncoder<'a> {
 
 /// Pre-prepared reusable bundle of GPU operations.
 ///
-/// It only supports a handful of render commands, but it makes them reusable. [`RenderBundle`]s
-/// can be executed onto a [`CommandEncoder`] using [`RenderPass::execute_bundles`].
+/// It only supports a handful of render commands, but it makes them reusable. [`RenderBundle`](struct.RenderBundle.html)s
+/// can be executed onto a [`CommandEncoder`](struct.CommandEncoder.html) using [`RenderPass::execute_bundles`](struct.RenderPass.html#method.execute_bundle).
 ///
-/// Executing a [`RenderBundle`] is often more efficient then issuing the underlying commands manually.
+/// Executing a [`RenderBundle`](struct.RenderBundle.html) is often more efficient then issuing the underlying commands manually.
 pub struct RenderBundle {
     context: Arc<C>,
     id: <C as Context>::RenderBundleId,
@@ -763,8 +763,8 @@ impl Drop for RenderBundle {
 
 /// Handle to a command queue on a device.
 ///
-/// A `Queue` executes recorded [`CommandBuffer`] objects and provides convenience methods
-/// for writing to [buffers](Queue::write_buffer) and [textures](Queue::write_texture).
+/// A `Queue` executes recorded [`CommandBuffer`](struct.CommandBuffer.html) objects and provides convenience methods
+/// for [writing to buffers](struct.Queue.html#method.write_buffer) and [textures](struct.Queue.html#method.write_texture).
 pub struct Queue {
     context: Arc<C>,
     id: <C as Context>::QueueId,
@@ -775,23 +775,23 @@ pub struct Queue {
 pub enum BindingResource<'a> {
     /// Binding is backed by a buffer.
     ///
-    /// Corresponds to [`BindingType::UniformBuffer`] and [`BindingType::StorageBuffer`]
-    /// with [`BindGroupLayoutEntry::count`] set to None.
+    /// Corresponds to [`BindingType::UniformBuffer`](enum.BindingType.html#variant.UniformBuffer) and [`BindingType::StorageBuffer`](enum.BindingType.html#variant.StorageBuffer)
+    /// with [`BindGroupLayoutEntry::count`](enum..html) set to None.
     Buffer(BufferSlice<'a>),
     /// Binding is a sampler.
     ///
-    /// Corresponds to [`BindingType::Sampler`] with [`BindGroupLayoutEntry::count`] set to None.
+    /// Corresponds to [`BindingType::Sampler`](enum.BindingType.html#variant.Sampler) with [`BindGroupLayoutEntry::count`] set to None.
     Sampler(&'a Sampler),
     /// Binding is backed by a texture.
     ///
-    /// Corresponds to [`BindingType::SampledTexture`] and [`BindingType::StorageTexture`] with
+    /// Corresponds to [`BindingType::SampledTexture`](enum.BindingType.html#variant.SampledTexture) and [`BindingType::StorageTexture`](enum.BindingType.html#variant.StorageTexture) with
     /// [`BindGroupLayoutEntry::count`] set to None.
     TextureView(&'a TextureView),
     /// Binding is backed by an array of textures.
     ///
     /// [`Features::SAMPLED_TEXTURE_BINDING_ARRAY`] must be supported to use this feature.
     ///
-    /// Corresponds to [`BindingType::SampledTexture`] and [`BindingType::StorageTexture`] with
+    /// Corresponds to [`BindingType::SampledTexture`](enum.BindingType.html#variant.SampledTexture) and [`BindingType::StorageTexture`](enum.BindingType.html#variant.StorageTexture) with
     /// [`BindGroupLayoutEntry::count`] set to Some.
     TextureViewArray(&'a [TextureView]),
 }
@@ -814,7 +814,7 @@ pub struct Operations<V> {
     pub store: bool,
 }
 
-/// Describes a color attachment to a [`RenderPass`].
+/// Describes a color attachment to a [`RenderPass`]((struct.RenderPass.html)).
 #[derive(Clone)]
 pub struct RenderPassColorAttachmentDescriptor<'a> {
     /// The view to use as an attachment.
@@ -825,7 +825,7 @@ pub struct RenderPassColorAttachmentDescriptor<'a> {
     pub ops: Operations<Color>,
 }
 
-/// Describes a depth/stencil attachment to a [`RenderPass`].
+/// Describes a depth/stencil attachment to a [`RenderPass`](struct.RenderPass.html).
 #[derive(Clone)]
 pub struct RenderPassDepthStencilAttachmentDescriptor<'a> {
     /// The view to use as an attachment.
@@ -916,7 +916,7 @@ pub struct SwapChainTexture {
     detail: <C as Context>::SwapChainOutputDetail,
 }
 
-/// Result of a successful call to [`SwapChain::get_next_frame`].
+/// Result of a successful call to [`SwapChain::get_next_frame`](struct.SwapChain.html#method.get_next_frame).
 pub struct SwapChainFrame {
     /// The texture into which the next frame should be rendered.
     pub output: SwapChainTexture,
@@ -964,7 +964,7 @@ impl Instance {
         }
     }
 
-    /// Retrieves all available [`Adapter`]s that match the given [`BackendBit`].
+    /// Retrieves all available [`Adapter`](struct.Adapter.html)s that match the given [`BackendBit`](struct.BackendBit.html).
     ///
     /// # Arguments
     ///
@@ -983,7 +983,7 @@ impl Instance {
             })
     }
 
-    /// Retrieves an [`Adapter`] which matches the given [`RequestAdapterOptions`].
+    /// Retrieves an [`Adapter`](struct.Adapter.html) which matches the given [`RequestAdapterOptions`].
     ///
     /// Some options are "soft", so treated as non-mandatory. Others are "hard".
     ///
@@ -1040,7 +1040,7 @@ impl Instance {
 impl Adapter {
     /// Requests a connection to a physical device, creating a logical device.
     ///
-    /// Returns the [`Device`] together with a [`Queue`] that executes command buffers.
+    /// Returns the [`Device`](struct.Device.html) together with a [`Queue`](struct.Queue.html) that executes command buffers.
     ///
     /// # Arguments
     ///
@@ -1078,7 +1078,7 @@ impl Adapter {
 
     /// List all features that are supported with this adapter.
     ///
-    /// Features must be explicitly requested in [`Adapter::request_device`] in order
+    /// Features must be explicitly requested in [`Adapter::request_device`](struct.Adapter.html#method.request_device) in order
     /// to use them.
     pub fn features(&self) -> Features {
         Context::adapter_features(&*self.context, &self.id)
@@ -1086,7 +1086,7 @@ impl Adapter {
 
     /// List the "best" limits that are supported by this adapter.
     ///
-    /// Limits must be explicitly requested in [`Adapter::request_device`] to set
+    /// Limits must be explicitly requested in [`Adapter::request_device`](struct.Adapter.html#method.request_device) to set
     /// the values that you are allowed to use.
     pub fn limits(&self) -> Limits {
         Context::adapter_limits(&*self.context, &self.id)
@@ -1130,7 +1130,7 @@ impl Device {
         }
     }
 
-    /// Creates an empty [`CommandEncoder`].
+    /// Creates an empty [`CommandEncoder`](struct.CommandEncoder.html).
     pub fn create_command_encoder(&self, desc: &CommandEncoderDescriptor) -> CommandEncoder {
         CommandEncoder {
             context: Arc::clone(&self.context),
@@ -1139,7 +1139,7 @@ impl Device {
         }
     }
 
-    /// Creates an empty [`RenderBundleEncoder`].
+    /// Creates an empty [`RenderBundleEncoder`](struct.RenderBundleEncoder.html).
     pub fn create_render_bundle_encoder(
         &self,
         desc: &RenderBundleEncoderDescriptor,
@@ -1152,7 +1152,7 @@ impl Device {
         }
     }
 
-    /// Creates a new [`BindGroup`].
+    /// Creates a new [`BindGroup`](struct.BindGroup.html).
     pub fn create_bind_group(&self, desc: &BindGroupDescriptor) -> BindGroup {
         BindGroup {
             context: Arc::clone(&self.context),
@@ -1160,7 +1160,7 @@ impl Device {
         }
     }
 
-    /// Creates a [`BindGroupLayout`].
+    /// Creates a [`BindGroupLayout`](struct.BindGroupLayout.html).
     pub fn create_bind_group_layout(&self, desc: &BindGroupLayoutDescriptor) -> BindGroupLayout {
         BindGroupLayout {
             context: Arc::clone(&self.context),
@@ -1168,7 +1168,7 @@ impl Device {
         }
     }
 
-    /// Creates a [`PipelineLayout`].
+    /// Creates a [`PipelineLayout`](struct.PipelineLayout.html).
     pub fn create_pipeline_layout(&self, desc: &PipelineLayoutDescriptor) -> PipelineLayout {
         PipelineLayout {
             context: Arc::clone(&self.context),
@@ -1176,7 +1176,7 @@ impl Device {
         }
     }
 
-    /// Creates a [`RenderPipeline`].
+    /// Creates a [`RenderPipeline`](struct.RenderPipeline.html).
     pub fn create_render_pipeline(&self, desc: &RenderPipelineDescriptor) -> RenderPipeline {
         RenderPipeline {
             context: Arc::clone(&self.context),
@@ -1184,7 +1184,7 @@ impl Device {
         }
     }
 
-    /// Creates a [`ComputePipeline`].
+    /// Creates a [`ComputePipeline`](struct.ComputePipeline.html).
     pub fn create_compute_pipeline(&self, desc: &ComputePipelineDescriptor) -> ComputePipeline {
         ComputePipeline {
             context: Arc::clone(&self.context),
@@ -1192,7 +1192,7 @@ impl Device {
         }
     }
 
-    /// Creates a [`Buffer`].
+    /// Creates a [`Buffer`](struct.Buffer.html).
     pub fn create_buffer(&self, desc: &BufferDescriptor) -> Buffer {
         let mut map_context = MapContext::new(desc.size);
         if desc.mapped_at_creation {
@@ -1207,7 +1207,7 @@ impl Device {
     }
 
     /// Creates a new buffer, maps it into host-visible memory, copies data from the given slice,
-    /// and finally unmaps it, returning a [`Buffer`].
+    /// and finally unmaps it, returning a [`Buffer`](struct.Buffer.html).
     pub fn create_buffer_with_data(&self, data: &[u8], usage: BufferUsage) -> Buffer {
         let size = data.len() as u64;
         let buffer = self.create_buffer(&BufferDescriptor {
@@ -1222,7 +1222,7 @@ impl Device {
         buffer
     }
 
-    /// Creates a new [`Texture`].
+    /// Creates a new [`Texture`](struct.Texture.html).
     ///
     /// `desc` specifies the general format of the texture.
     pub fn create_texture(&self, desc: &TextureDescriptor) -> Texture {
@@ -1233,7 +1233,7 @@ impl Device {
         }
     }
 
-    /// Creates a new [`Sampler`].
+    /// Creates a new [`Sampler`](struct.Sampler.html).
     ///
     /// `desc` specifies the behavior of the sampler.
     pub fn create_sampler(&self, desc: &SamplerDescriptor) -> Sampler {
@@ -1243,11 +1243,11 @@ impl Device {
         }
     }
 
-    /// Create a new [`SwapChain`] which targets `surface`.
+    /// Create a new [`SwapChain`](struct.SwapChain.html) which targets `surface`.
     ///
     /// # Panics
     ///
-    /// - A old [`SwapChainFrame`] is still alive referencing an old swapchain.
+    /// - A old [`SwapChainFrame`](struct.SwapChainFrame.html) is still alive referencing an old swapchain.
     /// - Texture format requested is unsupported on the swap chain.
     pub fn create_swap_chain(&self, surface: &Surface, desc: &SwapChainDescriptor) -> SwapChain {
         SwapChain {
@@ -1506,7 +1506,7 @@ impl Drop for TextureView {
 }
 
 impl CommandEncoder {
-    /// Finishes recording and returns a [`CommandBuffer`] that can be submitted for execution.
+    /// Finishes recording and returns a [`CommandBuffer`](struct.CommandBuffer.html) that can be submitted for execution.
     pub fn finish(self) -> CommandBuffer {
         CommandBuffer {
             context: Arc::clone(&self.context),
@@ -1516,7 +1516,7 @@ impl CommandEncoder {
 
     /// Begins recording of a render pass.
     ///
-    /// This function returns a [`RenderPass`] object which records a single render pass.
+    /// This function returns a [`RenderPass`](struct.RenderPass.html) object which records a single render pass.
     pub fn begin_render_pass<'a>(
         &'a mut self,
         desc: &RenderPassDescriptor<'a, '_>,
@@ -1529,7 +1529,7 @@ impl CommandEncoder {
 
     /// Begins recording of a compute pass.
     ///
-    /// This function returns a [`ComputePass`] object which records a single compute pass.
+    /// This function returns a [`ComputePass`](struct.ComputePass.html) object which records a single compute pass.
     pub fn begin_compute_pass(&mut self) -> ComputePass {
         ComputePass {
             id: Context::command_encoder_begin_compute_pass(&*self.context, &self.id),
@@ -1659,7 +1659,7 @@ impl<'a> RenderPass<'a> {
 
     /// Sets the active index buffer.
     ///
-    /// Subsequent calls to [`draw_indexed`](RenderPass::draw_indexed) on this [`RenderPass`](struct.RenderPass.html) will
+    /// Subsequent calls to [`draw_indexed`](struct.RenderPass.html#method.draw_indexed) on this [`RenderPass`](struct.RenderPass.html) will
     /// use `buffer` as the source index buffer.
     pub fn set_index_buffer(&mut self, buffer_slice: BufferSlice<'a>) {
         RenderInner::set_index_buffer(
@@ -1672,14 +1672,11 @@ impl<'a> RenderPass<'a> {
 
     /// Assign a vertex buffer to a slot.
     ///
-    /// Subsequent calls to [`draw`] and [`draw_indexed`] on this
+    /// Subsequent calls to [`draw`](struct.RenderPass.html#method.draw) and [`draw_indexed`](struct.RenderPass.html#method.draw_indexed) on this
     /// [`RenderPass`](struct.RenderPass.html) will use `buffer` as one of the source vertex buffers.
     ///
     /// The `slot` refers to the index of the matching descriptor in
-    /// [`VertexStateDescriptor::vertex_buffers`].
-    ///
-    /// [`draw`]: RenderPass::draw
-    /// [`draw_indexed`]: RenderPass::draw_indexed
+    /// [`VertexStateDescriptor::vertex_buffers`](struct.VertexStateDescriptor.html#structfield.vertex_buffers).
     pub fn set_vertex_buffer(&mut self, slot: u32, buffer_slice: BufferSlice<'a>) {
         RenderInner::set_vertex_buffer(
             &mut self.id,
@@ -2061,7 +2058,7 @@ impl<'a> Drop for ComputePass<'a> {
 }
 
 impl<'a> RenderBundleEncoder<'a> {
-    /// Finishes recording and returns a [`RenderBundle`] that can be executed in other render passes.
+    /// Finishes recording and returns a [`RenderBundle`](struct.RenderBundle.html) that can be executed in other render passes.
     pub fn finish(self, desc: &RenderBundleDescriptor) -> RenderBundle {
         RenderBundle {
             context: Arc::clone(&self.context),
@@ -2091,7 +2088,7 @@ impl<'a> RenderBundleEncoder<'a> {
 
     /// Sets the active index buffer.
     ///
-    /// Subsequent calls to [`draw_indexed`](RenderBundleEncoder::draw_indexed) on this [`RenderBundleEncoder`] will
+    /// Subsequent calls to [`draw_indexed`](struct.RenderBundleEncoder.html#method.draw_indexed) on this [`RenderBundleEncoder`](struct.RenderBundleEncoder.html) will
     /// use `buffer` as the source index buffer.
     pub fn set_index_buffer(&mut self, buffer_slice: BufferSlice<'a>) {
         RenderInner::set_index_buffer(
@@ -2104,14 +2101,11 @@ impl<'a> RenderBundleEncoder<'a> {
 
     /// Assign a vertex buffer to a slot.
     ///
-    /// Subsequent calls to [`draw`] and [`draw_indexed`] on this
-    /// [`RenderBundleEncoder`] will use `buffer` as one of the source vertex buffers.
+    /// Subsequent calls to [`draw`](struct.RenderBundleEncoder.html#method.draw) and [`draw_indexed`](struct.RenderBundleEncoder.html#method.draw_indexed) on this
+    /// [`RenderBundleEncoder`](struct.RenderBundleEncoder.html) will use `buffer` as one of the source vertex buffers.
     ///
     /// The `slot` refers to the index of the matching descriptor in
-    /// [`VertexStateDescriptor::vertex_buffers`].
-    ///
-    /// [`draw`]: RenderBundleEncoder::draw
-    /// [`draw_indexed`]: RenderBundleEncoder::draw_indexed
+    /// [`VertexStateDescriptor::vertex_buffers`](struct.VertexStateDescriptor.html#structfield.vertex_buffers).
     pub fn set_vertex_buffer(&mut self, slot: u32, buffer_slice: BufferSlice<'a>) {
         RenderInner::set_vertex_buffer(
             &mut self.id,
@@ -2124,22 +2118,22 @@ impl<'a> RenderBundleEncoder<'a> {
 
     /// Draws primitives from the active vertex buffer(s).
     ///
-    /// The active vertex buffers can be set with [`RenderBundleEncoder::set_vertex_buffer`].
+    /// The active vertex buffers can be set with [`RenderBundleEncoder::set_vertex_buffer`](struct.RenderBundleEncoder.html#method.set_vertex_buffer).
     pub fn draw(&mut self, vertices: Range<u32>, instances: Range<u32>) {
         RenderInner::draw(&mut self.id, vertices, instances)
     }
 
     /// Draws indexed primitives using the active index buffer and the active vertex buffers.
     ///
-    /// The active index buffer can be set with [`RenderBundleEncoder::set_index_buffer`], while the active
-    /// vertex buffers can be set with [`RenderBundleEncoder::set_vertex_buffer`].
+    /// The active index buffer can be set with [`RenderBundleEncoder::set_index_buffer`](struct.RenderBundleEncoder.html#method.set_index_buffer), while the active
+    /// vertex buffers can be set with [`RenderBundleEncoder::set_vertex_buffer`](struct.RenderBundleEncoder.html#method.set_vertex_buffer).
     pub fn draw_indexed(&mut self, indices: Range<u32>, base_vertex: i32, instances: Range<u32>) {
         RenderInner::draw_indexed(&mut self.id, indices, base_vertex, instances);
     }
 
     /// Draws primitives from the active vertex buffer(s) based on the contents of the `indirect_buffer`.
     ///
-    /// The active vertex buffers can be set with [`RenderBundleEncoder::set_vertex_buffer`].
+    /// The active vertex buffers can be set with [`RenderBundleEncoder::set_vertex_buffer`](struct.RenderBundleEncoder.html#method.set_vertex_buffer).
     ///
     /// The structure expected in `indirect_buffer` is the following:
     ///
@@ -2159,8 +2153,8 @@ impl<'a> RenderBundleEncoder<'a> {
     /// Draws indexed primitives using the active index buffer and the active vertex buffers,
     /// based on the contents of the `indirect_buffer`.
     ///
-    /// The active index buffer can be set with [`RenderBundleEncoder::set_index_buffer`], while the active
-    /// vertex buffers can be set with [`RenderBundleEncoder::set_vertex_buffer`].
+    /// The active index buffer can be set with [`RenderBundleEncoder::set_index_buffer`](struct.RenderBundleEncoder.html#method.set_index_buffer), while the active
+    /// vertex buffers can be set with [`RenderBundleEncoder::set_vertex_buffer`](struct.RenderBundleEncoder.html#method.set_vertex_buffer).
     ///
     /// The structure expected in `indirect_buffer` is the following:
     ///
@@ -2259,8 +2253,8 @@ impl Drop for SwapChainTexture {
 impl SwapChain {
     /// Returns the next texture to be presented by the swapchain for drawing.
     ///
-    /// When the [`SwapChainFrame`] returned by this method is dropped, the swapchain will present
-    /// the texture to the associated [`Surface`].
+    /// When the [`SwapChainFrame`](struct.SwapChainFrame.html) returned by this method is dropped, the swapchain will present
+    /// the texture to the associated [`Surface`](struct.Surface.html).
     ///
     /// If a SwapChainFrame referencing this surface is alive when the swapchain is recreated,
     /// recreating the swapchain will panic.
