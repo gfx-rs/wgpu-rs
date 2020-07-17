@@ -314,9 +314,9 @@
 <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">RefCount</span> {}
 
 <span class="kw">impl</span> <span class="ident">RefCount</span> {
-    <span class="kw">const</span> <span class="ident">MAX</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">24</span>;
+    <span class="kw">const</span> <span class="ident">MAX</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="number">24</span>;
 
-    <span class="kw">fn</span> <span class="ident">load</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">load</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>() }.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>)
     }
 
@@ -325,15 +325,15 @@
     <span class="doccomment">/// to be dropped. This is useful for loom testing because it allows us to verify that we</span>
     <span class="doccomment">/// deallocated the underlying memory exactly once.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">rich_drop_outer</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">rich_drop_outer</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">unsafe</span> { <span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">ManuallyDrop</span>::<span class="ident">new</span>(<span class="self">self</span>).<span class="ident">rich_drop_inner</span>() }
     }
 
     <span class="doccomment">/// This function exists to allow `Self::rich_drop_outer` and `Drop::drop` to share the same</span>
     <span class="doccomment">/// logic. To use this safely from outside of `Drop::drop`, the calling function must move</span>
     <span class="doccomment">/// `Self` into a `ManuallyDrop`.</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">rich_drop_inner</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>().<span class="ident">fetch_sub</span>(<span class="number">1</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>) <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">rich_drop_inner</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>().<span class="ident">fetch_sub</span>(<span class="number">1</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>) <span class="op">==</span> <span class="number">1</span> {
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">from_raw</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ptr</span>());
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -343,7 +343,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">RefCount</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">old_size</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>() }.<span class="ident">fetch_add</span>(<span class="number">1</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">old_size</span> <span class="op">&lt;</span> <span class="self">Self</span>::<span class="ident">MAX</span>);
         <span class="ident">RefCount</span>(<span class="self">self</span>.<span class="number">0</span>)
@@ -361,12 +361,12 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">loom</span>() {
-    <span class="ident">loom</span>::<span class="ident">model</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+    <span class="ident">loom</span>::<span class="ident">model</span>(<span class="kw">move</span> <span class="op">||</span> {
         <span class="kw">let</span> <span class="ident">bx</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="number">1</span>));
         <span class="kw">let</span> <span class="ident">ref_count_main</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">into_raw</span>(<span class="ident">bx</span>)).<span class="ident">map</span>(<span class="ident">RefCount</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">ref_count_spawned</span> <span class="op">=</span> <span class="ident">ref_count_main</span>.<span class="ident">clone</span>();
 
-        <span class="kw">let</span> <span class="ident">join_handle</span> <span class="op">=</span> <span class="ident">loom</span>::<span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">join_handle</span> <span class="op">=</span> <span class="ident">loom</span>::<span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">ref_count_spawned</span>.<span class="ident">clone</span>();
             <span class="ident">ref_count_spawned</span>.<span class="ident">rich_drop_outer</span>()
         });
@@ -388,7 +388,7 @@
 <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">MultiRefCount</span> {}
 
 <span class="kw">impl</span> <span class="ident">MultiRefCount</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">bx</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="number">1</span>));
         <span class="ident">MultiRefCount</span>(<span class="kw">unsafe</span> { <span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new_unchecked</span>(<span class="ident">Box</span>::<span class="ident">into_raw</span>(<span class="ident">bx</span>)) })
     }
@@ -397,16 +397,16 @@
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>() }.<span class="ident">fetch_add</span>(<span class="number">1</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
     }
 
-    <span class="kw">fn</span> <span class="ident">add_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RefCount</span> {
+    <span class="kw">fn</span> <span class="ident">add_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RefCount</span> {
         <span class="self">self</span>.<span class="ident">inc</span>();
         <span class="ident">RefCount</span>(<span class="self">self</span>.<span class="number">0</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">dec</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RefCount</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">dec</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RefCount</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>() }.<span class="ident">fetch_sub</span>(<span class="number">1</span>, <span class="ident">Ordering</span>::<span class="ident">AcqRel</span>) {
-            <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
-            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">add_ref</span>()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="number">0</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="number">1</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">add_ref</span>()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
@@ -427,7 +427,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">LifeGuard</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">bx</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="number">1</span>));
         <span class="ident">LifeGuard</span> {
             <span class="ident">ref_count</span>: <span class="ident">ptr</span>::<span class="ident">NonNull</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">into_raw</span>(<span class="ident">bx</span>)).<span class="ident">map</span>(<span class="ident">RefCount</span>),
@@ -435,12 +435,12 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">add_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RefCount</span> {
+    <span class="kw">fn</span> <span class="ident">add_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">RefCount</span> {
         <span class="self">self</span>.<span class="ident">ref_count</span>.<span class="ident">clone</span>().<span class="ident">unwrap</span>()
     }
 
     <span class="doccomment">/// Returns `true` if the resource is still needed by the user.</span>
-    <span class="kw">fn</span> <span class="ident">use_at</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">submit_index</span>: <span class="ident">SubmissionIndex</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">use_at</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">submit_index</span>: <span class="ident">SubmissionIndex</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">submission_index</span>.<span class="ident">store</span>(<span class="ident">submit_index</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
         <span class="self">self</span>.<span class="ident">ref_count</span>.<span class="ident">is_some</span>()
     }
@@ -461,29 +461,29 @@
 
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">gfx_select</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">id</span>:<span class="ident">expr</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>:<span class="ident">ident</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>:<span class="ident">ident</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>:<span class="ident">expr</span>),<span class="op">+</span> )) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">id</span>:<span class="ident">expr</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>:<span class="ident">ident</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>:<span class="ident">ident</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>:<span class="ident">expr</span>),<span class="op">+</span> )) <span class="op">=&gt;</span> {
         <span class="kw">match</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">id</span>.<span class="ident">backend</span>() {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;ios&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;macos&quot;</span>)), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;gfx-backend-vulkan&quot;</span>))]</span>
-            <span class="ident">wgt</span>::<span class="ident">Backend</span>::<span class="ident">Vulkan</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">backend</span>::<span class="ident">Vulkan</span><span class="op">&gt;</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="op">+</span> ),
+            <span class="ident">wgt</span>::<span class="ident">Backend</span>::<span class="ident">Vulkan</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">backend</span>::<span class="ident">Vulkan</span><span class="op">&gt;</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="op">+</span> ),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;ios&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;macos&quot;</span>))]</span>
-            <span class="ident">wgt</span>::<span class="ident">Backend</span>::<span class="ident">Metal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">backend</span>::<span class="ident">Metal</span><span class="op">&gt;</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="op">+</span> ),
+            <span class="ident">wgt</span>::<span class="ident">Backend</span>::<span class="ident">Metal</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">backend</span>::<span class="ident">Metal</span><span class="op">&gt;</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="op">+</span> ),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-            <span class="ident">wgt</span>::<span class="ident">Backend</span>::<span class="ident">Dx12</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">backend</span>::<span class="ident">Dx12</span><span class="op">&gt;</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="op">+</span> ),
+            <span class="ident">wgt</span>::<span class="ident">Backend</span>::<span class="ident">Dx12</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">backend</span>::<span class="ident">Dx12</span><span class="op">&gt;</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="op">+</span> ),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-            <span class="ident">wgt</span>::<span class="ident">Backend</span>::<span class="ident">Dx11</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">backend</span>::<span class="ident">Dx11</span><span class="op">&gt;</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="op">+</span> ),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>()
+            <span class="ident">wgt</span>::<span class="ident">Backend</span>::<span class="ident">Dx11</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">global</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">method</span>::<span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">backend</span>::<span class="ident">Dx11</span><span class="op">&gt;</span>( $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="op">+</span> ),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>()
         }
     };
 }
 
 <span class="doccomment">/// Fast hash map used internally.</span>
 <span class="kw">type</span> <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">V</span><span class="op">&gt;</span> <span class="op">=</span>
-    <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">V</span>, <span class="ident">std</span>::<span class="ident">hash</span>::<span class="ident">BuildHasherDefault</span><span class="op">&lt;</span><span class="ident">fxhash</span>::<span class="ident">FxHasher</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="ident">std</span>::<span class="ident">collections</span>::<span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">V</span>, <span class="ident">std</span>::<span class="ident">hash</span>::<span class="ident">BuildHasherDefault</span><span class="op">&lt;</span><span class="ident">fxhash</span>::<span class="ident">FxHasher</span><span class="op">&gt;&gt;</span>;
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_default_limits</span>() {
     <span class="kw">let</span> <span class="ident">limits</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">Limits</span>::<span class="ident">default</span>();
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">limits</span>.<span class="ident">max_bind_groups</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">MAX_BIND_GROUPS</span> <span class="kw">as</span> <span class="ident">u32</span>);
+    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">limits</span>.<span class="ident">max_bind_groups</span> <span class="op">&lt;=</span> <span class="ident">MAX_BIND_GROUPS</span> <span class="kw">as</span> <span class="ident">u32</span>);
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "wgpu_core";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

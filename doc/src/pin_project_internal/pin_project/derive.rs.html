@@ -1241,7 +1241,7 @@
     <span class="ident">ProjKind</span>, <span class="ident">ReplaceReceiver</span>, <span class="ident">SliceExt</span>, <span class="ident">Variants</span>,
 };
 
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">parse_derive</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">parse_derive</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span>: <span class="ident">DeriveInput</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse2</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
 
     <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">ident</span>;
@@ -1255,18 +1255,18 @@
     <span class="kw">let</span> <span class="ident">packed_check</span>;
 
     <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">items</span>, <span class="ident">scoped_items</span>) <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">input</span>.<span class="ident">data</span> {
-        <span class="ident">Data</span>::<span class="ident">Struct</span>(<span class="ident">data</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">Data</span>::<span class="ident">Struct</span>(<span class="ident">data</span>) <span class="op">=&gt;</span> {
             <span class="comment">// Do this first for a better error message.</span>
             <span class="ident">packed_check</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">cx</span>.<span class="ident">ensure_not_packed</span>(<span class="kw-2">&amp;</span><span class="ident">data</span>.<span class="ident">fields</span>)<span class="question-mark">?</span>);
             <span class="ident">cx</span>.<span class="ident">parse_struct</span>(<span class="ident">data</span>)<span class="question-mark">?</span>
         }
-        <span class="ident">Data</span>::<span class="ident">Enum</span>(<span class="ident">data</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">Data</span>::<span class="ident">Enum</span>(<span class="ident">data</span>) <span class="op">=&gt;</span> {
             <span class="comment">// We don&#39;t need to check for `#[repr(packed)]`,</span>
             <span class="comment">// since it does not apply to enums.</span>
             <span class="ident">packed_check</span> <span class="op">=</span> <span class="prelude-val">None</span>;
             <span class="ident">cx</span>.<span class="ident">parse_enum</span>(<span class="ident">data</span>)<span class="question-mark">?</span>
         }
-        <span class="ident">Data</span>::<span class="ident">Union</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">Data</span>::<span class="ident">Union</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(
                 <span class="ident">input</span>,
                 <span class="string">&quot;#[pin_project] attribute may only be used on structs or enums&quot;</span>
@@ -1310,7 +1310,7 @@
     <span class="prelude-val">Ok</span>(<span class="ident">items</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">validate_struct</span>(<span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>, <span class="ident">fields</span>: <span class="kw-2">&amp;</span><span class="ident">Fields</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">validate_struct</span>(<span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>, <span class="ident">fields</span>: <span class="kw-2">&amp;</span><span class="ident">Fields</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">fields</span>.<span class="ident">is_empty</span>() {
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">&quot;#[pin_project] attribute may not be used on structs with zero fields&quot;</span>;
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Fields</span>::<span class="ident">Unit</span> <span class="op">=</span> <span class="ident">fields</span> { <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">ident</span>, <span class="ident">msg</span>)) } <span class="kw">else</span> { <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">fields</span>, <span class="ident">msg</span>)) }
@@ -1319,7 +1319,7 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">validate_enum</span>(<span class="ident">brace_token</span>: <span class="ident">token</span>::<span class="ident">Brace</span>, <span class="ident">variants</span>: <span class="kw-2">&amp;</span><span class="ident">Variants</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">validate_enum</span>(<span class="ident">brace_token</span>: <span class="ident">token</span>::<span class="ident">Brace</span>, <span class="ident">variants</span>: <span class="kw-2">&amp;</span><span class="ident">Variants</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">variants</span>.<span class="ident">is_empty</span>() {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
             <span class="ident">brace_token</span>.<span class="ident">span</span>,
@@ -1371,14 +1371,14 @@
 }
 
 <span class="kw">impl</span> <span class="ident">ProjReplace</span> {
-    <span class="kw">fn</span> <span class="ident">span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Span</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Span</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">ProjReplace</span>::<span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-            <span class="ident">ProjReplace</span>::<span class="ident">Named</span> { <span class="ident">span</span>, .. } <span class="op">|</span> <span class="ident">ProjReplace</span>::<span class="ident">Unnamed</span> { <span class="ident">span</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">*</span><span class="ident">span</span>),
+            <span class="ident">ProjReplace</span>::<span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">ProjReplace</span>::<span class="ident">Named</span> { <span class="ident">span</span>, .. } <span class="op">|</span> <span class="ident">ProjReplace</span>::<span class="ident">Unnamed</span> { <span class="ident">span</span>, .. } <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">*</span><span class="ident">span</span>),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">ident</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Ident</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">ident</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Ident</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">ProjReplace</span>::<span class="ident">Named</span> { <span class="ident">ident</span>, .. } <span class="op">=</span> <span class="self">self</span> { <span class="prelude-val">Some</span>(<span class="ident">ident</span>) } <span class="kw">else</span> { <span class="prelude-val">None</span> }
     }
 }
@@ -1386,16 +1386,16 @@
 <span class="kw">const</span> <span class="ident">DUPLICATE_PIN</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;duplicate #[pin] attribute&quot;</span>;
 
 <span class="kw">impl</span> <span class="ident">Args</span> {
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="ident">attrs</span>: <span class="kw-2">&amp;</span>[<span class="ident">Attribute</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get</span>(<span class="ident">attrs</span>: <span class="kw-2">&amp;</span>[<span class="ident">Attribute</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="comment">// `(__private(&lt;args&gt;))` -&gt; `&lt;args&gt;`</span>
         <span class="kw">struct</span> <span class="ident">Input</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span>);
 
         <span class="kw">impl</span> <span class="ident">Parse</span> <span class="kw">for</span> <span class="ident">Input</span> {
-            <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-                <span class="prelude-val">Ok</span>(<span class="self">Self</span>((<span class="op">|</span><span class="op">|</span> {
+            <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="self">Self</span>((<span class="op">||</span> {
                     <span class="kw">let</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parenthesized</span>().<span class="ident">ok</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">private</span> <span class="op">=</span> <span class="ident">content</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">Ident</span><span class="op">&gt;</span>().<span class="ident">ok</span>()<span class="question-mark">?</span>;
-                    <span class="kw">if</span> <span class="ident">private</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;__private&quot;</span> {
+                    <span class="kw">if</span> <span class="ident">private</span> <span class="op">==</span> <span class="string">&quot;__private&quot;</span> {
                         <span class="ident">content</span>.<span class="ident">parenthesized</span>().<span class="ident">ok</span>()<span class="question-mark">?</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span>().<span class="ident">ok</span>()
                     } <span class="kw">else</span> {
                         <span class="prelude-val">None</span>
@@ -1424,9 +1424,9 @@
             <span class="comment">// that a useless error message will be generated.</span>
             <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="ident">parse2</span>::<span class="op">&lt;</span><span class="ident">Input</span><span class="op">&gt;</span>(<span class="ident">attr</span>.<span class="ident">tokens</span>.<span class="ident">clone</span>()).<span class="ident">unwrap</span>().<span class="number">0</span>;
             <span class="kw">let</span> <span class="ident">span</span> <span class="op">=</span> <span class="kw">match</span> (<span class="kw-2">&amp;</span><span class="ident">prev_res</span>, <span class="ident">res</span>) {
-                (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">attr</span>,
-                (<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">prev_attr</span>,
-                (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">prev_attr</span>,
+                (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">attr</span>,
+                (<span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> <span class="ident">prev_attr</span>,
+                (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="ident">prev_attr</span>,
             };
             <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">span</span>, <span class="ident">DUPLICATE_PIN</span>))
         } <span class="kw">else</span> {
@@ -1437,7 +1437,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Parse</span> <span class="kw">for</span> <span class="ident">Args</span> {
-    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">mod</span> <span class="ident">kw</span> {
             <span class="ident">syn</span>::<span class="macro">custom_keyword</span><span class="macro">!</span>(<span class="ident">Unpin</span>);
         }
@@ -1447,7 +1447,7 @@
             <span class="ident">input</span>: <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
             <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>,
             <span class="ident">has_prev</span>: <span class="ident">bool</span>,
-        ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Ident</span>, <span class="ident">TokenStream</span>)<span class="op">&gt;</span> {
+        ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Ident</span>, <span class="ident">TokenStream</span>)<span class="op">&gt;</span> {
             <span class="kw">if</span> <span class="ident">input</span>.<span class="ident">is_empty</span>() {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">name</span>, <span class="string">&quot;expected `{0} = &lt;identifier&gt;`, found `{0}`&quot;</span>, <span class="ident">name</span>));
             }
@@ -1489,23 +1489,23 @@
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">Ident</span><span class="op">&gt;</span>()<span class="question-mark">?</span>;
                 <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">token</span>.<span class="ident">to_string</span>() {
-                    <span class="string">&quot;PinnedDrop&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="string">&quot;PinnedDrop&quot;</span> <span class="op">=&gt;</span> {
                         <span class="kw">if</span> <span class="ident">pinned_drop</span>.<span class="ident">replace</span>(<span class="ident">token</span>.<span class="ident">span</span>()).<span class="ident">is_some</span>() {
                             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">token</span>, <span class="string">&quot;duplicate `PinnedDrop` argument&quot;</span>));
                         }
                     }
-                    <span class="string">&quot;UnsafeUnpin&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="string">&quot;UnsafeUnpin&quot;</span> <span class="op">=&gt;</span> {
                         <span class="kw">if</span> <span class="ident">unsafe_unpin</span>.<span class="ident">replace</span>(<span class="ident">token</span>.<span class="ident">span</span>()).<span class="ident">is_some</span>() {
                             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">token</span>, <span class="string">&quot;duplicate `UnsafeUnpin` argument&quot;</span>));
                         }
                     }
-                    <span class="string">&quot;project&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="string">&quot;project&quot;</span> <span class="op">=&gt;</span> {
                         <span class="ident">project</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">parse_value</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">token</span>, <span class="ident">project</span>.<span class="ident">is_some</span>())<span class="question-mark">?</span>.<span class="number">0</span>);
                     }
-                    <span class="string">&quot;project_ref&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="string">&quot;project_ref&quot;</span> <span class="op">=&gt;</span> {
                         <span class="ident">project_ref</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">parse_value</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">token</span>, <span class="ident">project_ref</span>.<span class="ident">is_some</span>())<span class="question-mark">?</span>.<span class="number">0</span>);
                     }
-                    <span class="string">&quot;project_replace&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="string">&quot;project_replace&quot;</span> <span class="op">=&gt;</span> {
                         <span class="kw">if</span> <span class="ident">input</span>.<span class="ident">peek</span>(<span class="macro">Token</span><span class="macro">!</span>[<span class="op">=</span>]) {
                             <span class="kw">let</span> (<span class="ident">value</span>, <span class="ident">span</span>) <span class="op">=</span>
                                 <span class="ident">parse_value</span>(<span class="ident">input</span>, <span class="kw-2">&amp;</span><span class="ident">token</span>, <span class="ident">project_replace_span</span>.<span class="ident">is_some</span>())<span class="question-mark">?</span>;
@@ -1517,12 +1517,12 @@
                             <span class="ident">project_replace_span</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">token</span>.<span class="ident">span</span>());
                         }
                     }
-                    <span class="string">&quot;Replace&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="string">&quot;Replace&quot;</span> <span class="op">=&gt;</span> {
                         <span class="kw">if</span> <span class="ident">replace</span>.<span class="ident">replace</span>(<span class="ident">token</span>.<span class="ident">span</span>()).<span class="ident">is_some</span>() {
                             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">token</span>, <span class="string">&quot;duplicate `Replace` argument&quot;</span>));
                         }
                     }
-                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">token</span>, <span class="string">&quot;unexpected argument: {}&quot;</span>, <span class="ident">token</span>)),
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">token</span>, <span class="string">&quot;unexpected argument: {}&quot;</span>, <span class="ident">token</span>)),
                 }
             }
 
@@ -1532,8 +1532,8 @@
             <span class="kw">let</span> <span class="kw">_</span>: <span class="macro">Token</span><span class="macro">!</span>[,] <span class="op">=</span> <span class="ident">input</span>.<span class="ident">parse</span>()<span class="question-mark">?</span>;
         }
 
-        <span class="kw">if</span> <span class="ident">project</span>.<span class="ident">is_some</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">project_ref</span>.<span class="ident">is_some</span>() {
-            <span class="kw">if</span> <span class="ident">project</span> <span class="op">=</span><span class="op">=</span> <span class="ident">project_ref</span> {
+        <span class="kw">if</span> <span class="ident">project</span>.<span class="ident">is_some</span>() <span class="op">||</span> <span class="ident">project_ref</span>.<span class="ident">is_some</span>() {
+            <span class="kw">if</span> <span class="ident">project</span> <span class="op">==</span> <span class="ident">project_ref</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(
                     <span class="ident">project_ref</span>,
                     <span class="string">&quot;name `{}` is already specified by `project` argument&quot;</span>,
@@ -1541,12 +1541,12 @@
                 ));
             }
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">ident</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">project_replace_value</span> {
-                <span class="kw">if</span> <span class="ident">project</span> <span class="op">=</span><span class="op">=</span> <span class="ident">project_replace_value</span> {
+                <span class="kw">if</span> <span class="ident">project</span> <span class="op">==</span> <span class="ident">project_replace_value</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(
                         <span class="ident">ident</span>,
                         <span class="string">&quot;name `{}` is already specified by `project` argument&quot;</span>, <span class="ident">ident</span>
                     ));
-                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">project_ref</span> <span class="op">=</span><span class="op">=</span> <span class="ident">project_replace_value</span> {
+                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">project_ref</span> <span class="op">==</span> <span class="ident">project_replace_value</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(
                         <span class="ident">ident</span>,
                         <span class="string">&quot;name `{}` is already specified by `project_ref` argument&quot;</span>, <span class="ident">ident</span>
@@ -1569,17 +1569,17 @@
             }
         }
         <span class="kw">let</span> <span class="ident">project_replace</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">project_replace_span</span>, <span class="ident">project_replace_value</span>, <span class="ident">replace</span>) {
-            (<span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ProjReplace</span>::<span class="prelude-val">None</span>,
+            (<span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="ident">ProjReplace</span>::<span class="prelude-val">None</span>,
             <span class="comment">// If both `project_replace` and `Replace` are specified,</span>
             <span class="comment">// We always prefer `project_replace`&#39;s span,</span>
-            (<span class="prelude-val">Some</span>(<span class="ident">span</span>), <span class="prelude-val">Some</span>(<span class="ident">ident</span>), <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ProjReplace</span>::<span class="ident">Named</span> { <span class="ident">ident</span>, <span class="ident">span</span> },
-            (<span class="prelude-val">Some</span>(<span class="ident">span</span>), ..) <span class="op">|</span> (<span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="ident">span</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ProjReplace</span>::<span class="ident">Unnamed</span> { <span class="ident">span</span> },
+            (<span class="prelude-val">Some</span>(<span class="ident">span</span>), <span class="prelude-val">Some</span>(<span class="ident">ident</span>), <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">ProjReplace</span>::<span class="ident">Named</span> { <span class="ident">ident</span>, <span class="ident">span</span> },
+            (<span class="prelude-val">Some</span>(<span class="ident">span</span>), ..) <span class="op">|</span> (<span class="prelude-val">None</span>, <span class="kw">_</span>, <span class="prelude-val">Some</span>(<span class="ident">span</span>)) <span class="op">=&gt;</span> <span class="ident">ProjReplace</span>::<span class="ident">Unnamed</span> { <span class="ident">span</span> },
         };
         <span class="kw">let</span> <span class="ident">unpin_impl</span> <span class="op">=</span> <span class="kw">match</span> (<span class="ident">unsafe_unpin</span>, <span class="ident">not_unpin</span>) {
-            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">UnpinImpl</span>::<span class="ident">Default</span>,
-            (<span class="prelude-val">Some</span>(<span class="ident">span</span>), <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">UnpinImpl</span>::<span class="ident">Unsafe</span>(<span class="ident">span</span>),
-            (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">span</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">UnpinImpl</span>::<span class="ident">Negative</span>(<span class="ident">span</span>),
-            (<span class="prelude-val">Some</span>(<span class="ident">span</span>), <span class="prelude-val">Some</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="ident">UnpinImpl</span>::<span class="ident">Default</span>,
+            (<span class="prelude-val">Some</span>(<span class="ident">span</span>), <span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="ident">UnpinImpl</span>::<span class="ident">Unsafe</span>(<span class="ident">span</span>),
+            (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">span</span>)) <span class="op">=&gt;</span> <span class="ident">UnpinImpl</span>::<span class="ident">Negative</span>(<span class="ident">span</span>),
+            (<span class="prelude-val">Some</span>(<span class="ident">span</span>), <span class="prelude-val">Some</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
                     <span class="ident">span</span>,
                     <span class="string">&quot;arguments `UnsafeUnpin` and `!Unpin` are mutually exclusive&quot;</span>,
@@ -1674,7 +1674,7 @@
         <span class="ident">vis</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Visibility</span>,
         <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Ident</span>,
         <span class="ident">generics</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Generics</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">Args</span> { <span class="ident">pinned_drop</span>, <span class="ident">unpin_impl</span>, <span class="ident">project</span>, <span class="ident">project_ref</span>, <span class="ident">project_replace</span> } <span class="op">=</span>
             <span class="ident">Args</span>::<span class="ident">get</span>(<span class="ident">attrs</span>)<span class="question-mark">?</span>;
 
@@ -1695,7 +1695,7 @@
         <span class="ident">where_clause</span>.<span class="ident">predicates</span>.<span class="ident">push</span>(<span class="ident">pred</span>);
 
         <span class="kw">let</span> <span class="ident">own_ident</span> <span class="op">=</span>
-            <span class="ident">project_replace</span>.<span class="ident">ident</span>().<span class="ident">cloned</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">ProjKind</span>::<span class="ident">Owned</span>.<span class="ident">proj_ident</span>(<span class="ident">ident</span>));
+            <span class="ident">project_replace</span>.<span class="ident">ident</span>().<span class="ident">cloned</span>().<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">ProjKind</span>::<span class="ident">Owned</span>.<span class="ident">proj_ident</span>(<span class="ident">ident</span>));
 
         <span class="prelude-val">Ok</span>(<span class="self">Self</span> {
             <span class="ident">pinned_drop</span>,
@@ -1705,8 +1705,8 @@
             <span class="ident">project_replace</span>,
             <span class="ident">proj</span>: <span class="ident">ProjectedType</span> {
                 <span class="ident">vis</span>: <span class="ident">determine_visibility</span>(<span class="ident">vis</span>),
-                <span class="ident">mut_ident</span>: <span class="ident">project</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">ProjKind</span>::<span class="ident">Mutable</span>.<span class="ident">proj_ident</span>(<span class="ident">ident</span>)),
-                <span class="ident">ref_ident</span>: <span class="ident">project_ref</span>.<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">ProjKind</span>::<span class="ident">Immutable</span>.<span class="ident">proj_ident</span>(<span class="ident">ident</span>)),
+                <span class="ident">mut_ident</span>: <span class="ident">project</span>.<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">ProjKind</span>::<span class="ident">Mutable</span>.<span class="ident">proj_ident</span>(<span class="ident">ident</span>)),
+                <span class="ident">ref_ident</span>: <span class="ident">project_ref</span>.<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="ident">ProjKind</span>::<span class="ident">Immutable</span>.<span class="ident">proj_ident</span>(<span class="ident">ident</span>)),
                 <span class="ident">own_ident</span>,
                 <span class="ident">lifetime</span>,
                 <span class="ident">generics</span>: <span class="ident">proj_generics</span>,
@@ -1718,7 +1718,7 @@
     }
 
     <span class="doccomment">/// Returns attributes used on projected types.</span>
-    <span class="kw">fn</span> <span class="ident">proj_attrs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">TokenStream</span>, <span class="ident">TokenStream</span>, <span class="ident">TokenStream</span>) {
+    <span class="kw">fn</span> <span class="ident">proj_attrs</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">TokenStream</span>, <span class="ident">TokenStream</span>, <span class="ident">TokenStream</span>) {
         <span class="comment">// If the user gave it a name, it should appear in the document.</span>
         <span class="kw">let</span> <span class="ident">doc_attr</span> <span class="op">=</span> <span class="macro">quote</span><span class="macro">!</span>(<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>);
         <span class="kw">let</span> <span class="ident">doc_proj</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">project</span> { <span class="prelude-val">None</span> } <span class="kw">else</span> { <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">doc_attr</span>) };
@@ -1751,7 +1751,7 @@
     <span class="kw">fn</span> <span class="ident">parse_struct</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">DataStruct</span> { <span class="ident">fields</span>, .. }: <span class="kw-2">&amp;</span><span class="ident">DataStruct</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">TokenStream</span>, <span class="ident">TokenStream</span>)<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">TokenStream</span>, <span class="ident">TokenStream</span>)<span class="op">&gt;</span> {
         <span class="ident">validate_struct</span>(<span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">ident</span>, <span class="ident">fields</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">ProjectedFields</span> {
@@ -1762,9 +1762,9 @@
             <span class="ident">proj_own_fields</span>,
             <span class="ident">proj_own_body</span>,
         } <span class="op">=</span> <span class="kw">match</span> <span class="ident">fields</span> {
-            <span class="ident">Fields</span>::<span class="ident">Named</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_fields</span>(<span class="prelude-val">None</span>, <span class="ident">fields</span>, <span class="ident">Delimiter</span>::<span class="ident">Brace</span>)<span class="question-mark">?</span>,
-            <span class="ident">Fields</span>::<span class="ident">Unnamed</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_fields</span>(<span class="prelude-val">None</span>, <span class="ident">fields</span>, <span class="ident">Delimiter</span>::<span class="ident">Parenthesis</span>)<span class="question-mark">?</span>,
-            <span class="ident">Fields</span>::<span class="ident">Unit</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="ident">Fields</span>::<span class="ident">Named</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">visit_fields</span>(<span class="prelude-val">None</span>, <span class="ident">fields</span>, <span class="ident">Delimiter</span>::<span class="ident">Brace</span>)<span class="question-mark">?</span>,
+            <span class="ident">Fields</span>::<span class="ident">Unnamed</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">visit_fields</span>(<span class="prelude-val">None</span>, <span class="ident">fields</span>, <span class="ident">Delimiter</span>::<span class="ident">Parenthesis</span>)<span class="question-mark">?</span>,
+            <span class="ident">Fields</span>::<span class="ident">Unit</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         };
 
         <span class="kw">let</span> <span class="ident">proj_ident</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">proj</span>.<span class="ident">mut_ident</span>;
@@ -1779,17 +1779,17 @@
         <span class="comment">// For tuple structs, we need to generate `(T1, T2) where Foo: Bar`</span>
         <span class="comment">// For non-tuple structs, we need to generate `where Foo: Bar { field1: T }`</span>
         <span class="kw">let</span> (<span class="ident">where_clause_fields</span>, <span class="ident">where_clause_ref_fields</span>, <span class="ident">where_clause_own_fields</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">fields</span> {
-            <span class="ident">Fields</span>::<span class="ident">Named</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (
+            <span class="ident">Fields</span>::<span class="ident">Named</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (
                 <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">proj_where_clause</span> #<span class="ident">proj_fields</span>),
                 <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">proj_where_clause</span> #<span class="ident">proj_ref_fields</span>),
                 <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">orig_where_clause</span> #<span class="ident">proj_own_fields</span>),
             ),
-            <span class="ident">Fields</span>::<span class="ident">Unnamed</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (
+            <span class="ident">Fields</span>::<span class="ident">Unnamed</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (
                 <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">proj_fields</span> #<span class="ident">proj_where_clause</span>;),
                 <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">proj_ref_fields</span> #<span class="ident">proj_where_clause</span>;),
                 <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">proj_own_fields</span> #<span class="ident">orig_where_clause</span>;),
             ),
-            <span class="ident">Fields</span>::<span class="ident">Unit</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="ident">Fields</span>::<span class="ident">Unit</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         };
 
         <span class="kw">let</span> (<span class="ident">proj_attrs</span>, <span class="ident">proj_ref_attrs</span>, <span class="ident">proj_own_attrs</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">proj_attrs</span>();
@@ -1827,7 +1827,7 @@
     <span class="kw">fn</span> <span class="ident">parse_enum</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">DataEnum</span> { <span class="ident">brace_token</span>, <span class="ident">variants</span>, .. }: <span class="kw-2">&amp;</span><span class="ident">DataEnum</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">TokenStream</span>, <span class="ident">TokenStream</span>)<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">TokenStream</span>, <span class="ident">TokenStream</span>)<span class="op">&gt;</span> {
         <span class="ident">validate_enum</span>(<span class="kw-2">*</span><span class="ident">brace_token</span>, <span class="ident">variants</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">ProjectedVariants</span> {
@@ -1889,7 +1889,7 @@
         <span class="prelude-val">Ok</span>((<span class="ident">proj_items</span>, <span class="ident">proj_impl</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_variants</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">variants</span>: <span class="kw-2">&amp;</span><span class="ident">Variants</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ProjectedVariants</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">visit_variants</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">variants</span>: <span class="kw-2">&amp;</span><span class="ident">Variants</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ProjectedVariants</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_variants</span> <span class="op">=</span> <span class="ident">TokenStream</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_ref_variants</span> <span class="op">=</span> <span class="ident">TokenStream</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_own_variants</span> <span class="op">=</span> <span class="ident">TokenStream</span>::<span class="ident">new</span>();
@@ -1906,11 +1906,11 @@
                 <span class="ident">proj_own_fields</span>,
                 <span class="ident">proj_own_body</span>,
             } <span class="op">=</span> <span class="kw">match</span> <span class="ident">fields</span> {
-                <span class="ident">Fields</span>::<span class="ident">Named</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">visit_fields</span>(<span class="prelude-val">Some</span>(<span class="ident">ident</span>), <span class="ident">fields</span>, <span class="ident">Delimiter</span>::<span class="ident">Brace</span>)<span class="question-mark">?</span>,
-                <span class="ident">Fields</span>::<span class="ident">Unnamed</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Fields</span>::<span class="ident">Named</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">visit_fields</span>(<span class="prelude-val">Some</span>(<span class="ident">ident</span>), <span class="ident">fields</span>, <span class="ident">Delimiter</span>::<span class="ident">Brace</span>)<span class="question-mark">?</span>,
+                <span class="ident">Fields</span>::<span class="ident">Unnamed</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                     <span class="self">self</span>.<span class="ident">visit_fields</span>(<span class="prelude-val">Some</span>(<span class="ident">ident</span>), <span class="ident">fields</span>, <span class="ident">Delimiter</span>::<span class="ident">Parenthesis</span>)<span class="question-mark">?</span>
                 }
-                <span class="ident">Fields</span>::<span class="ident">Unit</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ProjectedFields</span> {
+                <span class="ident">Fields</span>::<span class="ident">Unit</span> <span class="op">=&gt;</span> <span class="ident">ProjectedFields</span> {
                     <span class="ident">proj_own_body</span>: <span class="self">self</span>.<span class="ident">proj_own_body</span>(<span class="prelude-val">Some</span>(<span class="ident">ident</span>), <span class="prelude-val">None</span>, <span class="kw-2">&amp;</span>[]),
                     ..<span class="ident">ProjectedFields</span>::<span class="ident">default</span>()
                 },
@@ -1929,17 +1929,17 @@
                 #<span class="ident">ident</span> #<span class="ident">proj_own_fields</span>,
             });
             <span class="ident">proj_arms</span>.<span class="ident">extend</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                #<span class="ident">orig_ident</span>::#<span class="ident">ident</span> #<span class="ident">proj_pat</span> <span class="op">=</span><span class="op">&gt;</span> {
+                #<span class="ident">orig_ident</span>::#<span class="ident">ident</span> #<span class="ident">proj_pat</span> <span class="op">=&gt;</span> {
                     #<span class="ident">proj_ident</span>::#<span class="ident">ident</span> #<span class="ident">proj_body</span>
                 }
             });
             <span class="ident">proj_ref_arms</span>.<span class="ident">extend</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                #<span class="ident">orig_ident</span>::#<span class="ident">ident</span> #<span class="ident">proj_pat</span> <span class="op">=</span><span class="op">&gt;</span> {
+                #<span class="ident">orig_ident</span>::#<span class="ident">ident</span> #<span class="ident">proj_pat</span> <span class="op">=&gt;</span> {
                     #<span class="ident">proj_ref_ident</span>::#<span class="ident">ident</span> #<span class="ident">proj_body</span>
                 }
             });
             <span class="ident">proj_own_arms</span>.<span class="ident">extend</span>(<span class="macro">quote</span><span class="macro">!</span> {
-                #<span class="ident">orig_ident</span>::#<span class="ident">ident</span> #<span class="ident">proj_pat</span> <span class="op">=</span><span class="op">&gt;</span> {
+                #<span class="ident">orig_ident</span>::#<span class="ident">ident</span> #<span class="ident">proj_pat</span> <span class="op">=&gt;</span> {
                     #<span class="ident">proj_own_body</span>
                 }
             });
@@ -1960,7 +1960,7 @@
         <span class="ident">variant_ident</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Ident</span><span class="op">&gt;</span>,
         <span class="ident">fields</span>: <span class="kw-2">&amp;</span><span class="ident">Fields</span>,
         <span class="ident">delim</span>: <span class="ident">Delimiter</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ProjectedFields</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ProjectedFields</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_pat</span> <span class="op">=</span> <span class="ident">TokenStream</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_body</span> <span class="op">=</span> <span class="ident">TokenStream</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_fields</span> <span class="op">=</span> <span class="ident">TokenStream</span>::<span class="ident">new</span>();
@@ -1970,7 +1970,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pinned_bindings</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">fields</span>.<span class="ident">len</span>());
 
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">Field</span> { <span class="ident">attrs</span>, <span class="ident">vis</span>, <span class="ident">ident</span>, <span class="ident">colon_token</span>, <span class="ident">ty</span>, .. }) <span class="kw">in</span> <span class="ident">fields</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-            <span class="kw">let</span> <span class="ident">binding</span> <span class="op">=</span> <span class="ident">ident</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;_{}&quot;</span>, <span class="ident">i</span>));
+            <span class="kw">let</span> <span class="ident">binding</span> <span class="op">=</span> <span class="ident">ident</span>.<span class="ident">clone</span>().<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;_{}&quot;</span>, <span class="ident">i</span>));
             <span class="ident">proj_pat</span>.<span class="ident">extend</span>(<span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">binding</span>,));
             <span class="kw">if</span> <span class="ident">attrs</span>.<span class="ident">position_exact</span>(<span class="ident">PIN</span>)<span class="question-mark">?</span>.<span class="ident">is_some</span>() {
                 <span class="kw">let</span> <span class="ident">lifetime</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">proj</span>.<span class="ident">lifetime</span>;
@@ -2012,7 +2012,7 @@
             }
         }
 
-        <span class="kw">fn</span> <span class="ident">surround</span>(<span class="ident">delim</span>: <span class="ident">Delimiter</span>, <span class="ident">tokens</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+        <span class="kw">fn</span> <span class="ident">surround</span>(<span class="ident">delim</span>: <span class="ident">Delimiter</span>, <span class="ident">tokens</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
             <span class="ident">Group</span>::<span class="ident">new</span>(<span class="ident">delim</span>, <span class="ident">tokens</span>).<span class="ident">into_token_stream</span>()
         }
 
@@ -2041,11 +2041,11 @@
         <span class="ident">variant_ident</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Ident</span><span class="op">&gt;</span>,
         <span class="ident">proj_move</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Group</span><span class="op">&gt;</span>,
         <span class="ident">pinned_fields</span>: <span class="kw-2">&amp;</span>[<span class="ident">Ident</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
         <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">proj</span>.<span class="ident">own_ident</span>;
         <span class="kw">let</span> <span class="ident">proj_own</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">variant_ident</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">variant_ident</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">ident</span>::#<span class="ident">variant_ident</span>),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">ident</span>),
+            <span class="prelude-val">Some</span>(<span class="ident">variant_ident</span>) <span class="op">=&gt;</span> <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">ident</span>::#<span class="ident">variant_ident</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">ident</span>),
         };
 
         <span class="macro">quote</span><span class="macro">!</span> {
@@ -2076,29 +2076,29 @@
     }
 
     <span class="doccomment">/// Creates `Unpin` implementation for original type.</span>
-    <span class="kw">fn</span> <span class="ident">make_unpin_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+    <span class="kw">fn</span> <span class="ident">make_unpin_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">unpin_impl</span> {
-            <span class="ident">UnpinImpl</span>::<span class="ident">Unsafe</span>(<span class="ident">span</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">UnpinImpl</span>::<span class="ident">Unsafe</span>(<span class="ident">span</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_generics</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">proj</span>.<span class="ident">generics</span>.<span class="ident">clone</span>();
                 <span class="kw">let</span> <span class="ident">orig_ident</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">ident</span>;
                 <span class="kw">let</span> <span class="ident">lifetime</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">proj</span>.<span class="ident">lifetime</span>;
 
                 <span class="comment">// Make the error message highlight `UnsafeUnpin` argument.</span>
-                <span class="ident">proj_generics</span>.<span class="ident">make_where_clause</span>().<span class="ident">predicates</span>.<span class="ident">push</span>(<span class="macro">parse_quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=</span><span class="op">&gt;</span>
+                <span class="ident">proj_generics</span>.<span class="ident">make_where_clause</span>().<span class="ident">predicates</span>.<span class="ident">push</span>(<span class="macro">parse_quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=&gt;</span>
                     ::<span class="ident">pin_project</span>::<span class="ident">__private</span>::<span class="ident">Wrapper</span><span class="op">&lt;</span>#<span class="ident">lifetime</span>, <span class="self">Self</span><span class="op">&gt;</span>: ::<span class="ident">pin_project</span>::<span class="ident">UnsafeUnpin</span>
                 });
 
                 <span class="kw">let</span> (<span class="ident">impl_generics</span>, <span class="kw">_</span>, <span class="ident">where_clause</span>) <span class="op">=</span> <span class="ident">proj_generics</span>.<span class="ident">split_for_impl</span>();
                 <span class="kw">let</span> <span class="ident">ty_generics</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">generics</span>.<span class="ident">split_for_impl</span>().<span class="number">1</span>;
 
-                <span class="macro">quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=</span><span class="op">&gt;</span>
+                <span class="macro">quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=&gt;</span>
                     <span class="kw">impl</span> #<span class="ident">impl_generics</span> ::<span class="ident">pin_project</span>::<span class="ident">__private</span>::<span class="ident">Unpin</span> <span class="kw">for</span> #<span class="ident">orig_ident</span> #<span class="ident">ty_generics</span>
                     #<span class="ident">where_clause</span>
                     {
                     }
                 }
             }
-            <span class="ident">UnpinImpl</span>::<span class="ident">Negative</span>(<span class="ident">span</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">UnpinImpl</span>::<span class="ident">Negative</span>(<span class="ident">span</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">proj_generics</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">proj</span>.<span class="ident">generics</span>.<span class="ident">clone</span>();
                 <span class="kw">let</span> <span class="ident">orig_ident</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">ident</span>;
                 <span class="kw">let</span> <span class="ident">lifetime</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">proj</span>.<span class="ident">lifetime</span>;
@@ -2116,7 +2116,7 @@
                 <span class="comment">// For interoperability with `forbid(unsafe_code)`, `unsafe` token should be</span>
                 <span class="comment">// call-site span.</span>
                 <span class="kw">let</span> <span class="ident">unsafety</span> <span class="op">=</span> <span class="op">&lt;</span><span class="macro">Token</span><span class="macro">!</span>[<span class="kw">unsafe</span>]<span class="op">&gt;</span>::<span class="ident">default</span>();
-                <span class="macro">quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=</span><span class="op">&gt;</span>
+                <span class="macro">quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=&gt;</span>
                     <span class="kw">impl</span> #<span class="ident">proj_impl_generics</span> ::<span class="ident">pin_project</span>::<span class="ident">__private</span>::<span class="ident">Unpin</span>
                         <span class="kw">for</span> #<span class="ident">orig_ident</span> #<span class="ident">ty_generics</span>
                     #<span class="ident">proj_where_clause</span>
@@ -2136,7 +2136,7 @@
                     }
                 }
             }
-            <span class="ident">UnpinImpl</span>::<span class="ident">Default</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">UnpinImpl</span>::<span class="ident">Default</span> <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">full_where_clause</span> <span class="op">=</span>
                     <span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">generics</span>.<span class="ident">where_clause</span>.<span class="ident">as_ref</span>().<span class="ident">cloned</span>().<span class="ident">unwrap</span>();
 
@@ -2232,7 +2232,7 @@
     }
 
     <span class="doccomment">/// Creates `Drop` implementation for original type.</span>
-    <span class="kw">fn</span> <span class="ident">make_drop_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+    <span class="kw">fn</span> <span class="ident">make_drop_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
         <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">ident</span>;
         <span class="kw">let</span> (<span class="ident">impl_generics</span>, <span class="ident">ty_generics</span>, <span class="ident">where_clause</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">generics</span>.<span class="ident">split_for_impl</span>();
 
@@ -2240,7 +2240,7 @@
             <span class="comment">// For interoperability with `forbid(unsafe_code)`, `unsafe` token should be</span>
             <span class="comment">// call-site span.</span>
             <span class="kw">let</span> <span class="ident">unsafety</span> <span class="op">=</span> <span class="op">&lt;</span><span class="macro">Token</span><span class="macro">!</span>[<span class="kw">unsafe</span>]<span class="op">&gt;</span>::<span class="ident">default</span>();
-            <span class="macro">quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=</span><span class="op">&gt;</span>
+            <span class="macro">quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=&gt;</span>
                 <span class="kw">impl</span> #<span class="ident">impl_generics</span> ::<span class="ident">pin_project</span>::<span class="ident">__private</span>::<span class="ident">Drop</span> <span class="kw">for</span> #<span class="ident">ident</span> #<span class="ident">ty_generics</span>
                 #<span class="ident">where_clause</span>
                 {
@@ -2314,7 +2314,7 @@
         <span class="ident">proj_body</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
         <span class="ident">proj_ref_body</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
         <span class="ident">proj_own_body</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
         <span class="kw">let</span> <span class="ident">vis</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">proj</span>.<span class="ident">vis</span>;
         <span class="kw">let</span> <span class="ident">lifetime</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">proj</span>.<span class="ident">lifetime</span>;
         <span class="kw">let</span> <span class="ident">orig_ident</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">ident</span>;
@@ -2330,11 +2330,11 @@
             <span class="comment">// For interoperability with `forbid(unsafe_code)`, `unsafe` token should be</span>
             <span class="comment">// call-site span.</span>
             <span class="kw">let</span> <span class="ident">unsafety</span> <span class="op">=</span> <span class="op">&lt;</span><span class="macro">Token</span><span class="macro">!</span>[<span class="kw">unsafe</span>]<span class="op">&gt;</span>::<span class="ident">default</span>();
-            <span class="macro">quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=</span><span class="op">&gt;</span>
+            <span class="macro">quote_spanned</span><span class="macro">!</span> { <span class="ident">span</span> <span class="op">=&gt;</span>
                 #<span class="ident">vis</span> <span class="kw">fn</span> <span class="ident">project_replace</span>(
                     <span class="self">self</span>: ::<span class="ident">pin_project</span>::<span class="ident">__private</span>::<span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
                     <span class="ident">__replacement</span>: <span class="self">Self</span>,
-                ) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">proj_own_ident</span> #<span class="ident">orig_ty_generics</span> {
+                ) <span class="op">-&gt;</span> #<span class="ident">proj_own_ident</span> #<span class="ident">orig_ty_generics</span> {
                     #<span class="ident">unsafety</span> {
                         #<span class="ident">proj_own_body</span>
                     }
@@ -2346,14 +2346,14 @@
             <span class="kw">impl</span> #<span class="ident">impl_generics</span> #<span class="ident">orig_ident</span> #<span class="ident">ty_generics</span> #<span class="ident">where_clause</span> {
                 #<span class="ident">vis</span> <span class="kw">fn</span> <span class="ident">project</span><span class="op">&lt;</span>#<span class="ident">lifetime</span><span class="op">&gt;</span>(
                     <span class="self">self</span>: ::<span class="ident">pin_project</span>::<span class="ident">__private</span>::<span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>#<span class="ident">lifetime</span> <span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
-                ) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">proj_ident</span> #<span class="ident">proj_ty_generics</span> {
+                ) <span class="op">-&gt;</span> #<span class="ident">proj_ident</span> #<span class="ident">proj_ty_generics</span> {
                     <span class="kw">unsafe</span> {
                         #<span class="ident">proj_body</span>
                     }
                 }
                 #<span class="ident">vis</span> <span class="kw">fn</span> <span class="ident">project_ref</span><span class="op">&lt;</span>#<span class="ident">lifetime</span><span class="op">&gt;</span>(
                     <span class="self">self</span>: ::<span class="ident">pin_project</span>::<span class="ident">__private</span>::<span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>#<span class="ident">lifetime</span> <span class="self">Self</span><span class="op">&gt;</span>,
-                ) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">proj_ref_ident</span> #<span class="ident">proj_ty_generics</span> {
+                ) <span class="op">-&gt;</span> #<span class="ident">proj_ref_ident</span> #<span class="ident">proj_ty_generics</span> {
                     <span class="kw">unsafe</span> {
                         #<span class="ident">proj_ref_body</span>
                     }
@@ -2363,7 +2363,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">ensure_not_packed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fields</span>: <span class="kw-2">&amp;</span><span class="ident">Fields</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">ensure_not_packed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fields</span>: <span class="kw-2">&amp;</span><span class="ident">Fields</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span><span class="op">&gt;</span> {
         <span class="kw">for</span> <span class="ident">meta</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">attrs</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">attr</span><span class="op">|</span> <span class="ident">attr</span>.<span class="ident">parse_meta</span>().<span class="ident">ok</span>()) {
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Meta</span>::<span class="ident">List</span>(<span class="ident">list</span>) <span class="op">=</span> <span class="ident">meta</span> {
                 <span class="kw">if</span> <span class="ident">list</span>.<span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="string">&quot;repr&quot;</span>) {
@@ -2371,14 +2371,14 @@
                         <span class="kw">match</span> <span class="ident">repr</span> {
                             <span class="ident">NestedMeta</span>::<span class="ident">Meta</span>(<span class="ident">Meta</span>::<span class="ident">Path</span>(<span class="ident">path</span>))
                             <span class="op">|</span> <span class="ident">NestedMeta</span>::<span class="ident">Meta</span>(<span class="ident">Meta</span>::<span class="ident">List</span>(<span class="ident">MetaList</span> { <span class="ident">path</span>, .. }))
-                                <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="string">&quot;packed&quot;</span>) <span class="op">=</span><span class="op">&gt;</span>
+                                <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="string">&quot;packed&quot;</span>) <span class="op">=&gt;</span>
                             {
                                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(
                                     <span class="ident">repr</span>,
                                     <span class="string">&quot;#[pin_project] attribute may not be used on #[repr(packed)] types&quot;</span>
                                 ));
                             }
-                            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
+                            <span class="kw">_</span> <span class="op">=&gt;</span> {}
                         }
                     }
                 }
@@ -2429,18 +2429,18 @@
         <span class="comment">// See also https://github.com/taiki-e/pin-project/pull/34.</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">field_refs</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[];
         <span class="kw">match</span> <span class="ident">fields</span> {
-            <span class="ident">Fields</span>::<span class="ident">Named</span>(<span class="ident">FieldsNamed</span> { <span class="ident">named</span>, .. }) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Fields</span>::<span class="ident">Named</span>(<span class="ident">FieldsNamed</span> { <span class="ident">named</span>, .. }) <span class="op">=&gt;</span> {
                 <span class="kw">for</span> <span class="ident">Field</span> { <span class="ident">ident</span>, .. } <span class="kw">in</span> <span class="ident">named</span> {
                     <span class="ident">field_refs</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>.#<span class="ident">ident</span>;));
                 }
             }
-            <span class="ident">Fields</span>::<span class="ident">Unnamed</span>(<span class="ident">FieldsUnnamed</span> { <span class="ident">unnamed</span>, .. }) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Fields</span>::<span class="ident">Unnamed</span>(<span class="ident">FieldsUnnamed</span> { <span class="ident">unnamed</span>, .. }) <span class="op">=&gt;</span> {
                 <span class="kw">for</span> (<span class="ident">index</span>, <span class="kw">_</span>) <span class="kw">in</span> <span class="ident">unnamed</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
                     <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">Index</span>::<span class="ident">from</span>(<span class="ident">index</span>);
                     <span class="ident">field_refs</span>.<span class="ident">push</span>(<span class="macro">quote</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>.#<span class="ident">index</span>;));
                 }
             }
-            <span class="ident">Fields</span>::<span class="ident">Unit</span> <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="ident">Fields</span>::<span class="ident">Unit</span> <span class="op">=&gt;</span> {}
         }
 
         <span class="kw">let</span> (<span class="ident">impl_generics</span>, <span class="ident">ty_generics</span>, <span class="ident">where_clause</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">orig</span>.<span class="ident">generics</span>.<span class="ident">split_for_impl</span>();

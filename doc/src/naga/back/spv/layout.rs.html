@@ -89,9 +89,9 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>;
 
 <span class="kw">impl</span> <span class="ident">PhysicalLayout</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">header</span>: <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">Header</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">version</span>: <span class="ident">Word</span> <span class="op">=</span> ((<span class="ident">header</span>.<span class="ident">version</span>.<span class="number">0</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span>)
-            <span class="op">|</span> ((<span class="ident">header</span>.<span class="ident">version</span>.<span class="number">1</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">8</span>)
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">header</span>: <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">Header</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="kw">let</span> <span class="ident">version</span>: <span class="ident">Word</span> <span class="op">=</span> ((<span class="ident">header</span>.<span class="ident">version</span>.<span class="number">0</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;&lt;</span> <span class="number">16</span>)
+            <span class="op">|</span> ((<span class="ident">header</span>.<span class="ident">version</span>.<span class="number">1</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&lt;&lt;</span> <span class="number">8</span>)
             <span class="op">|</span> <span class="ident">header</span>.<span class="ident">version</span>.<span class="number">2</span> <span class="kw">as</span> <span class="ident">u32</span>;
 
         <span class="ident">PhysicalLayout</span> {
@@ -129,7 +129,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Instruction</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">op</span>: <span class="ident">Op</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">op</span>: <span class="ident">Op</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Instruction</span> {
             <span class="ident">op</span>,
             <span class="ident">wc</span>: <span class="number">1</span>, <span class="comment">// Always start at 1 for the first word (OP + WC),</span>
@@ -142,18 +142,18 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_type</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Word</span>) {
         <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">type_id</span>.<span class="ident">is_none</span>(), <span class="string">&quot;Type can only be set once&quot;</span>);
         <span class="self">self</span>.<span class="ident">type_id</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">id</span>);
-        <span class="self">self</span>.<span class="ident">wc</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="self">self</span>.<span class="ident">wc</span> <span class="op">+=</span> <span class="number">1</span>;
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">set_result</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Word</span>) {
         <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">result_id</span>.<span class="ident">is_none</span>(), <span class="string">&quot;Result can only be set once&quot;</span>);
         <span class="self">self</span>.<span class="ident">result_id</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">id</span>);
-        <span class="self">self</span>.<span class="ident">wc</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="self">self</span>.<span class="ident">wc</span> <span class="op">+=</span> <span class="number">1</span>;
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">add_operand</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">operand</span>: <span class="ident">Word</span>) {
         <span class="self">self</span>.<span class="ident">operands</span>.<span class="ident">push</span>(<span class="ident">operand</span>);
-        <span class="self">self</span>.<span class="ident">wc</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="self">self</span>.<span class="ident">wc</span> <span class="op">+=</span> <span class="number">1</span>;
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">add_operands</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">operands</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Word</span><span class="op">&gt;</span>) {
@@ -163,7 +163,7 @@
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">to_words</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">sink</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">impl</span> <span class="ident">Extend</span><span class="op">&lt;</span><span class="ident">Word</span><span class="op">&gt;</span>) {
-        <span class="ident">sink</span>.<span class="ident">extend</span>(<span class="prelude-val">Some</span>((<span class="self">self</span>.<span class="ident">wc</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">16</span> <span class="op">|</span> <span class="self">self</span>.<span class="ident">op</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="kw">as</span> <span class="ident">u32</span>));
+        <span class="ident">sink</span>.<span class="ident">extend</span>(<span class="prelude-val">Some</span>((<span class="self">self</span>.<span class="ident">wc</span> <span class="op">&lt;&lt;</span> <span class="number">16</span> <span class="op">|</span> <span class="self">self</span>.<span class="ident">op</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="kw">as</span> <span class="ident">u32</span>));
         <span class="ident">sink</span>.<span class="ident">extend</span>(<span class="self">self</span>.<span class="ident">type_id</span>);
         <span class="ident">sink</span>.<span class="ident">extend</span>(<span class="self">self</span>.<span class="ident">result_id</span>);
         <span class="ident">sink</span>.<span class="ident">extend</span>(<span class="self">self</span>.<span class="ident">operands</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>());

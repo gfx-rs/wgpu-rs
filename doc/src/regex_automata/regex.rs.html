@@ -827,7 +827,7 @@
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="ident">DFA</span> <span class="op">=</span> <span class="ident">DenseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="ident">DFA</span> <span class="op">=</span> <span class="ident">DenseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">usize</span><span class="op">&gt;&gt;</span> {
     <span class="ident">forward</span>: <span class="ident">D</span>,
     <span class="ident">reverse</span>: <span class="ident">D</span>,
 }
@@ -906,13 +906,13 @@
     <span class="doccomment">/// assert_eq!(Some((3, 14)), re.find(b&quot;zzzfoo12345barzzz&quot;));</span>
     <span class="doccomment">/// # Ok(()) }; example().unwrap()</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">pattern</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">pattern</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&gt;</span> {
         <span class="ident">RegexBuilder</span>::<span class="ident">new</span>().<span class="ident">build</span>(<span class="ident">pattern</span>)
     }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
-<span class="kw">impl</span> <span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">SparseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">impl</span> <span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">SparseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">usize</span><span class="op">&gt;&gt;</span> {
     <span class="doccomment">/// Parse the given regular expression using a default configuration and</span>
     <span class="doccomment">/// return the corresponding regex using sparse DFAs.</span>
     <span class="doccomment">///</span>
@@ -936,7 +936,7 @@
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_sparse</span>(
         <span class="ident">pattern</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">SparseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">SparseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">usize</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span> {
         <span class="ident">RegexBuilder</span>::<span class="ident">new</span>().<span class="ident">build_sparse</span>(<span class="ident">pattern</span>)
     }
 }
@@ -960,7 +960,7 @@
     <span class="doccomment">/// assert_eq!(false, re.is_match(b&quot;foobar&quot;));</span>
     <span class="doccomment">/// # Ok(()) }; example().unwrap()</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">is_match_at</span>(<span class="ident">input</span>, <span class="number">0</span>)
     }
 
@@ -986,7 +986,7 @@
     <span class="doccomment">/// assert_eq!(Some(1), re.shortest_match(b&quot;abc&quot;));</span>
     <span class="doccomment">/// # Ok(()) }; example().unwrap()</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shortest_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shortest_match</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">shortest_match_at</span>(<span class="ident">input</span>, <span class="number">0</span>)
     }
 
@@ -1021,7 +1021,7 @@
     <span class="doccomment">/// assert_eq!(Some((0, 3)), re.find(b&quot;abc&quot;));</span>
     <span class="doccomment">/// # Ok(()) }; example().unwrap()</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">find_at</span>(<span class="ident">input</span>, <span class="number">0</span>)
     }
 
@@ -1031,7 +1031,7 @@
     <span class="doccomment">/// The significance of the starting point is that it takes the surrounding</span>
     <span class="doccomment">/// context into consideration. For example, if the DFA is anchored, then</span>
     <span class="doccomment">/// a match can only occur when `start == 0`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_match_at</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">start</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_match_at</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">start</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">forward</span>().<span class="ident">is_match_at</span>(<span class="ident">input</span>, <span class="ident">start</span>)
     }
 
@@ -1045,7 +1045,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
         <span class="ident">start</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">forward</span>().<span class="ident">shortest_match_at</span>(<span class="ident">input</span>, <span class="ident">start</span>)
     }
 
@@ -1059,10 +1059,10 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
         <span class="ident">start</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">forward</span>().<span class="ident">find_at</span>(<span class="ident">input</span>, <span class="ident">start</span>) {
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>(<span class="ident">end</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">end</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">end</span>) <span class="op">=&gt;</span> <span class="ident">end</span>,
         };
         <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">reverse</span>()
@@ -1095,7 +1095,7 @@
     <span class="doccomment">/// assert_eq!(matches, vec![(0, 4), (5, 10), (11, 17)]);</span>
     <span class="doccomment">/// # Ok(()) }; example().unwrap()</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find_iter</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Matches</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>, <span class="ident">D</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">find_iter</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;r</span> <span class="self">self</span>, <span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">Matches</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>, <span class="ident">D</span><span class="op">&gt;</span> {
         <span class="ident">Matches</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">input</span>)
     }
 
@@ -1157,17 +1157,17 @@
     <span class="doccomment">/// assert_eq!(true, re.is_match(b&quot;foo123&quot;));</span>
     <span class="doccomment">/// # Ok(()) }; example().unwrap()</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_dfas</span>(<span class="ident">forward</span>: <span class="ident">D</span>, <span class="ident">reverse</span>: <span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_dfas</span>(<span class="ident">forward</span>: <span class="ident">D</span>, <span class="ident">reverse</span>: <span class="ident">D</span>) <span class="op">-&gt;</span> <span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
         <span class="ident">Regex</span> { <span class="ident">forward</span>, <span class="ident">reverse</span> }
     }
 
     <span class="doccomment">/// Return the underlying DFA responsible for forward matching.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">forward</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">D</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">forward</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">D</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">forward</span>
     }
 
     <span class="doccomment">/// Return the underlying DFA responsible for reverse matching.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reverse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">D</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">reverse</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">D</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">reverse</span>
     }
 }
@@ -1192,7 +1192,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>, <span class="ident">D</span>: <span class="ident">DFA</span><span class="op">&gt;</span> <span class="ident">Matches</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>, <span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">re</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r</span> <span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> [<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Matches</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>, <span class="ident">D</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">re</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;r</span> <span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>, <span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;t</span> [<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="ident">Matches</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>, <span class="ident">D</span><span class="op">&gt;</span> {
         <span class="ident">Matches</span> { <span class="ident">re</span>, <span class="ident">text</span>, <span class="ident">last_end</span>: <span class="number">0</span>, <span class="ident">last_match</span>: <span class="prelude-val">None</span> }
     }
 }
@@ -1200,22 +1200,22 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>, <span class="ident">D</span>: <span class="ident">DFA</span><span class="op">&gt;</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">Matches</span><span class="op">&lt;</span><span class="lifetime">&#39;r</span>, <span class="lifetime">&#39;t</span>, <span class="ident">D</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> (<span class="ident">usize</span>, <span class="ident">usize</span>);
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">last_end</span> <span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">text</span>.<span class="ident">len</span>() {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
         <span class="kw">let</span> (<span class="ident">s</span>, <span class="ident">e</span>) <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">re</span>.<span class="ident">find_at</span>(<span class="self">self</span>.<span class="ident">text</span>, <span class="self">self</span>.<span class="ident">last_end</span>) {
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
-            <span class="prelude-val">Some</span>((<span class="ident">s</span>, <span class="ident">e</span>)) <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">s</span>, <span class="ident">e</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>((<span class="ident">s</span>, <span class="ident">e</span>)) <span class="op">=&gt;</span> (<span class="ident">s</span>, <span class="ident">e</span>),
         };
-        <span class="kw">if</span> <span class="ident">s</span> <span class="op">=</span><span class="op">=</span> <span class="ident">e</span> {
+        <span class="kw">if</span> <span class="ident">s</span> <span class="op">==</span> <span class="ident">e</span> {
             <span class="comment">// This is an empty match. To ensure we make progress, start</span>
             <span class="comment">// the next search at the smallest possible starting position</span>
             <span class="comment">// of the next match following this one.</span>
             <span class="self">self</span>.<span class="ident">last_end</span> <span class="op">=</span> <span class="ident">e</span> <span class="op">+</span> <span class="number">1</span>;
             <span class="comment">// Don&#39;t accept empty matches immediately following a match.</span>
             <span class="comment">// Just move on to the next match.</span>
-            <span class="kw">if</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">last_match</span> {
+            <span class="kw">if</span> <span class="prelude-val">Some</span>(<span class="ident">e</span>) <span class="op">==</span> <span class="self">self</span>.<span class="ident">last_match</span> {
                 <span class="kw">return</span> <span class="self">self</span>.<span class="ident">next</span>();
             }
         } <span class="kw">else</span> {
@@ -1248,7 +1248,7 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
 <span class="kw">impl</span> <span class="ident">RegexBuilder</span> {
     <span class="doccomment">/// Create a new regex builder with the default configuration.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">RegexBuilder</span> {
         <span class="ident">RegexBuilder</span> { <span class="ident">dfa</span>: <span class="ident">dense</span>::<span class="ident">Builder</span>::<span class="ident">new</span>() }
     }
 
@@ -1256,7 +1256,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If there was a problem parsing or compiling the pattern, then an error</span>
     <span class="doccomment">/// is returned.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pattern</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">pattern</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">build_with_size</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>(<span class="ident">pattern</span>)
     }
 
@@ -1267,7 +1267,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build_sparse</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">pattern</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">SparseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">SparseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">usize</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">build_with_size_sparse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>(<span class="ident">pattern</span>)
     }
 
@@ -1296,7 +1296,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build_with_size</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">StateID</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">pattern</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">DenseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>, <span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">DenseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">forward</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">build_with_size</span>(<span class="ident">pattern</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">reverse</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">dfa</span>
@@ -1313,7 +1313,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build_with_size_sparse</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">StateID</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">pattern</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">SparseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">S</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&lt;</span><span class="ident">SparseDFA</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">S</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">re</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">build_with_size</span>(<span class="ident">pattern</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">fwd</span> <span class="op">=</span> <span class="ident">re</span>.<span class="ident">forward</span>().<span class="ident">to_sparse</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">rev</span> <span class="op">=</span> <span class="ident">re</span>.<span class="ident">reverse</span>().<span class="ident">to_sparse</span>()<span class="question-mark">?</span>;
@@ -1327,7 +1327,7 @@
     <span class="doccomment">/// which enables a match to appear anywhere.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default this is disabled.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">anchored</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">anchored</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">anchored</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1336,7 +1336,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default this is disabled. It may alternatively be selectively</span>
     <span class="doccomment">/// enabled in the regular expression itself via the `i` flag.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">case_insensitive</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">case_insensitive</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">case_insensitive</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1349,7 +1349,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default, this is disabled. It may be selectively enabled in the</span>
     <span class="doccomment">/// regular expression by using the `x` flag regardless of this setting.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ignore_whitespace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ignore_whitespace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">ignore_whitespace</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1358,7 +1358,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default this is disabled. It may alternatively be selectively</span>
     <span class="doccomment">/// enabled in the regular expression itself via the `s` flag.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dot_matches_new_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dot_matches_new_line</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">dot_matches_new_line</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1367,7 +1367,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default this is disabled. It may alternatively be selectively</span>
     <span class="doccomment">/// enabled in the regular expression itself via the `U` flag.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">swap_greed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">swap_greed</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">swap_greed</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1380,7 +1380,7 @@
     <span class="doccomment">/// Note that unless `allow_invalid_utf8` is enabled (it&#39;s disabled by</span>
     <span class="doccomment">/// default), a regular expression will fail to parse if Unicode mode is</span>
     <span class="doccomment">/// disabled and a sub-expression could possibly match invalid UTF-8.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unicode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unicode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">unicode</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1391,7 +1391,7 @@
     <span class="doccomment">/// When disabled (the default), the builder is guaranteed to produce a</span>
     <span class="doccomment">/// regex that will only ever match valid UTF-8 (otherwise, the builder</span>
     <span class="doccomment">/// will return an error).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">allow_invalid_utf8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">allow_invalid_utf8</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">allow_invalid_utf8</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1421,7 +1421,7 @@
     <span class="doccomment">/// in a nest depth of `1`. In general, a nest limit is not something that</span>
     <span class="doccomment">/// manifests in an obvious way in the concrete syntax, therefore, it</span>
     <span class="doccomment">/// should not be used in a granular way.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">nest_limit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">nest_limit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">limit</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">nest_limit</span>(<span class="ident">limit</span>);
         <span class="self">self</span>
     }
@@ -1461,7 +1461,7 @@
     <span class="doccomment">///    (up to state renaming), then the languages are equivalent.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This option is disabled by default.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">minimize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">minimize</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">minimize</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1489,7 +1489,7 @@
     <span class="doccomment">/// non-premultiplied form only requires 8 bits.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This option is enabled by default.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">premultiply</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">premultiply</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">premultiply</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1518,7 +1518,7 @@
     <span class="doccomment">/// transition. This has a small match time performance cost.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This option is enabled by default.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">byte_classes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">byte_classes</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">byte_classes</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1529,7 +1529,7 @@
     <span class="doccomment">/// This may be exposed in the future, but for now is exported for use in</span>
     <span class="doccomment">/// the `regex-automata-debug` tool.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shrink</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shrink</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">yes</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RegexBuilder</span> {
         <span class="self">self</span>.<span class="ident">dfa</span>.<span class="ident">shrink</span>(<span class="ident">yes</span>);
         <span class="self">self</span>
     }
@@ -1537,7 +1537,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">RegexBuilder</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RegexBuilder</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">RegexBuilder</span> {
         <span class="ident">RegexBuilder</span>::<span class="ident">new</span>()
     }
 }

@@ -6,7 +6,7 @@ different for every thread. This crate provides that functionality.</p>
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">thread</span>;
 <span class="kw">use</span> <span class="ident">thread_id</span>;
 
-<span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+<span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;spawned thread has id {}&quot;</span>, <span class="ident">thread_id</span>::<span class="ident">get</span>());
 });
 

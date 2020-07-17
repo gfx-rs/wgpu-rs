@@ -13,7 +13,7 @@ any valid JSON data.</p>
     <span class="ident">location</span>: <span class="ident">String</span>,
 }
 
-<span class="kw">fn</span> <span class="ident">compare_json_values</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">compare_json_values</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Error</span><span class="op">&gt;&gt;</span> {
     <span class="kw">let</span> <span class="ident">u</span> <span class="op">=</span> <span class="ident">User</span> {
         <span class="ident">fingerprint</span>: <span class="string">&quot;0xF9BA143B95FF6D82&quot;</span>.<span class="ident">to_owned</span>(),
         <span class="ident">location</span>: <span class="string">&quot;Menlo Park, CA&quot;</span>.<span class="ident">to_owned</span>(),

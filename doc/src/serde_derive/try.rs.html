@@ -29,17 +29,17 @@
 <span class="comment">// performed by the standard library&#39;s `try!` macro. With this simplified macro</span>
 <span class="comment">// we see a significant improvement in type checking and borrow checking time of</span>
 <span class="comment">// the generated code and a slight improvement in binary size.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replacement</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">replacement</span>() <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="comment">// Cannot pass `$expr` to `quote!` prior to Rust 1.17.0 so interpolate it.</span>
     <span class="kw">let</span> <span class="ident">dollar</span> <span class="op">=</span> <span class="ident">Punct</span>::<span class="ident">new</span>(<span class="string">&#39;$&#39;</span>, <span class="ident">Spacing</span>::<span class="ident">Alone</span>);
 
     <span class="macro">quote</span><span class="macro">!</span> {
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_macros</span>)]</span>
         <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">try</span> {
-            (#<span class="ident">dollar</span> <span class="ident">__expr</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            (#<span class="ident">dollar</span> <span class="ident">__expr</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
                 <span class="kw">match</span> #<span class="ident">dollar</span> <span class="ident">__expr</span> {
-                    <span class="ident">_serde</span>::<span class="ident">export</span>::<span class="prelude-val">Ok</span>(<span class="ident">__val</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">__val</span>,
-                    <span class="ident">_serde</span>::<span class="ident">export</span>::<span class="prelude-val">Err</span>(<span class="ident">__err</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="ident">_serde</span>::<span class="ident">export</span>::<span class="prelude-val">Ok</span>(<span class="ident">__val</span>) <span class="op">=&gt;</span> <span class="ident">__val</span>,
+                    <span class="ident">_serde</span>::<span class="ident">export</span>::<span class="prelude-val">Err</span>(<span class="ident">__err</span>) <span class="op">=&gt;</span> {
                         <span class="kw">return</span> <span class="ident">_serde</span>::<span class="ident">export</span>::<span class="prelude-val">Err</span>(<span class="ident">__err</span>);
                     }
                 }

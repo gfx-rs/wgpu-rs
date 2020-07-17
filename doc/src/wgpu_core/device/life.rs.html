@@ -736,8 +736,8 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">bind_groups</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BindGroupId</span><span class="op">&gt;</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">compute_pipelines</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">ComputePipelineId</span><span class="op">&gt;</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">render_pipelines</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">RenderPipelineId</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">bind_group_layouts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BindGroupLayoutId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">pipeline_layouts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">PipelineLayoutId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">bind_group_layouts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BindGroupLayoutId</span><span class="op">&gt;&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">pipeline_layouts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">PipelineLayoutId</span><span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">render_bundles</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">RenderBundleId</span><span class="op">&gt;</span>,
 }
 
@@ -794,7 +794,7 @@
     <span class="ident">image_views</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">id</span>::<span class="ident">TextureViewId</span>, <span class="ident">B</span>::<span class="ident">ImageView</span>)<span class="op">&gt;</span>,
     <span class="ident">samplers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">Sampler</span><span class="op">&gt;</span>,
     <span class="ident">framebuffers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">Framebuffer</span><span class="op">&gt;</span>,
-    <span class="ident">desc_sets</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DescriptorSet</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">desc_sets</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">DescriptorSet</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
     <span class="ident">compute_pipes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">ComputePipeline</span><span class="op">&gt;</span>,
     <span class="ident">graphics_pipes</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">GraphicsPipeline</span><span class="op">&gt;</span>,
     <span class="ident">descriptor_set_layouts</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">DescriptorSetLayout</span><span class="op">&gt;</span>,
@@ -802,7 +802,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">NonReferencedResources</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">NonReferencedResources</span> {
             <span class="ident">buffers</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
             <span class="ident">images</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
@@ -833,8 +833,8 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">clean</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
-        <span class="ident">heaps_mutex</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Heaps</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">descriptor_allocator_mutex</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">DescriptorAllocator</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">heaps_mutex</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Heaps</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
+        <span class="ident">descriptor_allocator_mutex</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">DescriptorAllocator</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
     ) {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">buffers</span>.<span class="ident">is_empty</span>() {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">heaps</span> <span class="op">=</span> <span class="ident">heaps_mutex</span>.<span class="ident">lock</span>();
@@ -902,7 +902,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LifetimeTracker</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Resources that the user has requested be mapped, but are still in use.</span>
-    <span class="ident">mapped</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BufferId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">mapped</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BufferId</span><span class="op">&gt;&gt;</span>,
     <span class="doccomment">/// Buffers can be used in a submission that is yet to be made, by the</span>
     <span class="doccomment">/// means of `write_buffer()`, so we have a special place for them.</span>
     <span class="kw">pub</span> <span class="ident">future_suspected_buffers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BufferId</span><span class="op">&gt;</span>,
@@ -913,7 +913,7 @@
     <span class="doccomment">/// Resources that are not referenced any more but still used by GPU.</span>
     <span class="doccomment">/// Grouped by submissions associated with a fence and a submission index.</span>
     <span class="doccomment">/// The active submissions have to be stored in FIFO order: oldest come first.</span>
-    <span class="ident">active</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ActiveSubmission</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">active</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ActiveSubmission</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
     <span class="doccomment">/// Resources that are neither referenced or used, just life_tracker</span>
     <span class="doccomment">/// actual deletion.</span>
     <span class="ident">free_resources</span>: <span class="ident">NonReferencedResources</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
@@ -921,7 +921,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">LifetimeTracker</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">LifetimeTracker</span> {
             <span class="ident">mapped</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
             <span class="ident">future_suspected_buffers</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),
@@ -980,7 +980,7 @@
     }
 
     <span class="doccomment">/// Returns the last submission index that is done.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">triage_submissions</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>, <span class="ident">force_wait</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SubmissionIndex</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">triage_submissions</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>, <span class="ident">force_wait</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">SubmissionIndex</span> {
         <span class="kw">if</span> <span class="ident">force_wait</span> {
             <span class="self">self</span>.<span class="ident">wait_idle</span>(<span class="ident">device</span>);
         }
@@ -990,8 +990,8 @@
             .<span class="ident">active</span>
             .<span class="ident">iter</span>()
             .<span class="ident">position</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="op">!</span><span class="ident">device</span>.<span class="ident">get_fence_status</span>(<span class="kw-2">&amp;</span><span class="ident">a</span>.<span class="ident">fence</span>).<span class="ident">unwrap</span>() })
-            .<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">active</span>.<span class="ident">len</span>());
-        <span class="kw">let</span> <span class="ident">last_done</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">done_count</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            .<span class="ident">unwrap_or_else</span>(<span class="op">||</span> <span class="self">self</span>.<span class="ident">active</span>.<span class="ident">len</span>());
+        <span class="kw">let</span> <span class="ident">last_done</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">done_count</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="self">self</span>.<span class="ident">active</span>[<span class="ident">done_count</span> <span class="op">-</span> <span class="number">1</span>].<span class="ident">index</span>
         } <span class="kw">else</span> {
             <span class="kw">return</span> <span class="number">0</span>;
@@ -1012,8 +1012,8 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">cleanup</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
-        <span class="ident">heaps_mutex</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Heaps</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">descriptor_allocator_mutex</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">DescriptorAllocator</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">heaps_mutex</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Heaps</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
+        <span class="ident">descriptor_allocator_mutex</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">DescriptorAllocator</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
     ) {
         <span class="kw">unsafe</span> {
             <span class="self">self</span>.<span class="ident">free_resources</span>
@@ -1028,8 +1028,8 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">hub</span>: <span class="kw-2">&amp;</span><span class="ident">Hub</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">G</span><span class="op">&gt;</span>,
         <span class="ident">trackers</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">TrackerSet</span><span class="op">&gt;</span>,
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span> <span class="ident">trace</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">trace</span>::<span class="ident">Trace</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Device</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span> <span class="ident">trace</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">trace</span>::<span class="ident">Trace</span><span class="op">&gt;&gt;</span>,
+        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Device</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
     ) {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">suspected_resources</span>.<span class="ident">render_bundles</span>.<span class="ident">is_empty</span>() {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">trackers</span> <span class="op">=</span> <span class="ident">trackers</span>.<span class="ident">lock</span>();
@@ -1062,7 +1062,7 @@
                     <span class="kw">let</span> <span class="ident">submit_index</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">life_guard</span>.<span class="ident">submission_index</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
                     <span class="self">self</span>.<span class="ident">active</span>
                         .<span class="ident">iter_mut</span>()
-                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
                         .<span class="ident">map_or</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">free_resources</span>, <span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">a</span>.<span class="ident">last_resources</span>)
                         .<span class="ident">desc_sets</span>
                         .<span class="ident">push</span>(<span class="ident">res</span>.<span class="ident">raw</span>);
@@ -1082,17 +1082,17 @@
                     <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">remove</span>(<span class="ident">id</span>).<span class="ident">unwrap</span>();
 
                     <span class="kw">let</span> <span class="ident">raw</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">res</span>.<span class="ident">inner</span> {
-                        <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="ident">raw</span>, <span class="ident">source_id</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="ident">raw</span>, <span class="ident">source_id</span> } <span class="op">=&gt;</span> {
                             <span class="self">self</span>.<span class="ident">suspected_resources</span>.<span class="ident">textures</span>.<span class="ident">push</span>(<span class="ident">source_id</span>.<span class="ident">value</span>);
                             <span class="ident">raw</span>
                         }
-                        <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                        <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { .. } <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
                     };
 
                     <span class="kw">let</span> <span class="ident">submit_index</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">life_guard</span>.<span class="ident">submission_index</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
                     <span class="self">self</span>.<span class="ident">active</span>
                         .<span class="ident">iter_mut</span>()
-                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
                         .<span class="ident">map_or</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">free_resources</span>, <span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">a</span>.<span class="ident">last_resources</span>)
                         .<span class="ident">image_views</span>
                         .<span class="ident">push</span>((<span class="ident">id</span>, <span class="ident">raw</span>));
@@ -1114,7 +1114,7 @@
                     <span class="kw">let</span> <span class="ident">submit_index</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">life_guard</span>.<span class="ident">submission_index</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
                     <span class="self">self</span>.<span class="ident">active</span>
                         .<span class="ident">iter_mut</span>()
-                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
                         .<span class="ident">map_or</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">free_resources</span>, <span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">a</span>.<span class="ident">last_resources</span>)
                         .<span class="ident">images</span>
                         .<span class="ident">push</span>((<span class="ident">res</span>.<span class="ident">raw</span>, <span class="ident">res</span>.<span class="ident">memory</span>));
@@ -1136,7 +1136,7 @@
                     <span class="kw">let</span> <span class="ident">submit_index</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">life_guard</span>.<span class="ident">submission_index</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
                     <span class="self">self</span>.<span class="ident">active</span>
                         .<span class="ident">iter_mut</span>()
-                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
                         .<span class="ident">map_or</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">free_resources</span>, <span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">a</span>.<span class="ident">last_resources</span>)
                         .<span class="ident">samplers</span>
                         .<span class="ident">push</span>(<span class="ident">res</span>.<span class="ident">raw</span>);
@@ -1159,7 +1159,7 @@
                     <span class="kw">let</span> <span class="ident">submit_index</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">life_guard</span>.<span class="ident">submission_index</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
                     <span class="self">self</span>.<span class="ident">active</span>
                         .<span class="ident">iter_mut</span>()
-                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
                         .<span class="ident">map_or</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">free_resources</span>, <span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">a</span>.<span class="ident">last_resources</span>)
                         .<span class="ident">buffers</span>
                         .<span class="ident">push</span>((<span class="ident">res</span>.<span class="ident">raw</span>, <span class="ident">res</span>.<span class="ident">memory</span>));
@@ -1181,7 +1181,7 @@
                     <span class="kw">let</span> <span class="ident">submit_index</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">life_guard</span>.<span class="ident">submission_index</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
                     <span class="self">self</span>.<span class="ident">active</span>
                         .<span class="ident">iter_mut</span>()
-                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
                         .<span class="ident">map_or</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">free_resources</span>, <span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">a</span>.<span class="ident">last_resources</span>)
                         .<span class="ident">compute_pipes</span>
                         .<span class="ident">push</span>(<span class="ident">res</span>.<span class="ident">raw</span>);
@@ -1203,7 +1203,7 @@
                     <span class="kw">let</span> <span class="ident">submit_index</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">life_guard</span>.<span class="ident">submission_index</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
                     <span class="self">self</span>.<span class="ident">active</span>
                         .<span class="ident">iter_mut</span>()
-                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                        .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
                         .<span class="ident">map_or</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">free_resources</span>, <span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">a</span>.<span class="ident">last_resources</span>)
                         .<span class="ident">graphics_pipes</span>
                         .<span class="ident">push</span>(<span class="ident">res</span>.<span class="ident">raw</span>);
@@ -1220,7 +1220,7 @@
             } <span class="kw">in</span> <span class="self">self</span>.<span class="ident">suspected_resources</span>.<span class="ident">bind_group_layouts</span>.<span class="ident">drain</span>(..)
             {
                 <span class="comment">//Note: this has to happen after all the suspected pipelines are destroyed</span>
-                <span class="kw">if</span> <span class="ident">ref_count</span>.<span class="ident">load</span>() <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+                <span class="kw">if</span> <span class="ident">ref_count</span>.<span class="ident">load</span>() <span class="op">==</span> <span class="number">1</span> {
                     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
                     <span class="ident">trace</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="ident">t</span>.<span class="ident">lock</span>().<span class="ident">add</span>(<span class="ident">trace</span>::<span class="ident">Action</span>::<span class="ident">DestroyBindGroupLayout</span>(<span class="ident">id</span>)));
                     <span class="ident">hub</span>.<span class="ident">bind_group_layouts</span>.<span class="ident">free_id</span>(<span class="ident">id</span>);
@@ -1239,7 +1239,7 @@
             } <span class="kw">in</span> <span class="self">self</span>.<span class="ident">suspected_resources</span>.<span class="ident">pipeline_layouts</span>.<span class="ident">drain</span>(..)
             {
                 <span class="comment">//Note: this has to happen after all the suspected pipelines are destroyed</span>
-                <span class="kw">if</span> <span class="ident">ref_count</span>.<span class="ident">load</span>() <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+                <span class="kw">if</span> <span class="ident">ref_count</span>.<span class="ident">load</span>() <span class="op">==</span> <span class="number">1</span> {
                     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
                     <span class="ident">trace</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="ident">t</span>.<span class="ident">lock</span>().<span class="ident">add</span>(<span class="ident">trace</span>::<span class="ident">Action</span>::<span class="ident">DestroyPipelineLayout</span>(<span class="ident">id</span>)));
                     <span class="ident">hub</span>.<span class="ident">pipeline_layouts</span>.<span class="ident">free_id</span>(<span class="ident">id</span>);
@@ -1253,7 +1253,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">triage_mapped</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">GlobalIdentityHandlerFactory</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">hub</span>: <span class="kw-2">&amp;</span><span class="ident">Hub</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">G</span><span class="op">&gt;</span>,
-        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Device</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Device</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
     ) {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">mapped</span>.<span class="ident">is_empty</span>() {
             <span class="kw">return</span>;
@@ -1269,12 +1269,12 @@
                 <span class="string">&quot;Mapping of {:?} at submission {:?} gets assigned to active {:?}&quot;</span>,
                 <span class="ident">resource_id</span>,
                 <span class="ident">submit_index</span>,
-                <span class="self">self</span>.<span class="ident">active</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                <span class="self">self</span>.<span class="ident">active</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
             );
 
             <span class="self">self</span>.<span class="ident">active</span>
                 .<span class="ident">iter_mut</span>()
-                .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
                 .<span class="ident">map_or</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">ready_to_map</span>, <span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">a</span>.<span class="ident">mapped</span>)
                 .<span class="ident">push</span>(<span class="ident">resource_id</span>);
         }
@@ -1284,7 +1284,7 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">hub</span>: <span class="kw-2">&amp;</span><span class="ident">Hub</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">G</span><span class="op">&gt;</span>,
         <span class="ident">framebuffers</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">FramebufferKey</span>, <span class="ident">B</span>::<span class="ident">Framebuffer</span><span class="op">&gt;</span>,
-        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Device</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Device</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
     ) {
         <span class="kw">let</span> (<span class="ident">texture_view_guard</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">texture_views</span>.<span class="ident">read</span>(<span class="ident">token</span>);
         <span class="kw">let</span> <span class="ident">remove_list</span> <span class="op">=</span> <span class="ident">framebuffers</span>
@@ -1310,7 +1310,7 @@
                     <span class="comment">// that&#39;s the last time this attachment is still valid</span>
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">attachment_last_submit</span> <span class="op">=</span> <span class="prelude-val">None</span>;
                     <span class="kw">for</span> <span class="ident">a</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">active</span> {
-                        <span class="kw">if</span> <span class="ident">a</span>.<span class="ident">last_resources</span>.<span class="ident">image_views</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">id</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">at</span>) {
+                        <span class="kw">if</span> <span class="ident">a</span>.<span class="ident">last_resources</span>.<span class="ident">image_views</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="ident">id</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">at</span>) {
                             <span class="kw">let</span> <span class="ident">max</span> <span class="op">=</span> <span class="ident">attachment_last_submit</span>.<span class="ident">unwrap_or</span>(<span class="number">0</span>).<span class="ident">max</span>(<span class="ident">a</span>.<span class="ident">index</span>);
                             <span class="ident">attachment_last_submit</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">max</span>);
                         }
@@ -1332,7 +1332,7 @@
                     <span class="prelude-val">None</span>
                 }
             })
-            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">&gt;&gt;</span>();
 
         <span class="kw">if</span> <span class="op">!</span><span class="ident">remove_list</span>.<span class="ident">is_empty</span>() {
             <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;Free framebuffers {:?}&quot;</span>, <span class="ident">remove_list</span>);
@@ -1340,7 +1340,7 @@
                 <span class="kw">let</span> <span class="ident">framebuffer</span> <span class="op">=</span> <span class="ident">framebuffers</span>.<span class="ident">remove</span>(<span class="ident">key</span>).<span class="ident">unwrap</span>();
                 <span class="self">self</span>.<span class="ident">active</span>
                     .<span class="ident">iter_mut</span>()
-                    .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">submit_index</span>)
+                    .<span class="ident">find</span>(<span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">submit_index</span>)
                     .<span class="ident">map_or</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">free_resources</span>, <span class="op">|</span><span class="ident">a</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">a</span>.<span class="ident">last_resources</span>)
                     .<span class="ident">framebuffers</span>
                     .<span class="ident">push</span>(<span class="ident">framebuffer</span>);
@@ -1353,8 +1353,8 @@
         <span class="ident">hub</span>: <span class="kw-2">&amp;</span><span class="ident">Hub</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">G</span><span class="op">&gt;</span>,
         <span class="ident">raw</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
         <span class="ident">trackers</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">TrackerSet</span><span class="op">&gt;</span>,
-        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Device</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">BufferMapPendingCallback</span><span class="op">&gt;</span> {
+        <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">Device</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">super</span>::<span class="ident">BufferMapPendingCallback</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">ready_to_map</span>.<span class="ident">is_empty</span>() {
             <span class="kw">return</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         }
@@ -1364,7 +1364,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">trackers</span> <span class="op">=</span> <span class="ident">trackers</span>.<span class="ident">lock</span>();
         <span class="kw">for</span> <span class="ident">buffer_id</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">ready_to_map</span>.<span class="ident">drain</span>(..) {
             <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer_guard</span>[<span class="ident">buffer_id</span>];
-            <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">life_guard</span>.<span class="ident">ref_count</span>.<span class="ident">is_none</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">trackers</span>.<span class="ident">buffers</span>.<span class="ident">remove_abandoned</span>(<span class="ident">buffer_id</span>)
+            <span class="kw">if</span> <span class="ident">buffer</span>.<span class="ident">life_guard</span>.<span class="ident">ref_count</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="ident">trackers</span>.<span class="ident">buffers</span>.<span class="ident">remove_abandoned</span>(<span class="ident">buffer_id</span>)
             {
                 <span class="ident">buffer</span>.<span class="ident">map_state</span> <span class="op">=</span> <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Idle</span>;
                 <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;Mapping request is dropped because the buffer is destroyed.&quot;</span>);
@@ -1378,14 +1378,14 @@
                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>.<span class="ident">map_state</span>,
                     <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Idle</span>,
                 ) {
-                    <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Waiting</span>(<span class="ident">pending_mapping</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">pending_mapping</span>,
-                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;No pending mapping.&quot;</span>),
+                    <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Waiting</span>(<span class="ident">pending_mapping</span>) <span class="op">=&gt;</span> <span class="ident">pending_mapping</span>,
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;No pending mapping.&quot;</span>),
                 };
-                <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">mapping</span>.<span class="ident">sub_range</span>.<span class="ident">size</span>.<span class="ident">map_or</span>(<span class="bool-val">true</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>) {
+                <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">mapping</span>.<span class="ident">sub_range</span>.<span class="ident">size</span>.<span class="ident">map_or</span>(<span class="bool-val">true</span>, <span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">!=</span> <span class="number">0</span>) {
                     <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;Buffer {:?} map state -&gt; Active&quot;</span>, <span class="ident">buffer_id</span>);
                     <span class="kw">let</span> <span class="ident">host</span> <span class="op">=</span> <span class="ident">mapping</span>.<span class="ident">op</span>.<span class="ident">host</span>;
                     <span class="kw">match</span> <span class="kw">super</span>::<span class="ident">map_buffer</span>(<span class="ident">raw</span>, <span class="ident">buffer</span>, <span class="ident">mapping</span>.<span class="ident">sub_range</span>.<span class="ident">clone</span>(), <span class="ident">host</span>) {
-                        <span class="prelude-val">Ok</span>(<span class="ident">ptr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="prelude-val">Ok</span>(<span class="ident">ptr</span>) <span class="op">=&gt;</span> {
                             <span class="ident">buffer</span>.<span class="ident">map_state</span> <span class="op">=</span> <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Active</span> {
                                 <span class="ident">ptr</span>,
                                 <span class="ident">sub_range</span>: <span class="ident">mapping</span>.<span class="ident">sub_range</span>,
@@ -1393,7 +1393,7 @@
                             };
                             <span class="ident">resource</span>::<span class="ident">BufferMapAsyncStatus</span>::<span class="ident">Success</span>
                         }
-                        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
                             <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Mapping failed {:?}&quot;</span>, <span class="ident">e</span>);
                             <span class="ident">resource</span>::<span class="ident">BufferMapAsyncStatus</span>::<span class="ident">Error</span>
                         }

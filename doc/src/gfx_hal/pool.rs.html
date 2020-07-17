@@ -74,7 +74,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">release_resources</span>: <span class="ident">bool</span>);
 
     <span class="doccomment">/// Allocate a single command buffers from the pool.</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allocate_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">level</span>: <span class="ident">Level</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">B</span>::<span class="ident">CommandBuffer</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allocate_one</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">level</span>: <span class="ident">Level</span>) <span class="op">-&gt;</span> <span class="ident">B</span>::<span class="ident">CommandBuffer</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">PseudoVec</span>(<span class="prelude-val">None</span>);
         <span class="self">self</span>.<span class="ident">allocate</span>(<span class="number">1</span>, <span class="ident">level</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">result</span>);
         <span class="ident">result</span>.<span class="number">0</span>.<span class="ident">unwrap</span>()

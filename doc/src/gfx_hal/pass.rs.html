@@ -240,14 +240,14 @@
     };
 
     <span class="doccomment">/// Convenience function to create a new `AttachmentOps`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">load</span>: <span class="ident">AttachmentLoadOp</span>, <span class="ident">store</span>: <span class="ident">AttachmentStoreOp</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">load</span>: <span class="ident">AttachmentLoadOp</span>, <span class="ident">store</span>: <span class="ident">AttachmentStoreOp</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">AttachmentOps</span> { <span class="ident">load</span>, <span class="ident">store</span> }
     }
 
     <span class="doccomment">/// A method to provide `AttachmentOps::DONT_CARE` to things that expect</span>
     <span class="doccomment">/// a default function rather than a value.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serde&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">whatever</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">whatever</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">DONT_CARE</span>
     }
 }
@@ -278,8 +278,8 @@
 <span class="kw">impl</span> <span class="ident">Attachment</span> {
     <span class="doccomment">/// Returns true if this attachment has some clear operations. This is useful</span>
     <span class="doccomment">/// when starting a render pass, since there has to be a clear value provided.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">has_clears</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">ops</span>.<span class="ident">load</span> <span class="op">=</span><span class="op">=</span> <span class="ident">AttachmentLoadOp</span>::<span class="ident">Clear</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">stencil_ops</span>.<span class="ident">load</span> <span class="op">=</span><span class="op">=</span> <span class="ident">AttachmentLoadOp</span>::<span class="ident">Clear</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">has_clears</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">ops</span>.<span class="ident">load</span> <span class="op">==</span> <span class="ident">AttachmentLoadOp</span>::<span class="ident">Clear</span> <span class="op">||</span> <span class="self">self</span>.<span class="ident">stencil_ops</span>.<span class="ident">load</span> <span class="op">==</span> <span class="ident">AttachmentLoadOp</span>::<span class="ident">Clear</span>
     }
 }
 
@@ -304,7 +304,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If one of the range sides is `None`, it refers to the external</span>
     <span class="doccomment">/// scope either before or after the whole render pass.</span>
-    <span class="kw">pub</span> <span class="ident">passes</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SubpassId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">passes</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">SubpassId</span><span class="op">&gt;&gt;</span>,
     <span class="doccomment">/// Other pipeline stages this subpass depends on.</span>
     <span class="kw">pub</span> <span class="ident">stages</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">PipelineStage</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Resource accesses this subpass depends on.</span>
@@ -343,7 +343,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Subpass</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Subpass</span> {
             <span class="ident">index</span>: <span class="self">self</span>.<span class="ident">index</span>,
             <span class="ident">main_pass</span>: <span class="self">self</span>.<span class="ident">main_pass</span>,
@@ -352,8 +352,8 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Subpass</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">index</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">main_pass</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">main_pass</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">index</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">index</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">main_pass</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">main_pass</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span>
     }
 }
 

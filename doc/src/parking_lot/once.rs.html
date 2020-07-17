@@ -498,20 +498,20 @@
     <span class="doccomment">/// Once an initialization routine for a `Once` has panicked it will forever</span>
     <span class="doccomment">/// indicate to future forced initialization routines that it is poisoned.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">poisoned</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">poisoned</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">OnceState</span>::<span class="ident">Poisoned</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">OnceState</span>::<span class="ident">Poisoned</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
     <span class="doccomment">/// Returns whether the associated `Once` has successfully executed a</span>
     <span class="doccomment">/// closure.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">done</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">done</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">OnceState</span>::<span class="ident">Done</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">OnceState</span>::<span class="ident">Done</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 }
@@ -544,19 +544,19 @@
 <span class="kw">impl</span> <span class="ident">Once</span> {
     <span class="doccomment">/// Creates a new `Once` value.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Once</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">Once</span> {
         <span class="ident">Once</span>(<span class="ident">AtomicU8</span>::<span class="ident">new</span>(<span class="number">0</span>))
     }
 
     <span class="doccomment">/// Returns the current state of this `Once`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">OnceState</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">OnceState</span> {
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">DONE_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">DONE_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="ident">OnceState</span>::<span class="ident">Done</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">LOCKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">LOCKED_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="ident">OnceState</span>::<span class="ident">InProgress</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">POISON_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">POISON_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="ident">OnceState</span>::<span class="ident">Poisoned</span>
         } <span class="kw">else</span> {
             <span class="ident">OnceState</span>::<span class="ident">New</span>
@@ -617,7 +617,7 @@
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="ident">FnOnce</span>(),
     {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">DONE_BIT</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>) <span class="op">==</span> <span class="ident">DONE_BIT</span> {
             <span class="kw">return</span>;
         }
 
@@ -639,7 +639,7 @@
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="ident">OnceState</span>),
     {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">DONE_BIT</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>) <span class="op">==</span> <span class="ident">DONE_BIT</span> {
             <span class="kw">return</span>;
         }
 
@@ -666,7 +666,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
         <span class="kw">loop</span> {
             <span class="comment">// If another thread called the closure, we&#39;re done</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">DONE_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">DONE_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
                 <span class="comment">// An acquire fence is needed here since we didn&#39;t load the</span>
                 <span class="comment">// state with Ordering::Acquire.</span>
                 <span class="ident">fence</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
@@ -674,7 +674,7 @@
             }
 
             <span class="comment">// If the state has been poisoned and we aren&#39;t forcing, then panic</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">POISON_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">ignore_poison</span> {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">POISON_BIT</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">ignore_poison</span> {
                 <span class="comment">// Need the fence here as well for the same reason</span>
                 <span class="ident">fence</span>(<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Once instance has previously been poisoned&quot;</span>);
@@ -683,27 +683,27 @@
             <span class="comment">// Grab the lock if it isn&#39;t locked, even if there is a queue on it.</span>
             <span class="comment">// We also clear the poison bit since we are going to try running</span>
             <span class="comment">// the closure again.</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">LOCKED_BIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">LOCKED_BIT</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">match</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">compare_exchange_weak</span>(
                     <span class="ident">state</span>,
                     (<span class="ident">state</span> <span class="op">|</span> <span class="ident">LOCKED_BIT</span>) <span class="op">&amp;</span> <span class="op">!</span><span class="ident">POISON_BIT</span>,
                     <span class="ident">Ordering</span>::<span class="ident">Acquire</span>,
                     <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
                 ) {
-                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">break</span>,
+                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
                 }
                 <span class="kw">continue</span>;
             }
 
             <span class="comment">// If there is no queue, try spinning a few times</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">spinwait</span>.<span class="ident">spin</span>() {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">spinwait</span>.<span class="ident">spin</span>() {
                 <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
                 <span class="kw">continue</span>;
             }
 
             <span class="comment">// Set the parked bit</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">compare_exchange_weak</span>(
                     <span class="ident">state</span>,
                     <span class="ident">state</span> <span class="op">|</span> <span class="ident">PARKED_BIT</span>,
@@ -719,8 +719,8 @@
             <span class="comment">// lock.</span>
             <span class="kw">unsafe</span> {
                 <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span>;
-                <span class="kw">let</span> <span class="ident">validate</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">LOCKED_BIT</span> <span class="op">|</span> <span class="ident">PARKED_BIT</span>;
-                <span class="kw">let</span> <span class="ident">before_sleep</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> {};
+                <span class="kw">let</span> <span class="ident">validate</span> <span class="op">=</span> <span class="op">||</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">==</span> <span class="ident">LOCKED_BIT</span> <span class="op">|</span> <span class="ident">PARKED_BIT</span>;
+                <span class="kw">let</span> <span class="ident">before_sleep</span> <span class="op">=</span> <span class="op">||</span> {};
                 <span class="kw">let</span> <span class="ident">timed_out</span> <span class="op">=</span> <span class="op">|</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">|</span> <span class="macro">unreachable</span><span class="macro">!</span>();
                 <span class="ident">parking_lot_core</span>::<span class="ident">park</span>(
                     <span class="ident">addr</span>,
@@ -743,7 +743,7 @@
                 <span class="comment">// Mark the state as poisoned, unlock it and unpark all threads.</span>
                 <span class="kw">let</span> <span class="ident">once</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>;
                 <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">once</span>.<span class="number">0</span>.<span class="ident">swap</span>(<span class="ident">POISON_BIT</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
-                <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
                     <span class="kw">unsafe</span> {
                         <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="ident">once</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span>;
                         <span class="ident">parking_lot_core</span>::<span class="ident">unpark_all</span>(<span class="ident">addr</span>, <span class="ident">DEFAULT_UNPARK_TOKEN</span>);
@@ -755,7 +755,7 @@
         <span class="comment">// At this point we have the lock, so run the closure. Make sure we</span>
         <span class="comment">// properly clean up if the closure panicks.</span>
         <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">PanicGuard</span>(<span class="self">self</span>);
-        <span class="kw">let</span> <span class="ident">once_state</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">POISON_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">let</span> <span class="ident">once_state</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">POISON_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="ident">OnceState</span>::<span class="ident">Poisoned</span>
         } <span class="kw">else</span> {
             <span class="ident">OnceState</span>::<span class="ident">New</span>
@@ -765,7 +765,7 @@
 
         <span class="comment">// Now unlock the state, set the done bit and unpark all threads</span>
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">swap</span>(<span class="ident">DONE_BIT</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">unsafe</span> {
                 <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span>;
                 <span class="ident">parking_lot_core</span>::<span class="ident">unpark_all</span>(<span class="ident">addr</span>, <span class="ident">DEFAULT_UNPARK_TOKEN</span>);
@@ -776,13 +776,13 @@
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Once</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Once</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">Once</span> {
         <span class="ident">Once</span>::<span class="ident">new</span>()
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Once</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Once&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;state&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>())
             .<span class="ident">finish</span>()
@@ -800,9 +800,9 @@
     <span class="kw">fn</span> <span class="ident">smoke_once</span>() {
         <span class="kw">static</span> <span class="ident">O</span>: <span class="ident">Once</span> <span class="op">=</span> <span class="ident">Once</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">a</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>);
+        <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">||</span> <span class="ident">a</span> <span class="op">+=</span> <span class="number">1</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">a</span>, <span class="number">1</span>);
-        <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">a</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>);
+        <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">||</span> <span class="ident">a</span> <span class="op">+=</span> <span class="number">1</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">a</span>, <span class="number">1</span>);
     }
 
@@ -814,12 +814,12 @@
         <span class="kw">let</span> (<span class="ident">tx</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">channel</span>();
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">10</span> {
             <span class="kw">let</span> <span class="ident">tx</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">clone</span>();
-            <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+            <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
                 <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">4</span> {
                     <span class="ident">thread</span>::<span class="ident">yield_now</span>()
                 }
                 <span class="kw">unsafe</span> {
-                    <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> {
+                    <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">||</span> {
                         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">RUN</span>);
                         <span class="ident">RUN</span> <span class="op">=</span> <span class="bool-val">true</span>;
                     });
@@ -830,7 +830,7 @@
         }
 
         <span class="kw">unsafe</span> {
-            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> {
+            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">||</span> {
                 <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">RUN</span>);
                 <span class="ident">RUN</span> <span class="op">=</span> <span class="bool-val">true</span>;
             });
@@ -847,14 +847,14 @@
         <span class="kw">static</span> <span class="ident">O</span>: <span class="ident">Once</span> <span class="op">=</span> <span class="ident">Once</span>::<span class="ident">new</span>();
 
         <span class="comment">// poison the once</span>
-        <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">panic</span>::<span class="ident">catch_unwind</span>(<span class="op">|</span><span class="op">|</span> {
-            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>());
+        <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">panic</span>::<span class="ident">catch_unwind</span>(<span class="op">||</span> {
+            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">||</span> <span class="macro">panic</span><span class="macro">!</span>());
         });
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">t</span>.<span class="ident">is_err</span>());
 
         <span class="comment">// poisoning propagates</span>
-        <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">panic</span>::<span class="ident">catch_unwind</span>(<span class="op">|</span><span class="op">|</span> {
-            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> {});
+        <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">panic</span>::<span class="ident">catch_unwind</span>(<span class="op">||</span> {
+            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">||</span> {});
         });
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">t</span>.<span class="ident">is_err</span>());
 
@@ -867,7 +867,7 @@
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">called</span>);
 
         <span class="comment">// once any success happens, we stop propagating the poison</span>
-        <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> {});
+        <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">||</span> {});
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -875,15 +875,15 @@
         <span class="kw">static</span> <span class="ident">O</span>: <span class="ident">Once</span> <span class="op">=</span> <span class="ident">Once</span>::<span class="ident">new</span>();
 
         <span class="comment">// poison the once</span>
-        <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">panic</span>::<span class="ident">catch_unwind</span>(<span class="op">|</span><span class="op">|</span> {
-            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>());
+        <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="ident">panic</span>::<span class="ident">catch_unwind</span>(<span class="op">||</span> {
+            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">||</span> <span class="macro">panic</span><span class="macro">!</span>());
         });
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">t</span>.<span class="ident">is_err</span>());
 
         <span class="comment">// make sure someone&#39;s waiting inside the once via a force</span>
         <span class="kw">let</span> (<span class="ident">tx1</span>, <span class="ident">rx1</span>) <span class="op">=</span> <span class="ident">channel</span>();
         <span class="kw">let</span> (<span class="ident">tx2</span>, <span class="ident">rx2</span>) <span class="op">=</span> <span class="ident">channel</span>();
-        <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="ident">O</span>.<span class="ident">call_once_force</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> {
                 <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">p</span>.<span class="ident">poisoned</span>());
                 <span class="ident">tx1</span>.<span class="ident">send</span>(()).<span class="ident">unwrap</span>();
@@ -894,9 +894,9 @@
         <span class="ident">rx1</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
 
         <span class="comment">// put another waiter on the once</span>
-        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="op">||</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">called</span> <span class="op">=</span> <span class="bool-val">false</span>;
-            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> {
+            <span class="ident">O</span>.<span class="ident">call_once</span>(<span class="op">||</span> {
                 <span class="ident">called</span> <span class="op">=</span> <span class="bool-val">true</span>;
             });
             <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">called</span>);

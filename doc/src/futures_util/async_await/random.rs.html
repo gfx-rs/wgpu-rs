@@ -72,24 +72,24 @@
 }
 
 <span class="doccomment">/// Return a value from `0..n`.</span>
-<span class="kw">fn</span> <span class="ident">gen_index</span>(<span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">fn</span> <span class="ident">gen_index</span>(<span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
     (<span class="ident">random</span>() <span class="op">%</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="kw">as</span> <span class="ident">usize</span>
 }
 
 <span class="doccomment">/// Pseudorandom number generator based on [xorshift*].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [xorshift*]: https://en.wikipedia.org/wiki/Xorshift#xorshift*</span>
-<span class="kw">fn</span> <span class="ident">random</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+<span class="kw">fn</span> <span class="ident">random</span>() <span class="op">-&gt;</span> <span class="ident">u64</span> {
     <span class="macro">thread_local</span><span class="macro">!</span> {
-        <span class="kw">static</span> <span class="ident">RNG</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="ident">Wrapping</span>(<span class="ident">prng_seed</span>()));
+        <span class="kw">static</span> <span class="ident">RNG</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">Wrapping</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Cell</span>::<span class="ident">new</span>(<span class="ident">Wrapping</span>(<span class="ident">prng_seed</span>()));
     }
 
-    <span class="kw">fn</span> <span class="ident">prng_seed</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+    <span class="kw">fn</span> <span class="ident">prng_seed</span>() <span class="op">-&gt;</span> <span class="ident">u64</span> {
         <span class="kw">static</span> <span class="ident">COUNTER</span>: <span class="ident">AtomicUsize</span> <span class="op">=</span> <span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="number">0</span>);
 
         <span class="comment">// Any non-zero seed will do</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">seed</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="ident">seed</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">while</span> <span class="ident">seed</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hasher</span> <span class="op">=</span> <span class="ident">DefaultHasher</span>::<span class="ident">new</span>();
             <span class="ident">hasher</span>.<span class="ident">write_usize</span>(<span class="ident">COUNTER</span>.<span class="ident">fetch_add</span>(<span class="number">1</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>));
             <span class="ident">seed</span> <span class="op">=</span> <span class="ident">hasher</span>.<span class="ident">finish</span>();
@@ -100,9 +100,9 @@
     <span class="ident">RNG</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">rng</span><span class="op">|</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">rng</span>.<span class="ident">get</span>();
         <span class="macro">debug_assert_ne</span><span class="macro">!</span>(<span class="ident">x</span>.<span class="number">0</span>, <span class="number">0</span>);
-        <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> <span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">12</span>;
-        <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> <span class="ident">x</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">25</span>;
-        <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> <span class="ident">x</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">27</span>;
+        <span class="ident">x</span> <span class="op">^=</span> <span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">12</span>;
+        <span class="ident">x</span> <span class="op">^=</span> <span class="ident">x</span> <span class="op">&lt;&lt;</span> <span class="number">25</span>;
+        <span class="ident">x</span> <span class="op">^=</span> <span class="ident">x</span> <span class="op">&gt;&gt;</span> <span class="number">27</span>;
         <span class="ident">rng</span>.<span class="ident">set</span>(<span class="ident">x</span>);
         <span class="ident">x</span>.<span class="number">0</span>.<span class="ident">wrapping_mul</span>(<span class="number">0x2545_f491_4f6c_dd1d</span>)
     })

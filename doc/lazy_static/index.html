@@ -52,7 +52,7 @@ have generally the same properties as regular &quot;static&quot; variables:</p>
     <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">NUMBER</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="ident">times_two</span>(<span class="number">21</span>);
 }
 
-<span class="kw">fn</span> <span class="ident">times_two</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> { <span class="ident">n</span> <span class="op">*</span> <span class="number">2</span> }
+<span class="kw">fn</span> <span class="ident">times_two</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> { <span class="ident">n</span> <span class="op">*</span> <span class="number">2</span> }
 
 <span class="kw">fn</span> <span class="ident">main</span>() {
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;The map has {} entries.&quot;</span>, <span class="kw-2">*</span><span class="ident">COUNT</span>);

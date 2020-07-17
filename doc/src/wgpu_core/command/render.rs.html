@@ -2146,17 +2146,17 @@
 <span class="kw">fn</span> <span class="ident">is_depth_stencil_read_only</span>(
     <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">DepthStencilAttachmentDescriptor</span>,
     <span class="ident">aspects</span>: <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
-    <span class="kw">if</span> <span class="ident">aspects</span>.<span class="ident">contains</span>(<span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">DEPTH</span>) <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">read_only</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="ident">aspects</span>.<span class="ident">contains</span>(<span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">DEPTH</span>) <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">read_only</span> {
         <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>);
     }
-    <span class="kw">if</span> (<span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">load_op</span>, <span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">store_op</span>) <span class="op">!</span><span class="op">=</span> (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">StoreOp</span>::<span class="ident">Store</span>) {
+    <span class="kw">if</span> (<span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">load_op</span>, <span class="ident">desc</span>.<span class="ident">depth</span>.<span class="ident">store_op</span>) <span class="op">!=</span> (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">StoreOp</span>::<span class="ident">Store</span>) {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidDepthOps</span>);
     }
-    <span class="kw">if</span> <span class="ident">aspects</span>.<span class="ident">contains</span>(<span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">STENCIL</span>) <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">read_only</span> {
+    <span class="kw">if</span> <span class="ident">aspects</span>.<span class="ident">contains</span>(<span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">STENCIL</span>) <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">read_only</span> {
         <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>);
     }
-    <span class="kw">if</span> (<span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">load_op</span>, <span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">store_op</span>) <span class="op">!</span><span class="op">=</span> (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">StoreOp</span>::<span class="ident">Store</span>) {
+    <span class="kw">if</span> (<span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">load_op</span>, <span class="ident">desc</span>.<span class="ident">stencil</span>.<span class="ident">store_op</span>) <span class="op">!=</span> (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">StoreOp</span>::<span class="ident">Store</span>) {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidStencilOps</span>);
     }
     <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
@@ -2264,7 +2264,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">RenderPass</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">parent_id</span>: <span class="ident">id</span>::<span class="ident">CommandEncoderId</span>, <span class="ident">desc</span>: <span class="ident">RenderPassDescriptor</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">parent_id</span>: <span class="ident">id</span>::<span class="ident">CommandEncoderId</span>, <span class="ident">desc</span>: <span class="ident">RenderPassDescriptor</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">RenderPass</span> {
             <span class="ident">base</span>: <span class="ident">BasePass</span>::<span class="ident">new</span>(),
             <span class="ident">parent_id</span>,
@@ -2273,13 +2273,13 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parent_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">id</span>::<span class="ident">CommandEncoderId</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parent_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">id</span>::<span class="ident">CommandEncoderId</span> {
         <span class="self">self</span>.<span class="ident">parent_id</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">RenderPass</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">write</span><span class="macro">!</span>(
             <span class="ident">f</span>,
             <span class="string">&quot;RenderPass {{ encoder_id: {:?}, color_targets: {:?}, depth_stencil_target: {:?}, data: {:?} commands, {:?} dynamic offsets, and {:?} push constant u32s }}&quot;</span>,
@@ -2302,7 +2302,7 @@
 
 <span class="kw">impl</span> <span class="ident">OptionalState</span> {
     <span class="kw">fn</span> <span class="ident">require</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">require</span>: <span class="ident">bool</span>) {
-        <span class="kw">if</span> <span class="ident">require</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span><span class="op">=</span> <span class="ident">OptionalState</span>::<span class="ident">Unused</span> {
+        <span class="kw">if</span> <span class="ident">require</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="self">self</span> <span class="op">==</span> <span class="ident">OptionalState</span>::<span class="ident">Unused</span> {
             <span class="kw-2">*</span><span class="self">self</span> <span class="op">=</span> <span class="ident">OptionalState</span>::<span class="ident">Required</span>;
         }
     }
@@ -2321,12 +2321,12 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">DrawError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">DrawError</span>::<span class="ident">MissingBlendColor</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;blend color needs to be set&quot;</span>),
-            <span class="ident">DrawError</span>::<span class="ident">MissingStencilReference</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;stencil reference needs to be set&quot;</span>),
-            <span class="ident">DrawError</span>::<span class="ident">MissingPipeline</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;render pipeline must be set&quot;</span>),
-            <span class="ident">DrawError</span>::<span class="ident">IncompatibleBindGroup</span> { <span class="ident">index</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;current render pipeline has a layout which is incompatible with a currently set bind group, first differing at entry index {}&quot;</span>, <span class="ident">index</span>),
+            <span class="ident">DrawError</span>::<span class="ident">MissingBlendColor</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;blend color needs to be set&quot;</span>),
+            <span class="ident">DrawError</span>::<span class="ident">MissingStencilReference</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;stencil reference needs to be set&quot;</span>),
+            <span class="ident">DrawError</span>::<span class="ident">MissingPipeline</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;render pipeline must be set&quot;</span>),
+            <span class="ident">DrawError</span>::<span class="ident">IncompatibleBindGroup</span> { <span class="ident">index</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;current render pipeline has a layout which is incompatible with a currently set bind group, first differing at entry index {}&quot;</span>, <span class="ident">index</span>),
         }
     }
 }
@@ -2341,14 +2341,14 @@
 <span class="kw">impl</span> <span class="ident">IndexState</span> {
     <span class="kw">fn</span> <span class="ident">update_limit</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">limit</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bound_buffer_view</span> {
-            <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="kw-2">ref</span> <span class="ident">range</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="kw-2">ref</span> <span class="ident">range</span>)) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">shift</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">format</span> {
-                    <span class="ident">IndexFormat</span>::<span class="ident">Uint16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">1</span>,
-                    <span class="ident">IndexFormat</span>::<span class="ident">Uint32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">2</span>,
+                    <span class="ident">IndexFormat</span>::<span class="ident">Uint16</span> <span class="op">=&gt;</span> <span class="number">1</span>,
+                    <span class="ident">IndexFormat</span>::<span class="ident">Uint32</span> <span class="op">=&gt;</span> <span class="number">2</span>,
                 };
-                ((<span class="ident">range</span>.<span class="ident">end</span> <span class="op">-</span> <span class="ident">range</span>.<span class="ident">start</span>) <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">u32</span>
+                ((<span class="ident">range</span>.<span class="ident">end</span> <span class="op">-</span> <span class="ident">range</span>.<span class="ident">start</span>) <span class="op">&gt;&gt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">u32</span>
             }
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="number">0</span>,
         }
     }
 
@@ -2385,13 +2385,13 @@
         <span class="self">self</span>.<span class="ident">vertex_limit</span> <span class="op">=</span> <span class="op">!</span><span class="number">0</span>;
         <span class="self">self</span>.<span class="ident">instance_limit</span> <span class="op">=</span> <span class="op">!</span><span class="number">0</span>;
         <span class="kw">for</span> <span class="ident">vbs</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inputs</span> {
-            <span class="kw">if</span> <span class="ident">vbs</span>.<span class="ident">stride</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">vbs</span>.<span class="ident">stride</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">continue</span>;
             }
             <span class="kw">let</span> <span class="ident">limit</span> <span class="op">=</span> (<span class="ident">vbs</span>.<span class="ident">total_size</span> <span class="op">/</span> <span class="ident">vbs</span>.<span class="ident">stride</span>) <span class="kw">as</span> <span class="ident">u32</span>;
             <span class="kw">match</span> <span class="ident">vbs</span>.<span class="ident">rate</span> {
-                <span class="ident">InputStepMode</span>::<span class="ident">Vertex</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">vertex_limit</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">vertex_limit</span>.<span class="ident">min</span>(<span class="ident">limit</span>),
-                <span class="ident">InputStepMode</span>::<span class="ident">Instance</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">instance_limit</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">instance_limit</span>.<span class="ident">min</span>(<span class="ident">limit</span>),
+                <span class="ident">InputStepMode</span>::<span class="ident">Vertex</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">vertex_limit</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">vertex_limit</span>.<span class="ident">min</span>(<span class="ident">limit</span>),
+                <span class="ident">InputStepMode</span>::<span class="ident">Instance</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">instance_limit</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">instance_limit</span>.<span class="ident">min</span>(<span class="ident">limit</span>),
             }
         }
     }
@@ -2415,22 +2415,22 @@
 }
 
 <span class="kw">impl</span> <span class="ident">State</span> {
-    <span class="kw">fn</span> <span class="ident">is_ready</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DrawError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">is_ready</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DrawError</span><span class="op">&gt;</span> {
         <span class="comment">//TODO: vertex buffers</span>
         <span class="kw">let</span> <span class="ident">bind_mask</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">binder</span>.<span class="ident">invalid_mask</span>();
-        <span class="kw">if</span> <span class="ident">bind_mask</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">bind_mask</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="comment">//let (expected, provided) = self.binder.entries[index as usize].info();</span>
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DrawError</span>::<span class="ident">IncompatibleBindGroup</span> {
                 <span class="ident">index</span>: <span class="ident">bind_mask</span>.<span class="ident">trailing_zeros</span>(),
             });
         }
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">pipeline</span> <span class="op">=</span><span class="op">=</span> <span class="ident">OptionalState</span>::<span class="ident">Required</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">pipeline</span> <span class="op">==</span> <span class="ident">OptionalState</span>::<span class="ident">Required</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DrawError</span>::<span class="ident">MissingPipeline</span>);
         }
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">blend_color</span> <span class="op">=</span><span class="op">=</span> <span class="ident">OptionalState</span>::<span class="ident">Required</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">blend_color</span> <span class="op">==</span> <span class="ident">OptionalState</span>::<span class="ident">Required</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DrawError</span>::<span class="ident">MissingBlendColor</span>);
         }
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">stencil_reference</span> <span class="op">=</span><span class="op">=</span> <span class="ident">OptionalState</span>::<span class="ident">Required</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">stencil_reference</span> <span class="op">==</span> <span class="ident">OptionalState</span>::<span class="ident">Required</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">DrawError</span>::<span class="ident">MissingStencilReference</span>);
         }
         <span class="prelude-val">Ok</span>(())
@@ -2485,56 +2485,56 @@
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">RenderCommandError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RenderPassError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">RenderCommandError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">RenderCommandError</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">RenderCommand</span>(<span class="ident">error</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">DrawError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RenderPassError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">DrawError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">DrawError</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">Draw</span>(<span class="ident">error</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">BindError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RenderPassError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">BindError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">BindError</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">Bind</span>(<span class="ident">error</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">RenderPassError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">InvalidSampleCount</span>(<span class="ident">count</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">InvalidSampleCount</span>(<span class="ident">count</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;attachment&#39;s sample count {} is invalid&quot;</span>,
                 <span class="ident">count</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">InvalidResolveSourceSampleCount</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;attachment with resolve target must be multi-sampled&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">InvalidResolveTargetSampleCount</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;resolve target must have a sample count of 1&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">ExtentStateMismatch</span> { <span class="ident">state_extent</span>, <span class="ident">view_extent</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">InvalidResolveSourceSampleCount</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;attachment with resolve target must be multi-sampled&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidResolveTargetSampleCount</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;resolve target must have a sample count of 1&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">ExtentStateMismatch</span> { <span class="ident">state_extent</span>, <span class="ident">view_extent</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;extent state {:?} must match extent from view {:?}&quot;</span>,
                 <span class="ident">state_extent</span>,
                 <span class="ident">view_extent</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">SwapChainImageAsDepthStencil</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;attempted to use a swap chain image as a depth/stencil attachment&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">InvalidDepthOps</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;unable to clear non-present/read-only depth&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">InvalidStencilOps</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;unable to clear non-present/read-only stencil&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">SampleCountMismatch</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">SwapChainImageAsDepthStencil</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;attempted to use a swap chain image as a depth/stencil attachment&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidDepthOps</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;unable to clear non-present/read-only depth&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidStencilOps</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;unable to clear non-present/read-only stencil&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">SampleCountMismatch</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;all attachments must have the same sample count, found {} != {}&quot;</span>,
                 <span class="ident">actual</span>,
                 <span class="ident">expected</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">SwapChainMismatch</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;texture view&#39;s swap chain must match swap chain in use&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">InvalidValuesOffset</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;setting `values_offset` to be `None` is only for internal use in render bundles&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">MissingDeviceFeatures</span>(<span class="ident">expected</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">SwapChainMismatch</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;texture view&#39;s swap chain must match swap chain in use&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidValuesOffset</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;setting `values_offset` to be `None` is only for internal use in render bundles&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">MissingDeviceFeatures</span>(<span class="ident">expected</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;required device features not enabled: {:?}&quot;</span>,
                 <span class="ident">expected</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">IndirectBufferOverrun</span> { <span class="ident">offset</span>, <span class="ident">count</span>, <span class="ident">begin_offset</span>, <span class="ident">end_offset</span>, <span class="ident">buffer_size</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">IndirectBufferOverrun</span> { <span class="ident">offset</span>, <span class="ident">count</span>, <span class="ident">begin_offset</span>, <span class="ident">end_offset</span>, <span class="ident">buffer_size</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;indirect draw with offset {}{} uses bytes {}..{} which overruns indirect buffer of size {}&quot;</span>,
                 <span class="ident">offset</span>,
@@ -2543,18 +2543,18 @@
                 <span class="ident">end_offset</span>,
                 <span class="ident">buffer_size</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">IndirectCountBufferOverrun</span> { <span class="ident">begin_count_offset</span>, <span class="ident">end_count_offset</span>, <span class="ident">count_buffer_size</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">IndirectCountBufferOverrun</span> { <span class="ident">begin_count_offset</span>, <span class="ident">end_count_offset</span>, <span class="ident">count_buffer_size</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;indirect draw uses bytes {}..{} which overruns indirect buffer of size {}&quot;</span>,
                 <span class="ident">begin_count_offset</span>,
                 <span class="ident">end_count_offset</span>,
                 <span class="ident">count_buffer_size</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">InvalidPopDebugGroup</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;cannot pop debug group, because number of pushed debug groups is zero&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">IncompatibleRenderBundle</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;render bundle output formats do not match render pass attachment formats&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">RenderCommand</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
-            <span class="self">Self</span>::<span class="ident">Draw</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
-            <span class="self">Self</span>::<span class="ident">Bind</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidPopDebugGroup</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;cannot pop debug group, because number of pushed debug groups is zero&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">IncompatibleRenderBundle</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;render bundle output formats do not match render pass attachment formats&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">RenderCommand</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
+            <span class="self">Self</span>::<span class="ident">Draw</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
+            <span class="self">Self</span>::<span class="ident">Bind</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
         }
     }
 }
@@ -2562,7 +2562,7 @@
 <span class="kw">fn</span> <span class="ident">check_device_features</span>(
     <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">Features</span>,
     <span class="ident">expected</span>: <span class="ident">wgt</span>::<span class="ident">Features</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="op">!</span><span class="ident">actual</span>.<span class="ident">contains</span>(<span class="ident">expected</span>) {
         <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">MissingDeviceFeatures</span>(<span class="ident">expected</span>))
     } <span class="kw">else</span> {
@@ -2577,7 +2577,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">encoder_id</span>: <span class="ident">id</span>::<span class="ident">CommandEncoderId</span>,
         <span class="ident">pass</span>: <span class="kw-2">&amp;</span><span class="ident">RenderPass</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">command_encoder_run_render_pass_impl</span>::<span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>(
             <span class="ident">encoder_id</span>,
             <span class="ident">pass</span>.<span class="ident">base</span>.<span class="ident">as_ref</span>(),
@@ -2593,7 +2593,7 @@
         <span class="kw-2">mut</span> <span class="ident">base</span>: <span class="ident">BasePassRef</span><span class="op">&lt;</span><span class="ident">RenderCommand</span><span class="op">&gt;</span>,
         <span class="ident">color_attachments</span>: <span class="kw-2">&amp;</span>[<span class="ident">ColorAttachmentDescriptor</span>],
         <span class="ident">depth_stencil_attachment</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">DepthStencilAttachmentDescriptor</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderPassError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;CommandEncoder::run_render_pass&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -2609,14 +2609,14 @@
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
         <span class="kw">match</span> <span class="ident">cmb</span>.<span class="ident">commands</span> {
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">list</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">list</span>) <span class="op">=&gt;</span> {
                 <span class="ident">list</span>.<span class="ident">push</span>(<span class="kw">crate</span>::<span class="ident">device</span>::<span class="ident">trace</span>::<span class="ident">Command</span>::<span class="ident">RunRenderPass</span> {
                     <span class="ident">base</span>: <span class="ident">BasePass</span>::<span class="ident">from_ref</span>(<span class="ident">base</span>),
                     <span class="ident">target_colors</span>: <span class="ident">color_attachments</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>(),
                     <span class="ident">target_depth_stencil</span>: <span class="ident">depth_stencil_attachment</span>.<span class="ident">cloned</span>(),
                 });
             }
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> {}
         }
 
         <span class="kw">unsafe</span> {
@@ -2652,13 +2652,13 @@
             <span class="kw">let</span> <span class="ident">base_trackers</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">cmb</span>.<span class="ident">trackers</span>;
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">extent</span> <span class="op">=</span> <span class="prelude-val">None</span>;
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">used_swap_chain</span> <span class="op">=</span> <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">SwapChainId</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">used_swap_chain</span> <span class="op">=</span> <span class="prelude-val">None</span>::<span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">SwapChainId</span><span class="op">&gt;&gt;</span>;
 
             <span class="kw">let</span> <span class="ident">sample_count</span> <span class="op">=</span> <span class="ident">color_attachments</span>
                 .<span class="ident">get</span>(<span class="number">0</span>)
                 .<span class="ident">map</span>(<span class="op">|</span><span class="ident">at</span><span class="op">|</span> <span class="ident">view_guard</span>[<span class="ident">at</span>.<span class="ident">attachment</span>].<span class="ident">samples</span>)
                 .<span class="ident">unwrap_or</span>(<span class="number">1</span>);
-            <span class="kw">if</span> <span class="ident">sample_count</span> <span class="op">&amp;</span> <span class="ident">sample_count_limit</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">sample_count</span> <span class="op">&amp;</span> <span class="ident">sample_count_limit</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidSampleCount</span>(<span class="ident">sample_count</span>));
             }
 
@@ -2668,13 +2668,13 @@
             );
             <span class="kw">let</span> <span class="ident">rp_key</span> <span class="op">=</span> {
                 <span class="kw">let</span> <span class="ident">depth_stencil</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">depth_stencil_attachment</span> {
-                    <span class="prelude-val">Some</span>(<span class="ident">at</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="prelude-val">Some</span>(<span class="ident">at</span>) <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">view</span> <span class="op">=</span> <span class="ident">trackers</span>
                             .<span class="ident">views</span>
                             .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">view_guard</span>, <span class="ident">at</span>.<span class="ident">attachment</span>, (), ())
                             .<span class="ident">unwrap</span>();
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">ex</span>) <span class="op">=</span> <span class="ident">extent</span> {
-                            <span class="kw">if</span> <span class="ident">ex</span> <span class="op">!</span><span class="op">=</span> <span class="ident">view</span>.<span class="ident">extent</span> {
+                            <span class="kw">if</span> <span class="ident">ex</span> <span class="op">!=</span> <span class="ident">view</span>.<span class="ident">extent</span> {
                                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">ExtentStateMismatch</span> {
                                     <span class="ident">state_extent</span>: <span class="ident">ex</span>,
                                     <span class="ident">view_extent</span>: <span class="ident">view</span>.<span class="ident">extent</span>,
@@ -2684,8 +2684,8 @@
                             <span class="ident">extent</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">view</span>.<span class="ident">extent</span>);
                         }
                         <span class="kw">let</span> <span class="ident">source_id</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">view</span>.<span class="ident">inner</span> {
-                            <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">source_id</span>,
-                            <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=&gt;</span> <span class="ident">source_id</span>,
+                            <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { .. } <span class="op">=&gt;</span> {
                                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">SwapChainImageAsDepthStencil</span>)
                             }
                         };
@@ -2709,8 +2709,8 @@
 
                         <span class="kw">let</span> <span class="ident">new_layout</span> <span class="op">=</span> <span class="ident">conv</span>::<span class="ident">map_texture_state</span>(<span class="ident">new_use</span>, <span class="ident">view</span>.<span class="ident">range</span>.<span class="ident">aspects</span>).<span class="number">1</span>;
                         <span class="kw">let</span> <span class="ident">old_layout</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">previous_use</span> {
-                            <span class="prelude-val">Some</span>(<span class="ident">usage</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">conv</span>::<span class="ident">map_texture_state</span>(<span class="ident">usage</span>, <span class="ident">view</span>.<span class="ident">range</span>.<span class="ident">aspects</span>).<span class="number">1</span>,
-                            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">new_layout</span>,
+                            <span class="prelude-val">Some</span>(<span class="ident">usage</span>) <span class="op">=&gt;</span> <span class="ident">conv</span>::<span class="ident">map_texture_state</span>(<span class="ident">usage</span>, <span class="ident">view</span>.<span class="ident">range</span>.<span class="ident">aspects</span>).<span class="number">1</span>,
+                            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">new_layout</span>,
                         };
 
                         <span class="kw">let</span> <span class="ident">ds_at</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">pass</span>::<span class="ident">Attachment</span> {
@@ -2725,7 +2725,7 @@
                         };
                         <span class="prelude-val">Some</span>((<span class="ident">ds_at</span>, <span class="ident">new_layout</span>))
                     }
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
                 };
 
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">colors</span> <span class="op">=</span> <span class="ident">ArrayVec</span>::<span class="ident">new</span>();
@@ -2737,7 +2737,7 @@
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">view_guard</span>, <span class="ident">at</span>.<span class="ident">attachment</span>, (), ())
                         .<span class="ident">unwrap</span>();
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">ex</span>) <span class="op">=</span> <span class="ident">extent</span> {
-                        <span class="kw">if</span> <span class="ident">ex</span> <span class="op">!</span><span class="op">=</span> <span class="ident">view</span>.<span class="ident">extent</span> {
+                        <span class="kw">if</span> <span class="ident">ex</span> <span class="op">!=</span> <span class="ident">view</span>.<span class="ident">extent</span> {
                             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">ExtentStateMismatch</span> {
                                 <span class="ident">state_extent</span>: <span class="ident">ex</span>,
                                 <span class="ident">view_extent</span>: <span class="ident">view</span>.<span class="ident">extent</span>,
@@ -2746,7 +2746,7 @@
                     } <span class="kw">else</span> {
                         <span class="ident">extent</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">view</span>.<span class="ident">extent</span>);
                     }
-                    <span class="kw">if</span> <span class="ident">view</span>.<span class="ident">samples</span> <span class="op">!</span><span class="op">=</span> <span class="ident">sample_count</span> {
+                    <span class="kw">if</span> <span class="ident">view</span>.<span class="ident">samples</span> <span class="op">!=</span> <span class="ident">sample_count</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">SampleCountMismatch</span> {
                             <span class="ident">actual</span>: <span class="ident">view</span>.<span class="ident">samples</span>,
                             <span class="ident">expected</span>: <span class="ident">sample_count</span>,
@@ -2754,7 +2754,7 @@
                     }
 
                     <span class="kw">let</span> <span class="ident">layouts</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">view</span>.<span class="ident">inner</span> {
-                        <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=&gt;</span> {
                             <span class="kw">let</span> <span class="ident">previous_use</span> <span class="op">=</span> <span class="ident">base_trackers</span>
                                 .<span class="ident">textures</span>
                                 .<span class="ident">query</span>(<span class="ident">source_id</span>.<span class="ident">value</span>, <span class="ident">view</span>.<span class="ident">range</span>.<span class="ident">clone</span>());
@@ -2769,16 +2769,16 @@
                             <span class="kw">let</span> <span class="ident">new_layout</span> <span class="op">=</span>
                                 <span class="ident">conv</span>::<span class="ident">map_texture_state</span>(<span class="ident">new_use</span>, <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">COLOR</span>).<span class="number">1</span>;
                             <span class="kw">let</span> <span class="ident">old_layout</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">previous_use</span> {
-                                <span class="prelude-val">Some</span>(<span class="ident">usage</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                                <span class="prelude-val">Some</span>(<span class="ident">usage</span>) <span class="op">=&gt;</span> {
                                     <span class="ident">conv</span>::<span class="ident">map_texture_state</span>(<span class="ident">usage</span>, <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">COLOR</span>).<span class="number">1</span>
                                 }
-                                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">new_layout</span>,
+                                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">new_layout</span>,
                             };
                             <span class="ident">old_layout</span>..<span class="ident">new_layout</span>
                         }
-                        <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=&gt;</span> {
                             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="kw-2">ref</span> <span class="ident">sc_id</span>, <span class="kw">_</span>)) <span class="op">=</span> <span class="ident">cmb</span>.<span class="ident">used_swap_chain</span> {
-                                <span class="kw">if</span> <span class="ident">source_id</span>.<span class="ident">value</span> <span class="op">!</span><span class="op">=</span> <span class="ident">sc_id</span>.<span class="ident">value</span> {
+                                <span class="kw">if</span> <span class="ident">source_id</span>.<span class="ident">value</span> <span class="op">!=</span> <span class="ident">sc_id</span>.<span class="ident">value</span> {
                                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">SwapChainMismatch</span>);
                                 }
                             } <span class="kw">else</span> {
@@ -2788,8 +2788,8 @@
 
                             <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>::<span class="ident">Present</span>;
                             <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">at</span>.<span class="ident">channel</span>.<span class="ident">load_op</span> {
-                                <span class="ident">LoadOp</span>::<span class="ident">Clear</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>::<span class="ident">Undefined</span>,
-                                <span class="ident">LoadOp</span>::<span class="ident">Load</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">end</span>,
+                                <span class="ident">LoadOp</span>::<span class="ident">Clear</span> <span class="op">=&gt;</span> <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>::<span class="ident">Undefined</span>,
+                                <span class="ident">LoadOp</span>::<span class="ident">Load</span> <span class="op">=&gt;</span> <span class="ident">end</span>,
                             };
                             <span class="ident">start</span>..<span class="ident">end</span>
                         }
@@ -2813,18 +2813,18 @@
                         .<span class="ident">views</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">view_guard</span>, <span class="ident">resolve_target</span>, (), ())
                         .<span class="ident">unwrap</span>();
-                    <span class="kw">if</span> <span class="ident">extent</span> <span class="op">!</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">view</span>.<span class="ident">extent</span>) {
+                    <span class="kw">if</span> <span class="ident">extent</span> <span class="op">!=</span> <span class="prelude-val">Some</span>(<span class="ident">view</span>.<span class="ident">extent</span>) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">ExtentStateMismatch</span> {
                             <span class="ident">state_extent</span>: <span class="ident">extent</span>.<span class="ident">unwrap_or_default</span>(),
                             <span class="ident">view_extent</span>: <span class="ident">view</span>.<span class="ident">extent</span>,
                         });
                     }
-                    <span class="kw">if</span> <span class="ident">view</span>.<span class="ident">samples</span> <span class="op">!</span><span class="op">=</span> <span class="number">1</span> {
+                    <span class="kw">if</span> <span class="ident">view</span>.<span class="ident">samples</span> <span class="op">!=</span> <span class="number">1</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidResolveTargetSampleCount</span>);
                     }
 
                     <span class="kw">let</span> <span class="ident">layouts</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">view</span>.<span class="ident">inner</span> {
-                        <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=&gt;</span> {
                             <span class="kw">let</span> <span class="ident">previous_use</span> <span class="op">=</span> <span class="ident">base_trackers</span>
                                 .<span class="ident">textures</span>
                                 .<span class="ident">query</span>(<span class="ident">source_id</span>.<span class="ident">value</span>, <span class="ident">view</span>.<span class="ident">range</span>.<span class="ident">clone</span>());
@@ -2839,16 +2839,16 @@
                             <span class="kw">let</span> <span class="ident">new_layout</span> <span class="op">=</span>
                                 <span class="ident">conv</span>::<span class="ident">map_texture_state</span>(<span class="ident">new_use</span>, <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">COLOR</span>).<span class="number">1</span>;
                             <span class="kw">let</span> <span class="ident">old_layout</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">previous_use</span> {
-                                <span class="prelude-val">Some</span>(<span class="ident">usage</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                                <span class="prelude-val">Some</span>(<span class="ident">usage</span>) <span class="op">=&gt;</span> {
                                     <span class="ident">conv</span>::<span class="ident">map_texture_state</span>(<span class="ident">usage</span>, <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">COLOR</span>).<span class="number">1</span>
                                 }
-                                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">new_layout</span>,
+                                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">new_layout</span>,
                             };
                             <span class="ident">old_layout</span>..<span class="ident">new_layout</span>
                         }
-                        <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">source_id</span>, .. } <span class="op">=&gt;</span> {
                             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="kw-2">ref</span> <span class="ident">sc_id</span>, <span class="kw">_</span>)) <span class="op">=</span> <span class="ident">cmb</span>.<span class="ident">used_swap_chain</span> {
-                                <span class="kw">if</span> <span class="ident">source_id</span>.<span class="ident">value</span> <span class="op">!</span><span class="op">=</span> <span class="ident">sc_id</span>.<span class="ident">value</span> {
+                                <span class="kw">if</span> <span class="ident">source_id</span>.<span class="ident">value</span> <span class="op">!=</span> <span class="ident">sc_id</span>.<span class="ident">value</span> {
                                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">SwapChainMismatch</span>);
                                 }
                             } <span class="kw">else</span> {
@@ -2884,8 +2884,8 @@
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">render_pass_cache</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">render_passes</span>.<span class="ident">lock</span>();
             <span class="kw">let</span> <span class="ident">render_pass</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">render_pass_cache</span>.<span class="ident">entry</span>(<span class="ident">rp_key</span>.<span class="ident">clone</span>()) {
-                <span class="ident">Entry</span>::<span class="ident">Occupied</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">e</span>.<span class="ident">into_mut</span>(),
-                <span class="ident">Entry</span>::<span class="ident">Vacant</span>(<span class="ident">entry</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Entry</span>::<span class="ident">Occupied</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">e</span>.<span class="ident">into_mut</span>(),
+                <span class="ident">Entry</span>::<span class="ident">Vacant</span>(<span class="ident">entry</span>) <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">color_ids</span>: [<span class="ident">hal</span>::<span class="ident">pass</span>::<span class="ident">AttachmentRef</span>; <span class="ident">MAX_COLOR_TARGETS</span>] <span class="op">=</span> [
                         (<span class="number">0</span>, <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>::<span class="ident">ColorAttachmentOptimal</span>),
                         (<span class="number">1</span>, <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span>::<span class="ident">ColorAttachmentOptimal</span>),
@@ -2905,25 +2905,25 @@
                             .<span class="ident">zip</span>(<span class="ident">entry</span>.<span class="ident">key</span>().<span class="ident">resolves</span>.<span class="ident">iter</span>())
                         {
                             <span class="kw">let</span> <span class="ident">real_attachment_index</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">at</span>.<span class="ident">resolve_target</span> {
-                                <span class="prelude-val">Some</span>(<span class="ident">resolve_attachment</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                                <span class="prelude-val">Some</span>(<span class="ident">resolve_attachment</span>) <span class="op">=&gt;</span> {
                                     <span class="kw">let</span> <span class="ident">attachment_sample_count</span> <span class="op">=</span> <span class="ident">view_guard</span>[<span class="ident">at</span>.<span class="ident">attachment</span>].<span class="ident">samples</span>;
-                                    <span class="kw">if</span> <span class="ident">attachment_sample_count</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+                                    <span class="kw">if</span> <span class="ident">attachment_sample_count</span> <span class="op">==</span> <span class="number">1</span> {
                                         <span class="kw">return</span> <span class="prelude-val">Err</span>(
                                             <span class="ident">RenderPassError</span>::<span class="ident">InvalidResolveSourceSampleCount</span>,
                                         );
                                     }
-                                    <span class="kw">if</span> <span class="ident">view_guard</span>[<span class="ident">resolve_attachment</span>].<span class="ident">samples</span> <span class="op">!</span><span class="op">=</span> <span class="number">1</span> {
+                                    <span class="kw">if</span> <span class="ident">view_guard</span>[<span class="ident">resolve_attachment</span>].<span class="ident">samples</span> <span class="op">!=</span> <span class="number">1</span> {
                                         <span class="kw">return</span> <span class="prelude-val">Err</span>(
                                             <span class="ident">RenderPassError</span>::<span class="ident">InvalidResolveTargetSampleCount</span>,
                                         );
                                     }
                                     <span class="ident">attachment_index</span> <span class="op">+</span> <span class="ident">i</span>
                                 }
-                                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">pass</span>::<span class="ident">ATTACHMENT_UNUSED</span>,
+                                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">hal</span>::<span class="ident">pass</span>::<span class="ident">ATTACHMENT_UNUSED</span>,
                             };
                             <span class="ident">resolve_ids</span>.<span class="ident">push</span>((<span class="ident">real_attachment_index</span>, <span class="ident">layout</span>));
                         }
-                        <span class="ident">attachment_index</span> <span class="op">+</span><span class="op">=</span> <span class="ident">color_attachments</span>.<span class="ident">len</span>();
+                        <span class="ident">attachment_index</span> <span class="op">+=</span> <span class="ident">color_attachments</span>.<span class="ident">len</span>();
                     }
 
                     <span class="kw">let</span> <span class="ident">depth_id</span> <span class="op">=</span> <span class="ident">depth_stencil_attachment</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">at</span><span class="op">|</span> {
@@ -2963,12 +2963,12 @@
             };
 
             <span class="kw">let</span> <span class="ident">framebuffer</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">used_swap_chain</span>.<span class="ident">take</span>() {
-                <span class="prelude-val">Some</span>(<span class="ident">sc_id</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">sc_id</span>) <span class="op">=&gt;</span> {
                     <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">cmb</span>.<span class="ident">used_swap_chain</span>.<span class="ident">is_none</span>());
                     <span class="comment">// Always create a new framebuffer and delete it after presentation.</span>
                     <span class="kw">let</span> <span class="ident">attachments</span> <span class="op">=</span> <span class="ident">fb_key</span>.<span class="ident">all</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">id</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">view_guard</span>[<span class="ident">id</span>].<span class="ident">inner</span> {
-                        <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">raw</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">raw</span>,
-                        <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">image</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Borrow</span>::<span class="ident">borrow</span>(<span class="ident">image</span>),
+                        <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">raw</span>, .. } <span class="op">=&gt;</span> <span class="ident">raw</span>,
+                        <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">image</span>, .. } <span class="op">=&gt;</span> <span class="ident">Borrow</span>::<span class="ident">borrow</span>(<span class="ident">image</span>),
                     });
                     <span class="kw">let</span> <span class="ident">framebuffer</span> <span class="op">=</span> <span class="kw">unsafe</span> {
                         <span class="ident">device</span>
@@ -2979,17 +2979,17 @@
                     <span class="ident">cmb</span>.<span class="ident">used_swap_chain</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">sc_id</span>, <span class="ident">framebuffer</span>));
                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cmb</span>.<span class="ident">used_swap_chain</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>().<span class="number">1</span>
                 }
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
                     <span class="comment">// Cache framebuffers by the device.</span>
                     <span class="ident">framebuffer_cache</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">framebuffers</span>.<span class="ident">lock</span>();
                     <span class="kw">match</span> <span class="ident">framebuffer_cache</span>.<span class="ident">entry</span>(<span class="ident">fb_key</span>) {
-                        <span class="ident">Entry</span>::<span class="ident">Occupied</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">e</span>.<span class="ident">into_mut</span>(),
-                        <span class="ident">Entry</span>::<span class="ident">Vacant</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">Entry</span>::<span class="ident">Occupied</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="ident">e</span>.<span class="ident">into_mut</span>(),
+                        <span class="ident">Entry</span>::<span class="ident">Vacant</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
                             <span class="kw">let</span> <span class="ident">fb</span> <span class="op">=</span> {
                                 <span class="kw">let</span> <span class="ident">attachments</span> <span class="op">=</span>
                                     <span class="ident">e</span>.<span class="ident">key</span>().<span class="ident">all</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">id</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">view_guard</span>[<span class="ident">id</span>].<span class="ident">inner</span> {
-                                        <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">raw</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">raw</span>,
-                                        <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">image</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                                        <span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { <span class="kw-2">ref</span> <span class="ident">raw</span>, .. } <span class="op">=&gt;</span> <span class="ident">raw</span>,
+                                        <span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="kw-2">ref</span> <span class="ident">image</span>, .. } <span class="op">=&gt;</span> {
                                             <span class="ident">Borrow</span>::<span class="ident">borrow</span>(<span class="ident">image</span>)
                                         }
                                     });
@@ -3023,8 +3023,8 @@
                 .<span class="ident">zip</span>(<span class="kw-2">&amp;</span><span class="ident">rp_key</span>.<span class="ident">colors</span>)
                 .<span class="ident">flat_map</span>(<span class="op">|</span>(<span class="ident">at</span>, (<span class="ident">rat</span>, <span class="ident">_layout</span>))<span class="op">|</span> {
                     <span class="kw">match</span> <span class="ident">at</span>.<span class="ident">channel</span>.<span class="ident">load_op</span> {
-                        <span class="ident">LoadOp</span>::<span class="ident">Load</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-                        <span class="ident">LoadOp</span>::<span class="ident">Clear</span> <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">LoadOp</span>::<span class="ident">Load</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+                        <span class="ident">LoadOp</span>::<span class="ident">Clear</span> <span class="op">=&gt;</span> {
                             <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">ChannelType</span>;
                             <span class="comment">//TODO: validate sign/unsign and normalized ranges of the color values</span>
                             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">rat</span>.<span class="ident">format</span>.<span class="ident">unwrap</span>().<span class="ident">base_format</span>().<span class="number">1</span> {
@@ -3034,13 +3034,13 @@
                                 <span class="op">|</span> <span class="ident">ChannelType</span>::<span class="ident">Sfloat</span>
                                 <span class="op">|</span> <span class="ident">ChannelType</span>::<span class="ident">Uscaled</span>
                                 <span class="op">|</span> <span class="ident">ChannelType</span>::<span class="ident">Sscaled</span>
-                                <span class="op">|</span> <span class="ident">ChannelType</span>::<span class="ident">Srgb</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">ClearColor</span> {
+                                <span class="op">|</span> <span class="ident">ChannelType</span>::<span class="ident">Srgb</span> <span class="op">=&gt;</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">ClearColor</span> {
                                     <span class="ident">float32</span>: <span class="ident">conv</span>::<span class="ident">map_color_f32</span>(<span class="kw-2">&amp;</span><span class="ident">at</span>.<span class="ident">channel</span>.<span class="ident">clear_value</span>),
                                 },
-                                <span class="ident">ChannelType</span>::<span class="ident">Sint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">ClearColor</span> {
+                                <span class="ident">ChannelType</span>::<span class="ident">Sint</span> <span class="op">=&gt;</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">ClearColor</span> {
                                     <span class="ident">sint32</span>: <span class="ident">conv</span>::<span class="ident">map_color_i32</span>(<span class="kw-2">&amp;</span><span class="ident">at</span>.<span class="ident">channel</span>.<span class="ident">clear_value</span>),
                                 },
-                                <span class="ident">ChannelType</span>::<span class="ident">Uint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">ClearColor</span> {
+                                <span class="ident">ChannelType</span>::<span class="ident">Uint</span> <span class="op">=&gt;</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">ClearColor</span> {
                                     <span class="ident">uint32</span>: <span class="ident">conv</span>::<span class="ident">map_color_u32</span>(<span class="kw-2">&amp;</span><span class="ident">at</span>.<span class="ident">channel</span>.<span class="ident">clear_value</span>),
                                 },
                             };
@@ -3050,8 +3050,8 @@
                 })
                 .<span class="ident">chain</span>(<span class="ident">depth_stencil_attachment</span>.<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">at</span><span class="op">|</span> {
                     <span class="kw">match</span> (<span class="ident">at</span>.<span class="ident">depth</span>.<span class="ident">load_op</span>, <span class="ident">at</span>.<span class="ident">stencil</span>.<span class="ident">load_op</span>) {
-                        (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">LoadOp</span>::<span class="ident">Load</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-                        (<span class="ident">LoadOp</span>::<span class="ident">Clear</span>, <span class="kw">_</span>) <span class="op">|</span> (<span class="kw">_</span>, <span class="ident">LoadOp</span>::<span class="ident">Clear</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                        (<span class="ident">LoadOp</span>::<span class="ident">Load</span>, <span class="ident">LoadOp</span>::<span class="ident">Load</span>) <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+                        (<span class="ident">LoadOp</span>::<span class="ident">Clear</span>, <span class="kw">_</span>) <span class="op">|</span> (<span class="kw">_</span>, <span class="ident">LoadOp</span>::<span class="ident">Clear</span>) <span class="op">=&gt;</span> {
                             <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">ClearDepthStencil</span> {
                                 <span class="ident">depth</span>: <span class="ident">at</span>.<span class="ident">depth</span>.<span class="ident">clear_value</span>,
                                 <span class="ident">stencil</span>: <span class="ident">at</span>.<span class="ident">stencil</span>.<span class="ident">clear_value</span>,
@@ -3115,9 +3115,9 @@
                     <span class="ident">index</span>,
                     <span class="ident">num_dynamic_offsets</span>,
                     <span class="ident">bind_group_id</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">max_bind_groups</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>;
-                    <span class="kw">if</span> (<span class="ident">index</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">max_bind_groups</span> {
+                    <span class="kw">if</span> (<span class="ident">index</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&gt;=</span> <span class="ident">max_bind_groups</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">BindGroupIndexOutOfRange</span> {
                             <span class="ident">index</span>,
                             <span class="ident">max</span>: <span class="ident">max_bind_groups</span>,
@@ -3162,7 +3162,7 @@
                         }
                     };
                 }
-                <span class="ident">RenderCommand</span>::<span class="ident">SetPipeline</span>(<span class="ident">pipeline_id</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">RenderCommand</span>::<span class="ident">SetPipeline</span>(<span class="ident">pipeline_id</span>) <span class="op">=&gt;</span> {
                     <span class="ident">state</span>.<span class="ident">pipeline</span> <span class="op">=</span> <span class="ident">OptionalState</span>::<span class="ident">Set</span>;
                     <span class="kw">let</span> <span class="ident">pipeline</span> <span class="op">=</span> <span class="ident">trackers</span>
                         .<span class="ident">render_pipes</span>
@@ -3173,7 +3173,7 @@
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">IncompatiblePipeline</span>.<span class="ident">into</span>());
                     }
                     <span class="kw">if</span> <span class="ident">is_ds_read_only</span>
-                        <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">pipeline</span>
+                        <span class="op">&amp;&amp;</span> <span class="ident">pipeline</span>
                             .<span class="ident">flags</span>
                             .<span class="ident">contains</span>(<span class="ident">PipelineFlags</span>::<span class="ident">DEPTH_STENCIL_READ_ONLY</span>)
                     {
@@ -3192,7 +3192,7 @@
                     }
 
                     <span class="comment">// Rebind resource</span>
-                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">binder</span>.<span class="ident">pipeline_layout_id</span> <span class="op">!</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">pipeline</span>.<span class="ident">layout_id</span>.<span class="ident">value</span>) {
+                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">binder</span>.<span class="ident">pipeline_layout_id</span> <span class="op">!=</span> <span class="prelude-val">Some</span>(<span class="ident">pipeline</span>.<span class="ident">layout_id</span>.<span class="ident">value</span>) {
                         <span class="kw">let</span> <span class="ident">pipeline_layout</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pipeline_layout_guard</span>[<span class="ident">pipeline</span>.<span class="ident">layout_id</span>.<span class="ident">value</span>];
                         <span class="ident">state</span>.<span class="ident">binder</span>.<span class="ident">pipeline_layout_id</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">pipeline</span>.<span class="ident">layout_id</span>.<span class="ident">value</span>);
                         <span class="ident">state</span>
@@ -3208,7 +3208,7 @@
                             .<span class="ident">enumerate</span>()
                         {
                             <span class="kw">match</span> <span class="ident">entry</span>.<span class="ident">expect_layout</span>(<span class="ident">bgl_id</span>.<span class="ident">value</span>) {
-                                <span class="ident">LayoutChange</span>::<span class="ident">Match</span>(<span class="ident">bg_id</span>, <span class="ident">offsets</span>) <span class="kw">if</span> <span class="ident">is_compatible</span> <span class="op">=</span><span class="op">&gt;</span> {
+                                <span class="ident">LayoutChange</span>::<span class="ident">Match</span>(<span class="ident">bg_id</span>, <span class="ident">offsets</span>) <span class="kw">if</span> <span class="ident">is_compatible</span> <span class="op">=&gt;</span> {
                                     <span class="kw">let</span> <span class="ident">desc_set</span> <span class="op">=</span> <span class="ident">bind_group_guard</span>[<span class="ident">bg_id</span>].<span class="ident">raw</span>.<span class="ident">raw</span>();
                                     <span class="kw">unsafe</span> {
                                         <span class="ident">raw</span>.<span class="ident">bind_graphics_descriptor_sets</span>(
@@ -3219,8 +3219,8 @@
                                         );
                                     }
                                 }
-                                <span class="ident">LayoutChange</span>::<span class="ident">Match</span>(..) <span class="op">|</span> <span class="ident">LayoutChange</span>::<span class="ident">Unchanged</span> <span class="op">=</span><span class="op">&gt;</span> {}
-                                <span class="ident">LayoutChange</span>::<span class="ident">Mismatch</span> <span class="op">=</span><span class="op">&gt;</span> {
+                                <span class="ident">LayoutChange</span>::<span class="ident">Match</span>(..) <span class="op">|</span> <span class="ident">LayoutChange</span>::<span class="ident">Unchanged</span> <span class="op">=&gt;</span> {}
+                                <span class="ident">LayoutChange</span>::<span class="ident">Mismatch</span> <span class="op">=&gt;</span> {
                                     <span class="ident">is_compatible</span> <span class="op">=</span> <span class="bool-val">false</span>;
                                 }
                             }
@@ -3249,7 +3249,7 @@
                     }
 
                     <span class="comment">// Rebind index buffer if the index format has changed with the pipeline switch</span>
-                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">format</span> <span class="op">!</span><span class="op">=</span> <span class="ident">pipeline</span>.<span class="ident">index_format</span> {
+                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">format</span> <span class="op">!=</span> <span class="ident">pipeline</span>.<span class="ident">index_format</span> {
                         <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">format</span> <span class="op">=</span> <span class="ident">pipeline</span>.<span class="ident">index_format</span>;
                         <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">update_limit</span>();
 
@@ -3291,7 +3291,7 @@
                     <span class="ident">buffer_id</span>,
                     <span class="ident">offset</span>,
                     <span class="ident">size</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">trackers</span>
                         .<span class="ident">buffers</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>, <span class="ident">buffer_id</span>, (), <span class="ident">BufferUse</span>::<span class="ident">INDEX</span>)
@@ -3299,8 +3299,8 @@
                     <span class="ident">check_buffer_usage</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>, <span class="ident">BufferUsage</span>::<span class="ident">INDEX</span>)<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">size</span> {
-                        <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">s</span>.<span class="ident">get</span>(),
-                        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span>,
+                        <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">s</span>.<span class="ident">get</span>(),
+                        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span>,
                     };
                     <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">bound_buffer_view</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">buffer_id</span>, <span class="ident">offset</span>..<span class="ident">end</span>));
                     <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">update_limit</span>();
@@ -3323,7 +3323,7 @@
                     <span class="ident">buffer_id</span>,
                     <span class="ident">offset</span>,
                     <span class="ident">size</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">trackers</span>
                         .<span class="ident">buffers</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">buffer_guard</span>, <span class="ident">buffer_id</span>, (), <span class="ident">BufferUse</span>::<span class="ident">VERTEX</span>)
@@ -3335,8 +3335,8 @@
                         .<span class="ident">inputs</span>
                         .<span class="ident">extend</span>(<span class="ident">iter</span>::<span class="ident">repeat</span>(<span class="ident">VertexBufferState</span>::<span class="ident">EMPTY</span>).<span class="ident">take</span>(<span class="ident">empty_slots</span>));
                     <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">inputs</span>[<span class="ident">slot</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">total_size</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">size</span> {
-                        <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">s</span>.<span class="ident">get</span>(),
-                        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span> <span class="op">-</span> <span class="ident">offset</span>,
+                        <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">s</span>.<span class="ident">get</span>(),
+                        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span> <span class="op">-</span> <span class="ident">offset</span>,
                     };
 
                     <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span> {
@@ -3348,13 +3348,13 @@
                     }
                     <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">update_limits</span>();
                 }
-                <span class="ident">RenderCommand</span>::<span class="ident">SetBlendColor</span>(<span class="kw-2">ref</span> <span class="ident">color</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">RenderCommand</span>::<span class="ident">SetBlendColor</span>(<span class="kw-2">ref</span> <span class="ident">color</span>) <span class="op">=&gt;</span> {
                     <span class="ident">state</span>.<span class="ident">blend_color</span> <span class="op">=</span> <span class="ident">OptionalState</span>::<span class="ident">Set</span>;
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">set_blend_constants</span>(<span class="ident">conv</span>::<span class="ident">map_color_f32</span>(<span class="ident">color</span>));
                     }
                 }
-                <span class="ident">RenderCommand</span>::<span class="ident">SetStencilReference</span>(<span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">RenderCommand</span>::<span class="ident">SetStencilReference</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> {
                     <span class="ident">state</span>.<span class="ident">stencil_reference</span> <span class="op">=</span> <span class="ident">OptionalState</span>::<span class="ident">Set</span>;
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">set_stencil_reference</span>(<span class="ident">hal</span>::<span class="ident">pso</span>::<span class="ident">Face</span>::<span class="ident">all</span>(), <span class="ident">value</span>);
@@ -3364,7 +3364,7 @@
                     <span class="kw-2">ref</span> <span class="ident">rect</span>,
                     <span class="ident">depth_min</span>,
                     <span class="ident">depth_max</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">i16</span>};
                     <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">pso</span>::<span class="ident">Rect</span> {
                         <span class="ident">x</span>: <span class="ident">i16</span>::<span class="ident">try_from</span>(<span class="ident">rect</span>.<span class="ident">x</span>.<span class="ident">round</span>() <span class="kw">as</span> <span class="ident">i64</span>).<span class="ident">unwrap_or</span>(<span class="number">0</span>),
@@ -3387,7 +3387,7 @@
                     <span class="ident">offset</span>,
                     <span class="ident">size_bytes</span>,
                     <span class="ident">values_offset</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">values_offset</span> <span class="op">=</span>
                         <span class="ident">values_offset</span>.<span class="ident">ok_or</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidValuesOffset</span>)<span class="question-mark">?</span>;
 
@@ -3415,7 +3415,7 @@
                         )
                     }
                 }
-                <span class="ident">RenderCommand</span>::<span class="ident">SetScissor</span>(<span class="kw-2">ref</span> <span class="ident">rect</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">RenderCommand</span>::<span class="ident">SetScissor</span>(<span class="kw-2">ref</span> <span class="ident">rect</span>) <span class="op">=&gt;</span> {
                     <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">convert</span>::<span class="ident">TryFrom</span>, <span class="ident">i16</span>};
                     <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">pso</span>::<span class="ident">Rect</span> {
                         <span class="ident">x</span>: <span class="ident">i16</span>::<span class="ident">try_from</span>(<span class="ident">rect</span>.<span class="ident">x</span>).<span class="ident">unwrap_or</span>(<span class="number">0</span>),
@@ -3432,7 +3432,7 @@
                     <span class="ident">instance_count</span>,
                     <span class="ident">first_vertex</span>,
                     <span class="ident">first_instance</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="ident">state</span>.<span class="ident">is_ready</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">last_vertex</span> <span class="op">=</span> <span class="ident">first_vertex</span> <span class="op">+</span> <span class="ident">vertex_count</span>;
                     <span class="kw">let</span> <span class="ident">vertex_limit</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">vertex</span>.<span class="ident">vertex_limit</span>;
@@ -3466,7 +3466,7 @@
                     <span class="ident">first_index</span>,
                     <span class="ident">base_vertex</span>,
                     <span class="ident">first_instance</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="ident">state</span>.<span class="ident">is_ready</span>()<span class="question-mark">?</span>;
 
                     <span class="comment">//TODO: validate that base_vertex + max_index() is within the provided range</span>
@@ -3502,12 +3502,12 @@
                     <span class="ident">offset</span>,
                     <span class="ident">count</span>,
                     <span class="ident">indexed</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="ident">state</span>.<span class="ident">is_ready</span>()<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">stride</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">indexed</span> {
-                        <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">16</span>,
-                        <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20</span>,
+                        <span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="number">16</span>,
+                        <span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="number">20</span>,
                     };
 
                     <span class="kw">if</span> <span class="ident">count</span>.<span class="ident">is_some</span>() {
@@ -3535,10 +3535,10 @@
                     }
 
                     <span class="kw">match</span> <span class="ident">indexed</span> {
-                        <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">unsafe</span> {
+                        <span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="kw">unsafe</span> {
                             <span class="ident">raw</span>.<span class="ident">draw_indirect</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>.<span class="ident">raw</span>, <span class="ident">offset</span>, <span class="ident">actual_count</span>, <span class="ident">stride</span> <span class="kw">as</span> <span class="ident">u32</span>);
                         },
-                        <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">unsafe</span> {
+                        <span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="kw">unsafe</span> {
                             <span class="ident">raw</span>.<span class="ident">draw_indexed_indirect</span>(
                                 <span class="kw-2">&amp;</span><span class="ident">buffer</span>.<span class="ident">raw</span>,
                                 <span class="ident">offset</span>,
@@ -3555,12 +3555,12 @@
                     <span class="ident">count_buffer_offset</span>,
                     <span class="ident">max_count</span>,
                     <span class="ident">indexed</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="ident">state</span>.<span class="ident">is_ready</span>()<span class="question-mark">?</span>;
 
                     <span class="kw">let</span> <span class="ident">stride</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">indexed</span> {
-                        <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">16</span>,
-                        <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">20</span>,
+                        <span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="number">16</span>,
+                        <span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="number">20</span>,
                     };
 
                     <span class="ident">check_device_features</span>(
@@ -3602,7 +3602,7 @@
                     }
 
                     <span class="kw">match</span> <span class="ident">indexed</span> {
-                        <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">unsafe</span> {
+                        <span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="kw">unsafe</span> {
                             <span class="ident">raw</span>.<span class="ident">draw_indirect_count</span>(
                                 <span class="kw-2">&amp;</span><span class="ident">buffer</span>.<span class="ident">raw</span>,
                                 <span class="ident">offset</span>,
@@ -3612,7 +3612,7 @@
                                 <span class="ident">stride</span> <span class="kw">as</span> <span class="ident">u32</span>,
                             );
                         },
-                        <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">unsafe</span> {
+                        <span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="kw">unsafe</span> {
                             <span class="ident">raw</span>.<span class="ident">draw_indexed_indirect_count</span>(
                                 <span class="kw-2">&amp;</span><span class="ident">buffer</span>.<span class="ident">raw</span>,
                                 <span class="ident">offset</span>,
@@ -3624,30 +3624,30 @@
                         },
                     }
                 }
-                <span class="ident">RenderCommand</span>::<span class="ident">PushDebugGroup</span> { <span class="ident">color</span>, <span class="ident">len</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                <span class="ident">RenderCommand</span>::<span class="ident">PushDebugGroup</span> { <span class="ident">color</span>, <span class="ident">len</span> } <span class="op">=&gt;</span> {
+                    <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">+=</span> <span class="number">1</span>;
                     <span class="kw">let</span> <span class="ident">label</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">string_data</span>[..<span class="ident">len</span>]).<span class="ident">unwrap</span>();
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">begin_debug_marker</span>(<span class="ident">label</span>, <span class="ident">color</span>);
                     }
                     <span class="ident">base</span>.<span class="ident">string_data</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">string_data</span>[<span class="ident">len</span>..];
                 }
-                <span class="ident">RenderCommand</span>::<span class="ident">PopDebugGroup</span> <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="ident">RenderCommand</span>::<span class="ident">PopDebugGroup</span> <span class="op">=&gt;</span> {
+                    <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">==</span> <span class="number">0</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderPassError</span>::<span class="ident">InvalidPopDebugGroup</span>);
                     }
-                    <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
+                    <span class="ident">state</span>.<span class="ident">debug_scope_depth</span> <span class="op">-=</span> <span class="number">1</span>;
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">end_debug_marker</span>();
                     }
                 }
-                <span class="ident">RenderCommand</span>::<span class="ident">InsertDebugMarker</span> { <span class="ident">color</span>, <span class="ident">len</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">RenderCommand</span>::<span class="ident">InsertDebugMarker</span> { <span class="ident">color</span>, <span class="ident">len</span> } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">label</span> <span class="op">=</span> <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">base</span>.<span class="ident">string_data</span>[..<span class="ident">len</span>]).<span class="ident">unwrap</span>();
                     <span class="kw">unsafe</span> {
                         <span class="ident">raw</span>.<span class="ident">insert_debug_marker</span>(<span class="ident">label</span>, <span class="ident">color</span>);
                     }
                 }
-                <span class="ident">RenderCommand</span>::<span class="ident">ExecuteBundle</span>(<span class="ident">bundle_id</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">RenderCommand</span>::<span class="ident">ExecuteBundle</span>(<span class="ident">bundle_id</span>) <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">bundle</span> <span class="op">=</span> <span class="ident">trackers</span>
                         .<span class="ident">bundles</span>
                         .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">bundle_guard</span>, <span class="ident">bundle_id</span>, (), ())

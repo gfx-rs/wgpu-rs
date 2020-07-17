@@ -33,7 +33,7 @@ more than once.</p>
     <span class="ident">re</span>: <span class="ident">Regex</span>,
     <span class="ident">src</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
     <span class="kw-2">mut</span> <span class="ident">rep</span>: <span class="ident">R</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">dst</span> <span class="op">=</span> <span class="ident">re</span>.<span class="ident">replace_all</span>(<span class="ident">src</span>, <span class="ident">rep</span>.<span class="ident">by_ref</span>());
     <span class="kw">let</span> <span class="ident">dst</span> <span class="op">=</span> <span class="ident">re</span>.<span class="ident">replace_all</span>(<span class="kw-2">&amp;</span><span class="ident">dst</span>, <span class="ident">rep</span>.<span class="ident">by_ref</span>());
     <span class="ident">dst</span>.<span class="ident">into_owned</span>()

@@ -17,7 +17,7 @@ will turn it into a <code>Stream</code> by repeating the operation.</p>
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">stream</span>::{<span class="self">self</span>, <span class="ident">StreamExt</span>};
 
 <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="ident">stream</span>::<span class="ident">unfold</span>(<span class="number">0</span>, <span class="op">|</span><span class="ident">state</span><span class="op">|</span> <span class="kw">async</span> <span class="kw">move</span> {
-    <span class="kw">if</span> <span class="ident">state</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">2</span> {
+    <span class="kw">if</span> <span class="ident">state</span> <span class="op">&lt;=</span> <span class="number">2</span> {
         <span class="kw">let</span> <span class="ident">next_state</span> <span class="op">=</span> <span class="ident">state</span> <span class="op">+</span> <span class="number">1</span>;
         <span class="kw">let</span> <span class="ident">yielded</span> <span class="op">=</span> <span class="ident">state</span>  <span class="op">*</span> <span class="number">2</span>;
         <span class="prelude-val">Some</span>((<span class="ident">yielded</span>, <span class="ident">next_state</span>))
@@ -26,6 +26,6 @@ will turn it into a <code>Stream</code> by repeating the operation.</p>
     }
 });
 
-<span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="kw">await</span>;
+<span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">stream</span>.<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;&gt;</span>().<span class="kw">await</span>;
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">result</span>, <span class="macro">vec</span><span class="macro">!</span>[<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>]);</pre></div>
 </div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "futures_util";</script><script src="../../main.js"></script><script defer src="../../search-index.js"></script></body></html>

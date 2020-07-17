@@ -303,14 +303,14 @@ use <code>tracing</code> can begin with a simple drop-in replacement.</p>
 <span class="comment">// every time the instrumented function is called. The span is named after the</span>
 <span class="comment">// the function or method. Parameters passed to the function are recorded as fields.</span>
 <span class="attribute">#[<span class="ident">tracing</span>::<span class="ident">instrument</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shave</span>(<span class="ident">yak</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shave</span>(<span class="ident">yak</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;&gt;</span> {
     <span class="comment">// this creates an event at the DEBUG level with two fields:</span>
     <span class="comment">// - `excitement`, with the key &quot;excitement&quot; and the value &quot;yay!&quot;</span>
     <span class="comment">// - `message`, with the key &quot;message&quot; and the value &quot;hello! I&#39;m gonna shave a yak.&quot;</span>
     <span class="comment">//</span>
     <span class="comment">// unlike other fields, `message`&#39;s shorthand initialization is just the string itself.</span>
     <span class="macro">debug</span><span class="macro">!</span>(<span class="ident">excitement</span> <span class="op">=</span> <span class="string">&quot;yay!&quot;</span>, <span class="string">&quot;hello! I&#39;m gonna shave a yak.&quot;</span>);
-    <span class="kw">if</span> <span class="ident">yak</span> <span class="op">=</span><span class="op">=</span> <span class="number">3</span> {
+    <span class="kw">if</span> <span class="ident">yak</span> <span class="op">==</span> <span class="number">3</span> {
         <span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;could not locate yak!&quot;</span>);
         <span class="comment">// note that this is intended to demonstrate `tracing`&#39;s features, not idiomatic</span>
         <span class="comment">// error handling! in a library or application, you should consider returning</span>
@@ -322,7 +322,7 @@ use <code>tracing</code> can begin with a simple drop-in replacement.</p>
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shave_all</span>(<span class="ident">yaks</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">shave_all</span>(<span class="ident">yaks</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
     <span class="comment">// Constructs a new span named &quot;shaving_yaks&quot; at the TRACE level,</span>
     <span class="comment">// and a field whose key is &quot;yaks&quot;. This is equivalent to writing:</span>
     <span class="comment">//</span>
@@ -345,7 +345,7 @@ use <code>tracing</code> can begin with a simple drop-in replacement.</p>
             <span class="comment">// In this instance, `yak` is the field being initalized.</span>
             <span class="macro">error</span><span class="macro">!</span>(<span class="ident">yak</span>, <span class="ident">error</span> <span class="op">=</span> <span class="ident">error</span>.<span class="ident">as_ref</span>(), <span class="string">&quot;failed to shave yak!&quot;</span>);
         } <span class="kw">else</span> {
-            <span class="ident">yaks_shaved</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">yaks_shaved</span> <span class="op">+=</span> <span class="number">1</span>;
         }
         <span class="macro">debug</span><span class="macro">!</span>(<span class="ident">yaks_shaved</span>);
     }
@@ -389,7 +389,7 @@ of the closure. For example:</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 
 <span class="kw">let</span> <span class="ident">my_subscriber</span> <span class="op">=</span> <span class="ident">FooSubscriber</span>::<span class="ident">new</span>();
-<span class="ident">tracing</span>::<span class="ident">subscriber</span>::<span class="ident">with_default</span>(<span class="ident">my_subscriber</span>, <span class="op">|</span><span class="op">|</span> {
+<span class="ident">tracing</span>::<span class="ident">subscriber</span>::<span class="ident">with_default</span>(<span class="ident">my_subscriber</span>, <span class="op">||</span> {
     <span class="comment">// Any trace events generated in this closure or by functions it calls</span>
     <span class="comment">// will be collected by `my_subscriber`.</span>
 })</pre></div>

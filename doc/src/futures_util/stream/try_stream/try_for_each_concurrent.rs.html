@@ -158,7 +158,7 @@
     <span class="ident">St</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
     <span class="ident">Fut</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
 {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;TryForEachConcurrent&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;stream&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">stream</span>)
             .<span class="ident">field</span>(<span class="string">&quot;futures&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">futures</span>)
@@ -169,20 +169,20 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">St</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">FusedFuture</span> <span class="kw">for</span> <span class="ident">TryForEachConcurrent</span><span class="op">&lt;</span><span class="ident">St</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">St</span>: <span class="ident">TryStream</span>,
-          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">St</span>::<span class="prelude-val">Ok</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>,
-          <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">St</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">St</span>::<span class="prelude-val">Ok</span>) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
+          <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">St</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span>,
 {
-    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">stream</span>.<span class="ident">is_none</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">futures</span>.<span class="ident">is_empty</span>()
+    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">stream</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">futures</span>.<span class="ident">is_empty</span>()
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">St</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">TryForEachConcurrent</span><span class="op">&lt;</span><span class="ident">St</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span> <span class="ident">St</span>: <span class="ident">TryStream</span>,
-      <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">St</span>::<span class="prelude-val">Ok</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>,
-      <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">St</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+      <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">St</span>::<span class="prelude-val">Ok</span>) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
+      <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">St</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span>,
 {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">stream</span>: <span class="ident">St</span>, <span class="ident">limit</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TryForEachConcurrent</span><span class="op">&lt;</span><span class="ident">St</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">stream</span>: <span class="ident">St</span>, <span class="ident">limit</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">TryForEachConcurrent</span><span class="op">&lt;</span><span class="ident">St</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span> {
         <span class="ident">TryForEachConcurrent</span> {
             <span class="ident">stream</span>: <span class="prelude-val">Some</span>(<span class="ident">stream</span>),
             <span class="comment">// Note: `limit` = 0 gets ignored.</span>
@@ -195,13 +195,13 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">St</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Future</span> <span class="kw">for</span> <span class="ident">TryForEachConcurrent</span><span class="op">&lt;</span><span class="ident">St</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">St</span>: <span class="ident">TryStream</span>,
-          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">St</span>::<span class="prelude-val">Ok</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>,
-          <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">St</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">St</span>::<span class="prelude-val">Ok</span>) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
+          <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">St</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span>,
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">St</span>::<span class="ident">Error</span><span class="op">&gt;</span>;
 
     <span class="attribute">#[<span class="ident">project</span>]</span>
-    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">project</span>]</span>
         <span class="kw">let</span> <span class="ident">TryForEachConcurrent</span> { <span class="kw-2">mut</span> <span class="ident">stream</span>, <span class="ident">f</span>, <span class="ident">futures</span>, <span class="ident">limit</span> } <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
         <span class="kw">loop</span> {
@@ -210,21 +210,21 @@
             <span class="comment">// Check if we&#39;ve already created a number of futures greater than `limit`</span>
             <span class="kw">if</span> <span class="ident">limit</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">limit</span><span class="op">|</span> <span class="ident">limit</span>.<span class="ident">get</span>() <span class="op">&gt;</span> <span class="ident">futures</span>.<span class="ident">len</span>()).<span class="ident">unwrap_or</span>(<span class="bool-val">true</span>) {
                 <span class="kw">let</span> <span class="ident">poll_res</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">as_mut</span>().<span class="ident">as_pin_mut</span>() {
-                    <span class="prelude-val">Some</span>(<span class="ident">stream</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">stream</span>.<span class="ident">try_poll_next</span>(<span class="ident">cx</span>),
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>),
+                    <span class="prelude-val">Some</span>(<span class="ident">stream</span>) <span class="op">=&gt;</span> <span class="ident">stream</span>.<span class="ident">try_poll_next</span>(<span class="ident">cx</span>),
+                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>),
                 };
 
                 <span class="kw">let</span> <span class="ident">elem</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">poll_res</span> {
-                    <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">elem</span>))) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">elem</span>))) <span class="op">=&gt;</span> {
                         <span class="ident">made_progress_this_iter</span> <span class="op">=</span> <span class="bool-val">true</span>;
                         <span class="prelude-val">Some</span>(<span class="ident">elem</span>)
                     },
-                    <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>) <span class="op">=&gt;</span> {
                         <span class="ident">stream</span>.<span class="ident">set</span>(<span class="prelude-val">None</span>);
                         <span class="prelude-val">None</span>
                     }
-                    <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
-                    <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>))) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+                    <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>))) <span class="op">=&gt;</span> {
                         <span class="comment">// Empty the stream and futures so that we know</span>
                         <span class="comment">// the future has completed.</span>
                         <span class="ident">stream</span>.<span class="ident">set</span>(<span class="prelude-val">None</span>);
@@ -239,14 +239,14 @@
             }
 
             <span class="kw">match</span> <span class="ident">futures</span>.<span class="ident">poll_next_unpin</span>(<span class="ident">cx</span>) {
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(()))) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">made_progress_this_iter</span> <span class="op">=</span> <span class="bool-val">true</span>,
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(()))) <span class="op">=&gt;</span> <span class="ident">made_progress_this_iter</span> <span class="op">=</span> <span class="bool-val">true</span>,
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>) <span class="op">=&gt;</span> {
                     <span class="kw">if</span> <span class="ident">stream</span>.<span class="ident">is_none</span>() {
                         <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(()))
                     }
                 },
-                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> {}
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>))) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=&gt;</span> {}
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>))) <span class="op">=&gt;</span> {
                     <span class="comment">// Empty the stream and futures so that we know</span>
                     <span class="comment">// the future has completed.</span>
                     <span class="ident">stream</span>.<span class="ident">set</span>(<span class="prelude-val">None</span>);

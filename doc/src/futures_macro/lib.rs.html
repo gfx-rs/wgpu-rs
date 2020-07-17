@@ -70,25 +70,25 @@
 
 <span class="doccomment">/// The `join!` macro.</span>
 <span class="attribute">#[<span class="ident">proc_macro_hack</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">join_internal</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">join_internal</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">crate</span>::<span class="ident">join</span>::<span class="ident">join</span>(<span class="ident">input</span>)
 }
 
 <span class="doccomment">/// The `try_join!` macro.</span>
 <span class="attribute">#[<span class="ident">proc_macro_hack</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_join_internal</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_join_internal</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">crate</span>::<span class="ident">join</span>::<span class="ident">try_join</span>(<span class="ident">input</span>)
 }
 
 <span class="doccomment">/// The `select!` macro.</span>
 <span class="attribute">#[<span class="ident">proc_macro_hack</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select_internal</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select_internal</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">crate</span>::<span class="ident">select</span>::<span class="ident">select</span>(<span class="ident">input</span>)
 }
 
 <span class="doccomment">/// The `select_biased!` macro.</span>
 <span class="attribute">#[<span class="ident">proc_macro_hack</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select_biased_internal</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">select_biased_internal</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">crate</span>::<span class="ident">select</span>::<span class="ident">select_biased</span>(<span class="ident">input</span>)
 }
 </pre></div>

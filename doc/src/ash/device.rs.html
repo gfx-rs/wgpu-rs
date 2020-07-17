@@ -2193,7 +2193,7 @@
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DeviceV1_2</span>: <span class="ident">DeviceV1_1</span> {
-    <span class="kw">fn</span> <span class="ident">fp_v1_2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_2</span>;
+    <span class="kw">fn</span> <span class="ident">fp_v1_2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_2</span>;
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkCmdDrawIndirectCount.html&gt;&quot;</span>]</span>
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">cmd_draw_indirect_count</span>(
@@ -2244,7 +2244,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">RenderPassCreateInfo2</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">RenderPass</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">RenderPass</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">renderpass</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_2</span>().<span class="ident">create_render_pass2</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -2253,8 +2253,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">renderpass</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">renderpass</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">renderpass</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -2305,14 +2305,14 @@
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkGetSemaphoreCounterValue.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_semaphore_counter_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">semaphore</span>: <span class="ident">vk</span>::<span class="ident">Semaphore</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_semaphore_counter_value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">semaphore</span>: <span class="ident">vk</span>::<span class="ident">Semaphore</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">value</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span>
             <span class="self">self</span>.<span class="ident">fp_v1_2</span>()
                 .<span class="ident">get_semaphore_counter_value</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">semaphore</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">value</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">value</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -2321,22 +2321,22 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">wait_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">SemaphoreWaitInfo</span>,
         <span class="ident">timeout</span>: <span class="ident">u64</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">fp_v1_2</span>()
             .<span class="ident">wait_semaphores</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">wait_info</span>, <span class="ident">timeout</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkSignalSemaphore.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">signal_semaphore</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">signal_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">SemaphoreSignalInfo</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">signal_semaphore</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">signal_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">SemaphoreSignalInfo</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_2</span>().<span class="ident">signal_semaphore</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">signal_info</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -2344,13 +2344,13 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_buffer_device_address</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">BufferDeviceAddressInfo</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DeviceAddress</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">DeviceAddress</span> {
         <span class="self">self</span>.<span class="ident">fp_v1_2</span>()
             .<span class="ident">get_buffer_device_address</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">info</span>)
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkGetBufferOpaqueCaptureAddress.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_buffer_opaque_capture_address</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">BufferDeviceAddressInfo</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_buffer_opaque_capture_address</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">BufferDeviceAddressInfo</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
         <span class="self">self</span>.<span class="ident">fp_v1_2</span>()
             .<span class="ident">get_buffer_opaque_capture_address</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">info</span>)
     }
@@ -2359,7 +2359,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_device_memory_opaque_capture_address</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceMemoryOpaqueCaptureAddressInfo</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u64</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">u64</span> {
         <span class="self">self</span>.<span class="ident">fp_v1_2</span>()
             .<span class="ident">get_device_memory_opaque_capture_address</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">info</span>)
     }
@@ -2367,31 +2367,31 @@
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DeviceV1_1</span>: <span class="ident">DeviceV1_0</span> {
-    <span class="kw">fn</span> <span class="ident">fp_v1_1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_1</span>;
+    <span class="kw">fn</span> <span class="ident">fp_v1_1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_1</span>;
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkBindBufferMemory2.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_buffer_memory2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">bind_infos</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">BindBufferMemoryInfo</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_buffer_memory2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">bind_infos</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">BindBufferMemoryInfo</span>]) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_1</span>().<span class="ident">bind_buffer_memory2</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
             <span class="ident">bind_infos</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="kw">_</span>,
             <span class="ident">bind_infos</span>.<span class="ident">as_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkBindImageMemory2.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_image_memory2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">bind_infos</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">BindImageMemoryInfo</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_image_memory2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">bind_infos</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">BindImageMemoryInfo</span>]) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_1</span>().<span class="ident">bind_image_memory2</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
             <span class="ident">bind_infos</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="kw">_</span>,
             <span class="ident">bind_infos</span>.<span class="ident">as_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -2401,7 +2401,7 @@
         <span class="ident">heap_index</span>: <span class="ident">u32</span>,
         <span class="ident">local_device_index</span>: <span class="ident">u32</span>,
         <span class="ident">remote_device_index</span>: <span class="ident">u32</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PeerMemoryFeatureFlags</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">PeerMemoryFeatureFlags</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">peer_memory_features</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="self">self</span>.<span class="ident">fp_v1_1</span>().<span class="ident">get_device_group_peer_memory_features</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -2464,7 +2464,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_image_sparse_memory_requirements2_len</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">ImageSparseMemoryRequirementsInfo2</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="self">self</span>.<span class="ident">fp_v1_1</span>().<span class="ident">get_image_sparse_memory_requirements2</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -2505,7 +2505,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">SamplerYcbcrConversionCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">SamplerYcbcrConversion</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">SamplerYcbcrConversion</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ycbcr_conversion</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_1</span>().<span class="ident">create_sampler_ycbcr_conversion</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -2514,8 +2514,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ycbcr_conversion</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ycbcr_conversion</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ycbcr_conversion</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -2537,7 +2537,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DescriptorUpdateTemplateCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DescriptorUpdateTemplate</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DescriptorUpdateTemplate</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">descriptor_update_template</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_1</span>().<span class="ident">create_descriptor_update_template</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -2546,8 +2546,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">descriptor_update_template</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">descriptor_update_template</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">descriptor_update_template</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -2592,8 +2592,8 @@
 
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>)]</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DeviceV1_0</span> {
-    <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span>;
-    <span class="kw">fn</span> <span class="ident">fp_v1_0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_0</span>;
+    <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span>;
+    <span class="kw">fn</span> <span class="ident">fp_v1_0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_0</span>;
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkDestroyDevice.html&gt;&quot;</span>]</span>
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">destroy_device</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>) {
         <span class="self">self</span>.<span class="ident">fp_v1_0</span>()
@@ -2639,7 +2639,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">EventCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Event</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Event</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">event</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_event</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -2648,38 +2648,38 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">event</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">event</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">event</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="doccomment">/// Returns true if the event was set, and false if the event was reset, otherwise it will</span>
     <span class="doccomment">/// return the error code.</span>
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkGetEventStatus.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_event_status</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">event</span>: <span class="ident">vk</span>::<span class="ident">Event</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_event_status</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">event</span>: <span class="ident">vk</span>::<span class="ident">Event</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">get_event_status</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">event</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">EVENT_SET</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">EVENT_RESET</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">EVENT_SET</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">EVENT_RESET</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkSetEvent.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">event</span>: <span class="ident">vk</span>::<span class="ident">Event</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">set_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">event</span>: <span class="ident">vk</span>::<span class="ident">Event</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">set_event</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">event</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkResetEvent.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">event</span>: <span class="ident">vk</span>::<span class="ident">Event</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">event</span>: <span class="ident">vk</span>::<span class="ident">Event</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">reset_event</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">event</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkCmdSetEvent.html&gt;&quot;</span>]</span>
@@ -2950,7 +2950,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">SamplerCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Sampler</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Sampler</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sampler</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_sampler</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -2959,8 +2959,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">sampler</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">sampler</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">sampler</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3118,7 +3118,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allocate_descriptor_sets</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DescriptorSetAllocateInfo</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DescriptorSet</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DescriptorSet</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">desc_set</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">create_info</span>.<span class="ident">descriptor_set_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">allocate_descriptor_sets</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3128,8 +3128,8 @@
 
         <span class="ident">desc_set</span>.<span class="ident">set_len</span>(<span class="ident">create_info</span>.<span class="ident">descriptor_set_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">desc_set</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">desc_set</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3138,7 +3138,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DescriptorSetLayoutCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DescriptorSetLayout</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DescriptorSetLayout</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">layout</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_descriptor_set_layout</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3147,17 +3147,17 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">layout</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">layout</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">layout</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkDeviceWaitIdle.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">device_wait_idle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">device_wait_idle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">device_wait_idle</span>(<span class="self">self</span>.<span class="ident">handle</span>());
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3166,7 +3166,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DescriptorPoolCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DescriptorPool</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DescriptorPool</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pool</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_descriptor_pool</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3175,8 +3175,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pool</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pool</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pool</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3185,13 +3185,13 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">pool</span>: <span class="ident">vk</span>::<span class="ident">DescriptorPool</span>,
         <span class="ident">flags</span>: <span class="ident">vk</span>::<span class="ident">DescriptorPoolResetFlags</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">fp_v1_0</span>()
             .<span class="ident">reset_descriptor_pool</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">pool</span>, <span class="ident">flags</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3200,13 +3200,13 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">command_pool</span>: <span class="ident">vk</span>::<span class="ident">CommandPool</span>,
         <span class="ident">flags</span>: <span class="ident">vk</span>::<span class="ident">CommandPoolResetFlags</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">fp_v1_0</span>()
             .<span class="ident">reset_command_pool</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">command_pool</span>, <span class="ident">flags</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3215,22 +3215,22 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">command_buffer</span>: <span class="ident">vk</span>::<span class="ident">CommandBuffer</span>,
         <span class="ident">flags</span>: <span class="ident">vk</span>::<span class="ident">CommandBufferResetFlags</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">reset_command_buffer</span>(<span class="ident">command_buffer</span>, <span class="ident">flags</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkResetFences.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset_fences</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fences</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">Fence</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">reset_fences</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fences</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">Fence</span>]) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span>
             <span class="self">self</span>.<span class="ident">fp_v1_0</span>()
                 .<span class="ident">reset_fences</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">fences</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">fences</span>.<span class="ident">as_ptr</span>());
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3634,14 +3634,14 @@
         <span class="ident">query_count</span>: <span class="ident">u32</span>,
         <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">T</span>],
         <span class="ident">flags</span>: <span class="ident">vk</span>::<span class="ident">QueryResultFlags</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">data_length</span> <span class="op">=</span> <span class="ident">query_count</span> <span class="kw">as</span> <span class="ident">usize</span>;
         <span class="macro">assert</span><span class="macro">!</span>(
-            <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>(),
+            <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">&lt;=</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span>(),
             <span class="string">&quot;T can not be bigger than an u64&quot;</span>
         );
         <span class="macro">assert</span><span class="macro">!</span>(
-            <span class="ident">data_length</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">data</span>.<span class="ident">len</span>(),
+            <span class="ident">data_length</span> <span class="op">&lt;=</span> <span class="ident">data</span>.<span class="ident">len</span>(),
             <span class="string">&quot;query_count was higher than the length of the slice&quot;</span>
         );
         <span class="kw">let</span> <span class="ident">data_size</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">size_of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">*</span> <span class="ident">data_length</span>;
@@ -3657,8 +3657,8 @@
         );
 
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3714,7 +3714,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">SemaphoreCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Semaphore</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Semaphore</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">semaphore</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_semaphore</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3723,8 +3723,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">semaphore</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">semaphore</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">semaphore</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3734,7 +3734,7 @@
         <span class="ident">pipeline_cache</span>: <span class="ident">vk</span>::<span class="ident">PipelineCache</span>,
         <span class="ident">create_infos</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">GraphicsPipelineCreateInfo</span>],
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;</span>, (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;</span>, <span class="ident">vk</span>::<span class="prelude-ty">Result</span>)<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;</span>, (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;</span>, <span class="ident">vk</span>::<span class="prelude-ty">Result</span>)<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pipelines</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">create_infos</span>.<span class="ident">len</span>());
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_graphics_pipelines</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3746,8 +3746,8 @@
         );
         <span class="ident">pipelines</span>.<span class="ident">set_len</span>(<span class="ident">create_infos</span>.<span class="ident">len</span>());
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipelines</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>((<span class="ident">pipelines</span>, <span class="ident">err_code</span>)),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipelines</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>((<span class="ident">pipelines</span>, <span class="ident">err_code</span>)),
         }
     }
 
@@ -3757,7 +3757,7 @@
         <span class="ident">pipeline_cache</span>: <span class="ident">vk</span>::<span class="ident">PipelineCache</span>,
         <span class="ident">create_infos</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">ComputePipelineCreateInfo</span>],
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;</span>, (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;</span>, <span class="ident">vk</span>::<span class="prelude-ty">Result</span>)<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;</span>, (<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;</span>, <span class="ident">vk</span>::<span class="prelude-ty">Result</span>)<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pipelines</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">create_infos</span>.<span class="ident">len</span>());
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_compute_pipelines</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3769,8 +3769,8 @@
         );
         <span class="ident">pipelines</span>.<span class="ident">set_len</span>(<span class="ident">create_infos</span>.<span class="ident">len</span>());
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipelines</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>((<span class="ident">pipelines</span>, <span class="ident">err_code</span>)),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipelines</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>((<span class="ident">pipelines</span>, <span class="ident">err_code</span>)),
         }
     }
 
@@ -3779,7 +3779,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">BufferCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Buffer</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Buffer</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_buffer</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3788,8 +3788,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">buffer</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">buffer</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3798,7 +3798,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">PipelineLayoutCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">PipelineLayout</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">PipelineLayout</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pipeline_layout</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_pipeline_layout</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3807,8 +3807,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pipeline_layout</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipeline_layout</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipeline_layout</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3817,7 +3817,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">PipelineCacheCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">PipelineCache</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">PipelineCache</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pipeline_cache</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_pipeline_cache</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3827,8 +3827,8 @@
         );
 
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipeline_cache</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipeline_cache</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3836,7 +3836,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_pipeline_cache_data</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">pipeline_cache</span>: <span class="ident">vk</span>::<span class="ident">PipelineCache</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data_size</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">get_pipeline_cache_data</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3844,7 +3844,7 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data_size</span>,
             <span class="ident">ptr</span>::<span class="ident">null_mut</span>(),
         );
-        <span class="kw">if</span> <span class="ident">err_code</span> <span class="op">!</span><span class="op">=</span> <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> {
+        <span class="kw">if</span> <span class="ident">err_code</span> <span class="op">!=</span> <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>);
         };
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">data_size</span>);
@@ -3856,8 +3856,8 @@
         );
         <span class="ident">data</span>.<span class="ident">set_len</span>(<span class="ident">data_size</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">data</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">data</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3868,14 +3868,14 @@
         <span class="ident">offset</span>: <span class="ident">vk</span>::<span class="ident">DeviceSize</span>,
         <span class="ident">size</span>: <span class="ident">vk</span>::<span class="ident">DeviceSize</span>,
         <span class="ident">flags</span>: <span class="ident">vk</span>::<span class="ident">MemoryMapFlags</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">c_void</span> <span class="op">=</span> <span class="ident">ptr</span>::<span class="ident">null_mut</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span>
             <span class="self">self</span>.<span class="ident">fp_v1_0</span>()
                 .<span class="ident">map_memory</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">memory</span>, <span class="ident">offset</span>, <span class="ident">size</span>, <span class="ident">flags</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">data</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">data</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">data</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3888,28 +3888,28 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">invalidate_mapped_memory_ranges</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">ranges</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">MappedMemoryRange</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">invalidate_mapped_memory_ranges</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
             <span class="ident">ranges</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>,
             <span class="ident">ranges</span>.<span class="ident">as_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkFlushMappedMemoryRanges.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">flush_mapped_memory_ranges</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ranges</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">MappedMemoryRange</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">flush_mapped_memory_ranges</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ranges</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">MappedMemoryRange</span>]) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">flush_mapped_memory_ranges</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
             <span class="ident">ranges</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>,
             <span class="ident">ranges</span>.<span class="ident">as_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3918,7 +3918,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">FramebufferCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Framebuffer</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Framebuffer</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">framebuffer</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_framebuffer</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3927,13 +3927,13 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">framebuffer</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">framebuffer</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">framebuffer</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkGetDeviceQueue.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_device_queue</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">queue_family_index</span>: <span class="ident">u32</span>, <span class="ident">queue_index</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Queue</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_device_queue</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">queue_family_index</span>: <span class="ident">u32</span>, <span class="ident">queue_index</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Queue</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">queue</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="self">self</span>.<span class="ident">fp_v1_0</span>()
             .<span class="ident">get_device_queue</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">queue_family_index</span>, <span class="ident">queue_index</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">queue</span>);
@@ -3970,7 +3970,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">RenderPassCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">RenderPass</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">RenderPass</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">renderpass</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_render_pass</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -3979,8 +3979,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">renderpass</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">renderpass</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">renderpass</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -3989,22 +3989,22 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">command_buffer</span>: <span class="ident">vk</span>::<span class="ident">CommandBuffer</span>,
         <span class="ident">begin_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">CommandBufferBeginInfo</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">fp_v1_0</span>()
             .<span class="ident">begin_command_buffer</span>(<span class="ident">command_buffer</span>, <span class="ident">begin_info</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkEndCommandBuffer.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">end_command_buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">command_buffer</span>: <span class="ident">vk</span>::<span class="ident">CommandBuffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">end_command_buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">command_buffer</span>: <span class="ident">vk</span>::<span class="ident">CommandBuffer</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">end_command_buffer</span>(<span class="ident">command_buffer</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4014,7 +4014,7 @@
         <span class="ident">fences</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">Fence</span>],
         <span class="ident">wait_all</span>: <span class="ident">bool</span>,
         <span class="ident">timeout</span>: <span class="ident">u64</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">wait_for_fences</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
             <span class="ident">fences</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>,
@@ -4023,27 +4023,27 @@
             <span class="ident">timeout</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkGetFenceStatus.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_fence_status</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fence</span>: <span class="ident">vk</span>::<span class="ident">Fence</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_fence_status</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fence</span>: <span class="ident">vk</span>::<span class="ident">Fence</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">get_fence_status</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">fence</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">NOT_READY</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">NOT_READY</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkQueueWaitIdle.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">queue_wait_idle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">queue</span>: <span class="ident">vk</span>::<span class="ident">Queue</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">queue_wait_idle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">queue</span>: <span class="ident">vk</span>::<span class="ident">Queue</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">queue_wait_idle</span>(<span class="ident">queue</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4053,13 +4053,13 @@
         <span class="ident">queue</span>: <span class="ident">vk</span>::<span class="ident">Queue</span>,
         <span class="ident">submits</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">SubmitInfo</span>],
         <span class="ident">fence</span>: <span class="ident">vk</span>::<span class="ident">Fence</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span>
             <span class="self">self</span>.<span class="ident">fp_v1_0</span>()
                 .<span class="ident">queue_submit</span>(<span class="ident">queue</span>, <span class="ident">submits</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">submits</span>.<span class="ident">as_ptr</span>(), <span class="ident">fence</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4068,7 +4068,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">BufferViewCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">BufferView</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">BufferView</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer_view</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_buffer_view</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4077,8 +4077,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer_view</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">buffer_view</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">buffer_view</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4100,7 +4100,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">ImageViewCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">ImageView</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">ImageView</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image_view</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_image_view</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4109,8 +4109,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">image_view</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">image_view</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">image_view</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4118,7 +4118,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">allocate_command_buffers</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">CommandBufferAllocateInfo</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">CommandBuffer</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">CommandBuffer</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffers</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">create_info</span>.<span class="ident">command_buffer_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">allocate_command_buffers</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4127,8 +4127,8 @@
         );
         <span class="ident">buffers</span>.<span class="ident">set_len</span>(<span class="ident">create_info</span>.<span class="ident">command_buffer_count</span> <span class="kw">as</span> <span class="ident">usize</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">buffers</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">buffers</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4137,7 +4137,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">CommandPoolCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">CommandPool</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">CommandPool</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pool</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_command_pool</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4146,8 +4146,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pool</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pool</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pool</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4156,7 +4156,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">QueryPoolCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">QueryPool</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">QueryPool</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pool</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_query_pool</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4165,8 +4165,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pool</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pool</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pool</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4175,7 +4175,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">ImageCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Image</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Image</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_image</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4184,8 +4184,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">image</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">image</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">image</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4194,7 +4194,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">image</span>: <span class="ident">vk</span>::<span class="ident">Image</span>,
         <span class="ident">subresource</span>: <span class="ident">vk</span>::<span class="ident">ImageSubresource</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">SubresourceLayout</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">SubresourceLayout</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">layout</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">get_image_subresource_layout</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4206,7 +4206,7 @@
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkGetImageMemoryRequirements.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_image_memory_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">image</span>: <span class="ident">vk</span>::<span class="ident">Image</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">MemoryRequirements</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_image_memory_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">image</span>: <span class="ident">vk</span>::<span class="ident">Image</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">MemoryRequirements</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_req</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="self">self</span>.<span class="ident">fp_v1_0</span>()
             .<span class="ident">get_image_memory_requirements</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">image</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_req</span>);
@@ -4214,7 +4214,7 @@
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkGetBufferMemoryRequirements.html&gt;&quot;</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_buffer_memory_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buffer</span>: <span class="ident">vk</span>::<span class="ident">Buffer</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">MemoryRequirements</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_buffer_memory_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buffer</span>: <span class="ident">vk</span>::<span class="ident">Buffer</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">MemoryRequirements</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">mem_req</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="self">self</span>.<span class="ident">fp_v1_0</span>()
             .<span class="ident">get_buffer_memory_requirements</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">buffer</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">mem_req</span>);
@@ -4226,7 +4226,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">MemoryAllocateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DeviceMemory</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">DeviceMemory</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">memory</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">allocate_memory</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4235,8 +4235,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">memory</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">memory</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">memory</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4245,7 +4245,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">ShaderModuleCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">ShaderModule</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">ShaderModule</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">shader</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_shader_module</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4254,8 +4254,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">shader</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">shader</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">shader</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4264,7 +4264,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">FenceCreateInfo</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Fence</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Fence</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fence</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fp_v1_0</span>().<span class="ident">create_fence</span>(
             <span class="self">self</span>.<span class="ident">handle</span>(),
@@ -4273,8 +4273,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fence</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">fence</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">fence</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4284,13 +4284,13 @@
         <span class="ident">buffer</span>: <span class="ident">vk</span>::<span class="ident">Buffer</span>,
         <span class="ident">device_memory</span>: <span class="ident">vk</span>::<span class="ident">DeviceMemory</span>,
         <span class="ident">offset</span>: <span class="ident">vk</span>::<span class="ident">DeviceSize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span>
             <span class="self">self</span>.<span class="ident">fp_v1_0</span>()
                 .<span class="ident">bind_buffer_memory</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">buffer</span>, <span class="ident">device_memory</span>, <span class="ident">offset</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -4300,13 +4300,13 @@
         <span class="ident">image</span>: <span class="ident">vk</span>::<span class="ident">Image</span>,
         <span class="ident">device_memory</span>: <span class="ident">vk</span>::<span class="ident">DeviceMemory</span>,
         <span class="ident">offset</span>: <span class="ident">vk</span>::<span class="ident">DeviceSize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span>
             <span class="self">self</span>.<span class="ident">fp_v1_0</span>()
                 .<span class="ident">bind_image_memory</span>(<span class="self">self</span>.<span class="ident">handle</span>(), <span class="ident">image</span>, <span class="ident">device_memory</span>, <span class="ident">offset</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 }
@@ -4321,7 +4321,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Device</span> {
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">load</span>(<span class="ident">instance_fn</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">InstanceFnV1_0</span>, <span class="ident">device</span>: <span class="ident">vk</span>::<span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">load</span>(<span class="ident">instance_fn</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">InstanceFnV1_0</span>, <span class="ident">device</span>: <span class="ident">vk</span>::<span class="ident">Device</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">device_fn_1_0</span> <span class="op">=</span> <span class="ident">vk</span>::<span class="ident">DeviceFnV1_0</span>::<span class="ident">load</span>(<span class="op">|</span><span class="ident">name</span><span class="op">|</span> {
             <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">instance_fn</span>.<span class="ident">get_device_proc_addr</span>(<span class="ident">device</span>, <span class="ident">name</span>.<span class="ident">as_ptr</span>()))
         });
@@ -4341,29 +4341,29 @@
 }
 
 <span class="kw">impl</span> <span class="ident">DeviceV1_0</span> <span class="kw">for</span> <span class="ident">Device</span> {
-    <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span> {
+    <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span> {
         <span class="self">self</span>.<span class="ident">handle</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">fp_v1_0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_0</span> {
+    <span class="kw">fn</span> <span class="ident">fp_v1_0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_0</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">device_fn_1_0</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">DeviceV1_1</span> <span class="kw">for</span> <span class="ident">Device</span> {
-    <span class="kw">fn</span> <span class="ident">fp_v1_1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_1</span> {
+    <span class="kw">fn</span> <span class="ident">fp_v1_1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_1</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">device_fn_1_1</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">DeviceV1_2</span> <span class="kw">for</span> <span class="ident">Device</span> {
-    <span class="kw">fn</span> <span class="ident">fp_v1_2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_2</span> {
+    <span class="kw">fn</span> <span class="ident">fp_v1_2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">DeviceFnV1_2</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">device_fn_1_2</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Device</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span> {
         <span class="self">self</span>.<span class="ident">handle</span>
     }
 }

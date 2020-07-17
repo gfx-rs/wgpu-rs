@@ -50,7 +50,7 @@ To avoid this, add a check.</p>
 
 <span class="comment">// ... use the slab</span>
 
-<span class="kw">if</span> <span class="ident">slab</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">slab</span>.<span class="ident">capacity</span>() {
+<span class="kw">if</span> <span class="ident">slab</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="ident">slab</span>.<span class="ident">capacity</span>() {
     <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;slab full&quot;</span>);
 }
 

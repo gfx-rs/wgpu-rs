@@ -367,9 +367,9 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Note that this function consumes the given sink, returning a wrapped</span>
     <span class="doccomment">/// version, much like `Iterator::map`.</span>
-    <span class="kw">fn</span> <span class="ident">with</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">With</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
-        <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>,
-              <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">fn</span> <span class="ident">with</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span>, <span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">With</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
+              <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;&gt;</span>,
               <span class="ident">E</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span>,
               <span class="self">Self</span>: <span class="ident">Sized</span>
     {
@@ -408,9 +408,9 @@
     <span class="doccomment">/// assert_eq!(received, vec![42, 42, 42, 42, 42]);</span>
     <span class="doccomment">/// # });</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">with_flat_map</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">St</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">WithFlatMap</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">St</span>, <span class="ident">F</span><span class="op">&gt;</span>
-        <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">St</span>,
-              <span class="ident">St</span>: <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">fn</span> <span class="ident">with_flat_map</span><span class="op">&lt;</span><span class="ident">U</span>, <span class="ident">St</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">WithFlatMap</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">St</span>, <span class="ident">F</span><span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-&gt;</span> <span class="ident">St</span>,
+              <span class="ident">St</span>: <span class="ident">Stream</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span>,
               <span class="self">Self</span>: <span class="ident">Sized</span>
     {
         <span class="ident">WithFlatMap</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">f</span>)
@@ -431,8 +431,8 @@
      */</span>
 
     <span class="doccomment">/// Transforms the error returned by the sink.</span>
-    <span class="kw">fn</span> <span class="ident">sink_map_err</span><span class="op">&lt;</span><span class="ident">E</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SinkMapErr</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F</span><span class="op">&gt;</span>
-        <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="self">Self</span>::<span class="ident">Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">E</span>,
+    <span class="kw">fn</span> <span class="ident">sink_map_err</span><span class="op">&lt;</span><span class="ident">E</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">SinkMapErr</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">F</span><span class="op">&gt;</span>
+        <span class="kw">where</span> <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="self">Self</span>::<span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">E</span>,
               <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
         <span class="ident">SinkMapErr</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">f</span>)
@@ -441,7 +441,7 @@
     <span class="doccomment">/// Map this sink&#39;s error to a different error type using the `Into` trait.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If wanting to map errors of a `Sink + Stream`, use `.sink_err_into().err_into()`.</span>
-    <span class="kw">fn</span> <span class="ident">sink_err_into</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">err_into</span>::<span class="ident">SinkErrInto</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">sink_err_into</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">err_into</span>::<span class="ident">SinkErrInto</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Sized</span>,
               <span class="self">Self</span>::<span class="ident">Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>,
     {
@@ -462,14 +462,14 @@
     <span class="doccomment">/// This method is only available when the `std` or `alloc` feature of this</span>
     <span class="doccomment">/// library is activated, and it is activated by default.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">buffer</span>(<span class="self">self</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Buffer</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">buffer</span>(<span class="self">self</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">Buffer</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
         <span class="ident">Buffer</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">capacity</span>)
     }
 
     <span class="doccomment">/// Close the sink.</span>
-    <span class="kw">fn</span> <span class="ident">close</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Close</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">close</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Close</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Unpin</span>,
     {
         <span class="ident">Close</span>::<span class="ident">new</span>(<span class="self">self</span>)
@@ -479,7 +479,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This adapter clones each incoming item and forwards it to both this as well as</span>
     <span class="doccomment">/// the other sink at the same time.</span>
-    <span class="kw">fn</span> <span class="ident">fanout</span><span class="op">&lt;</span><span class="ident">Si</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">Si</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fanout</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Si</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">fanout</span><span class="op">&lt;</span><span class="ident">Si</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="ident">Si</span>) <span class="op">-&gt;</span> <span class="ident">Fanout</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Si</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Sized</span>,
               <span class="ident">Item</span>: <span class="ident">Clone</span>,
               <span class="ident">Si</span>: <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">Error</span><span class="op">=</span><span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span>
@@ -491,7 +491,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This adapter is intended to be used when you want to stop sending to the sink</span>
     <span class="doccomment">/// until all current requests are processed.</span>
-    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Flush</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Flush</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Unpin</span>,
     {
         <span class="ident">Flush</span>::<span class="ident">new</span>(<span class="self">self</span>)
@@ -503,7 +503,7 @@
     <span class="doccomment">/// Note that, **because of the flushing requirement, it is usually better</span>
     <span class="doccomment">/// to batch together items to send via `send_all`, rather than flushing</span>
     <span class="doccomment">/// between each item.**</span>
-    <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident">Item</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Send</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident">Item</span>) <span class="op">-&gt;</span> <span class="ident">Send</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Unpin</span>,
     {
         <span class="ident">Send</span>::<span class="ident">new</span>(<span class="self">self</span>, <span class="ident">item</span>)
@@ -523,7 +523,7 @@
     <span class="kw">fn</span> <span class="ident">send_all</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">St</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">stream</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">St</span>
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SendAll</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">St</span><span class="op">&gt;</span>
+    ) <span class="op">-&gt;</span> <span class="ident">SendAll</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span>, <span class="ident">St</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">St</span>: <span class="ident">TryStream</span><span class="op">&lt;</span><span class="prelude-val">Ok</span> <span class="op">=</span> <span class="ident">Item</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Stream</span> <span class="op">+</span> <span class="ident">Unpin</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span>,
               <span class="self">Self</span>: <span class="ident">Unpin</span>,
     {
@@ -535,7 +535,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This can be used in combination with the `right_sink` method to write `if`</span>
     <span class="doccomment">/// statements that evaluate to different streams in different branches.</span>
-    <span class="kw">fn</span> <span class="ident">left_sink</span><span class="op">&lt;</span><span class="ident">Si2</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Si2</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">left_sink</span><span class="op">&lt;</span><span class="ident">Si2</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Si2</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">Si2</span>: <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span>,
               <span class="self">Self</span>: <span class="ident">Sized</span>
     {
@@ -547,7 +547,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This can be used in combination with the `left_sink` method to write `if`</span>
     <span class="doccomment">/// statements that evaluate to different streams in different branches.</span>
-    <span class="kw">fn</span> <span class="ident">right_sink</span><span class="op">&lt;</span><span class="ident">Si1</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">Si1</span>, <span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">right_sink</span><span class="op">&lt;</span><span class="ident">Si1</span><span class="op">&gt;</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Either</span><span class="op">&lt;</span><span class="ident">Si1</span>, <span class="self">Self</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="ident">Si1</span>: <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">Error</span> <span class="op">=</span> <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span>,
               <span class="self">Self</span>: <span class="ident">Sized</span>
     {
@@ -557,7 +557,7 @@
     <span class="doccomment">/// Wraps a [`Sink`] into a sink compatible with libraries using</span>
     <span class="doccomment">/// futures 0.1 `Sink`. Requires the `compat` feature to be enabled.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;compat&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">compat</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CompatSink</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">compat</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">CompatSink</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">Item</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Unpin</span>,
     {
         <span class="ident">CompatSink</span>::<span class="ident">new</span>(<span class="self">self</span>)
@@ -565,7 +565,7 @@
     
     <span class="doccomment">/// A convenience method for calling [`Sink::poll_ready`] on [`Unpin`]</span>
     <span class="doccomment">/// sink types.</span>
-    <span class="kw">fn</span> <span class="ident">poll_ready_unpin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">poll_ready_unpin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Unpin</span>
     {
         <span class="ident">Pin</span>::<span class="ident">new</span>(<span class="self">self</span>).<span class="ident">poll_ready</span>(<span class="ident">cx</span>)
@@ -573,7 +573,7 @@
 
     <span class="doccomment">/// A convenience method for calling [`Sink::start_send`] on [`Unpin`]</span>
     <span class="doccomment">/// sink types.</span>
-    <span class="kw">fn</span> <span class="ident">start_send_unpin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident">Item</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">start_send_unpin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="ident">Item</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Unpin</span>
     {
         <span class="ident">Pin</span>::<span class="ident">new</span>(<span class="self">self</span>).<span class="ident">start_send</span>(<span class="ident">item</span>)
@@ -581,7 +581,7 @@
 
     <span class="doccomment">/// A convenience method for calling [`Sink::poll_flush`] on [`Unpin`]</span>
     <span class="doccomment">/// sink types.</span>
-    <span class="kw">fn</span> <span class="ident">poll_flush_unpin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">poll_flush_unpin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Unpin</span>
     {
         <span class="ident">Pin</span>::<span class="ident">new</span>(<span class="self">self</span>).<span class="ident">poll_flush</span>(<span class="ident">cx</span>)
@@ -589,7 +589,7 @@
 
     <span class="doccomment">/// A convenience method for calling [`Sink::poll_close`] on [`Unpin`]</span>
     <span class="doccomment">/// sink types.</span>
-    <span class="kw">fn</span> <span class="ident">poll_close_unpin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">poll_close_unpin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span>
         <span class="kw">where</span> <span class="self">Self</span>: <span class="ident">Unpin</span>
     {
         <span class="ident">Pin</span>::<span class="ident">new</span>(<span class="self">self</span>).<span class="ident">poll_close</span>(<span class="ident">cx</span>)

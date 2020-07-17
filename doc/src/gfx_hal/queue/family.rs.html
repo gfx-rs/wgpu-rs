@@ -64,11 +64,11 @@
 <span class="doccomment">/// Note that a backend can expose multiple queue families with the same properties.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">QueueFamily</span>: <span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Any</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> {
     <span class="doccomment">/// Returns the type of queues.</span>
-    <span class="kw">fn</span> <span class="ident">queue_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueueType</span>;
+    <span class="kw">fn</span> <span class="ident">queue_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">QueueType</span>;
     <span class="doccomment">/// Returns maximum number of queues created from this family.</span>
-    <span class="kw">fn</span> <span class="ident">max_queues</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+    <span class="kw">fn</span> <span class="ident">max_queues</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>;
     <span class="doccomment">/// Returns the queue family ID.</span>
-    <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">QueueFamilyId</span>;
+    <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">QueueFamilyId</span>;
 }
 
 <span class="doccomment">/// Identifier for a queue family of a physical device.</span>
@@ -89,7 +89,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">QueueGroup</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a new, empty queue group for a queue family.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">family</span>: <span class="ident">QueueFamilyId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">family</span>: <span class="ident">QueueFamilyId</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">QueueGroup</span> {
             <span class="ident">family</span>,
             <span class="ident">queues</span>: <span class="ident">Vec</span>::<span class="ident">new</span>(),

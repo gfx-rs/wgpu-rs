@@ -148,7 +148,7 @@
 <span class="doccomment">/// assert_eq!(future.as_mut().take_output(), None);</span>
 <span class="doccomment">/// # });</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">maybe_done</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span>(<span class="ident">future</span>: <span class="ident">Fut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MaybeDone</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">maybe_done</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span>(<span class="ident">future</span>: <span class="ident">Fut</span>) <span class="op">-&gt;</span> <span class="ident">MaybeDone</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
     <span class="ident">MaybeDone</span>::<span class="ident">Future</span>(<span class="ident">future</span>)
 }
 
@@ -159,18 +159,18 @@
     <span class="doccomment">/// has not yet been called.</span>
     <span class="attribute">#[<span class="ident">project</span>]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_mut</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Fut</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">output_mut</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Fut</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">project</span>]</span>
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">project</span>() {
-            <span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="ident">res</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">res</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="ident">res</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">res</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 
     <span class="doccomment">/// Attempt to take the output of a `MaybeDone` without driving it</span>
     <span class="doccomment">/// towards completion.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_output</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Fut</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_output</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Fut</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="comment">// Safety: we return immediately unless we are in the `Done`</span>
         <span class="comment">// state, which does not have any pinning guarantees to uphold.</span>
         <span class="comment">//</span>
@@ -179,8 +179,8 @@
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_unchecked_mut</span>();
             <span class="kw">match</span> <span class="ident">this</span> {
-                <span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {},
-                <span class="ident">MaybeDone</span>::<span class="ident">Future</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">MaybeDone</span>::<span class="ident">Gone</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+                <span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {},
+                <span class="ident">MaybeDone</span>::<span class="ident">Future</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">MaybeDone</span>::<span class="ident">Gone</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
             };
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="ident">output</span>) <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="ident">this</span>, <span class="ident">MaybeDone</span>::<span class="ident">Gone</span>) {
                 <span class="prelude-val">Some</span>(<span class="ident">output</span>)
@@ -192,10 +192,10 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span> <span class="ident">FusedFuture</span> <span class="kw">for</span> <span class="ident">MaybeDone</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">MaybeDone</span>::<span class="ident">Future</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
-            <span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">MaybeDone</span>::<span class="ident">Gone</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
+            <span class="ident">MaybeDone</span>::<span class="ident">Future</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">MaybeDone</span>::<span class="ident">Gone</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
         }
     }
 }
@@ -204,15 +204,15 @@
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> ();
 
     <span class="attribute">#[<span class="ident">project</span>]</span>
-    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">project</span>]</span>
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">as_mut</span>().<span class="ident">project</span>() {
-            <span class="ident">MaybeDone</span>::<span class="ident">Future</span>(<span class="ident">f</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">MaybeDone</span>::<span class="ident">Future</span>(<span class="ident">f</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">f</span>.<span class="ident">poll</span>(<span class="ident">cx</span>));
                 <span class="self">self</span>.<span class="ident">set</span>(<span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="ident">res</span>));
             },
-            <span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {},
-            <span class="ident">MaybeDone</span>::<span class="ident">Gone</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;MaybeDone polled after value taken&quot;</span>),
+            <span class="ident">MaybeDone</span>::<span class="ident">Done</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {},
+            <span class="ident">MaybeDone</span>::<span class="ident">Gone</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;MaybeDone polled after value taken&quot;</span>),
         }
         <span class="ident">Poll</span>::<span class="ident">Ready</span>(())
     }

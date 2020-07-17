@@ -383,7 +383,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">RayTracing</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">InstanceV1_0</span>, <span class="ident">D</span>: <span class="ident">DeviceV1_0</span><span class="op">&gt;</span>(<span class="ident">instance</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RayTracing</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">InstanceV1_0</span>, <span class="ident">D</span>: <span class="ident">DeviceV1_0</span><span class="op">&gt;</span>(<span class="ident">instance</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">D</span>) <span class="op">-&gt;</span> <span class="ident">RayTracing</span> {
         <span class="kw">let</span> <span class="ident">ray_tracing_fn</span> <span class="op">=</span> <span class="ident">vk</span>::<span class="ident">KhrRayTracingFn</span>::<span class="ident">load</span>(<span class="op">|</span><span class="ident">name</span><span class="op">|</span> <span class="kw">unsafe</span> {
             <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">instance</span>.<span class="ident">get_device_proc_addr</span>(<span class="ident">device</span>.<span class="ident">handle</span>(), <span class="ident">name</span>.<span class="ident">as_ptr</span>()))
         });
@@ -396,7 +396,7 @@
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_properties</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">InstanceV1_1</span><span class="op">&gt;</span>(
         <span class="ident">instance</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
         <span class="ident">pdevice</span>: <span class="ident">vk</span>::<span class="ident">PhysicalDevice</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PhysicalDeviceRayTracingPropertiesKHR</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">PhysicalDeviceRayTracingPropertiesKHR</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">props_rt</span> <span class="op">=</span> <span class="ident">vk</span>::<span class="ident">PhysicalDeviceRayTracingPropertiesKHR</span>::<span class="ident">default</span>();
         {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">props</span> <span class="op">=</span> <span class="ident">vk</span>::<span class="ident">PhysicalDeviceProperties2</span>::<span class="ident">builder</span>().<span class="ident">push_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">props_rt</span>);
@@ -410,7 +410,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AccelerationStructureCreateInfoKHR</span>,
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">AccelerationStructureKHR</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">AccelerationStructureKHR</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">accel_struct</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">ray_tracing_fn</span>.<span class="ident">create_acceleration_structure_khr</span>(
             <span class="self">self</span>.<span class="ident">handle</span>,
@@ -419,8 +419,8 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">accel_struct</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">accel_struct</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">accel_struct</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -441,7 +441,7 @@
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_acceleration_structure_memory_requirements</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AccelerationStructureMemoryRequirementsInfoKHR</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">MemoryRequirements2KHR</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">MemoryRequirements2KHR</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">requirements</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
         <span class="self">self</span>.<span class="ident">ray_tracing_fn</span>
             .<span class="ident">get_acceleration_structure_memory_requirements_khr</span>(
@@ -456,15 +456,15 @@
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">bind_acceleration_structure_memory</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">bind_info</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">BindAccelerationStructureMemoryInfoKHR</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">ray_tracing_fn</span>.<span class="ident">bind_acceleration_structure_memory_khr</span>(
             <span class="self">self</span>.<span class="ident">handle</span>,
             <span class="ident">bind_info</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>,
             <span class="ident">bind_info</span>.<span class="ident">as_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -478,7 +478,7 @@
         <span class="kw">let</span> <span class="ident">offset_info_ptr</span> <span class="op">=</span> <span class="ident">offset_infos</span>
             .<span class="ident">iter</span>()
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">slice</span><span class="op">|</span> <span class="ident">slice</span>.<span class="ident">as_ptr</span>())
-            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> <span class="ident">vk</span>::<span class="ident">AccelerationStructureBuildOffsetInfoKHR</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> <span class="ident">vk</span>::<span class="ident">AccelerationStructureBuildOffsetInfoKHR</span><span class="op">&gt;&gt;</span>();
 
         <span class="self">self</span>.<span class="ident">ray_tracing_fn</span>.<span class="ident">cmd_build_acceleration_structure_khr</span>(
             <span class="ident">command_buffer</span>,
@@ -528,7 +528,7 @@
         <span class="ident">pipeline_cache</span>: <span class="ident">vk</span>::<span class="ident">PipelineCache</span>,
         <span class="ident">create_info</span>: <span class="kw-2">&amp;</span>[<span class="ident">vk</span>::<span class="ident">RayTracingPipelineCreateInfoKHR</span>],
         <span class="ident">allocation_callbacks</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AllocationCallbacks</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">Pipeline</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pipelines</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">mem</span>::<span class="ident">zeroed</span>(); <span class="ident">create_info</span>.<span class="ident">len</span>()];
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">ray_tracing_fn</span>.<span class="ident">create_ray_tracing_pipelines_khr</span>(
             <span class="self">self</span>.<span class="ident">handle</span>,
@@ -539,8 +539,8 @@
             <span class="ident">pipelines</span>.<span class="ident">as_mut_ptr</span>(),
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipelines</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">pipelines</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -551,7 +551,7 @@
         <span class="ident">first_group</span>: <span class="ident">u32</span>,
         <span class="ident">group_count</span>: <span class="ident">u32</span>,
         <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">ray_tracing_fn</span>
             .<span class="ident">get_ray_tracing_shader_group_handles_khr</span>(
@@ -563,8 +563,8 @@
                 <span class="ident">data</span>.<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">ffi</span>::<span class="ident">c_void</span>,
             );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -572,7 +572,7 @@
     <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_acceleration_structure_device_address</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AccelerationStructureDeviceAddressInfoKHR</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DeviceAddress</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">DeviceAddress</span> {
         <span class="self">self</span>.<span class="ident">ray_tracing_fn</span>
             .<span class="ident">get_acceleration_structure_device_address_khr</span>(<span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">info</span>)
     }
@@ -619,13 +619,13 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">device</span>: <span class="ident">vk</span>::<span class="ident">Device</span>,
         <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">CopyAccelerationStructureToMemoryInfoKHR</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">ray_tracing_fn</span>
             .<span class="ident">copy_acceleration_structure_to_memory_khr</span>(<span class="ident">device</span>, <span class="ident">info</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -633,14 +633,14 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">device</span>: <span class="ident">vk</span>::<span class="ident">Device</span>,
         <span class="ident">info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">CopyMemoryToAccelerationStructureInfoKHR</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">ray_tracing_fn</span>
             .<span class="ident">copy_memory_to_acceleration_structure_khr</span>(<span class="ident">device</span>, <span class="ident">info</span>);
 
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -669,7 +669,7 @@
         <span class="ident">first_group</span>: <span class="ident">u32</span>,
         <span class="ident">group_count</span>: <span class="ident">u32</span>,
         <span class="ident">data_size</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="ident">data_size</span>);
 
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>
@@ -684,8 +684,8 @@
             );
 
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">data</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">data</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -714,26 +714,26 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">device</span>: <span class="ident">vk</span>::<span class="ident">Device</span>,
         <span class="ident">version</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">AccelerationStructureVersionKHR</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">ray_tracing_fn</span>
             .<span class="ident">get_device_acceleration_structure_compatibility_khr</span>(<span class="ident">device</span>, <span class="ident">version</span>);
 
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">CStr</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>() <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">CStr</span> {
         <span class="ident">vk</span>::<span class="ident">KhrRayTracingFn</span>::<span class="ident">name</span>()
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">KhrRayTracingFn</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">KhrRayTracingFn</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">ray_tracing_fn</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span> {
         <span class="self">self</span>.<span class="ident">handle</span>
     }
 }

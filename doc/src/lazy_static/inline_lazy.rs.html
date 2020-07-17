@@ -74,18 +74,18 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">ONCE_INIT</span>;
 
 <span class="comment">// FIXME: Replace Option&lt;T&gt; with MaybeUninit&lt;T&gt; (stable since 1.36.0)</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Lazy</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Sync</span><span class="op">&gt;</span>(<span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">Once</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Lazy</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Sync</span><span class="op">&gt;</span>(<span class="ident">Cell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>, <span class="ident">Once</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Sync</span><span class="op">&gt;</span> <span class="ident">Lazy</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">INIT</span>: <span class="self">Self</span> <span class="op">=</span> <span class="ident">Lazy</span>(<span class="ident">Cell</span>::<span class="ident">new</span>(<span class="prelude-val">None</span>), <span class="ident">ONCE_INIT</span>);
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span>
     <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span>,
+        <span class="ident">F</span>: <span class="ident">FnOnce</span>() <span class="op">-&gt;</span> <span class="ident">T</span>,
     {
-        <span class="self">self</span>.<span class="number">1</span>.<span class="ident">call_once</span>(<span class="op">|</span><span class="op">|</span> {
+        <span class="self">self</span>.<span class="number">1</span>.<span class="ident">call_once</span>(<span class="op">||</span> {
             <span class="self">self</span>.<span class="number">0</span>.<span class="ident">set</span>(<span class="prelude-val">Some</span>(<span class="ident">f</span>()));
         });
 
@@ -93,8 +93,8 @@
         <span class="comment">// The `Once` will catch and propagate panics</span>
         <span class="kw">unsafe</span> {
             <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ptr</span>() {
-                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">x</span>,
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">x</span>,
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
                     <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="bool-val">false</span>, <span class="string">&quot;attempted to derefence an uninitialized lazy static. This is a bug&quot;</span>);
 
                     <span class="ident">unreachable_unchecked</span>()
@@ -109,7 +109,7 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">__lazy_static_create</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">NAME</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">NAME</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>) <span class="op">=&gt;</span> {
         <span class="kw">static</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">NAME</span>: <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">lazy</span>::<span class="ident">Lazy</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">lazy</span>::<span class="ident">Lazy</span>::<span class="ident">INIT</span>;
     };
 }

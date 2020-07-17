@@ -695,16 +695,16 @@
         <span class="kw">const</span> <span class="ident">DRAW_INDIRECT_COUNT</span> <span class="op">=</span> <span class="number">0x1000_0000_0000_0000</span>;
 
         <span class="doccomment">/// Support triangle fan primitive topology.</span>
-        <span class="kw">const</span> <span class="ident">TRIANGLE_FAN</span> <span class="op">=</span> <span class="number">0x0001</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">64</span>;
+        <span class="kw">const</span> <span class="ident">TRIANGLE_FAN</span> <span class="op">=</span> <span class="number">0x0001</span> <span class="op">&lt;&lt;</span> <span class="number">64</span>;
         <span class="doccomment">/// Support separate stencil reference values for front and back sides.</span>
-        <span class="kw">const</span> <span class="ident">SEPARATE_STENCIL_REF_VALUES</span> <span class="op">=</span> <span class="number">0x0002</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">64</span>;
+        <span class="kw">const</span> <span class="ident">SEPARATE_STENCIL_REF_VALUES</span> <span class="op">=</span> <span class="number">0x0002</span> <span class="op">&lt;&lt;</span> <span class="number">64</span>;
         <span class="doccomment">/// Support manually specified vertex attribute rates (divisors).</span>
-        <span class="kw">const</span> <span class="ident">INSTANCE_RATE</span> <span class="op">=</span> <span class="number">0x0004</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">64</span>;
+        <span class="kw">const</span> <span class="ident">INSTANCE_RATE</span> <span class="op">=</span> <span class="number">0x0004</span> <span class="op">&lt;&lt;</span> <span class="number">64</span>;
         <span class="doccomment">/// Support non-zero mipmap bias on samplers.</span>
-        <span class="kw">const</span> <span class="ident">SAMPLER_MIP_LOD_BIAS</span> <span class="op">=</span> <span class="number">0x0008</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">64</span>;
+        <span class="kw">const</span> <span class="ident">SAMPLER_MIP_LOD_BIAS</span> <span class="op">=</span> <span class="number">0x0008</span> <span class="op">&lt;&lt;</span> <span class="number">64</span>;
 
         <span class="doccomment">/// Make the NDC coordinate system pointing Y up, to match D3D and Metal.</span>
-        <span class="kw">const</span> <span class="ident">NDC_Y_UP</span> <span class="op">=</span> <span class="number">0x0001</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">80</span>;
+        <span class="kw">const</span> <span class="ident">NDC_Y_UP</span> <span class="op">=</span> <span class="number">0x0001</span> <span class="op">&lt;&lt;</span> <span class="number">80</span>;
     }
 }
 
@@ -909,14 +909,14 @@
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Instance</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span>: <span class="ident">Any</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Sized</span> {
     <span class="doccomment">/// Create a new instance.</span>
-    <span class="kw">fn</span> <span class="ident">create</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">version</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UnsupportedBackend</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">create</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">version</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">UnsupportedBackend</span><span class="op">&gt;</span>;
     <span class="doccomment">/// Return all available adapters.</span>
-    <span class="kw">fn</span> <span class="ident">enumerate_adapters</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">adapter</span>::<span class="ident">Adapter</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">enumerate_adapters</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">adapter</span>::<span class="ident">Adapter</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>;
     <span class="doccomment">/// Create a new surface.</span>
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">create_surface</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw">impl</span> <span class="ident">raw_window_handle</span>::<span class="ident">HasRawWindowHandle</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">Surface</span>, <span class="ident">window</span>::<span class="ident">InitError</span><span class="op">&gt;</span>;
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">Surface</span>, <span class="ident">window</span>::<span class="ident">InitError</span><span class="op">&gt;</span>;
     <span class="doccomment">/// Destroy a surface.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The surface shouldn&#39;t be destroyed before the attached</span>
@@ -930,7 +930,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MemoryTypeId</span>(<span class="kw">pub</span> <span class="ident">usize</span>);
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MemoryTypeId</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">id</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">id</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">MemoryTypeId</span>(<span class="ident">id</span>)
     }
 }
@@ -938,7 +938,7 @@
 <span class="kw">struct</span> <span class="ident">PseudoVec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">Extend</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">PseudoVec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">extend</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">iter</span>: <span class="ident">I</span>) {
+    <span class="kw">fn</span> <span class="ident">extend</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;&gt;</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">iter</span>: <span class="ident">I</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">into_iter</span>();
         <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">is_none</span>());

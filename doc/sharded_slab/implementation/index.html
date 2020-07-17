@@ -102,7 +102,7 @@ subtracting that count from the total number of bits in a word.</p>
 <p>The formula for determining the page number that contains an offset is thus:</p>
 
 <div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
-<span class="ident">WIDTH</span> <span class="op">-</span> ((<span class="ident">offset</span> <span class="op">+</span> <span class="ident">INITIAL_PAGE_SIZE</span>) <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">INDEX_SHIFT</span>).<span class="ident">leading_zeros</span>()</pre></div>
+<span class="ident">WIDTH</span> <span class="op">-</span> ((<span class="ident">offset</span> <span class="op">+</span> <span class="ident">INITIAL_PAGE_SIZE</span>) <span class="op">&gt;&gt;</span> <span class="ident">INDEX_SHIFT</span>).<span class="ident">leading_zeros</span>()</pre></div>
 <p>where <code>WIDTH</code> is the number of bits in a <code>usize</code>, and <code>INDEX_SHIFT</code> is</p>
 
 <div class='information'><div class='tooltip ignore'>ⓘ<span class='tooltiptext'>This example is not tested</span></div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">

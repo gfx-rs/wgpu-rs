@@ -726,42 +726,42 @@
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CreationError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">device</span>::<span class="ident">OutOfMemory</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">device</span>::<span class="ident">OutOfMemory</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">CreationError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">error</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">device</span>::<span class="ident">DeviceLost</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CreationError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">device</span>::<span class="ident">DeviceLost</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">device</span>::<span class="ident">DeviceLost</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">CreationError</span>::<span class="ident">DeviceLost</span>(<span class="ident">error</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">device</span>::<span class="ident">SurfaceLost</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CreationError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">device</span>::<span class="ident">SurfaceLost</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">device</span>::<span class="ident">SurfaceLost</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">CreationError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">error</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">device</span>::<span class="ident">WindowInUse</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">CreationError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">device</span>::<span class="ident">WindowInUse</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">device</span>::<span class="ident">WindowInUse</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">CreationError</span>::<span class="ident">WindowInUse</span>(<span class="ident">error</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">CreationError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">CreationError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">CreationError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to create or configure swapchain: {}&quot;</span>, <span class="ident">err</span>)
             }
-            <span class="ident">CreationError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">CreationError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to create or configure swapchain: {}&quot;</span>, <span class="ident">err</span>)
             }
-            <span class="ident">CreationError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">CreationError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to create or configure swapchain: {}&quot;</span>, <span class="ident">err</span>)
             }
-            <span class="ident">CreationError</span>::<span class="ident">WindowInUse</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">CreationError</span>::<span class="ident">WindowInUse</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to create or configure swapchain: {}&quot;</span>, <span class="ident">err</span>)
             }
         }
@@ -769,12 +769,12 @@
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">CreationError</span> {
-    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">CreationError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="ident">CreationError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="ident">CreationError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="ident">CreationError</span>::<span class="ident">WindowInUse</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="ident">CreationError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="ident">CreationError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="ident">CreationError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="ident">CreationError</span>::<span class="ident">WindowInUse</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
         }
     }
 }
@@ -792,7 +792,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">image</span>::<span class="ident">Extent</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Extent2D</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">ex</span>: <span class="ident">image</span>::<span class="ident">Extent</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">ex</span>: <span class="ident">image</span>::<span class="ident">Extent</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Extent2D</span> {
             <span class="ident">width</span>: <span class="ident">ex</span>.<span class="ident">width</span>,
             <span class="ident">height</span>: <span class="ident">ex</span>.<span class="ident">height</span>,
@@ -802,7 +802,7 @@
 
 <span class="kw">impl</span> <span class="ident">Extent2D</span> {
     <span class="doccomment">/// Convert into a regular image extent.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_extent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">image</span>::<span class="ident">Extent</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_extent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">image</span>::<span class="ident">Extent</span> {
         <span class="ident">image</span>::<span class="ident">Extent</span> {
             <span class="ident">width</span>: <span class="self">self</span>.<span class="ident">width</span>,
             <span class="ident">height</span>: <span class="self">self</span>.<span class="ident">height</span>,
@@ -849,10 +849,10 @@
 }
 
 <span class="kw">impl</span> <span class="ident">SurfaceCapabilities</span> {
-    <span class="kw">fn</span> <span class="ident">clamped_extent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">default_extent</span>: <span class="ident">Extent2D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Extent2D</span> {
+    <span class="kw">fn</span> <span class="ident">clamped_extent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">default_extent</span>: <span class="ident">Extent2D</span>) <span class="op">-&gt;</span> <span class="ident">Extent2D</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">current_extent</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">current</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">current</span>,
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">current</span>) <span class="op">=&gt;</span> <span class="ident">current</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
                 <span class="kw">let</span> (<span class="ident">min_width</span>, <span class="ident">max_width</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">extents</span>.<span class="ident">start</span>().<span class="ident">width</span>, <span class="self">self</span>.<span class="ident">extents</span>.<span class="ident">end</span>().<span class="ident">width</span>);
                 <span class="kw">let</span> (<span class="ident">min_height</span>, <span class="ident">max_height</span>) <span class="op">=</span>
                     (<span class="self">self</span>.<span class="ident">extents</span>.<span class="ident">start</span>().<span class="ident">height</span>, <span class="self">self</span>.<span class="ident">extents</span>.<span class="ident">end</span>().<span class="ident">height</span>);
@@ -876,12 +876,12 @@
     <span class="doccomment">/// ```no_run</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">supports_queue_family</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">family</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">QueueFamily</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">supports_queue_family</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">family</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">QueueFamily</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
 
     <span class="doccomment">/// Query surface capabilities for this physical device.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Use this function for configuring swapchain creation.</span>
-    <span class="kw">fn</span> <span class="ident">capabilities</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">physical_device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">PhysicalDevice</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SurfaceCapabilities</span>;
+    <span class="kw">fn</span> <span class="ident">capabilities</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">physical_device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">PhysicalDevice</span>) <span class="op">-&gt;</span> <span class="ident">SurfaceCapabilities</span>;
 
     <span class="doccomment">/// Query surface formats for this physical device.</span>
     <span class="doccomment">///</span>
@@ -893,7 +893,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If `None` is returned then the surface has no preferred format and the</span>
     <span class="doccomment">/// application may use any desired format.</span>
-    <span class="kw">fn</span> <span class="ident">supported_formats</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">physical_device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">PhysicalDevice</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Format</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">supported_formats</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">physical_device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">PhysicalDevice</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Format</span><span class="op">&gt;&gt;</span>;
 }
 
 <span class="doccomment">/// A surface trait that exposes the ability to present images on the</span>
@@ -907,7 +907,7 @@
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
         <span class="ident">config</span>: <span class="ident">SwapchainConfig</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CreationError</span><span class="op">&gt;</span>;
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">CreationError</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Remove the associated swapchain from this surface.</span>
     <span class="doccomment">///</span>
@@ -930,7 +930,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">acquire_image</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">timeout_ns</span>: <span class="ident">u64</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="self">Self</span>::<span class="ident">SwapchainImage</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Suboptimal</span><span class="op">&gt;</span>), <span class="ident">AcquireError</span><span class="op">&gt;</span>;
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="self">Self</span>::<span class="ident">SwapchainImage</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Suboptimal</span><span class="op">&gt;</span>), <span class="ident">AcquireError</span><span class="op">&gt;</span>;
 }
 
 <span class="doccomment">/// Index of an image in the swapchain.</span>
@@ -1031,7 +1031,7 @@
     <span class="doccomment">/// ```no_run</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">format</span>: <span class="ident">Format</span>, <span class="ident">image_count</span>: <span class="ident">SwapImageIndex</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">width</span>: <span class="ident">u32</span>, <span class="ident">height</span>: <span class="ident">u32</span>, <span class="ident">format</span>: <span class="ident">Format</span>, <span class="ident">image_count</span>: <span class="ident">SwapImageIndex</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">SwapchainConfig</span> {
             <span class="ident">present_mode</span>: <span class="ident">PresentMode</span>::<span class="ident">FIFO</span>,
             <span class="ident">composite_alpha_mode</span>: <span class="ident">CompositeAlphaMode</span>::<span class="ident">OPAQUE</span>,
@@ -1048,7 +1048,7 @@
     <span class="doccomment">/// specify a current size, default_extent is clamped and used instead.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The default values are taken from `DEFAULT_USAGE` and `DEFAULT_IMAGE_COUNT`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_caps</span>(<span class="ident">caps</span>: <span class="kw-2">&amp;</span><span class="ident">SurfaceCapabilities</span>, <span class="ident">format</span>: <span class="ident">Format</span>, <span class="ident">default_extent</span>: <span class="ident">Extent2D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_caps</span>(<span class="ident">caps</span>: <span class="kw-2">&amp;</span><span class="ident">SurfaceCapabilities</span>, <span class="ident">format</span>: <span class="ident">Format</span>, <span class="ident">default_extent</span>: <span class="ident">Extent2D</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">composite_alpha_mode</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">caps</span>
             .<span class="ident">composite_alpha_modes</span>
             .<span class="ident">contains</span>(<span class="ident">CompositeAlphaMode</span>::<span class="ident">INHERIT</span>)
@@ -1084,25 +1084,25 @@
     }
 
     <span class="doccomment">/// Specify the presentation mode.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_present_mode</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">mode</span>: <span class="ident">PresentMode</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_present_mode</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">mode</span>: <span class="ident">PresentMode</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">present_mode</span> <span class="op">=</span> <span class="ident">mode</span>;
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Specify the presentation mode.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_composite_alpha_mode</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">mode</span>: <span class="ident">CompositeAlphaMode</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_composite_alpha_mode</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">mode</span>: <span class="ident">CompositeAlphaMode</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">composite_alpha_mode</span> <span class="op">=</span> <span class="ident">mode</span>;
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Specify the usage of backbuffer images.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_image_usage</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">usage</span>: <span class="ident">image</span>::<span class="ident">Usage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_image_usage</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">usage</span>: <span class="ident">image</span>::<span class="ident">Usage</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">image_usage</span> <span class="op">=</span> <span class="ident">usage</span>;
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Specify the count of backbuffer image.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_image_count</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">count</span>: <span class="ident">SwapImageIndex</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_image_count</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">count</span>: <span class="ident">SwapImageIndex</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">image_count</span> <span class="op">=</span> <span class="ident">count</span>;
         <span class="self">self</span>
     }
@@ -1133,33 +1133,33 @@
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">AcquireError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">AcquireError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to acqure image: {}&quot;</span>, <span class="ident">err</span>),
-            <span class="ident">AcquireError</span>::<span class="ident">NotReady</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="ident">AcquireError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to acqure image: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="ident">AcquireError</span>::<span class="ident">NotReady</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">fmt</span>,
                 <span class="string">&quot;Failed to acqure image: No image ready (timeout wasn&#39;t specified)&quot;</span>
             ),
-            <span class="ident">AcquireError</span>::<span class="ident">Timeout</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">AcquireError</span>::<span class="ident">Timeout</span> <span class="op">=&gt;</span> {
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to acqure image: No image ready (timeout)&quot;</span>)
             }
-            <span class="ident">AcquireError</span>::<span class="ident">OutOfDate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="ident">AcquireError</span>::<span class="ident">OutOfDate</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">fmt</span>,
                 <span class="string">&quot;Failed to acqure image: Swapchain is out of date and needs to be re-created&quot;</span>
             ),
-            <span class="ident">AcquireError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to acqure image: {}&quot;</span>, <span class="ident">err</span>),
-            <span class="ident">AcquireError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to acqure image: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="ident">AcquireError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to acqure image: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="ident">AcquireError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to acqure image: {}&quot;</span>, <span class="ident">err</span>),
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">AcquireError</span> {
-    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">AcquireError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="ident">AcquireError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="ident">AcquireError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">AcquireError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="ident">AcquireError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="ident">AcquireError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
@@ -1178,26 +1178,26 @@
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">PresentError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">PresentError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to present image: {}&quot;</span>, <span class="ident">err</span>),
-            <span class="ident">PresentError</span>::<span class="ident">OutOfDate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="ident">PresentError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to present image: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="ident">PresentError</span>::<span class="ident">OutOfDate</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">fmt</span>,
                 <span class="string">&quot;Failed to present image: Swapchain is out of date and needs to be re-created&quot;</span>
             ),
-            <span class="ident">PresentError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to present image: {}&quot;</span>, <span class="ident">err</span>),
-            <span class="ident">PresentError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to present image: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="ident">PresentError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to present image: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="ident">PresentError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;Failed to present image: {}&quot;</span>, <span class="ident">err</span>),
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">PresentError</span> {
-    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">PresentError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="ident">PresentError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="ident">PresentError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">PresentError</span>::<span class="ident">OutOfMemory</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="ident">PresentError</span>::<span class="ident">SurfaceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="ident">PresentError</span>::<span class="ident">DeviceLost</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
@@ -1225,7 +1225,7 @@
         <span class="ident">timeout_ns</span>: <span class="ident">u64</span>,
         <span class="ident">semaphore</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Semaphore</span><span class="op">&gt;</span>,
         <span class="ident">fence</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Fence</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">SwapImageIndex</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Suboptimal</span><span class="op">&gt;</span>), <span class="ident">AcquireError</span><span class="op">&gt;</span>;
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">SwapImageIndex</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Suboptimal</span><span class="op">&gt;</span>), <span class="ident">AcquireError</span><span class="op">&gt;</span>;
 
     <span class="doccomment">/// Present one acquired image.</span>
     <span class="doccomment">///</span>
@@ -1244,7 +1244,7 @@
         <span class="ident">present_queue</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span>::<span class="ident">CommandQueue</span>,
         <span class="ident">image_index</span>: <span class="ident">SwapImageIndex</span>,
         <span class="ident">wait_semaphores</span>: <span class="ident">Iw</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Suboptimal</span><span class="op">&gt;</span>, <span class="ident">PresentError</span><span class="op">&gt;</span>
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Suboptimal</span><span class="op">&gt;</span>, <span class="ident">PresentError</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">Swapchain</span><span class="op">&gt;</span>,
         <span class="ident">S</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">Semaphore</span><span class="op">&gt;</span>,
@@ -1258,7 +1258,7 @@
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
         <span class="ident">present_queue</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span>::<span class="ident">CommandQueue</span>,
         <span class="ident">image_index</span>: <span class="ident">SwapImageIndex</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Suboptimal</span><span class="op">&gt;</span>, <span class="ident">PresentError</span><span class="op">&gt;</span>
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Suboptimal</span><span class="op">&gt;</span>, <span class="ident">PresentError</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">Swapchain</span><span class="op">&gt;</span>,
     {
@@ -1274,9 +1274,9 @@
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">InitError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">InitError</span>::<span class="ident">UnsupportedWindowHandle</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="ident">InitError</span>::<span class="ident">UnsupportedWindowHandle</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">fmt</span>,
                 <span class="string">&quot;Failed to create surface: Specified window handle is unsupported&quot;</span>
             ),

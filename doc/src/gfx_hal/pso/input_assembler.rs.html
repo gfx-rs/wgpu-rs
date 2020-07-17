@@ -174,10 +174,10 @@
 
 <span class="kw">impl</span> <span class="ident">VertexInputRate</span> {
     <span class="doccomment">/// Get the numeric representation of the rate</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_uint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u8</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_uint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u8</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">VertexInputRate</span>::<span class="ident">Vertex</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
-            <span class="ident">VertexInputRate</span>::<span class="ident">Instance</span>(<span class="ident">divisor</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">divisor</span>,
+            <span class="ident">VertexInputRate</span>::<span class="ident">Vertex</span> <span class="op">=&gt;</span> <span class="number">0</span>,
+            <span class="ident">VertexInputRate</span>::<span class="ident">Instance</span>(<span class="ident">divisor</span>) <span class="op">=&gt;</span> <span class="ident">divisor</span>,
         }
     }
 }
@@ -281,7 +281,7 @@
 
 <span class="kw">impl</span> <span class="ident">InputAssemblerDesc</span> {
     <span class="doccomment">/// Create a new IA descriptor without primitive restart or adjucency.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">primitive</span>: <span class="ident">Primitive</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">primitive</span>: <span class="ident">Primitive</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">InputAssemblerDesc</span> {
             <span class="ident">primitive</span>,
             <span class="ident">with_adjacency</span>: <span class="bool-val">false</span>,

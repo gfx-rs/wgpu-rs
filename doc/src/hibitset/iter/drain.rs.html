@@ -60,7 +60,7 @@
     <span class="doccomment">/// but just [`.drain()`] on a bit set.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`.drain()`]: ../trait.DrainableBitSet.html#method.drain</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">set</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">masks</span>: [<span class="ident">usize</span>; <span class="ident">LAYERS</span>], <span class="ident">prefix</span>: [<span class="ident">u32</span>; <span class="ident">LAYERS</span> <span class="op">-</span> <span class="number">1</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">set</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">T</span>, <span class="ident">masks</span>: [<span class="ident">usize</span>; <span class="ident">LAYERS</span>], <span class="ident">prefix</span>: [<span class="ident">u32</span>; <span class="ident">LAYERS</span> <span class="op">-</span> <span class="number">1</span>]) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">DrainBitIter</span> {
             <span class="ident">iter</span>: <span class="ident">BitIter</span>::<span class="ident">new</span>(<span class="ident">set</span>, <span class="ident">masks</span>, <span class="ident">prefix</span>),
         }
@@ -73,7 +73,7 @@
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">Index</span>;
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">next</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">next</span>) <span class="op">=</span> <span class="ident">next</span> {
             <span class="self">self</span>.<span class="ident">iter</span>.<span class="ident">set</span>.<span class="ident">remove</span>(<span class="ident">next</span>);
@@ -85,7 +85,7 @@
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">drain_all</span>() {
     <span class="kw">use</span> {<span class="ident">BitSet</span>, <span class="ident">BitSetLike</span>};
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bit_set</span>: <span class="ident">BitSet</span> <span class="op">=</span> (<span class="number">0</span>..<span class="number">10000</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>).<span class="ident">collect</span>();
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bit_set</span>: <span class="ident">BitSet</span> <span class="op">=</span> (<span class="number">0</span>..<span class="number">10000</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">0</span>).<span class="ident">collect</span>();
     <span class="ident">bit_set</span>.<span class="ident">drain</span>().<span class="ident">for_each</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> {});
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">0</span>, <span class="ident">bit_set</span>.<span class="ident">iter</span>().<span class="ident">count</span>());
 }

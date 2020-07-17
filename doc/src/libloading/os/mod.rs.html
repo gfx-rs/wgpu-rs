@@ -63,7 +63,7 @@
 <span class="doccomment">//! ```</span>
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">unix</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>: <span class="ident">item</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>: <span class="ident">item</span>) <span class="op">=&gt;</span> {
         <span class="doccomment">/// UNIX implementation of dynamic library loading.</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// This module should be expanded with more UNIX-specific functionality in the future.</span>
@@ -72,7 +72,7 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">windows</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>: <span class="ident">item</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>: <span class="ident">item</span>) <span class="op">=&gt;</span> {
         <span class="doccomment">/// Windows implementation of dynamic library loading.</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// This module should be expanded with more Windows-specific functionality in the future.</span>

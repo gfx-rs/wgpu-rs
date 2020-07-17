@@ -402,7 +402,7 @@
 <span class="doccomment">/// Creates a new mutex in an unlocked state ready for use.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This allows creating a mutex in a constant context on stable Rust.</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">const_mutex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">val</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">const_mutex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">val</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="ident">Mutex</span>::<span class="ident">const_new</span>(<span class="op">&lt;</span><span class="ident">RawMutex</span> <span class="kw">as</span> <span class="ident">lock_api</span>::<span class="ident">RawMutex</span><span class="op">&gt;</span>::<span class="ident">INIT</span>, <span class="ident">val</span>)
 }
 
@@ -457,7 +457,7 @@
 
         <span class="kw">fn</span> <span class="ident">inc</span>(<span class="ident">m</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>) {
             <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">J</span> {
-                <span class="kw-2">*</span><span class="ident">m</span>.<span class="ident">lock</span>() <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                <span class="kw-2">*</span><span class="ident">m</span>.<span class="ident">lock</span>() <span class="op">+=</span> <span class="number">1</span>;
             }
         }
 
@@ -465,13 +465,13 @@
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">K</span> {
             <span class="kw">let</span> <span class="ident">tx2</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">clone</span>();
             <span class="kw">let</span> <span class="ident">m2</span> <span class="op">=</span> <span class="ident">m</span>.<span class="ident">clone</span>();
-            <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+            <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
                 <span class="ident">inc</span>(<span class="kw-2">&amp;</span><span class="ident">m2</span>);
                 <span class="ident">tx2</span>.<span class="ident">send</span>(()).<span class="ident">unwrap</span>();
             });
             <span class="kw">let</span> <span class="ident">tx2</span> <span class="op">=</span> <span class="ident">tx</span>.<span class="ident">clone</span>();
             <span class="kw">let</span> <span class="ident">m2</span> <span class="op">=</span> <span class="ident">m</span>.<span class="ident">clone</span>();
-            <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+            <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
                 <span class="ident">inc</span>(<span class="kw-2">&amp;</span><span class="ident">m2</span>);
                 <span class="ident">tx2</span>.<span class="ident">send</span>(()).<span class="ident">unwrap</span>();
             });
@@ -526,7 +526,7 @@
         <span class="kw">let</span> <span class="ident">packet</span> <span class="op">=</span> <span class="ident">Packet</span>(<span class="ident">Arc</span>::<span class="ident">new</span>((<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="bool-val">false</span>), <span class="ident">Condvar</span>::<span class="ident">new</span>())));
         <span class="kw">let</span> <span class="ident">packet2</span> <span class="op">=</span> <span class="ident">Packet</span>(<span class="ident">packet</span>.<span class="number">0</span>.<span class="ident">clone</span>());
         <span class="kw">let</span> (<span class="ident">tx</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">channel</span>();
-        <span class="kw">let</span> <span class="ident">_t</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="comment">// wait until parent gets in</span>
             <span class="ident">rx</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
             <span class="kw">let</span> <span class="kw-2">&amp;</span>(<span class="kw-2">ref</span> <span class="ident">lock</span>, <span class="kw-2">ref</span> <span class="ident">cvar</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">packet2</span>.<span class="number">0</span>;
@@ -551,7 +551,7 @@
         <span class="kw">let</span> <span class="ident">arc</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="number">1</span>));
         <span class="kw">let</span> <span class="ident">arc2</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">arc</span>));
         <span class="kw">let</span> (<span class="ident">tx</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">channel</span>();
-        <span class="kw">let</span> <span class="ident">_t</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">lock</span> <span class="op">=</span> <span class="ident">arc2</span>.<span class="ident">lock</span>();
             <span class="kw">let</span> <span class="ident">lock2</span> <span class="op">=</span> <span class="ident">lock</span>.<span class="ident">lock</span>();
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">lock2</span>, <span class="number">1</span>);
@@ -564,13 +564,13 @@
     <span class="kw">fn</span> <span class="ident">test_mutex_arc_access_in_unwind</span>() {
         <span class="kw">let</span> <span class="ident">arc</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="number">1</span>));
         <span class="kw">let</span> <span class="ident">arc2</span> <span class="op">=</span> <span class="ident">arc</span>.<span class="ident">clone</span>();
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">struct</span> <span class="ident">Unwinder</span> {
-                <span class="ident">i</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+                <span class="ident">i</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;&gt;</span>,
             }
             <span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Unwinder</span> {
                 <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-                    <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">i</span>.<span class="ident">lock</span>() <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                    <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">i</span>.<span class="ident">lock</span>() <span class="op">+=</span> <span class="number">1</span>;
                 }
             }
             <span class="kw">let</span> <span class="ident">_u</span> <span class="op">=</span> <span class="ident">Unwinder</span> { <span class="ident">i</span>: <span class="ident">arc2</span> };
@@ -617,7 +617,7 @@
         <span class="kw">let</span> <span class="ident">mutex</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">contents</span>.<span class="ident">clone</span>());
 
         <span class="kw">let</span> <span class="ident">serialized</span> <span class="op">=</span> <span class="ident">serialize</span>(<span class="kw-2">&amp;</span><span class="ident">mutex</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">deserialized</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">deserialize</span>(<span class="kw-2">&amp;</span><span class="ident">serialized</span>).<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="ident">deserialized</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">deserialize</span>(<span class="kw-2">&amp;</span><span class="ident">serialized</span>).<span class="ident">unwrap</span>();
 
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span>(<span class="ident">mutex</span>.<span class="ident">lock</span>()), <span class="kw-2">*</span>(<span class="ident">deserialized</span>.<span class="ident">lock</span>()));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">contents</span>, <span class="kw-2">*</span>(<span class="ident">deserialized</span>.<span class="ident">lock</span>()));

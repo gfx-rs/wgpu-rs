@@ -184,7 +184,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DedicatedBlock</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> {
     <span class="ident">memory</span>: <span class="ident">Memory</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
-    <span class="ident">ptr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">ptr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">DedicatedBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {}
@@ -193,32 +193,32 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">DedicatedBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Get inner memory.</span>
     <span class="doccomment">/// Panics if mapped.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap_memory</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Memory</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap_memory</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Memory</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">ptr</span>, <span class="prelude-val">None</span>);
         <span class="self">self</span>.<span class="ident">memory</span>
     }
 
     <span class="doccomment">/// Make a non-mappable block.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_memory</span>(<span class="ident">memory</span>: <span class="ident">Memory</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_memory</span>(<span class="ident">memory</span>: <span class="ident">Memory</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">DedicatedBlock</span> { <span class="ident">memory</span>, <span class="ident">ptr</span>: <span class="prelude-val">None</span> }
     }
 
     <span class="doccomment">/// Get the size of the block.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Size</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Size</span> {
         <span class="self">self</span>.<span class="ident">memory</span>.<span class="ident">size</span>()
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Block</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DedicatedBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Properties</span> {
+    <span class="kw">fn</span> <span class="ident">properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Properties</span> {
         <span class="self">self</span>.<span class="ident">memory</span>.<span class="ident">properties</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Memory</span> {
+    <span class="kw">fn</span> <span class="ident">memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Memory</span> {
         <span class="self">self</span>.<span class="ident">memory</span>.<span class="ident">raw</span>()
     }
 
-    <span class="kw">fn</span> <span class="ident">segment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span> {
+    <span class="kw">fn</span> <span class="ident">segment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span> {
         <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span> {
             <span class="ident">offset</span>: <span class="number">0</span>,
             <span class="ident">size</span>: <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">memory</span>.<span class="ident">size</span>()),
@@ -229,14 +229,14 @@
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">_device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
         <span class="ident">segment</span>: <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MappedRange</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">MapError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MappedRange</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">MapError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">requested_range</span> <span class="op">=</span> <span class="ident">segment</span>.<span class="ident">offset</span>..<span class="kw">match</span> <span class="ident">segment</span>.<span class="ident">size</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">segment</span>.<span class="ident">offset</span> <span class="op">+</span> <span class="ident">s</span>,
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">memory</span>.<span class="ident">size</span>(),
+            <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">segment</span>.<span class="ident">offset</span> <span class="op">+</span> <span class="ident">s</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">memory</span>.<span class="ident">size</span>(),
         };
         <span class="kw">let</span> <span class="ident">mapping_range</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">memory</span>.<span class="ident">non_coherent_atom_size</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">atom</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">align_range</span>(<span class="kw-2">&amp;</span><span class="ident">requested_range</span>, <span class="ident">atom</span>),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">requested_range</span>.<span class="ident">clone</span>(),
+            <span class="prelude-val">Some</span>(<span class="ident">atom</span>) <span class="op">=&gt;</span> <span class="kw">crate</span>::<span class="ident">align_range</span>(<span class="kw-2">&amp;</span><span class="ident">requested_range</span>, <span class="ident">atom</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">requested_range</span>.<span class="ident">clone</span>(),
         };
 
         <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> {
@@ -277,7 +277,7 @@
         <span class="ident">memory_type</span>: <span class="ident">hal</span>::<span class="ident">MemoryTypeId</span>,
         <span class="ident">memory_properties</span>: <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Properties</span>,
         <span class="ident">non_coherent_atom_size</span>: <span class="ident">Size</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">DedicatedAllocator</span> {
             <span class="ident">memory_type</span>,
             <span class="ident">memory_properties</span>,
@@ -301,10 +301,10 @@
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
         <span class="ident">size</span>: <span class="ident">Size</span>,
         <span class="ident">_align</span>: <span class="ident">Size</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">DedicatedBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">Size</span>), <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">AllocationError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">DedicatedBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">Size</span>), <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">AllocationError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">non_coherent_atom_size</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">atom</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">align_size</span>(<span class="ident">size</span>, <span class="ident">atom</span>),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">size</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">atom</span>) <span class="op">=&gt;</span> <span class="kw">crate</span>::<span class="ident">align_size</span>(<span class="ident">size</span>, <span class="ident">atom</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">size</span>,
         };
         <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Allocate block of size: {}&quot;</span>, <span class="ident">size</span>);
 
@@ -318,14 +318,14 @@
             )<span class="question-mark">?</span>
         };
 
-        <span class="self">self</span>.<span class="ident">used</span> <span class="op">+</span><span class="op">=</span> <span class="ident">size</span>;
+        <span class="self">self</span>.<span class="ident">used</span> <span class="op">+=</span> <span class="ident">size</span>;
         <span class="prelude-val">Ok</span>((<span class="ident">DedicatedBlock</span> { <span class="ident">memory</span>, <span class="ident">ptr</span> }, <span class="ident">size</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">free</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>, <span class="ident">block</span>: <span class="ident">DedicatedBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Size</span> {
+    <span class="kw">fn</span> <span class="ident">free</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>, <span class="ident">block</span>: <span class="ident">DedicatedBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Size</span> {
         <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="ident">block</span>.<span class="ident">memory</span>.<span class="ident">size</span>();
         <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Free block of size: {}&quot;</span>, <span class="ident">size</span>);
-        <span class="self">self</span>.<span class="ident">used</span> <span class="op">-</span><span class="op">=</span> <span class="ident">size</span>;
+        <span class="self">self</span>.<span class="ident">used</span> <span class="op">-=</span> <span class="ident">size</span>;
         <span class="kw">unsafe</span> {
             <span class="ident">device</span>.<span class="ident">unmap_memory</span>(<span class="ident">block</span>.<span class="ident">memory</span>.<span class="ident">raw</span>());
             <span class="ident">device</span>.<span class="ident">free_memory</span>(<span class="ident">block</span>.<span class="ident">memory</span>.<span class="ident">into_raw</span>());
@@ -336,7 +336,7 @@
 
 <span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">DedicatedAllocator</span> {
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">used</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">used</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Not all allocation from DedicatedAllocator was freed&quot;</span>);
         }
     }

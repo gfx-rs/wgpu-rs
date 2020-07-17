@@ -388,7 +388,7 @@
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">LAYERS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">BITS</span> <span class="op">*</span> <span class="ident">LAYERS</span>;
 <span class="doccomment">/// Maximum amount of bits per bitset.</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX_EID</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">MAX</span> <span class="op">-</span> <span class="number">1</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX_EID</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">2</span> <span class="op">&lt;&lt;</span> <span class="ident">MAX</span> <span class="op">-</span> <span class="number">1</span>;
 
 <span class="doccomment">/// Layer0 shift (bottom layer, true bitset).</span>
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SHIFT0</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">0</span>;
@@ -401,27 +401,27 @@
 
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Row</span>: <span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Copy</span> {
     <span class="doccomment">/// Location of the bit in the row.</span>
-    <span class="kw">fn</span> <span class="ident">row</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+    <span class="kw">fn</span> <span class="ident">row</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>;
 
     <span class="doccomment">/// Index of the row that the bit is in.</span>
-    <span class="kw">fn</span> <span class="ident">offset</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+    <span class="kw">fn</span> <span class="ident">offset</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>;
 
     <span class="doccomment">/// Bitmask of the row the bit is in.</span>
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">mask</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-        <span class="number">1usize</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">row</span>(<span class="ident">shift</span>)
+    <span class="kw">fn</span> <span class="ident">mask</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="number">1usize</span> <span class="op">&lt;&lt;</span> <span class="self">self</span>.<span class="ident">row</span>(<span class="ident">shift</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Row</span> <span class="kw">for</span> <span class="ident">Index</span> {
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">row</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-        ((<span class="self">self</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&amp;</span> ((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">BITS</span>) <span class="op">-</span> <span class="number">1</span>)
+    <span class="kw">fn</span> <span class="ident">row</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        ((<span class="self">self</span> <span class="op">&gt;&gt;</span> <span class="ident">shift</span>) <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&amp;</span> ((<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">BITS</span>) <span class="op">-</span> <span class="number">1</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">offset</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-        <span class="self">self</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">/</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>)
+    <span class="kw">fn</span> <span class="ident">offset</span>(<span class="self">self</span>, <span class="ident">shift</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="self">self</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">/</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>)
     }
 }
 
@@ -429,7 +429,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Returns them in (Layer0, Layer1, Layer2) order.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">offsets</span>(<span class="ident">bit</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">offsets</span>(<span class="ident">bit</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
     (<span class="ident">bit</span>.<span class="ident">offset</span>(<span class="ident">SHIFT1</span>), <span class="ident">bit</span>.<span class="ident">offset</span>(<span class="ident">SHIFT2</span>), <span class="ident">bit</span>.<span class="ident">offset</span>(<span class="ident">SHIFT3</span>))
 }
 
@@ -450,7 +450,7 @@
 <span class="comment">// TODO: Can 64/32 bit variants be merged to one implementation?</span>
 <span class="comment">// Seems that this would need integer generics to do.</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parallel&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">average_ones</span>(<span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">average_ones</span>(<span class="ident">n</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_pointer_width</span> <span class="op">=</span> <span class="string">&quot;64&quot;</span>)]</span>
     <span class="kw">let</span> <span class="ident">average</span> <span class="op">=</span> <span class="ident">average_ones_u64</span>(<span class="ident">n</span> <span class="kw">as</span> <span class="ident">u64</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">n</span><span class="op">|</span> <span class="ident">n</span> <span class="kw">as</span> <span class="ident">usize</span>);
 
@@ -461,18 +461,18 @@
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">any</span>(<span class="ident">test</span>, <span class="ident">target_pointer_width</span> <span class="op">=</span> <span class="string">&quot;32&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parallel&quot;</span>))]</span>
-<span class="kw">fn</span> <span class="ident">average_ones_u32</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">average_ones_u32</span>(<span class="ident">n</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
     <span class="comment">// !0 / ((1 &lt;&lt; (1 &lt;&lt; n)) | 1)</span>
     <span class="kw">const</span> <span class="ident">PAR</span>: [<span class="ident">u32</span>; <span class="number">5</span>] <span class="op">=</span> [<span class="op">!</span><span class="number">0</span> <span class="op">/</span> <span class="number">0x3</span>, <span class="op">!</span><span class="number">0</span> <span class="op">/</span> <span class="number">0x5</span>, <span class="op">!</span><span class="number">0</span> <span class="op">/</span> <span class="number">0x11</span>, <span class="op">!</span><span class="number">0</span> <span class="op">/</span> <span class="number">0x101</span>, <span class="op">!</span><span class="number">0</span> <span class="op">/</span> <span class="number">0x10001</span>];
 
     <span class="comment">// Counting set bits in parallel</span>
-    <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">n</span> <span class="op">-</span> ((<span class="ident">n</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">0</span>]);
-    <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> (<span class="ident">a</span> <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">1</span>]) <span class="op">+</span> ((<span class="ident">a</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">2</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">1</span>]);
-    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> (<span class="ident">b</span> <span class="op">+</span> (<span class="ident">b</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">4</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">2</span>];
-    <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> (<span class="ident">c</span> <span class="op">+</span> (<span class="ident">c</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">8</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">3</span>];
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cur</span> <span class="op">=</span> <span class="ident">d</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">16</span>;
+    <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">n</span> <span class="op">-</span> ((<span class="ident">n</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">0</span>]);
+    <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> (<span class="ident">a</span> <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">1</span>]) <span class="op">+</span> ((<span class="ident">a</span> <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">1</span>]);
+    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> (<span class="ident">b</span> <span class="op">+</span> (<span class="ident">b</span> <span class="op">&gt;&gt;</span> <span class="number">4</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">2</span>];
+    <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> (<span class="ident">c</span> <span class="op">+</span> (<span class="ident">c</span> <span class="op">&gt;&gt;</span> <span class="number">8</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">3</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cur</span> <span class="op">=</span> <span class="ident">d</span> <span class="op">&gt;&gt;</span> <span class="number">16</span>;
     <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> (<span class="ident">d</span> <span class="op">+</span> <span class="ident">cur</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">4</span>];
-    <span class="kw">if</span> <span class="ident">count</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">1</span> {
+    <span class="kw">if</span> <span class="ident">count</span> <span class="op">&lt;=</span> <span class="number">1</span> {
         <span class="kw">return</span> <span class="prelude-val">None</span>;
     }
 
@@ -484,12 +484,12 @@
     {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">descend</span> <span class="op">=</span> <span class="op">|</span><span class="ident">child</span>, <span class="ident">child_stride</span>, <span class="ident">child_mask</span><span class="op">|</span> {
             <span class="kw">if</span> <span class="ident">cur</span> <span class="op">&lt;</span> <span class="ident">target</span> {
-                <span class="ident">result</span> <span class="op">-</span><span class="op">=</span> <span class="number">2</span> <span class="op">*</span> <span class="ident">child_stride</span>;
-                <span class="ident">target</span> <span class="op">-</span><span class="op">=</span> <span class="ident">cur</span>;
+                <span class="ident">result</span> <span class="op">-=</span> <span class="number">2</span> <span class="op">*</span> <span class="ident">child_stride</span>;
+                <span class="ident">target</span> <span class="op">-=</span> <span class="ident">cur</span>;
             }
             <span class="comment">// Descend to upper half or lower half</span>
             <span class="comment">// depending on are we over or under</span>
-            <span class="ident">cur</span> <span class="op">=</span> (<span class="ident">child</span> <span class="op">&gt;</span><span class="op">&gt;</span> (<span class="ident">result</span> <span class="op">-</span> <span class="ident">child_stride</span>)) <span class="op">&amp;</span> <span class="ident">child_mask</span>;
+            <span class="ident">cur</span> <span class="op">=</span> (<span class="ident">child</span> <span class="op">&gt;&gt;</span> (<span class="ident">result</span> <span class="op">-</span> <span class="ident">child_stride</span>)) <span class="op">&amp;</span> <span class="ident">child_mask</span>;
         };
         <span class="comment">//(!PAR[n] &amp; (PAR[n] + 1)) - 1</span>
         <span class="ident">descend</span>(<span class="ident">c</span>, <span class="number">8</span>, <span class="number">16</span> <span class="op">-</span> <span class="number">1</span>); <span class="comment">// PAR[3]</span>
@@ -498,14 +498,14 @@
         <span class="ident">descend</span>(<span class="ident">n</span>, <span class="number">1</span>, <span class="number">2</span> <span class="op">-</span> <span class="number">1</span>); <span class="comment">// PAR[0]</span>
     }
     <span class="kw">if</span> <span class="ident">cur</span> <span class="op">&lt;</span> <span class="ident">target</span> {
-        <span class="ident">result</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="ident">result</span> <span class="op">-=</span> <span class="number">1</span>;
     }
 
     <span class="prelude-val">Some</span>(<span class="ident">result</span> <span class="op">-</span> <span class="number">1</span>)
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">any</span>(<span class="ident">test</span>, <span class="ident">target_pointer_width</span> <span class="op">=</span> <span class="string">&quot;64&quot;</span>), <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parallel&quot;</span>))]</span>
-<span class="kw">fn</span> <span class="ident">average_ones_u64</span>(<span class="ident">n</span>: <span class="ident">u64</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">average_ones_u64</span>(<span class="ident">n</span>: <span class="ident">u64</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u64</span><span class="op">&gt;</span> {
     <span class="comment">// !0 / ((1 &lt;&lt; (1 &lt;&lt; n)) | 1)</span>
     <span class="kw">const</span> <span class="ident">PAR</span>: [<span class="ident">u64</span>; <span class="number">6</span>] <span class="op">=</span> [
         <span class="op">!</span><span class="number">0</span> <span class="op">/</span> <span class="number">0x3</span>,
@@ -517,14 +517,14 @@
     ];
 
     <span class="comment">// Counting set bits in parallel</span>
-    <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">n</span> <span class="op">-</span> ((<span class="ident">n</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">0</span>]);
-    <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> (<span class="ident">a</span> <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">1</span>]) <span class="op">+</span> ((<span class="ident">a</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">2</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">1</span>]);
-    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> (<span class="ident">b</span> <span class="op">+</span> (<span class="ident">b</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">4</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">2</span>];
-    <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> (<span class="ident">c</span> <span class="op">+</span> (<span class="ident">c</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">8</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">3</span>];
-    <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> (<span class="ident">d</span> <span class="op">+</span> (<span class="ident">d</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">16</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">4</span>];
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cur</span> <span class="op">=</span> <span class="ident">e</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">32</span>;
+    <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> <span class="ident">n</span> <span class="op">-</span> ((<span class="ident">n</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">0</span>]);
+    <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> (<span class="ident">a</span> <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">1</span>]) <span class="op">+</span> ((<span class="ident">a</span> <span class="op">&gt;&gt;</span> <span class="number">2</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">1</span>]);
+    <span class="kw">let</span> <span class="ident">c</span> <span class="op">=</span> (<span class="ident">b</span> <span class="op">+</span> (<span class="ident">b</span> <span class="op">&gt;&gt;</span> <span class="number">4</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">2</span>];
+    <span class="kw">let</span> <span class="ident">d</span> <span class="op">=</span> (<span class="ident">c</span> <span class="op">+</span> (<span class="ident">c</span> <span class="op">&gt;&gt;</span> <span class="number">8</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">3</span>];
+    <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> (<span class="ident">d</span> <span class="op">+</span> (<span class="ident">d</span> <span class="op">&gt;&gt;</span> <span class="number">16</span>)) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">4</span>];
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cur</span> <span class="op">=</span> <span class="ident">e</span> <span class="op">&gt;&gt;</span> <span class="number">32</span>;
     <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> (<span class="ident">e</span> <span class="op">+</span> <span class="ident">cur</span>) <span class="op">&amp;</span> <span class="ident">PAR</span>[<span class="number">5</span>];
-    <span class="kw">if</span> <span class="ident">count</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">1</span> {
+    <span class="kw">if</span> <span class="ident">count</span> <span class="op">&lt;=</span> <span class="number">1</span> {
         <span class="kw">return</span> <span class="prelude-val">None</span>;
     }
 
@@ -536,12 +536,12 @@
     {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">descend</span> <span class="op">=</span> <span class="op">|</span><span class="ident">child</span>, <span class="ident">child_stride</span>, <span class="ident">child_mask</span><span class="op">|</span> {
             <span class="kw">if</span> <span class="ident">cur</span> <span class="op">&lt;</span> <span class="ident">target</span> {
-                <span class="ident">result</span> <span class="op">-</span><span class="op">=</span> <span class="number">2</span> <span class="op">*</span> <span class="ident">child_stride</span>;
-                <span class="ident">target</span> <span class="op">-</span><span class="op">=</span> <span class="ident">cur</span>;
+                <span class="ident">result</span> <span class="op">-=</span> <span class="number">2</span> <span class="op">*</span> <span class="ident">child_stride</span>;
+                <span class="ident">target</span> <span class="op">-=</span> <span class="ident">cur</span>;
             }
             <span class="comment">// Descend to upper half or lower half</span>
             <span class="comment">// depending on are we over or under</span>
-            <span class="ident">cur</span> <span class="op">=</span> (<span class="ident">child</span> <span class="op">&gt;</span><span class="op">&gt;</span> (<span class="ident">result</span> <span class="op">-</span> <span class="ident">child_stride</span>)) <span class="op">&amp;</span> <span class="ident">child_mask</span>;
+            <span class="ident">cur</span> <span class="op">=</span> (<span class="ident">child</span> <span class="op">&gt;&gt;</span> (<span class="ident">result</span> <span class="op">-</span> <span class="ident">child_stride</span>)) <span class="op">&amp;</span> <span class="ident">child_mask</span>;
         };
         <span class="comment">//(!PAR[n] &amp; (PAR[n] + 1)) - 1</span>
         <span class="ident">descend</span>(<span class="ident">d</span>, <span class="number">16</span>, <span class="number">256</span> <span class="op">-</span> <span class="number">1</span>); <span class="comment">// PAR[4]</span>
@@ -551,7 +551,7 @@
         <span class="ident">descend</span>(<span class="ident">n</span>, <span class="number">1</span>, <span class="number">2</span> <span class="op">-</span> <span class="number">1</span>); <span class="comment">// PAR[0]</span>
     }
     <span class="kw">if</span> <span class="ident">cur</span> <span class="op">&lt;</span> <span class="ident">target</span> {
-        <span class="ident">result</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="ident">result</span> <span class="op">-=</span> <span class="number">1</span>;
     }
 
     <span class="prelude-val">Some</span>(<span class="ident">result</span> <span class="op">-</span> <span class="number">1</span>)
@@ -566,16 +566,16 @@
 
         <span class="kw">impl</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">EvenParity</span> {
             <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">u32</span>;
-            <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">u32</span>::<span class="ident">max_value</span>() {
+            <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">u32</span>::<span class="ident">max_value</span>() {
                     <span class="kw">return</span> <span class="prelude-val">None</span>;
                 }
-                <span class="self">self</span>.<span class="number">0</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-                <span class="kw">while</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">count_ones</span>() <span class="op">&amp;</span> <span class="number">1</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                    <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">u32</span>::<span class="ident">max_value</span>() {
+                <span class="self">self</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
+                <span class="kw">while</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">count_ones</span>() <span class="op">&amp;</span> <span class="number">1</span> <span class="op">!=</span> <span class="number">0</span> {
+                    <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">u32</span>::<span class="ident">max_value</span>() {
                         <span class="kw">return</span> <span class="prelude-val">None</span>;
                     }
-                    <span class="self">self</span>.<span class="number">0</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                    <span class="self">self</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
                 }
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="number">0</span>)
             }
@@ -585,7 +585,7 @@
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">steps</span> {
             <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">i</span> <span class="op">*</span> (<span class="ident">u32</span>::<span class="ident">max_value</span>() <span class="op">/</span> <span class="ident">steps</span>);
             <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">EvenParity</span>(<span class="ident">pos</span>).<span class="ident">take</span>(<span class="ident">steps</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-                <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">average_ones_u32</span>(<span class="ident">i</span>).<span class="ident">unwrap_or</span>(<span class="number">31</span>)) <span class="op">-</span> <span class="number">1</span>;
+                <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">average_ones_u32</span>(<span class="ident">i</span>).<span class="ident">unwrap_or</span>(<span class="number">31</span>)) <span class="op">-</span> <span class="number">1</span>;
                 <span class="macro">assert_eq</span><span class="macro">!</span>((<span class="ident">i</span> <span class="op">&amp;</span> <span class="ident">mask</span>).<span class="ident">count_ones</span>(), (<span class="ident">i</span> <span class="op">&amp;</span> <span class="op">!</span><span class="ident">mask</span>).<span class="ident">count_ones</span>(), <span class="string">&quot;{:x}&quot;</span>, <span class="ident">i</span>);
             }
         }
@@ -597,16 +597,16 @@
 
         <span class="kw">impl</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">OddParity</span> {
             <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">u32</span>;
-            <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">u32</span>::<span class="ident">max_value</span>() {
+            <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">u32</span>::<span class="ident">max_value</span>() {
                     <span class="kw">return</span> <span class="prelude-val">None</span>;
                 }
-                <span class="self">self</span>.<span class="number">0</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-                <span class="kw">while</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">count_ones</span>() <span class="op">&amp;</span> <span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
-                    <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">u32</span>::<span class="ident">max_value</span>() {
+                <span class="self">self</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
+                <span class="kw">while</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">count_ones</span>() <span class="op">&amp;</span> <span class="number">1</span> <span class="op">==</span> <span class="number">0</span> {
+                    <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">u32</span>::<span class="ident">max_value</span>() {
                         <span class="kw">return</span> <span class="prelude-val">None</span>;
                     }
-                    <span class="self">self</span>.<span class="number">0</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                    <span class="self">self</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
                 }
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="number">0</span>)
             }
@@ -616,7 +616,7 @@
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">steps</span> {
             <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">i</span> <span class="op">*</span> (<span class="ident">u32</span>::<span class="ident">max_value</span>() <span class="op">/</span> <span class="ident">steps</span>);
             <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">OddParity</span>(<span class="ident">pos</span>).<span class="ident">take</span>(<span class="ident">steps</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-                <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">average_ones_u32</span>(<span class="ident">i</span>).<span class="ident">unwrap_or</span>(<span class="number">31</span>)) <span class="op">-</span> <span class="number">1</span>;
+                <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">average_ones_u32</span>(<span class="ident">i</span>).<span class="ident">unwrap_or</span>(<span class="number">31</span>)) <span class="op">-</span> <span class="number">1</span>;
                 <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> (<span class="ident">i</span> <span class="op">&amp;</span> <span class="ident">mask</span>).<span class="ident">count_ones</span>();
                 <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> (<span class="ident">i</span> <span class="op">&amp;</span> <span class="op">!</span><span class="ident">mask</span>).<span class="ident">count_ones</span>();
                 <span class="kw">if</span> <span class="ident">a</span> <span class="op">&lt;</span> <span class="ident">b</span> {
@@ -638,7 +638,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">singleton_average_ones_u32</span>() {
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">32</span> {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">average_ones_u32</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">i</span>), <span class="string">&quot;{:x}&quot;</span>, <span class="ident">i</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">average_ones_u32</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">i</span>), <span class="string">&quot;{:x}&quot;</span>, <span class="ident">i</span>);
         }
     }
 
@@ -648,16 +648,16 @@
 
         <span class="kw">impl</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">EvenParity</span> {
             <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">u64</span>;
-            <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() {
+            <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() {
                     <span class="kw">return</span> <span class="prelude-val">None</span>;
                 }
-                <span class="self">self</span>.<span class="number">0</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-                <span class="kw">while</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">count_ones</span>() <span class="op">&amp;</span> <span class="number">1</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                    <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() {
+                <span class="self">self</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
+                <span class="kw">while</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">count_ones</span>() <span class="op">&amp;</span> <span class="number">1</span> <span class="op">!=</span> <span class="number">0</span> {
+                    <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() {
                         <span class="kw">return</span> <span class="prelude-val">None</span>;
                     }
-                    <span class="self">self</span>.<span class="number">0</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                    <span class="self">self</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
                 }
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="number">0</span>)
             }
@@ -667,7 +667,7 @@
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">steps</span> {
             <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">i</span> <span class="op">*</span> (<span class="ident">u64</span>::<span class="ident">max_value</span>() <span class="op">/</span> <span class="ident">steps</span>);
             <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">EvenParity</span>(<span class="ident">pos</span>).<span class="ident">take</span>(<span class="ident">steps</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-                <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">average_ones_u64</span>(<span class="ident">i</span>).<span class="ident">unwrap_or</span>(<span class="number">63</span>)) <span class="op">-</span> <span class="number">1</span>;
+                <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">average_ones_u64</span>(<span class="ident">i</span>).<span class="ident">unwrap_or</span>(<span class="number">63</span>)) <span class="op">-</span> <span class="number">1</span>;
                 <span class="macro">assert_eq</span><span class="macro">!</span>((<span class="ident">i</span> <span class="op">&amp;</span> <span class="ident">mask</span>).<span class="ident">count_ones</span>(), (<span class="ident">i</span> <span class="op">&amp;</span> <span class="op">!</span><span class="ident">mask</span>).<span class="ident">count_ones</span>(), <span class="string">&quot;{:x}&quot;</span>, <span class="ident">i</span>);
             }
         }
@@ -679,16 +679,16 @@
 
         <span class="kw">impl</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">OddParity</span> {
             <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">u64</span>;
-            <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() {
+            <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span> {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() {
                     <span class="kw">return</span> <span class="prelude-val">None</span>;
                 }
-                <span class="self">self</span>.<span class="number">0</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-                <span class="kw">while</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">count_ones</span>() <span class="op">&amp;</span> <span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
-                    <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() {
+                <span class="self">self</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
+                <span class="kw">while</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">count_ones</span>() <span class="op">&amp;</span> <span class="number">1</span> <span class="op">==</span> <span class="number">0</span> {
+                    <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">u64</span>::<span class="ident">max_value</span>() {
                         <span class="kw">return</span> <span class="prelude-val">None</span>;
                     }
-                    <span class="self">self</span>.<span class="number">0</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                    <span class="self">self</span>.<span class="number">0</span> <span class="op">+=</span> <span class="number">1</span>;
                 }
                 <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="number">0</span>)
             }
@@ -698,7 +698,7 @@
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">steps</span> {
             <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">i</span> <span class="op">*</span> (<span class="ident">u64</span>::<span class="ident">max_value</span>() <span class="op">/</span> <span class="ident">steps</span>);
             <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">OddParity</span>(<span class="ident">pos</span>).<span class="ident">take</span>(<span class="ident">steps</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-                <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">average_ones_u64</span>(<span class="ident">i</span>).<span class="ident">unwrap_or</span>(<span class="number">63</span>)) <span class="op">-</span> <span class="number">1</span>;
+                <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">average_ones_u64</span>(<span class="ident">i</span>).<span class="ident">unwrap_or</span>(<span class="number">63</span>)) <span class="op">-</span> <span class="number">1</span>;
                 <span class="kw">let</span> <span class="ident">a</span> <span class="op">=</span> (<span class="ident">i</span> <span class="op">&amp;</span> <span class="ident">mask</span>).<span class="ident">count_ones</span>();
                 <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> (<span class="ident">i</span> <span class="op">&amp;</span> <span class="op">!</span><span class="ident">mask</span>).<span class="ident">count_ones</span>();
                 <span class="kw">if</span> <span class="ident">a</span> <span class="op">&lt;</span> <span class="ident">b</span> {
@@ -720,7 +720,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">singleton_average_ones_u64</span>() {
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">64</span> {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">average_ones_u64</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">i</span>), <span class="string">&quot;{:x}&quot;</span>, <span class="ident">i</span>);
+            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">None</span>, <span class="ident">average_ones_u64</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">i</span>), <span class="string">&quot;{:x}&quot;</span>, <span class="ident">i</span>);
         }
     }
 

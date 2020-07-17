@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-subscriber-0.2.7/src/fmt/fmt_layer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>fmt_layer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../tracing_subscriber/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/tracing-subscriber-0.2.8/src/fmt/fmt_layer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>fmt_layer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../tracing_subscriber/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -926,6 +926,71 @@
 <span id="926">926</span>
 <span id="927">927</span>
 <span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
+<span id="955">955</span>
+<span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">field</span>::<span class="ident">RecordFields</span>,
@@ -991,7 +1056,7 @@
     <span class="ident">S</span>,
     <span class="ident">N</span> <span class="op">=</span> <span class="ident">format</span>::<span class="ident">DefaultFields</span>,
     <span class="ident">E</span> <span class="op">=</span> <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Full</span><span class="op">&gt;</span>,
-    <span class="ident">W</span> <span class="op">=</span> <span class="kw">fn</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="ident">Stdout</span>,
+    <span class="ident">W</span> <span class="op">=</span> <span class="kw">fn</span>() <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="ident">Stdout</span>,
 <span class="op">&gt;</span> {
     <span class="ident">make_writer</span>: <span class="ident">W</span>,
     <span class="ident">fmt_fields</span>: <span class="ident">N</span>,
@@ -1014,7 +1079,7 @@
     <span class="ident">S</span>,
     <span class="ident">N</span> <span class="op">=</span> <span class="ident">format</span>::<span class="ident">DefaultFields</span>,
     <span class="ident">E</span> <span class="op">=</span> <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Full</span><span class="op">&gt;</span>,
-    <span class="ident">W</span> <span class="op">=</span> <span class="kw">fn</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="ident">Stdout</span>,
+    <span class="ident">W</span> <span class="op">=</span> <span class="kw">fn</span>() <span class="op">-&gt;</span> <span class="ident">io</span>::<span class="ident">Stdout</span>,
 <span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">E</span>, <span class="ident">W</span><span class="op">&gt;</span>;
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
@@ -1024,12 +1089,12 @@
         <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;a separate layer builder is not necessary, use `Layer::new`/`Layer::default` instead&quot;</span>
     )]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">builder</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">LayerBuilder</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">builder</span>() <span class="op">-&gt;</span> <span class="ident">LayerBuilder</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
         <span class="ident">Layer</span>::<span class="ident">default</span>()
     }
 
     <span class="doccomment">/// Returns a new [`Layer`](struct.Layer.html) with the default configuration.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">default</span>()
     }
 }
@@ -1063,7 +1128,7 @@
     <span class="doccomment">/// [event formatter]: ../format/trait.FormatEvent.html</span>
     <span class="doccomment">/// [`FmtContext`]: ../struct.FmtContext.html</span>
     <span class="doccomment">/// [`Event`]: https://docs.rs/tracing/latest/tracing/struct.Event.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">event_format</span><span class="op">&lt;</span><span class="ident">E2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">e</span>: <span class="ident">E2</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">E2</span>, <span class="ident">W</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">event_format</span><span class="op">&lt;</span><span class="ident">E2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">e</span>: <span class="ident">E2</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">E2</span>, <span class="ident">W</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">E2</span>: <span class="ident">FormatEvent</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     {
@@ -1098,7 +1163,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`MakeWriter`]: ../fmt/trait.MakeWriter.html</span>
     <span class="doccomment">/// [`Layer`]: ../layer/trait.Layer.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_writer</span><span class="op">&lt;</span><span class="ident">W2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">make_writer</span>: <span class="ident">W2</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">E</span>, <span class="ident">W2</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_writer</span><span class="op">&lt;</span><span class="ident">W2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">make_writer</span>: <span class="ident">W2</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">E</span>, <span class="ident">W2</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">W2</span>: <span class="ident">MakeWriter</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     {
@@ -1127,7 +1192,7 @@
     <span class="doccomment">/// [`timer`]: ./time/trait.FormatTime.html</span>
     <span class="doccomment">/// [`ChronoUtc`]: ./time/struct.ChronoUtc.html</span>
     <span class="doccomment">/// [`ChronoLocal`]: ./time/struct.ChronoLocal.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_timer</span><span class="op">&lt;</span><span class="ident">T2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">timer</span>: <span class="ident">T2</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T2</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_timer</span><span class="op">&lt;</span><span class="ident">T2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">timer</span>: <span class="ident">T2</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T2</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
         <span class="ident">Layer</span> {
             <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">with_timer</span>(<span class="ident">timer</span>),
             <span class="ident">fmt_fields</span>: <span class="self">self</span>.<span class="ident">fmt_fields</span>,
@@ -1138,7 +1203,7 @@
     }
 
     <span class="doccomment">/// Do not emit timestamps with spans and event.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">without_time</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, ()<span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">without_time</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, ()<span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
         <span class="ident">Layer</span> {
             <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">without_time</span>(),
             <span class="ident">fmt_fields</span>: <span class="self">self</span>.<span class="ident">fmt_fields</span>,
@@ -1174,7 +1239,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [lifecycle]: https://docs.rs/tracing/latest/tracing/span/index.html#the-span-lifecycle</span>
     <span class="doccomment">/// [time]: #method.without_time</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_span_events</span>(<span class="self">self</span>, <span class="ident">kind</span>: <span class="ident">FmtSpan</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_span_events</span>(<span class="self">self</span>, <span class="ident">kind</span>: <span class="ident">FmtSpan</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Layer</span> {
             <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>,
             <span class="ident">fmt_fields</span>: <span class="self">self</span>.<span class="ident">fmt_fields</span>,
@@ -1187,7 +1252,7 @@
     <span class="doccomment">/// Enable ANSI encoding for formatted events.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ansi&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ansi&quot;</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_ansi</span>(<span class="self">self</span>, <span class="ident">ansi</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_ansi</span>(<span class="self">self</span>, <span class="ident">ansi</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
         <span class="ident">Layer</span> {
             <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">with_ansi</span>(<span class="ident">ansi</span>),
             <span class="ident">fmt_fields</span>: <span class="self">self</span>.<span class="ident">fmt_fields</span>,
@@ -1198,7 +1263,7 @@
     }
 
     <span class="doccomment">/// Sets whether or not an event&#39;s target is displayed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_target</span>(<span class="self">self</span>, <span class="ident">display_target</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_target</span>(<span class="self">self</span>, <span class="ident">display_target</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
         <span class="ident">Layer</span> {
             <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">with_target</span>(<span class="ident">display_target</span>),
             <span class="ident">fmt_fields</span>: <span class="self">self</span>.<span class="ident">fmt_fields</span>,
@@ -1209,7 +1274,7 @@
     }
 
     <span class="doccomment">/// Sets whether or not an event&#39;s level is displayed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_level</span>(<span class="self">self</span>, <span class="ident">display_level</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_level</span>(<span class="self">self</span>, <span class="ident">display_level</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
         <span class="ident">Layer</span> {
             <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">with_level</span>(<span class="ident">display_level</span>),
             <span class="ident">fmt_fields</span>: <span class="self">self</span>.<span class="ident">fmt_fields</span>,
@@ -1219,8 +1284,39 @@
         }
     }
 
+    <span class="doccomment">/// Sets whether or not the [thread ID] of the current thread is displayed</span>
+    <span class="doccomment">/// when formatting events</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [thread ID]: https://doc.rust-lang.org/stable/std/thread/struct.ThreadId.html</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_thread_ids</span>(<span class="self">self</span>, <span class="ident">display_thread_ids</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+        <span class="ident">Layer</span> {
+            <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">with_thread_ids</span>(<span class="ident">display_thread_ids</span>),
+            <span class="ident">fmt_fields</span>: <span class="self">self</span>.<span class="ident">fmt_fields</span>,
+            <span class="ident">fmt_span</span>: <span class="self">self</span>.<span class="ident">fmt_span</span>,
+            <span class="ident">make_writer</span>: <span class="self">self</span>.<span class="ident">make_writer</span>,
+            <span class="ident">_inner</span>: <span class="self">self</span>.<span class="ident">_inner</span>,
+        }
+    }
+
+    <span class="doccomment">/// Sets whether or not the [name] of the current thread is displayed</span>
+    <span class="doccomment">/// when formatting events</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [name]: https://doc.rust-lang.org/stable/std/thread/index.html#naming-threads</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_thread_names</span>(
+        <span class="self">self</span>,
+        <span class="ident">display_thread_names</span>: <span class="ident">bool</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">L</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+        <span class="ident">Layer</span> {
+            <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">with_thread_names</span>(<span class="ident">display_thread_names</span>),
+            <span class="ident">fmt_fields</span>: <span class="self">self</span>.<span class="ident">fmt_fields</span>,
+            <span class="ident">fmt_span</span>: <span class="self">self</span>.<span class="ident">fmt_span</span>,
+            <span class="ident">make_writer</span>: <span class="self">self</span>.<span class="ident">make_writer</span>,
+            <span class="ident">_inner</span>: <span class="self">self</span>.<span class="ident">_inner</span>,
+        }
+    }
+
     <span class="doccomment">/// Sets the layer being built to use a [less verbose formatter](../fmt/format/struct.Compact.html).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compact</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Compact</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">compact</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Compact</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">N</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;writer</span><span class="op">&gt;</span> <span class="ident">FormatFields</span><span class="op">&lt;</span><span class="lifetime">&#39;writer</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     {
@@ -1251,7 +1347,7 @@
     <span class="doccomment">/// [`Layer::flatten_event`]: #method.flatten_event</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;json&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;json&quot;</span>)))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">json</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">format</span>::<span class="ident">JsonFields</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Json</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">json</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">format</span>::<span class="ident">JsonFields</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Json</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
         <span class="ident">Layer</span> {
             <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">json</span>(),
             <span class="ident">fmt_fields</span>: <span class="ident">format</span>::<span class="ident">JsonFields</span>::<span class="ident">new</span>(),
@@ -1271,9 +1367,43 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flatten_event</span>(
         <span class="self">self</span>,
         <span class="ident">flatten_event</span>: <span class="ident">bool</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">format</span>::<span class="ident">JsonFields</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Json</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">format</span>::<span class="ident">JsonFields</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Json</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
         <span class="ident">Layer</span> {
             <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">flatten_event</span>(<span class="ident">flatten_event</span>),
+            <span class="ident">fmt_fields</span>: <span class="ident">format</span>::<span class="ident">JsonFields</span>::<span class="ident">new</span>(),
+            <span class="ident">fmt_span</span>: <span class="self">self</span>.<span class="ident">fmt_span</span>,
+            <span class="ident">make_writer</span>: <span class="self">self</span>.<span class="ident">make_writer</span>,
+            <span class="ident">_inner</span>: <span class="self">self</span>.<span class="ident">_inner</span>,
+        }
+    }
+
+    <span class="doccomment">/// Sets whether or not the formatter will include the current span in</span>
+    <span class="doccomment">/// formatted events.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [`format::Json`](../fmt/format/struct.Json.html)</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_current_span</span>(
+        <span class="self">self</span>,
+        <span class="ident">display_current_span</span>: <span class="ident">bool</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">format</span>::<span class="ident">JsonFields</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Json</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+        <span class="ident">Layer</span> {
+            <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">with_current_span</span>(<span class="ident">display_current_span</span>),
+            <span class="ident">fmt_fields</span>: <span class="ident">format</span>::<span class="ident">JsonFields</span>::<span class="ident">new</span>(),
+            <span class="ident">fmt_span</span>: <span class="self">self</span>.<span class="ident">fmt_span</span>,
+            <span class="ident">make_writer</span>: <span class="self">self</span>.<span class="ident">make_writer</span>,
+            <span class="ident">_inner</span>: <span class="self">self</span>.<span class="ident">_inner</span>,
+        }
+    }
+
+    <span class="doccomment">/// Sets whether or not the formatter will include a list (from root to leaf)</span>
+    <span class="doccomment">/// of all currently entered spans in formatted events.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [`format::Json`](../fmt/format/struct.Json.html)</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_span_list</span>(
+        <span class="self">self</span>,
+        <span class="ident">display_span_list</span>: <span class="ident">bool</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">format</span>::<span class="ident">JsonFields</span>, <span class="ident">format</span>::<span class="ident">Format</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Json</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+        <span class="ident">Layer</span> {
+            <span class="ident">fmt_event</span>: <span class="self">self</span>.<span class="ident">fmt_event</span>.<span class="ident">with_span_list</span>(<span class="ident">display_span_list</span>),
             <span class="ident">fmt_fields</span>: <span class="ident">format</span>::<span class="ident">JsonFields</span>::<span class="ident">new</span>(),
             <span class="ident">fmt_span</span>: <span class="self">self</span>.<span class="ident">fmt_span</span>,
             <span class="ident">make_writer</span>: <span class="self">self</span>.<span class="ident">make_writer</span>,
@@ -1285,7 +1415,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">E</span>, <span class="ident">W</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">E</span>, <span class="ident">W</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Sets the field formatter that the layer being built will use to record</span>
     <span class="doccomment">/// fields.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fmt_fields</span><span class="op">&lt;</span><span class="ident">N2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">fmt_fields</span>: <span class="ident">N2</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N2</span>, <span class="ident">E</span>, <span class="ident">W</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fmt_fields</span><span class="op">&lt;</span><span class="ident">N2</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">fmt_fields</span>: <span class="ident">N2</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N2</span>, <span class="ident">E</span>, <span class="ident">W</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">N2</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;writer</span><span class="op">&gt;</span> <span class="ident">FormatFields</span><span class="op">&lt;</span><span class="lifetime">&#39;writer</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
     {
@@ -1314,13 +1444,13 @@
         <span class="ident">since</span> <span class="op">=</span> <span class="string">&quot;0.2.4&quot;</span>,
         <span class="ident">note</span> <span class="op">=</span> <span class="string">&quot;`LayerBuilder` is no longer a separate type; this method is not necessary&quot;</span>
     )]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finish</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">E</span>, <span class="ident">W</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">finish</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">N</span>, <span class="ident">E</span>, <span class="ident">W</span><span class="op">&gt;</span> {
         <span class="self">self</span>
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Layer</span> {
             <span class="ident">fmt_fields</span>: <span class="ident">format</span>::<span class="ident">DefaultFields</span>::<span class="ident">default</span>(),
             <span class="ident">fmt_event</span>: <span class="ident">format</span>::<span class="ident">Format</span>::<span class="ident">default</span>(),
@@ -1339,7 +1469,7 @@
     <span class="ident">W</span>: <span class="ident">MakeWriter</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">make_ctx</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FmtContext</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span>, <span class="ident">N</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">make_ctx</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">FmtContext</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span>, <span class="ident">N</span><span class="op">&gt;</span> {
         <span class="ident">FmtContext</span> {
             <span class="ident">ctx</span>,
             <span class="ident">fmt_fields</span>: <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fmt_fields</span>,
@@ -1365,7 +1495,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">FormattedFields</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Returns a new `FormattedFields`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">fields</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">fields</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">fields</span>,
             <span class="ident">_format_event</span>: <span class="ident">PhantomData</span>,
@@ -1374,7 +1504,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">FormattedFields</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;FormattedFields&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;fields&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>)
             .<span class="ident">finish</span>()
@@ -1382,14 +1512,14 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">FormattedFields</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.<span class="ident">fields</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">FormattedFields</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">String</span>;
-    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Target</span> {
+    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Target</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>
     }
 }
@@ -1397,7 +1527,7 @@
 <span class="comment">// === impl FmtLayer ===</span>
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">with_event_from_span</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">id</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">literal</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>:<span class="ident">expr</span>),<span class="kw-2">*</span>, <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span><span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">code</span>:<span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">id</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>:<span class="ident">literal</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value</span>:<span class="ident">expr</span>),<span class="kw-2">*</span>, <span class="op">|</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">event</span>:<span class="ident">ident</span><span class="op">|</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">code</span>:<span class="ident">block</span>) <span class="op">=&gt;</span> {
         <span class="kw">let</span> <span class="ident">meta</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>.<span class="ident">metadata</span>();
         <span class="kw">let</span> <span class="ident">cs</span> <span class="op">=</span> <span class="ident">meta</span>.<span class="ident">callsite</span>();
         <span class="kw">let</span> <span class="ident">fs</span> <span class="op">=</span> <span class="ident">field</span>::<span class="ident">FieldSet</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span>[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">field</span>),<span class="kw-2">*</span>], <span class="ident">cs</span>);
@@ -1423,7 +1553,7 @@
         <span class="kw">let</span> <span class="ident">span</span> <span class="op">=</span> <span class="ident">ctx</span>.<span class="ident">span</span>(<span class="ident">id</span>).<span class="ident">expect</span>(<span class="string">&quot;Span not found, this is a bug&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">extensions</span> <span class="op">=</span> <span class="ident">span</span>.<span class="ident">extensions_mut</span>();
 
-        <span class="kw">if</span> <span class="ident">extensions</span>.<span class="ident">get_mut</span>::<span class="op">&lt;</span><span class="ident">FormattedFields</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="ident">is_none</span>() {
+        <span class="kw">if</span> <span class="ident">extensions</span>.<span class="ident">get_mut</span>::<span class="op">&lt;</span><span class="ident">FormattedFields</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;&gt;</span>().<span class="ident">is_none</span>() {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fmt_fields</span>.<span class="ident">format_fields</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>, <span class="ident">attrs</span>).<span class="ident">is_ok</span>() {
                 <span class="kw">let</span> <span class="ident">fmt_fields</span> <span class="op">=</span> <span class="ident">FormattedFields</span> {
@@ -1435,8 +1565,8 @@
         }
 
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">fmt_timing</span>
-            <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_close</span>()
-            <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">extensions</span>.<span class="ident">get_mut</span>::<span class="op">&lt;</span><span class="ident">Timings</span><span class="op">&gt;</span>().<span class="ident">is_none</span>()
+            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_close</span>()
+            <span class="op">&amp;&amp;</span> <span class="ident">extensions</span>.<span class="ident">get_mut</span>::<span class="op">&lt;</span><span class="ident">Timings</span><span class="op">&gt;</span>().<span class="ident">is_none</span>()
         {
             <span class="ident">extensions</span>.<span class="ident">insert</span>(<span class="ident">Timings</span>::<span class="ident">new</span>());
         }
@@ -1454,7 +1584,7 @@
         <span class="kw">let</span> <span class="ident">span</span> <span class="op">=</span> <span class="ident">ctx</span>.<span class="ident">span</span>(<span class="ident">id</span>).<span class="ident">expect</span>(<span class="string">&quot;Span not found, this is a bug&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">extensions</span> <span class="op">=</span> <span class="ident">span</span>.<span class="ident">extensions_mut</span>();
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">FormattedFields</span> { <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">fields</span>, .. }) <span class="op">=</span>
-            <span class="ident">extensions</span>.<span class="ident">get_mut</span>::<span class="op">&lt;</span><span class="ident">FormattedFields</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span><span class="op">&gt;</span>()
+            <span class="ident">extensions</span>.<span class="ident">get_mut</span>::<span class="op">&lt;</span><span class="ident">FormattedFields</span><span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;&gt;</span>()
         {
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">fmt_fields</span>.<span class="ident">add_fields</span>(<span class="ident">fields</span>, <span class="ident">values</span>);
         } <span class="kw">else</span> {
@@ -1470,12 +1600,12 @@
     }
 
     <span class="kw">fn</span> <span class="ident">on_enter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">Id</span>, <span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">S</span><span class="op">&gt;</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_active</span>() <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_close</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">fmt_timing</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_active</span>() <span class="op">||</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_close</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">fmt_timing</span> {
             <span class="kw">let</span> <span class="ident">span</span> <span class="op">=</span> <span class="ident">ctx</span>.<span class="ident">span</span>(<span class="ident">id</span>).<span class="ident">expect</span>(<span class="string">&quot;Span not found, this is a bug&quot;</span>);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">extensions</span> <span class="op">=</span> <span class="ident">span</span>.<span class="ident">extensions_mut</span>();
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">timings</span>) <span class="op">=</span> <span class="ident">extensions</span>.<span class="ident">get_mut</span>::<span class="op">&lt;</span><span class="ident">Timings</span><span class="op">&gt;</span>() {
                 <span class="kw">let</span> <span class="ident">now</span> <span class="op">=</span> <span class="ident">Instant</span>::<span class="ident">now</span>();
-                <span class="ident">timings</span>.<span class="ident">idle</span> <span class="op">+</span><span class="op">=</span> (<span class="ident">now</span> <span class="op">-</span> <span class="ident">timings</span>.<span class="ident">last</span>).<span class="ident">as_nanos</span>() <span class="kw">as</span> <span class="ident">u64</span>;
+                <span class="ident">timings</span>.<span class="ident">idle</span> <span class="op">+=</span> (<span class="ident">now</span> <span class="op">-</span> <span class="ident">timings</span>.<span class="ident">last</span>).<span class="ident">as_nanos</span>() <span class="kw">as</span> <span class="ident">u64</span>;
                 <span class="ident">timings</span>.<span class="ident">last</span> <span class="op">=</span> <span class="ident">now</span>;
             }
 
@@ -1490,12 +1620,12 @@
     }
 
     <span class="kw">fn</span> <span class="ident">on_exit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">Id</span>, <span class="ident">ctx</span>: <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">S</span><span class="op">&gt;</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_active</span>() <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_close</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">fmt_timing</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_active</span>() <span class="op">||</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">trace_close</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">fmt_span</span>.<span class="ident">fmt_timing</span> {
             <span class="kw">let</span> <span class="ident">span</span> <span class="op">=</span> <span class="ident">ctx</span>.<span class="ident">span</span>(<span class="ident">id</span>).<span class="ident">expect</span>(<span class="string">&quot;Span not found, this is a bug&quot;</span>);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">extensions</span> <span class="op">=</span> <span class="ident">span</span>.<span class="ident">extensions_mut</span>();
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">timings</span>) <span class="op">=</span> <span class="ident">extensions</span>.<span class="ident">get_mut</span>::<span class="op">&lt;</span><span class="ident">Timings</span><span class="op">&gt;</span>() {
                 <span class="kw">let</span> <span class="ident">now</span> <span class="op">=</span> <span class="ident">Instant</span>::<span class="ident">now</span>();
-                <span class="ident">timings</span>.<span class="ident">busy</span> <span class="op">+</span><span class="op">=</span> (<span class="ident">now</span> <span class="op">-</span> <span class="ident">timings</span>.<span class="ident">last</span>).<span class="ident">as_nanos</span>() <span class="kw">as</span> <span class="ident">u64</span>;
+                <span class="ident">timings</span>.<span class="ident">busy</span> <span class="op">+=</span> (<span class="ident">now</span> <span class="op">-</span> <span class="ident">timings</span>.<span class="ident">last</span>).<span class="ident">as_nanos</span>() <span class="kw">as</span> <span class="ident">u64</span>;
                 <span class="ident">timings</span>.<span class="ident">last</span> <span class="op">=</span> <span class="ident">now</span>;
             }
 
@@ -1519,7 +1649,7 @@
                     <span class="kw-2">mut</span> <span class="ident">idle</span>,
                     <span class="ident">last</span>,
                 } <span class="op">=</span> <span class="kw-2">*</span><span class="ident">timing</span>;
-                <span class="ident">idle</span> <span class="op">+</span><span class="op">=</span> (<span class="ident">Instant</span>::<span class="ident">now</span>() <span class="op">-</span> <span class="ident">last</span>).<span class="ident">as_nanos</span>() <span class="kw">as</span> <span class="ident">u64</span>;
+                <span class="ident">idle</span> <span class="op">+=</span> (<span class="ident">Instant</span>::<span class="ident">now</span>() <span class="op">-</span> <span class="ident">last</span>).<span class="ident">as_nanos</span>() <span class="kw">as</span> <span class="ident">u64</span>;
 
                 <span class="kw">let</span> <span class="ident">t_idle</span> <span class="op">=</span> <span class="ident">field</span>::<span class="ident">display</span>(<span class="ident">TimingDisplay</span>(<span class="ident">idle</span>));
                 <span class="kw">let</span> <span class="ident">t_busy</span> <span class="op">=</span> <span class="ident">field</span>::<span class="ident">display</span>(<span class="ident">TimingDisplay</span>(<span class="ident">busy</span>));
@@ -1556,11 +1686,11 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">a</span>;
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span>;
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">borrow</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">buf</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="ident">buf</span>) <span class="op">=&gt;</span> {
                     <span class="ident">a</span> <span class="op">=</span> <span class="ident">buf</span>;
                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">a</span>
                 }
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">_</span> <span class="op">=&gt;</span> {
                     <span class="ident">b</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
                     <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">b</span>
                 }
@@ -1576,17 +1706,17 @@
         });
     }
 
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">downcast_raw</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">TypeId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> ()<span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">downcast_raw</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">TypeId</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> ()<span class="op">&gt;</span> {
         <span class="comment">// This `downcast_raw` impl allows downcasting a `fmt` layer to any of</span>
         <span class="comment">// its components (event formatter, field formatter, and `MakeWriter`)</span>
         <span class="comment">// as well as to the layer&#39;s type itself. The potential use-cases for</span>
         <span class="comment">// this *may* be somewhat niche, though...</span>
         <span class="kw">match</span> () {
-            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="self">Self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> ()),
-            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fmt_event</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">E</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> ()),
-            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fmt_fields</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">N</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> ()),
-            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">make_writer</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">W</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> ()),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="self">Self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> ()),
+            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>() <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fmt_event</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">E</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> ()),
+            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="ident">N</span><span class="op">&gt;</span>() <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fmt_fields</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">N</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> ()),
+            <span class="kw">_</span> <span class="kw">if</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>() <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">make_writer</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">W</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> ()),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
@@ -1598,7 +1728,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span>, <span class="ident">N</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">FmtContext</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">S</span>, <span class="ident">N</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;FmtContext&quot;</span>).<span class="ident">finish</span>()
     }
 }
@@ -1612,7 +1742,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">fmt</span>::<span class="ident">Write</span>,
         <span class="ident">fields</span>: <span class="ident">R</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="self">self</span>.<span class="ident">fmt_fields</span>.<span class="ident">format_fields</span>(<span class="ident">writer</span>, <span class="ident">fields</span>)
     }
 }
@@ -1627,9 +1757,9 @@
     <span class="doccomment">/// The provided closure will be called first with the current span,</span>
     <span class="doccomment">/// and then with that span&#39;s parent, and then that span&#39;s parent,</span>
     <span class="doccomment">/// and so on until a root span is reached.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">visit_spans</span><span class="op">&lt;</span><span class="ident">E</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">visit_spans</span><span class="op">&lt;</span><span class="ident">E</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span>
     <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">SpanRef</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">S</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span>,
+        <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">SpanRef</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">S</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span>,
     {
         <span class="comment">// visit all the current spans</span>
         <span class="kw">for</span> <span class="ident">span</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">ctx</span>.<span class="ident">scope</span>() {
@@ -1646,7 +1776,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Timings</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">idle</span>: <span class="number">0</span>,
             <span class="ident">busy</span>: <span class="number">0</span>,
@@ -1697,7 +1827,7 @@
         <span class="kw">let</span> <span class="ident">subscriber</span> <span class="op">=</span> <span class="ident">fmt</span>.<span class="ident">with_subscriber</span>(<span class="ident">Registry</span>::<span class="ident">default</span>());
 
         <span class="kw">let</span> <span class="ident">dispatch</span> <span class="op">=</span> <span class="ident">Dispatch</span>::<span class="ident">new</span>(<span class="ident">subscriber</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">dispatch</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">fmt</span>::<span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">Registry</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="ident">is_some</span>());
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">dispatch</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">fmt</span>::<span class="ident">Layer</span><span class="op">&lt;</span><span class="ident">Registry</span><span class="op">&gt;&gt;</span>().<span class="ident">is_some</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1712,13 +1842,13 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">is_lookup_span</span>() {
-        <span class="kw">fn</span> <span class="ident">assert_lookup_span</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">registry</span>::<span class="ident">LookupSpan</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw">_</span>: <span class="ident">T</span>) {}
+        <span class="kw">fn</span> <span class="ident">assert_lookup_span</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">registry</span>::<span class="ident">LookupSpan</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span>(<span class="kw">_</span>: <span class="ident">T</span>) {}
         <span class="kw">let</span> <span class="ident">fmt</span> <span class="op">=</span> <span class="ident">fmt</span>::<span class="ident">Layer</span>::<span class="ident">default</span>();
         <span class="kw">let</span> <span class="ident">subscriber</span> <span class="op">=</span> <span class="ident">fmt</span>.<span class="ident">with_subscriber</span>(<span class="ident">Registry</span>::<span class="ident">default</span>());
         <span class="ident">assert_lookup_span</span>(<span class="ident">subscriber</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">sanitize_timings</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">fn</span> <span class="ident">sanitize_timings</span>(<span class="ident">s</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="kw">let</span> <span class="ident">re</span> <span class="op">=</span> <span class="ident">Regex</span>::<span class="ident">new</span>(<span class="string">&quot;time\\.(idle|busy)=([0-9.]+)[mµn]s&quot;</span>).<span class="ident">unwrap</span>();
         <span class="ident">re</span>.<span class="ident">replace_all</span>(<span class="ident">s</span>.<span class="ident">as_str</span>(), <span class="string">&quot;timing&quot;</span>).<span class="ident">to_string</span>()
     }
@@ -1726,10 +1856,10 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">synthesize_span_none</span>() {
         <span class="macro">lazy_static</span><span class="macro">!</span> {
-            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
+            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
         }
 
-        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
+        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">||</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
         <span class="kw">let</span> <span class="ident">subscriber</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">fmt</span>::<span class="ident">Subscriber</span>::<span class="ident">builder</span>()
             .<span class="ident">with_writer</span>(<span class="ident">make_writer</span>)
             .<span class="ident">with_level</span>(<span class="bool-val">false</span>)
@@ -1738,7 +1868,7 @@
             <span class="comment">// check that FmtSpan::NONE is the default</span>
             .<span class="ident">finish</span>();
 
-        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">|</span><span class="op">|</span> {
+        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">span1</span> <span class="op">=</span> <span class="ident">tracing</span>::<span class="macro">info_span</span><span class="macro">!</span>(<span class="string">&quot;span1&quot;</span>, <span class="ident">x</span> <span class="op">=</span> <span class="number">42</span>);
             <span class="kw">let</span> <span class="ident">_e</span> <span class="op">=</span> <span class="ident">span1</span>.<span class="ident">enter</span>();
         });
@@ -1749,10 +1879,10 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">synthesize_span_active</span>() {
         <span class="macro">lazy_static</span><span class="macro">!</span> {
-            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
+            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
         }
 
-        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
+        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">||</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
         <span class="kw">let</span> <span class="ident">subscriber</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">fmt</span>::<span class="ident">Subscriber</span>::<span class="ident">builder</span>()
             .<span class="ident">with_writer</span>(<span class="ident">make_writer</span>)
             .<span class="ident">with_level</span>(<span class="bool-val">false</span>)
@@ -1761,7 +1891,7 @@
             .<span class="ident">with_span_events</span>(<span class="ident">FmtSpan</span>::<span class="ident">ACTIVE</span>)
             .<span class="ident">finish</span>();
 
-        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">|</span><span class="op">|</span> {
+        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">span1</span> <span class="op">=</span> <span class="ident">tracing</span>::<span class="macro">info_span</span><span class="macro">!</span>(<span class="string">&quot;span1&quot;</span>, <span class="ident">x</span> <span class="op">=</span> <span class="number">42</span>);
             <span class="kw">let</span> <span class="ident">_e</span> <span class="op">=</span> <span class="ident">span1</span>.<span class="ident">enter</span>();
         });
@@ -1776,10 +1906,10 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">synthesize_span_close</span>() {
         <span class="macro">lazy_static</span><span class="macro">!</span> {
-            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
+            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
         }
 
-        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
+        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">||</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
         <span class="kw">let</span> <span class="ident">subscriber</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">fmt</span>::<span class="ident">Subscriber</span>::<span class="ident">builder</span>()
             .<span class="ident">with_writer</span>(<span class="ident">make_writer</span>)
             .<span class="ident">with_level</span>(<span class="bool-val">false</span>)
@@ -1788,7 +1918,7 @@
             .<span class="ident">with_span_events</span>(<span class="ident">FmtSpan</span>::<span class="ident">CLOSE</span>)
             .<span class="ident">finish</span>();
 
-        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">|</span><span class="op">|</span> {
+        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">span1</span> <span class="op">=</span> <span class="ident">tracing</span>::<span class="macro">info_span</span><span class="macro">!</span>(<span class="string">&quot;span1&quot;</span>, <span class="ident">x</span> <span class="op">=</span> <span class="number">42</span>);
             <span class="kw">let</span> <span class="ident">_e</span> <span class="op">=</span> <span class="ident">span1</span>.<span class="ident">enter</span>();
         });
@@ -1802,10 +1932,10 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">synthesize_span_close_no_timing</span>() {
         <span class="macro">lazy_static</span><span class="macro">!</span> {
-            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
+            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
         }
 
-        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
+        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">||</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
         <span class="kw">let</span> <span class="ident">subscriber</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">fmt</span>::<span class="ident">Subscriber</span>::<span class="ident">builder</span>()
             .<span class="ident">with_writer</span>(<span class="ident">make_writer</span>)
             .<span class="ident">with_level</span>(<span class="bool-val">false</span>)
@@ -1815,7 +1945,7 @@
             .<span class="ident">with_span_events</span>(<span class="ident">FmtSpan</span>::<span class="ident">CLOSE</span>)
             .<span class="ident">finish</span>();
 
-        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">|</span><span class="op">|</span> {
+        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">span1</span> <span class="op">=</span> <span class="ident">tracing</span>::<span class="macro">info_span</span><span class="macro">!</span>(<span class="string">&quot;span1&quot;</span>, <span class="ident">x</span> <span class="op">=</span> <span class="number">42</span>);
             <span class="kw">let</span> <span class="ident">_e</span> <span class="op">=</span> <span class="ident">span1</span>.<span class="ident">enter</span>();
         });
@@ -1829,10 +1959,10 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">synthesize_span_full</span>() {
         <span class="macro">lazy_static</span><span class="macro">!</span> {
-            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
+            <span class="kw">static</span> <span class="kw-2">ref</span> <span class="ident">BUF</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]);
         }
 
-        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
+        <span class="kw">let</span> <span class="ident">make_writer</span> <span class="op">=</span> <span class="op">||</span> <span class="ident">MockWriter</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">BUF</span>);
         <span class="kw">let</span> <span class="ident">subscriber</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">fmt</span>::<span class="ident">Subscriber</span>::<span class="ident">builder</span>()
             .<span class="ident">with_writer</span>(<span class="ident">make_writer</span>)
             .<span class="ident">with_level</span>(<span class="bool-val">false</span>)
@@ -1841,7 +1971,7 @@
             .<span class="ident">with_span_events</span>(<span class="ident">FmtSpan</span>::<span class="ident">FULL</span>)
             .<span class="ident">finish</span>();
 
-        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">|</span><span class="op">|</span> {
+        <span class="ident">with_default</span>(<span class="ident">subscriber</span>, <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">span1</span> <span class="op">=</span> <span class="ident">tracing</span>::<span class="macro">info_span</span><span class="macro">!</span>(<span class="string">&quot;span1&quot;</span>, <span class="ident">x</span> <span class="op">=</span> <span class="number">42</span>);
             <span class="kw">let</span> <span class="ident">_e</span> <span class="op">=</span> <span class="ident">span1</span>.<span class="ident">enter</span>();
         });

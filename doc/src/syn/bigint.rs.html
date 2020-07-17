@@ -73,16 +73,16 @@
 }
 
 <span class="kw">impl</span> <span class="ident">BigInt</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">BigInt</span> { <span class="ident">digits</span>: <span class="ident">Vec</span>::<span class="ident">new</span>() }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">repr</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">with_capacity</span>(<span class="self">self</span>.<span class="ident">digits</span>.<span class="ident">len</span>());
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">has_nonzero</span> <span class="op">=</span> <span class="bool-val">false</span>;
         <span class="kw">for</span> <span class="ident">digit</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">digits</span>.<span class="ident">iter</span>().<span class="ident">rev</span>() {
-            <span class="ident">has_nonzero</span> <span class="op">|</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">digit</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>;
+            <span class="ident">has_nonzero</span> <span class="op">|=</span> <span class="kw-2">*</span><span class="ident">digit</span> <span class="op">!=</span> <span class="number">0</span>;
             <span class="kw">if</span> <span class="ident">has_nonzero</span> {
                 <span class="ident">repr</span>.<span class="ident">push</span>((<span class="kw-2">*</span><span class="ident">digit</span> <span class="op">+</span> <span class="string">b&#39;0&#39;</span>) <span class="kw">as</span> <span class="ident">char</span>);
             }
@@ -113,7 +113,7 @@
             <span class="kw">let</span> <span class="ident">sum</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">digits</span>[<span class="ident">i</span>] <span class="op">+</span> <span class="ident">increment</span>;
             <span class="self">self</span>.<span class="ident">digits</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">sum</span> <span class="op">%</span> <span class="number">10</span>;
             <span class="ident">increment</span> <span class="op">=</span> <span class="ident">sum</span> <span class="op">/</span> <span class="number">10</span>;
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
         }
     }
 }

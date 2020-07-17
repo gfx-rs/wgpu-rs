@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="API documentation for the Rust `select_biased` macro in crate `futures`."><meta name="keywords" content="rust, rustlang, rust-lang, select_biased"><title>futures::select_biased - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script src="../storage.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="shortcut icon" href="../favicon.ico"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc macro"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../futures/index.html'><div class='logo-container'><img src='../rust-logo.png' alt='logo'></div></a><div class="sidebar-elems"><p class='location'><a href='index.html'>futures</a></p><script>window.sidebarCurrent = {name: 'select_biased', ty: 'macro', relpath: ''};</script><script defer src="sidebar-items.js"></script></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class='fqn'><span class='out-of-band'><span id='render-detail'><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class='inner'>&#x2212;</span>]</a></span><a class='srclink' href='../src/futures_util/async_await/select_mod.rs.html#333-340' title='goto source code'>[src]</a></span><span class='in-band'>Macro <a href='index.html'>futures</a>::<wbr><a class="macro" href=''>select_biased</a></span></h1><div class="docblock type-decl hidden-by-usual-hider"><div class="example-wrap"><pre class="rust macro">
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">select_biased</span> {
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> { ... };
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> { ... };
 }</pre></div>
 </div><div class='docblock'><p>Polls multiple futures and streams simultaneously, executing the branch
 for the future that finishes first. Unlike <a href="macro.select.html"><code>select!</code></a>, if multiple futures are ready,
@@ -31,8 +31,8 @@ activated by default.</p>
 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">future</span>::<span class="ident">pending</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>();
 
 <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">select_biased</span><span class="macro">!</span> {
-    <span class="ident">a_res</span> <span class="op">=</span> <span class="ident">a</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a_res</span> <span class="op">+</span> <span class="number">1</span>,
-    <span class="kw">_</span> <span class="op">=</span> <span class="ident">b</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">0</span>,
+    <span class="ident">a_res</span> <span class="op">=</span> <span class="ident">a</span> <span class="op">=&gt;</span> <span class="ident">a_res</span> <span class="op">+</span> <span class="number">1</span>,
+    <span class="kw">_</span> <span class="op">=</span> <span class="ident">b</span> <span class="op">=&gt;</span> <span class="number">0</span>,
 };
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>, <span class="number">5</span>);</pre></div>
 
@@ -44,8 +44,8 @@ activated by default.</p>
 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fut</span> <span class="op">=</span> <span class="ident">future</span>::<span class="ident">pending</span>::<span class="op">&lt;</span>()<span class="op">&gt;</span>();
 
 <span class="macro">select_biased</span><span class="macro">!</span> {
-    <span class="ident">x</span> <span class="op">=</span> <span class="ident">st</span>.<span class="ident">next</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="ident">x</span>),
-    <span class="kw">_</span> <span class="op">=</span> <span class="ident">fut</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
+    <span class="ident">x</span> <span class="op">=</span> <span class="ident">st</span>.<span class="ident">next</span>() <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Some</span>(<span class="number">2</span>), <span class="ident">x</span>),
+    <span class="kw">_</span> <span class="op">=</span> <span class="ident">fut</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
 };</pre></div>
 <p>As described earlier, <code>select_biased</code> can directly select on expressions
 which return <code>Future</code>s - even if those do not implement <code>Unpin</code>:</p>
@@ -56,15 +56,15 @@ which return <code>Future</code>s - even if those do not implement <code>Unpin</
 
 <span class="comment">// Calling the following async fn returns a Future which does not</span>
 <span class="comment">// implement Unpin</span>
-<span class="kw">async</span> <span class="kw">fn</span> <span class="ident">async_identity_fn</span>(<span class="ident">arg</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">async</span> <span class="kw">fn</span> <span class="ident">async_identity_fn</span>(<span class="ident">arg</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
     <span class="ident">arg</span>
 }
 
 <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">select_biased</span><span class="macro">!</span> {
-    <span class="ident">a_res</span> <span class="op">=</span> <span class="ident">async_identity_fn</span>(<span class="number">62</span>).<span class="ident">fuse</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a_res</span> <span class="op">+</span> <span class="number">1</span>,
-    <span class="ident">b_res</span> <span class="op">=</span> <span class="ident">async_identity_fn</span>(<span class="number">13</span>).<span class="ident">fuse</span>() <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b_res</span>,
+    <span class="ident">a_res</span> <span class="op">=</span> <span class="ident">async_identity_fn</span>(<span class="number">62</span>).<span class="ident">fuse</span>() <span class="op">=&gt;</span> <span class="ident">a_res</span> <span class="op">+</span> <span class="number">1</span>,
+    <span class="ident">b_res</span> <span class="op">=</span> <span class="ident">async_identity_fn</span>(<span class="number">13</span>).<span class="ident">fuse</span>() <span class="op">=&gt;</span> <span class="ident">b_res</span>,
 };
-<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span> <span class="op">=</span><span class="op">=</span> <span class="number">63</span> <span class="op">|</span><span class="op">|</span> <span class="ident">res</span> <span class="op">=</span><span class="op">=</span> <span class="number">12</span>);</pre></div>
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span> <span class="op">==</span> <span class="number">63</span> <span class="op">||</span> <span class="ident">res</span> <span class="op">==</span> <span class="number">12</span>);</pre></div>
 <p>If a similar async function is called outside of <code>select_biased</code> to produce
 a <code>Future</code>, the <code>Future</code> must be pinned in order to be able to pass
 it to <code>select_biased</code>. This can be achieved via <code>Box::pin</code> for pinning a
@@ -78,7 +78,7 @@ on the stack.</p>
 
 <span class="comment">// Calling the following async fn returns a Future which does not</span>
 <span class="comment">// implement Unpin</span>
-<span class="kw">async</span> <span class="kw">fn</span> <span class="ident">async_identity_fn</span>(<span class="ident">arg</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">async</span> <span class="kw">fn</span> <span class="ident">async_identity_fn</span>(<span class="ident">arg</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
     <span class="ident">arg</span>
 }
 
@@ -88,10 +88,10 @@ on the stack.</p>
 <span class="macro">pin_mut</span><span class="macro">!</span>(<span class="ident">fut_2</span>); <span class="comment">// Pins the Future on the stack</span>
 
 <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">select_biased</span><span class="macro">!</span> {
-    <span class="ident">a_res</span> <span class="op">=</span> <span class="ident">fut_1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">a_res</span>,
-    <span class="ident">b_res</span> <span class="op">=</span> <span class="ident">fut_2</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">b_res</span>,
+    <span class="ident">a_res</span> <span class="op">=</span> <span class="ident">fut_1</span> <span class="op">=&gt;</span> <span class="ident">a_res</span>,
+    <span class="ident">b_res</span> <span class="op">=</span> <span class="ident">fut_2</span> <span class="op">=&gt;</span> <span class="ident">b_res</span>,
 };
-<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="op">|</span><span class="op">|</span> <span class="ident">res</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span>);</pre></div>
+<span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span> <span class="op">==</span> <span class="number">1</span> <span class="op">||</span> <span class="ident">res</span> <span class="op">==</span> <span class="number">2</span>);</pre></div>
 <p><code>select_biased</code> also accepts a <code>complete</code> branch and a <code>default</code> branch.
 <code>complete</code> will run if all futures and streams have already been
 exhausted. <code>default</code> will run if no futures or streams are
@@ -110,10 +110,10 @@ demonstrated in the following example:</p>
 
 <span class="kw">loop</span> {
     <span class="macro">select_biased</span><span class="macro">!</span> {
-        <span class="ident">a</span> <span class="op">=</span> <span class="ident">a_fut</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">total</span> <span class="op">+</span><span class="op">=</span> <span class="ident">a</span>,
-        <span class="ident">b</span> <span class="op">=</span> <span class="ident">b_fut</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">total</span> <span class="op">+</span><span class="op">=</span> <span class="ident">b</span>,
-        <span class="ident">complete</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
-        <span class="ident">default</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(), <span class="comment">// never runs (futures run first, then complete)</span>
+        <span class="ident">a</span> <span class="op">=</span> <span class="ident">a_fut</span> <span class="op">=&gt;</span> <span class="ident">total</span> <span class="op">+=</span> <span class="ident">a</span>,
+        <span class="ident">b</span> <span class="op">=</span> <span class="ident">b_fut</span> <span class="op">=&gt;</span> <span class="ident">total</span> <span class="op">+=</span> <span class="ident">b</span>,
+        <span class="ident">complete</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
+        <span class="ident">default</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(), <span class="comment">// never runs (futures run first, then complete)</span>
     };
 }
 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">total</span>, <span class="number">10</span>);</pre></div>

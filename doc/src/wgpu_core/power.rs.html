@@ -85,10 +85,10 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Error</span>::<span class="ident">Unsupported</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Battery status is unsupported on this platform&quot;</span>),
-            <span class="ident">Error</span>::<span class="ident">Error</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Battery status retrieval failed: {}&quot;</span>, <span class="ident">err</span>),
+            <span class="ident">Error</span>::<span class="ident">Unsupported</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Battery status is unsupported on this platform&quot;</span>),
+            <span class="ident">Error</span>::<span class="ident">Error</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;Battery status retrieval failed: {}&quot;</span>, <span class="ident">err</span>),
         }
     }
 }
@@ -108,17 +108,17 @@
     <span class="kw">use</span> <span class="ident">battery</span>::{<span class="self">self</span>, <span class="ident">Manager</span>, <span class="ident">State</span>};
 
     <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">battery</span>::<span class="ident">errors</span>::<span class="ident">Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
-        <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">battery</span>::<span class="ident">errors</span>::<span class="ident">Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+        <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">err</span>: <span class="ident">battery</span>::<span class="ident">errors</span>::<span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
             <span class="comment">// Box the error so that the battery::errors::Error type does</span>
             <span class="comment">// not leak out of this module.</span>
             <span class="ident">Error</span>::<span class="ident">Error</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="ident">err</span>))
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_battery_discharging</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_battery_discharging</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">manager</span> <span class="op">=</span> <span class="ident">Manager</span>::<span class="ident">new</span>()<span class="question-mark">?</span>;
         <span class="kw">for</span> <span class="ident">battery</span> <span class="kw">in</span> <span class="ident">manager</span>.<span class="ident">batteries</span>()<span class="question-mark">?</span> {
-            <span class="kw">if</span> <span class="ident">battery</span><span class="question-mark">?</span>.<span class="ident">state</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">State</span>::<span class="ident">Discharging</span> {
+            <span class="kw">if</span> <span class="ident">battery</span><span class="question-mark">?</span>.<span class="ident">state</span>() <span class="op">==</span> <span class="ident">State</span>::<span class="ident">Discharging</span> {
                 <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>);
             }
         }
@@ -139,7 +139,7 @@
 <span class="kw">mod</span> <span class="ident">platform</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Error</span>;
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_battery_discharging</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_battery_discharging</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">Unsupported</span>)
     }
 }

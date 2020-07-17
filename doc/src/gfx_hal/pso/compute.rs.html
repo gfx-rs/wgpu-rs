@@ -52,7 +52,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">ComputePipelineDesc</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a new empty PSO descriptor.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">shader</span>: <span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">B</span>::<span class="ident">PipelineLayout</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">shader</span>: <span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">B</span>::<span class="ident">PipelineLayout</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">ComputePipelineDesc</span> {
             <span class="ident">shader</span>,
             <span class="ident">layout</span>,

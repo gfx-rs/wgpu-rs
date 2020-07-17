@@ -132,11 +132,11 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">BlockFlavor</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Size</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Size</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">size</span>(),
-            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">size</span>(),
-            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">size</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">size</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">size</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">size</span>(),
         }
     }
 }
@@ -159,7 +159,7 @@
         <span class="ident">general_config</span>: <span class="ident">GeneralConfig</span>,
         <span class="ident">linear_config</span>: <span class="ident">LinearConfig</span>,
         <span class="ident">non_coherent_atom_size</span>: <span class="ident">Size</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">MemoryType</span> {
             <span class="ident">heap_index</span>: <span class="ident">hal_memory_type</span>.<span class="ident">heap_index</span>,
             <span class="ident">properties</span>: <span class="ident">hal_memory_type</span>.<span class="ident">properties</span>,
@@ -185,11 +185,11 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Properties</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Properties</span> {
         <span class="self">self</span>.<span class="ident">properties</span>
     }
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">heap_index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">heap_index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">heap_index</span>
     }
 
@@ -199,40 +199,40 @@
         <span class="ident">kind</span>: <span class="ident">Kind</span>,
         <span class="ident">size</span>: <span class="ident">Size</span>,
         <span class="ident">align</span>: <span class="ident">Size</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">BlockFlavor</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">Size</span>), <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">AllocationError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">BlockFlavor</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">Size</span>), <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">AllocationError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">block</span>, <span class="ident">allocated</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">kind</span> {
-            <span class="ident">Kind</span>::<span class="ident">Dedicated</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>
+            <span class="ident">Kind</span>::<span class="ident">Dedicated</span> <span class="op">=&gt;</span> <span class="self">self</span>
                 .<span class="ident">dedicated</span>
                 .<span class="ident">alloc</span>(<span class="ident">device</span>, <span class="ident">size</span>, <span class="ident">align</span>)
                 .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">block</span>, <span class="ident">size</span>)<span class="op">|</span> (<span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="ident">block</span>), <span class="ident">size</span>)),
-            <span class="ident">Kind</span>::<span class="ident">General</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>
+            <span class="ident">Kind</span>::<span class="ident">General</span> <span class="op">=&gt;</span> <span class="self">self</span>
                 .<span class="ident">general</span>
                 .<span class="ident">alloc</span>(<span class="ident">device</span>, <span class="ident">size</span>, <span class="ident">align</span>)
                 .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">block</span>, <span class="ident">size</span>)<span class="op">|</span> (<span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="ident">block</span>), <span class="ident">size</span>)),
-            <span class="ident">Kind</span>::<span class="ident">Linear</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>
+            <span class="ident">Kind</span>::<span class="ident">Linear</span> <span class="op">=&gt;</span> <span class="self">self</span>
                 .<span class="ident">linear</span>
                 .<span class="ident">alloc</span>(<span class="ident">device</span>, <span class="ident">size</span>, <span class="ident">align</span>)
                 .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">block</span>, <span class="ident">size</span>)<span class="op">|</span> (<span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="ident">block</span>), <span class="ident">size</span>)),
         }<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">effective</span> <span class="op">+</span><span class="op">=</span> <span class="ident">block</span>.<span class="ident">size</span>();
-        <span class="self">self</span>.<span class="ident">used</span> <span class="op">+</span><span class="op">=</span> <span class="ident">allocated</span>;
+        <span class="self">self</span>.<span class="ident">effective</span> <span class="op">+=</span> <span class="ident">block</span>.<span class="ident">size</span>();
+        <span class="self">self</span>.<span class="ident">used</span> <span class="op">+=</span> <span class="ident">allocated</span>;
         <span class="prelude-val">Ok</span>((<span class="ident">block</span>, <span class="ident">allocated</span>))
     }
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">free</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>, <span class="ident">block</span>: <span class="ident">BlockFlavor</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Size</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">free</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>, <span class="ident">block</span>: <span class="ident">BlockFlavor</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Size</span> {
         <span class="kw">match</span> <span class="ident">block</span> {
-            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">dedicated</span>.<span class="ident">free</span>(<span class="ident">device</span>, <span class="ident">block</span>),
-            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">general</span>.<span class="ident">free</span>(<span class="ident">device</span>, <span class="ident">block</span>),
-            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">linear</span>.<span class="ident">free</span>(<span class="ident">device</span>, <span class="ident">block</span>),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="ident">block</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">dedicated</span>.<span class="ident">free</span>(<span class="ident">device</span>, <span class="ident">block</span>),
+            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="ident">block</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">general</span>.<span class="ident">free</span>(<span class="ident">device</span>, <span class="ident">block</span>),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="ident">block</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">linear</span>.<span class="ident">free</span>(<span class="ident">device</span>, <span class="ident">block</span>),
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">clear</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Size</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">clear</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>) <span class="op">-&gt;</span> <span class="ident">Size</span> {
         <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Clear memory allocators.&quot;</span>);
         <span class="self">self</span>.<span class="ident">general</span>.<span class="ident">clear</span>(<span class="ident">device</span>) <span class="op">+</span> <span class="self">self</span>.<span class="ident">linear</span>.<span class="ident">clear</span>(<span class="ident">device</span>)
     }
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">utilization</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MemoryTypeUtilization</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">utilization</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">MemoryTypeUtilization</span> {
         <span class="ident">MemoryTypeUtilization</span> {
             <span class="ident">utilization</span>: <span class="ident">MemoryUtilization</span> {
                 <span class="ident">used</span>: <span class="self">self</span>.<span class="ident">used</span>,

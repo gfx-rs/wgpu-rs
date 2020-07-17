@@ -676,8 +676,8 @@
 
 <span class="kw">impl</span> <span class="ident">FormatDesc</span> {
     <span class="doccomment">/// Check if the format is compressed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_compressed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">dim</span> <span class="op">!</span><span class="op">=</span> (<span class="number">1</span>, <span class="number">1</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_compressed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">dim</span> <span class="op">!=</span> (<span class="number">1</span>, <span class="number">1</span>)
     }
 }
 
@@ -745,7 +745,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Swizzle</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">NO</span>
     }
 }
@@ -836,7 +836,7 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">surface_types</span> {
-    { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">total</span>:<span class="ident">expr</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">aspect</span>:<span class="ident">ident</span>)<span class="op">|</span><span class="kw-2">*</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span> $( ,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">component</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bits</span>:<span class="ident">expr</span> )<span class="kw-2">*</span>} ,)<span class="op">*</span> } <span class="op">=</span><span class="op">&gt;</span> {
+    { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">total</span>:<span class="ident">expr</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">aspect</span>:<span class="ident">ident</span>)<span class="op">|</span><span class="kw-2">*</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>:<span class="ident">expr</span> $( ,<span class="macro-nonterminal">$</span><span class="macro-nonterminal">component</span>:<span class="ident">ident</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bits</span>:<span class="ident">expr</span> )<span class="kw-2">*</span>} ,)<span class="op">*</span> } <span class="op">=&gt;</span> {
         <span class="doccomment">/// Type of the allocated texture surface. It is supposed to only</span>
         <span class="doccomment">/// carry information about the number of bits per each channel.</span>
         <span class="doccomment">/// The actual types are up to the views to decide and interpret.</span>
@@ -851,9 +851,9 @@
 
         <span class="kw">impl</span> <span class="ident">SurfaceType</span> {
             <span class="doccomment">/// Return the bits for this format.</span>
-            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">describe_bits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FormatBits</span> {
+            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">describe_bits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">FormatBits</span> {
                 <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-                    $( <span class="ident">SurfaceType</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">FormatBits</span> {
+                    $( <span class="ident">SurfaceType</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">=&gt;</span> <span class="ident">FormatBits</span> {
                         $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">component</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">bits</span>, )<span class="op">*</span>
                         .. <span class="ident">BITS_ZERO</span>
                     }, )<span class="op">*</span>
@@ -861,9 +861,9 @@
             }
 
             <span class="doccomment">/// Return the format descriptor.</span>
-            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">desc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FormatDesc</span> {
+            <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">desc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">FormatDesc</span> {
                 <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-                    $( <span class="ident">SurfaceType</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">FormatDesc</span> {
+                    $( <span class="ident">SurfaceType</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="op">=&gt;</span> <span class="ident">FormatDesc</span> {
                         <span class="ident">bits</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">total</span>.<span class="ident">min</span>(<span class="op">!</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">total</span>),
                         <span class="ident">dim</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dim</span>,
                         <span class="ident">packed</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">total</span> <span class="op">&gt;</span> <span class="number">0x1000</span>,
@@ -960,7 +960,7 @@
     {
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> <span class="op">=</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">surface</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">channel</span>:<span class="ident">ident</span>),
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name_tail</span>:<span class="ident">ident</span> <span class="op">=</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">surface_tail</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">channel_tail</span>:<span class="ident">ident</span>),)<span class="op">*</span>
-    } <span class="op">=</span><span class="op">&gt;</span> {
+    } <span class="op">=&gt;</span> {
         <span class="doccomment">/// A format descriptor that describes the channels present in a</span>
         <span class="doccomment">/// texture or view, how they are laid out, what size they are,</span>
         <span class="doccomment">/// and how the elements of the channels are interpreted (integer,</span>
@@ -1208,28 +1208,28 @@
     <span class="doccomment">/// Get base format.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns `None` if format is `Undefined`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">base_format</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BaseFormat</span> {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">NUM_FORMATS</span> <span class="op">&gt;</span> <span class="self">self</span> <span class="kw">as</span> <span class="ident">usize</span>);
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">base_format</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">BaseFormat</span> {
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">NUM_FORMATS</span> <span class="op">&gt;</span> <span class="self">self</span> <span class="kw">as</span> <span class="ident">usize</span>);
         <span class="ident">BASE_FORMATS</span>[<span class="self">self</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">-</span> <span class="number">1</span>]
     }
 
     <span class="doccomment">/// A shortcut to obtain surface format description.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">surface_desc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FormatDesc</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">surface_desc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">FormatDesc</span> {
         <span class="self">self</span>.<span class="ident">base_format</span>().<span class="number">0</span>.<span class="ident">desc</span>()
     }
 
     <span class="doccomment">/// Returns if the format has a color aspect.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_color</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_color</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">surface_desc</span>().<span class="ident">aspects</span>.<span class="ident">contains</span>(<span class="ident">Aspects</span>::<span class="ident">COLOR</span>)
     }
 
     <span class="doccomment">/// Returns if the format has a depth aspect.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_depth</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_depth</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">surface_desc</span>().<span class="ident">aspects</span>.<span class="ident">contains</span>(<span class="ident">Aspects</span>::<span class="ident">DEPTH</span>)
     }
 
     <span class="doccomment">/// Returns if the format has a stencil aspect.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_stencil</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_stencil</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">surface_desc</span>().<span class="ident">aspects</span>.<span class="ident">contains</span>(<span class="ident">Aspects</span>::<span class="ident">STENCIL</span>)
     }
 }

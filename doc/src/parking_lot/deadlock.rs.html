@@ -281,7 +281,7 @@
     <span class="comment">// We need to serialize these tests since deadlock detection uses global state</span>
     <span class="kw">static</span> <span class="ident">DEADLOCK_DETECTION_LOCK</span>: <span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">const_mutex</span>(());
 
-    <span class="kw">fn</span> <span class="ident">check_deadlock</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">check_deadlock</span>() <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">use</span> <span class="ident">parking_lot_core</span>::<span class="ident">deadlock</span>::<span class="ident">check_deadlock</span>;
         <span class="op">!</span><span class="ident">check_deadlock</span>().<span class="ident">is_empty</span>()
     }
@@ -290,9 +290,9 @@
     <span class="kw">fn</span> <span class="ident">test_mutex_deadlock</span>() {
         <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">DEADLOCK_DETECTION_LOCK</span>.<span class="ident">lock</span>();
 
-        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
-        <span class="kw">let</span> <span class="ident">m2</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
-        <span class="kw">let</span> <span class="ident">m3</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m2</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m3</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Barrier</span>::<span class="ident">new</span>(<span class="number">4</span>));
 
         <span class="kw">let</span> <span class="ident">m1_</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">clone</span>();
@@ -304,19 +304,19 @@
 
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">check_deadlock</span>());
 
-        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">lock</span>();
             <span class="ident">b1</span>.<span class="ident">wait</span>();
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">m2_</span>.<span class="ident">lock</span>();
         });
 
-        <span class="kw">let</span> <span class="ident">_t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m2</span>.<span class="ident">lock</span>();
             <span class="ident">b2</span>.<span class="ident">wait</span>();
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">m3_</span>.<span class="ident">lock</span>();
         });
 
-        <span class="kw">let</span> <span class="ident">_t3</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t3</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m3</span>.<span class="ident">lock</span>();
             <span class="ident">b3</span>.<span class="ident">wait</span>();
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">m1_</span>.<span class="ident">lock</span>();
@@ -335,11 +335,11 @@
     <span class="kw">fn</span> <span class="ident">test_mutex_deadlock_reentrant</span>() {
         <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">DEADLOCK_DETECTION_LOCK</span>.<span class="ident">lock</span>();
 
-        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
 
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">check_deadlock</span>());
 
-        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">lock</span>();
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">lock</span>();
         });
@@ -354,9 +354,9 @@
     <span class="kw">fn</span> <span class="ident">test_remutex_deadlock</span>() {
         <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">DEADLOCK_DETECTION_LOCK</span>.<span class="ident">lock</span>();
 
-        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ReentrantMutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
-        <span class="kw">let</span> <span class="ident">m2</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ReentrantMutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
-        <span class="kw">let</span> <span class="ident">m3</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ReentrantMutex</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ReentrantMutex</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m2</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ReentrantMutex</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m3</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ReentrantMutex</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Barrier</span>::<span class="ident">new</span>(<span class="number">4</span>));
 
         <span class="kw">let</span> <span class="ident">m1_</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">clone</span>();
@@ -368,21 +368,21 @@
 
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">check_deadlock</span>());
 
-        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">lock</span>();
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">lock</span>();
             <span class="ident">b1</span>.<span class="ident">wait</span>();
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">m2_</span>.<span class="ident">lock</span>();
         });
 
-        <span class="kw">let</span> <span class="ident">_t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m2</span>.<span class="ident">lock</span>();
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m2</span>.<span class="ident">lock</span>();
             <span class="ident">b2</span>.<span class="ident">wait</span>();
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">m3_</span>.<span class="ident">lock</span>();
         });
 
-        <span class="kw">let</span> <span class="ident">_t3</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t3</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m3</span>.<span class="ident">lock</span>();
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m3</span>.<span class="ident">lock</span>();
             <span class="ident">b3</span>.<span class="ident">wait</span>();
@@ -402,9 +402,9 @@
     <span class="kw">fn</span> <span class="ident">test_rwlock_deadlock</span>() {
         <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">DEADLOCK_DETECTION_LOCK</span>.<span class="ident">lock</span>();
 
-        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
-        <span class="kw">let</span> <span class="ident">m2</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
-        <span class="kw">let</span> <span class="ident">m3</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m2</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m3</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Barrier</span>::<span class="ident">new</span>(<span class="number">4</span>));
 
         <span class="kw">let</span> <span class="ident">m1_</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">clone</span>();
@@ -416,19 +416,19 @@
 
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">check_deadlock</span>());
 
-        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">read</span>();
             <span class="ident">b1</span>.<span class="ident">wait</span>();
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m2_</span>.<span class="ident">write</span>();
         });
 
-        <span class="kw">let</span> <span class="ident">_t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m2</span>.<span class="ident">read</span>();
             <span class="ident">b2</span>.<span class="ident">wait</span>();
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m3_</span>.<span class="ident">write</span>();
         });
 
-        <span class="kw">let</span> <span class="ident">_t3</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t3</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m3</span>.<span class="ident">read</span>();
             <span class="ident">b3</span>.<span class="ident">wait</span>();
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">m1_</span>.<span class="ident">write</span>();
@@ -448,11 +448,11 @@
     <span class="kw">fn</span> <span class="ident">test_rwlock_deadlock_reentrant</span>() {
         <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span> <span class="ident">DEADLOCK_DETECTION_LOCK</span>.<span class="ident">lock</span>();
 
-        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span>()<span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
+        <span class="kw">let</span> <span class="ident">m1</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">RwLock</span><span class="op">&lt;</span>()<span class="op">&gt;&gt;</span> <span class="op">=</span> <span class="ident">Default</span>::<span class="ident">default</span>();
 
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">check_deadlock</span>());
 
-        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+        <span class="kw">let</span> <span class="ident">_t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">_g</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">read</span>();
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">m1</span>.<span class="ident">write</span>();
         });

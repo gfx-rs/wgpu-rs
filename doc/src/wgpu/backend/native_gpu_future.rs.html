@@ -87,11 +87,11 @@
     <span class="prelude-ty">Result</span>(<span class="ident">T</span>),
 }
 
-<span class="kw">type</span> <span class="ident">GpuFutureData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">WakerOrResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="kw">type</span> <span class="ident">GpuFutureData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">WakerOrResult</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// A Future that can poll the wgpu::Device</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GpuFuture</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">GpuFutureData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">GpuFutureData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">OpaqueData</span> {}
@@ -99,18 +99,18 @@
 <span class="comment">//TODO: merge this with `GpuFuture` and avoid `Arc` on the data.</span>
 <span class="doccomment">/// A completion handle to set the result on a GpuFuture</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GpuFutureCompletion</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">GpuFutureData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">GpuFutureData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Future</span> <span class="kw">for</span> <span class="ident">GpuFuture</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">T</span>;
 
-    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">context</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">waker_or_result</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into_ref</span>().<span class="ident">get_ref</span>().<span class="ident">data</span>.<span class="ident">lock</span>();
 
         <span class="kw">match</span> <span class="ident">waker_or_result</span>.<span class="ident">take</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">WakerOrResult</span>::<span class="prelude-ty">Result</span>(<span class="ident">res</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">res</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">WakerOrResult</span>::<span class="prelude-ty">Result</span>(<span class="ident">res</span>)) <span class="op">=&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">res</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="kw-2">*</span><span class="ident">waker_or_result</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">WakerOrResult</span>::<span class="ident">Waker</span>(<span class="ident">context</span>.<span class="ident">waker</span>().<span class="ident">clone</span>()));
                 <span class="ident">Poll</span>::<span class="ident">Pending</span>
             }
@@ -123,9 +123,9 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">waker_or_result</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">lock</span>();
 
         <span class="kw">match</span> <span class="ident">waker_or_result</span>.<span class="ident">replace</span>(<span class="ident">WakerOrResult</span>::<span class="prelude-ty">Result</span>(<span class="ident">value</span>)) {
-            <span class="prelude-val">Some</span>(<span class="ident">WakerOrResult</span>::<span class="ident">Waker</span>(<span class="ident">waker</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">waker</span>.<span class="ident">wake</span>(),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {}
-            <span class="prelude-val">Some</span>(<span class="ident">WakerOrResult</span>::<span class="prelude-ty">Result</span>(<span class="kw">_</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">WakerOrResult</span>::<span class="ident">Waker</span>(<span class="ident">waker</span>)) <span class="op">=&gt;</span> <span class="ident">waker</span>.<span class="ident">wake</span>(),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> {}
+            <span class="prelude-val">Some</span>(<span class="ident">WakerOrResult</span>::<span class="prelude-ty">Result</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> {
                 <span class="comment">// Drop before panicking. Not sure if this is necessary, but it makes me feel better.</span>
                 <span class="ident">drop</span>(<span class="ident">waker_or_result</span>);
                 <span class="macro">unreachable</span><span class="macro">!</span>()
@@ -133,18 +133,18 @@
         };
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">to_raw</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">OpaqueData</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">to_raw</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">OpaqueData</span> {
         <span class="ident">Arc</span>::<span class="ident">into_raw</span>(<span class="self">self</span>.<span class="ident">data</span>) <span class="kw">as</span> <span class="kw">_</span>
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_raw</span>(<span class="ident">this</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">OpaqueData</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_raw</span>(<span class="ident">this</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">OpaqueData</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">data</span>: <span class="ident">Arc</span>::<span class="ident">from_raw</span>(<span class="ident">this</span> <span class="kw">as</span> <span class="kw">_</span>),
         }
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_gpu_future</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">GpuFuture</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">GpuFutureCompletion</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new_gpu_future</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">-&gt;</span> (<span class="ident">GpuFuture</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">GpuFutureCompletion</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {
     <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="prelude-val">None</span>));
     (
         <span class="ident">GpuFuture</span> {

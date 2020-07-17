@@ -277,19 +277,19 @@
 }
 
 <span class="kw">impl</span> <span class="ident">CharacterSet</span> {
-    <span class="kw">fn</span> <span class="ident">encode_table</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>; <span class="number">64</span>] {
+    <span class="kw">fn</span> <span class="ident">encode_table</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>; <span class="number">64</span>] {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">CharacterSet</span>::<span class="ident">Standard</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">tables</span>::<span class="ident">STANDARD_ENCODE</span>,
-            <span class="ident">CharacterSet</span>::<span class="ident">UrlSafe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">tables</span>::<span class="ident">URL_SAFE_ENCODE</span>,
-            <span class="ident">CharacterSet</span>::<span class="ident">Crypt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">tables</span>::<span class="ident">CRYPT_ENCODE</span>,
+            <span class="ident">CharacterSet</span>::<span class="ident">Standard</span> <span class="op">=&gt;</span> <span class="ident">tables</span>::<span class="ident">STANDARD_ENCODE</span>,
+            <span class="ident">CharacterSet</span>::<span class="ident">UrlSafe</span> <span class="op">=&gt;</span> <span class="ident">tables</span>::<span class="ident">URL_SAFE_ENCODE</span>,
+            <span class="ident">CharacterSet</span>::<span class="ident">Crypt</span> <span class="op">=&gt;</span> <span class="ident">tables</span>::<span class="ident">CRYPT_ENCODE</span>,
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">decode_table</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>; <span class="number">256</span>] {
+    <span class="kw">fn</span> <span class="ident">decode_table</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">u8</span>; <span class="number">256</span>] {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">CharacterSet</span>::<span class="ident">Standard</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">tables</span>::<span class="ident">STANDARD_DECODE</span>,
-            <span class="ident">CharacterSet</span>::<span class="ident">UrlSafe</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">tables</span>::<span class="ident">URL_SAFE_DECODE</span>,
-            <span class="ident">CharacterSet</span>::<span class="ident">Crypt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">tables</span>::<span class="ident">CRYPT_DECODE</span>,
+            <span class="ident">CharacterSet</span>::<span class="ident">Standard</span> <span class="op">=&gt;</span> <span class="ident">tables</span>::<span class="ident">STANDARD_DECODE</span>,
+            <span class="ident">CharacterSet</span>::<span class="ident">UrlSafe</span> <span class="op">=&gt;</span> <span class="ident">tables</span>::<span class="ident">URL_SAFE_DECODE</span>,
+            <span class="ident">CharacterSet</span>::<span class="ident">Crypt</span> <span class="op">=&gt;</span> <span class="ident">tables</span>::<span class="ident">CRYPT_DECODE</span>,
         }
     }
 }
@@ -307,12 +307,12 @@
 
 <span class="kw">impl</span> <span class="ident">Config</span> {
     <span class="doccomment">/// Create a new `Config`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">char_set</span>: <span class="ident">CharacterSet</span>, <span class="ident">pad</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Config</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">char_set</span>: <span class="ident">CharacterSet</span>, <span class="ident">pad</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Config</span> {
         <span class="ident">Config</span> { <span class="ident">char_set</span>, <span class="ident">pad</span>, <span class="ident">decode_allow_trailing_bits</span>: <span class="bool-val">false</span> }
     }
 
     <span class="doccomment">/// Sets whether to pad output with `=` characters.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pad</span>(<span class="self">self</span>, <span class="ident">pad</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Config</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pad</span>(<span class="self">self</span>, <span class="ident">pad</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Config</span> {
         <span class="ident">Config</span> { <span class="ident">pad</span>, ..<span class="self">self</span> }
     }
 
@@ -320,7 +320,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is useful when implementing</span>
     <span class="doccomment">/// [forgiving-base64 decode](https://infra.spec.whatwg.org/#forgiving-base64-decode).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode_allow_trailing_bits</span>(<span class="self">self</span>, <span class="ident">allow</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Config</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode_allow_trailing_bits</span>(<span class="self">self</span>, <span class="ident">allow</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">Config</span> {
         <span class="ident">Config</span> { <span class="ident">decode_allow_trailing_bits</span>: <span class="ident">allow</span>, ..<span class="self">self</span> }
     }
 }

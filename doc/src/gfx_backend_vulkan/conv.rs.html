@@ -646,35 +646,35 @@
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow</span>::<span class="ident">Borrow</span>, <span class="ident">mem</span>, <span class="ident">ptr</span>};
 
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_format</span>(<span class="ident">format</span>: <span class="ident">format</span>::<span class="ident">Format</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Format</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_format</span>(<span class="ident">format</span>: <span class="ident">format</span>::<span class="ident">Format</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Format</span> {
     <span class="ident">vk</span>::<span class="ident">Format</span>::<span class="ident">from_raw</span>(<span class="ident">format</span> <span class="kw">as</span> <span class="ident">i32</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_vk_format</span>(<span class="ident">vk_format</span>: <span class="ident">vk</span>::<span class="ident">Format</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Format</span><span class="op">&gt;</span> {
-    <span class="kw">if</span> (<span class="ident">vk_format</span>.<span class="ident">as_raw</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&lt;</span> <span class="ident">format</span>::<span class="ident">NUM_FORMATS</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">vk_format</span> <span class="op">!</span><span class="op">=</span> <span class="ident">vk</span>::<span class="ident">Format</span>::<span class="ident">UNDEFINED</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_vk_format</span>(<span class="ident">vk_format</span>: <span class="ident">vk</span>::<span class="ident">Format</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">format</span>::<span class="ident">Format</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> (<span class="ident">vk_format</span>.<span class="ident">as_raw</span>() <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&lt;</span> <span class="ident">format</span>::<span class="ident">NUM_FORMATS</span> <span class="op">&amp;&amp;</span> <span class="ident">vk_format</span> <span class="op">!=</span> <span class="ident">vk</span>::<span class="ident">Format</span>::<span class="ident">UNDEFINED</span> {
         <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">vk_format</span>) })
     } <span class="kw">else</span> {
         <span class="prelude-val">None</span>
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_tiling</span>(<span class="ident">tiling</span>: <span class="ident">image</span>::<span class="ident">Tiling</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageTiling</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_tiling</span>(<span class="ident">tiling</span>: <span class="ident">image</span>::<span class="ident">Tiling</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageTiling</span> {
     <span class="ident">vk</span>::<span class="ident">ImageTiling</span>::<span class="ident">from_raw</span>(<span class="ident">tiling</span> <span class="kw">as</span> <span class="ident">i32</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_component</span>(<span class="ident">component</span>: <span class="ident">format</span>::<span class="ident">Component</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_component</span>(<span class="ident">component</span>: <span class="ident">format</span>::<span class="ident">Component</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span> {
     <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Component</span>::<span class="kw-2">*</span>;
     <span class="kw">match</span> <span class="ident">component</span> {
-        <span class="ident">Zero</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">ZERO</span>,
-        <span class="ident">One</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">ONE</span>,
-        <span class="ident">R</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">R</span>,
-        <span class="ident">G</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">G</span>,
-        <span class="ident">B</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">B</span>,
-        <span class="ident">A</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">A</span>,
+        <span class="ident">Zero</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">ZERO</span>,
+        <span class="ident">One</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">ONE</span>,
+        <span class="ident">R</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">R</span>,
+        <span class="ident">G</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">G</span>,
+        <span class="ident">B</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">B</span>,
+        <span class="ident">A</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentSwizzle</span>::<span class="ident">A</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_swizzle</span>(<span class="ident">swizzle</span>: <span class="ident">format</span>::<span class="ident">Swizzle</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentMapping</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_swizzle</span>(<span class="ident">swizzle</span>: <span class="ident">format</span>::<span class="ident">Swizzle</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ComponentMapping</span> {
     <span class="ident">vk</span>::<span class="ident">ComponentMapping</span> {
         <span class="ident">r</span>: <span class="ident">map_component</span>(<span class="ident">swizzle</span>.<span class="number">0</span>),
         <span class="ident">g</span>: <span class="ident">map_component</span>(<span class="ident">swizzle</span>.<span class="number">1</span>),
@@ -683,34 +683,34 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_index_type</span>(<span class="ident">index_type</span>: <span class="ident">IndexType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">IndexType</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_index_type</span>(<span class="ident">index_type</span>: <span class="ident">IndexType</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">IndexType</span> {
     <span class="kw">match</span> <span class="ident">index_type</span> {
-        <span class="ident">IndexType</span>::<span class="ident">U16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">IndexType</span>::<span class="ident">UINT16</span>,
-        <span class="ident">IndexType</span>::<span class="ident">U32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">IndexType</span>::<span class="ident">UINT32</span>,
+        <span class="ident">IndexType</span>::<span class="ident">U16</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">IndexType</span>::<span class="ident">UINT16</span>,
+        <span class="ident">IndexType</span>::<span class="ident">U32</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">IndexType</span>::<span class="ident">UINT32</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_layout</span>(<span class="ident">layout</span>: <span class="ident">image</span>::<span class="ident">Layout</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_layout</span>(<span class="ident">layout</span>: <span class="ident">image</span>::<span class="ident">Layout</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span> {
     <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Layout</span> <span class="kw">as</span> <span class="ident">Il</span>;
     <span class="kw">match</span> <span class="ident">layout</span> {
-        <span class="ident">Il</span>::<span class="ident">General</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">GENERAL</span>,
-        <span class="ident">Il</span>::<span class="ident">ColorAttachmentOptimal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">COLOR_ATTACHMENT_OPTIMAL</span>,
-        <span class="ident">Il</span>::<span class="ident">DepthStencilAttachmentOptimal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">DEPTH_STENCIL_ATTACHMENT_OPTIMAL</span>,
-        <span class="ident">Il</span>::<span class="ident">DepthStencilReadOnlyOptimal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">DEPTH_STENCIL_READ_ONLY_OPTIMAL</span>,
-        <span class="ident">Il</span>::<span class="ident">ShaderReadOnlyOptimal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">SHADER_READ_ONLY_OPTIMAL</span>,
-        <span class="ident">Il</span>::<span class="ident">TransferSrcOptimal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">TRANSFER_SRC_OPTIMAL</span>,
-        <span class="ident">Il</span>::<span class="ident">TransferDstOptimal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">TRANSFER_DST_OPTIMAL</span>,
-        <span class="ident">Il</span>::<span class="ident">Undefined</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">UNDEFINED</span>,
-        <span class="ident">Il</span>::<span class="ident">Preinitialized</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">PREINITIALIZED</span>,
-        <span class="ident">Il</span>::<span class="ident">Present</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">PRESENT_SRC_KHR</span>,
+        <span class="ident">Il</span>::<span class="ident">General</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">GENERAL</span>,
+        <span class="ident">Il</span>::<span class="ident">ColorAttachmentOptimal</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">COLOR_ATTACHMENT_OPTIMAL</span>,
+        <span class="ident">Il</span>::<span class="ident">DepthStencilAttachmentOptimal</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">DEPTH_STENCIL_ATTACHMENT_OPTIMAL</span>,
+        <span class="ident">Il</span>::<span class="ident">DepthStencilReadOnlyOptimal</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">DEPTH_STENCIL_READ_ONLY_OPTIMAL</span>,
+        <span class="ident">Il</span>::<span class="ident">ShaderReadOnlyOptimal</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">SHADER_READ_ONLY_OPTIMAL</span>,
+        <span class="ident">Il</span>::<span class="ident">TransferSrcOptimal</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">TRANSFER_SRC_OPTIMAL</span>,
+        <span class="ident">Il</span>::<span class="ident">TransferDstOptimal</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">TRANSFER_DST_OPTIMAL</span>,
+        <span class="ident">Il</span>::<span class="ident">Undefined</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">UNDEFINED</span>,
+        <span class="ident">Il</span>::<span class="ident">Preinitialized</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">PREINITIALIZED</span>,
+        <span class="ident">Il</span>::<span class="ident">Present</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageLayout</span>::<span class="ident">PRESENT_SRC_KHR</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_aspects</span>(<span class="ident">aspects</span>: <span class="ident">format</span>::<span class="ident">Aspects</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageAspectFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_aspects</span>(<span class="ident">aspects</span>: <span class="ident">format</span>::<span class="ident">Aspects</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageAspectFlags</span> {
     <span class="ident">vk</span>::<span class="ident">ImageAspectFlags</span>::<span class="ident">from_raw</span>(<span class="ident">aspects</span>.<span class="ident">bits</span>() <span class="kw">as</span> <span class="ident">u32</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_offset</span>(<span class="ident">offset</span>: <span class="ident">image</span>::<span class="ident">Offset</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Offset3D</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_offset</span>(<span class="ident">offset</span>: <span class="ident">image</span>::<span class="ident">Offset</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Offset3D</span> {
     <span class="ident">vk</span>::<span class="ident">Offset3D</span> {
         <span class="ident">x</span>: <span class="ident">offset</span>.<span class="ident">x</span>,
         <span class="ident">y</span>: <span class="ident">offset</span>.<span class="ident">y</span>,
@@ -718,7 +718,7 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_extent</span>(<span class="ident">offset</span>: <span class="ident">image</span>::<span class="ident">Extent</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Extent3D</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_extent</span>(<span class="ident">offset</span>: <span class="ident">image</span>::<span class="ident">Extent</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Extent3D</span> {
     <span class="ident">vk</span>::<span class="ident">Extent3D</span> {
         <span class="ident">width</span>: <span class="ident">offset</span>.<span class="ident">width</span>,
         <span class="ident">height</span>: <span class="ident">offset</span>.<span class="ident">height</span>,
@@ -726,7 +726,7 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_subresource</span>(<span class="ident">sub</span>: <span class="kw-2">&amp;</span><span class="ident">image</span>::<span class="ident">Subresource</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageSubresource</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_subresource</span>(<span class="ident">sub</span>: <span class="kw-2">&amp;</span><span class="ident">image</span>::<span class="ident">Subresource</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageSubresource</span> {
     <span class="ident">vk</span>::<span class="ident">ImageSubresource</span> {
         <span class="ident">aspect_mask</span>: <span class="ident">map_image_aspects</span>(<span class="ident">sub</span>.<span class="ident">aspects</span>),
         <span class="ident">mip_level</span>: <span class="ident">sub</span>.<span class="ident">level</span> <span class="kw">as</span> <span class="kw">_</span>,
@@ -734,7 +734,7 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_subresource_layers</span>(<span class="ident">sub</span>: <span class="kw-2">&amp;</span><span class="ident">image</span>::<span class="ident">SubresourceLayers</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageSubresourceLayers</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_subresource_layers</span>(<span class="ident">sub</span>: <span class="kw-2">&amp;</span><span class="ident">image</span>::<span class="ident">SubresourceLayers</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageSubresourceLayers</span> {
     <span class="ident">vk</span>::<span class="ident">ImageSubresourceLayers</span> {
         <span class="ident">aspect_mask</span>: <span class="ident">map_image_aspects</span>(<span class="ident">sub</span>.<span class="ident">aspects</span>),
         <span class="ident">mip_level</span>: <span class="ident">sub</span>.<span class="ident">level</span> <span class="kw">as</span> <span class="kw">_</span>,
@@ -743,7 +743,7 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_subresource_range</span>(<span class="ident">range</span>: <span class="kw-2">&amp;</span><span class="ident">image</span>::<span class="ident">SubresourceRange</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageSubresourceRange</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_subresource_range</span>(<span class="ident">range</span>: <span class="kw-2">&amp;</span><span class="ident">image</span>::<span class="ident">SubresourceRange</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageSubresourceRange</span> {
     <span class="ident">vk</span>::<span class="ident">ImageSubresourceRange</span> {
         <span class="ident">aspect_mask</span>: <span class="ident">map_image_aspects</span>(<span class="ident">range</span>.<span class="ident">aspects</span>),
         <span class="ident">base_mip_level</span>: <span class="ident">range</span>.<span class="ident">levels</span>.<span class="ident">start</span> <span class="kw">as</span> <span class="kw">_</span>,
@@ -753,177 +753,177 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_attachment_load_op</span>(<span class="ident">op</span>: <span class="ident">pass</span>::<span class="ident">AttachmentLoadOp</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentLoadOp</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_attachment_load_op</span>(<span class="ident">op</span>: <span class="ident">pass</span>::<span class="ident">AttachmentLoadOp</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentLoadOp</span> {
     <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">pass</span>::<span class="ident">AttachmentLoadOp</span> <span class="kw">as</span> <span class="ident">Alo</span>;
     <span class="kw">match</span> <span class="ident">op</span> {
-        <span class="ident">Alo</span>::<span class="ident">Load</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentLoadOp</span>::<span class="ident">LOAD</span>,
-        <span class="ident">Alo</span>::<span class="ident">Clear</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentLoadOp</span>::<span class="ident">CLEAR</span>,
-        <span class="ident">Alo</span>::<span class="ident">DontCare</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentLoadOp</span>::<span class="ident">DONT_CARE</span>,
+        <span class="ident">Alo</span>::<span class="ident">Load</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentLoadOp</span>::<span class="ident">LOAD</span>,
+        <span class="ident">Alo</span>::<span class="ident">Clear</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentLoadOp</span>::<span class="ident">CLEAR</span>,
+        <span class="ident">Alo</span>::<span class="ident">DontCare</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentLoadOp</span>::<span class="ident">DONT_CARE</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_attachment_store_op</span>(<span class="ident">op</span>: <span class="ident">pass</span>::<span class="ident">AttachmentStoreOp</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentStoreOp</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_attachment_store_op</span>(<span class="ident">op</span>: <span class="ident">pass</span>::<span class="ident">AttachmentStoreOp</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentStoreOp</span> {
     <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">pass</span>::<span class="ident">AttachmentStoreOp</span> <span class="kw">as</span> <span class="ident">Aso</span>;
     <span class="kw">match</span> <span class="ident">op</span> {
-        <span class="ident">Aso</span>::<span class="ident">Store</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentStoreOp</span>::<span class="ident">STORE</span>,
-        <span class="ident">Aso</span>::<span class="ident">DontCare</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentStoreOp</span>::<span class="ident">DONT_CARE</span>,
+        <span class="ident">Aso</span>::<span class="ident">Store</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentStoreOp</span>::<span class="ident">STORE</span>,
+        <span class="ident">Aso</span>::<span class="ident">DontCare</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">AttachmentStoreOp</span>::<span class="ident">DONT_CARE</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_buffer_access</span>(<span class="ident">access</span>: <span class="ident">buffer</span>::<span class="ident">Access</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">AccessFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_buffer_access</span>(<span class="ident">access</span>: <span class="ident">buffer</span>::<span class="ident">Access</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">AccessFlags</span> {
     <span class="ident">vk</span>::<span class="ident">AccessFlags</span>::<span class="ident">from_raw</span>(<span class="ident">access</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_access</span>(<span class="ident">access</span>: <span class="ident">image</span>::<span class="ident">Access</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">AccessFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_access</span>(<span class="ident">access</span>: <span class="ident">image</span>::<span class="ident">Access</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">AccessFlags</span> {
     <span class="ident">vk</span>::<span class="ident">AccessFlags</span>::<span class="ident">from_raw</span>(<span class="ident">access</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_pipeline_stage</span>(<span class="ident">stage</span>: <span class="ident">pso</span>::<span class="ident">PipelineStage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PipelineStageFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_pipeline_stage</span>(<span class="ident">stage</span>: <span class="ident">pso</span>::<span class="ident">PipelineStage</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">PipelineStageFlags</span> {
     <span class="ident">vk</span>::<span class="ident">PipelineStageFlags</span>::<span class="ident">from_raw</span>(<span class="ident">stage</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_buffer_usage</span>(<span class="ident">usage</span>: <span class="ident">buffer</span>::<span class="ident">Usage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BufferUsageFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_buffer_usage</span>(<span class="ident">usage</span>: <span class="ident">buffer</span>::<span class="ident">Usage</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">BufferUsageFlags</span> {
     <span class="ident">vk</span>::<span class="ident">BufferUsageFlags</span>::<span class="ident">from_raw</span>(<span class="ident">usage</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_usage</span>(<span class="ident">usage</span>: <span class="ident">image</span>::<span class="ident">Usage</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageUsageFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_usage</span>(<span class="ident">usage</span>: <span class="ident">image</span>::<span class="ident">Usage</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageUsageFlags</span> {
     <span class="ident">vk</span>::<span class="ident">ImageUsageFlags</span>::<span class="ident">from_raw</span>(<span class="ident">usage</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_vk_image_usage</span>(<span class="ident">usage</span>: <span class="ident">vk</span>::<span class="ident">ImageUsageFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">image</span>::<span class="ident">Usage</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_vk_image_usage</span>(<span class="ident">usage</span>: <span class="ident">vk</span>::<span class="ident">ImageUsageFlags</span>) <span class="op">-&gt;</span> <span class="ident">image</span>::<span class="ident">Usage</span> {
     <span class="ident">image</span>::<span class="ident">Usage</span>::<span class="ident">from_bits_truncate</span>(<span class="ident">usage</span>.<span class="ident">as_raw</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_descriptor_type</span>(<span class="ident">ty</span>: <span class="ident">pso</span>::<span class="ident">DescriptorType</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_descriptor_type</span>(<span class="ident">ty</span>: <span class="ident">pso</span>::<span class="ident">DescriptorType</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span> {
     <span class="kw">match</span> <span class="ident">ty</span> {
-        <span class="ident">pso</span>::<span class="ident">DescriptorType</span>::<span class="ident">Sampler</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">SAMPLER</span>,
-        <span class="ident">pso</span>::<span class="ident">DescriptorType</span>::<span class="ident">Image</span> { <span class="ident">ty</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">ty</span> {
-            <span class="ident">pso</span>::<span class="ident">ImageDescriptorType</span>::<span class="ident">Sampled</span> { <span class="ident">with_sampler</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">with_sampler</span> {
-                <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">COMBINED_IMAGE_SAMPLER</span>,
-                <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">SAMPLED_IMAGE</span>,
+        <span class="ident">pso</span>::<span class="ident">DescriptorType</span>::<span class="ident">Sampler</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">SAMPLER</span>,
+        <span class="ident">pso</span>::<span class="ident">DescriptorType</span>::<span class="ident">Image</span> { <span class="ident">ty</span> } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">ty</span> {
+            <span class="ident">pso</span>::<span class="ident">ImageDescriptorType</span>::<span class="ident">Sampled</span> { <span class="ident">with_sampler</span> } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">with_sampler</span> {
+                <span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">COMBINED_IMAGE_SAMPLER</span>,
+                <span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">SAMPLED_IMAGE</span>,
             },
-            <span class="ident">pso</span>::<span class="ident">ImageDescriptorType</span>::<span class="ident">Storage</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">STORAGE_IMAGE</span>,
+            <span class="ident">pso</span>::<span class="ident">ImageDescriptorType</span>::<span class="ident">Storage</span> { .. } <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">STORAGE_IMAGE</span>,
         },
-        <span class="ident">pso</span>::<span class="ident">DescriptorType</span>::<span class="ident">Buffer</span> { <span class="ident">ty</span>, <span class="ident">format</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">ty</span> {
-            <span class="ident">pso</span>::<span class="ident">BufferDescriptorType</span>::<span class="ident">Storage</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">format</span> {
-                <span class="ident">pso</span>::<span class="ident">BufferDescriptorFormat</span>::<span class="ident">Structured</span> { <span class="ident">dynamic_offset</span> } <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">pso</span>::<span class="ident">DescriptorType</span>::<span class="ident">Buffer</span> { <span class="ident">ty</span>, <span class="ident">format</span> } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">ty</span> {
+            <span class="ident">pso</span>::<span class="ident">BufferDescriptorType</span>::<span class="ident">Storage</span> { .. } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">format</span> {
+                <span class="ident">pso</span>::<span class="ident">BufferDescriptorFormat</span>::<span class="ident">Structured</span> { <span class="ident">dynamic_offset</span> } <span class="op">=&gt;</span> {
                     <span class="kw">match</span> <span class="ident">dynamic_offset</span> {
-                        <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">STORAGE_BUFFER_DYNAMIC</span>,
-                        <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">STORAGE_BUFFER</span>,
+                        <span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">STORAGE_BUFFER_DYNAMIC</span>,
+                        <span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">STORAGE_BUFFER</span>,
                     }
                 }
-                <span class="ident">pso</span>::<span class="ident">BufferDescriptorFormat</span>::<span class="ident">Texel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">STORAGE_TEXEL_BUFFER</span>,
+                <span class="ident">pso</span>::<span class="ident">BufferDescriptorFormat</span>::<span class="ident">Texel</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">STORAGE_TEXEL_BUFFER</span>,
             },
-            <span class="ident">pso</span>::<span class="ident">BufferDescriptorType</span>::<span class="ident">Uniform</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">format</span> {
-                <span class="ident">pso</span>::<span class="ident">BufferDescriptorFormat</span>::<span class="ident">Structured</span> { <span class="ident">dynamic_offset</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">pso</span>::<span class="ident">BufferDescriptorType</span>::<span class="ident">Uniform</span> <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">format</span> {
+                <span class="ident">pso</span>::<span class="ident">BufferDescriptorFormat</span>::<span class="ident">Structured</span> { <span class="ident">dynamic_offset</span> } <span class="op">=&gt;</span> {
                     <span class="kw">match</span> <span class="ident">dynamic_offset</span> {
-                        <span class="bool-val">true</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">UNIFORM_BUFFER_DYNAMIC</span>,
-                        <span class="bool-val">false</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">UNIFORM_BUFFER</span>,
+                        <span class="bool-val">true</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">UNIFORM_BUFFER_DYNAMIC</span>,
+                        <span class="bool-val">false</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">UNIFORM_BUFFER</span>,
                     }
                 }
-                <span class="ident">pso</span>::<span class="ident">BufferDescriptorFormat</span>::<span class="ident">Texel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">UNIFORM_TEXEL_BUFFER</span>,
+                <span class="ident">pso</span>::<span class="ident">BufferDescriptorFormat</span>::<span class="ident">Texel</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">UNIFORM_TEXEL_BUFFER</span>,
             },
         },
-        <span class="ident">pso</span>::<span class="ident">DescriptorType</span>::<span class="ident">InputAttachment</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">INPUT_ATTACHMENT</span>,
+        <span class="ident">pso</span>::<span class="ident">DescriptorType</span>::<span class="ident">InputAttachment</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorType</span>::<span class="ident">INPUT_ATTACHMENT</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_stage_flags</span>(<span class="ident">stages</span>: <span class="ident">pso</span>::<span class="ident">ShaderStageFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ShaderStageFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_stage_flags</span>(<span class="ident">stages</span>: <span class="ident">pso</span>::<span class="ident">ShaderStageFlags</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ShaderStageFlags</span> {
     <span class="ident">vk</span>::<span class="ident">ShaderStageFlags</span>::<span class="ident">from_raw</span>(<span class="ident">stages</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_filter</span>(<span class="ident">filter</span>: <span class="ident">image</span>::<span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Filter</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_filter</span>(<span class="ident">filter</span>: <span class="ident">image</span>::<span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Filter</span> {
     <span class="ident">vk</span>::<span class="ident">Filter</span>::<span class="ident">from_raw</span>(<span class="ident">filter</span> <span class="kw">as</span> <span class="ident">i32</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_mip_filter</span>(<span class="ident">filter</span>: <span class="ident">image</span>::<span class="ident">Filter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerMipmapMode</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_mip_filter</span>(<span class="ident">filter</span>: <span class="ident">image</span>::<span class="ident">Filter</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerMipmapMode</span> {
     <span class="ident">vk</span>::<span class="ident">SamplerMipmapMode</span>::<span class="ident">from_raw</span>(<span class="ident">filter</span> <span class="kw">as</span> <span class="ident">i32</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_wrap</span>(<span class="ident">wrap</span>: <span class="ident">image</span>::<span class="ident">WrapMode</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_wrap</span>(<span class="ident">wrap</span>: <span class="ident">image</span>::<span class="ident">WrapMode</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span> {
     <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">WrapMode</span> <span class="kw">as</span> <span class="ident">Wm</span>;
     <span class="kw">match</span> <span class="ident">wrap</span> {
-        <span class="ident">Wm</span>::<span class="ident">Tile</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">REPEAT</span>,
-        <span class="ident">Wm</span>::<span class="ident">Mirror</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">MIRRORED_REPEAT</span>,
-        <span class="ident">Wm</span>::<span class="ident">Clamp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">CLAMP_TO_EDGE</span>,
-        <span class="ident">Wm</span>::<span class="ident">Border</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">CLAMP_TO_BORDER</span>,
-        <span class="ident">Wm</span>::<span class="ident">MirrorClamp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">MIRROR_CLAMP_TO_EDGE</span>,
+        <span class="ident">Wm</span>::<span class="ident">Tile</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">REPEAT</span>,
+        <span class="ident">Wm</span>::<span class="ident">Mirror</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">MIRRORED_REPEAT</span>,
+        <span class="ident">Wm</span>::<span class="ident">Clamp</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">CLAMP_TO_EDGE</span>,
+        <span class="ident">Wm</span>::<span class="ident">Border</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">CLAMP_TO_BORDER</span>,
+        <span class="ident">Wm</span>::<span class="ident">MirrorClamp</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">SamplerAddressMode</span>::<span class="ident">MIRROR_CLAMP_TO_EDGE</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_border_color</span>(<span class="ident">col</span>: <span class="ident">image</span>::<span class="ident">PackedColor</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">BorderColor</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_border_color</span>(<span class="ident">col</span>: <span class="ident">image</span>::<span class="ident">PackedColor</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">BorderColor</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="ident">col</span>.<span class="number">0</span> {
-        <span class="number">0x00000000</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">vk</span>::<span class="ident">BorderColor</span>::<span class="ident">FLOAT_TRANSPARENT_BLACK</span>),
-        <span class="number">0xFF000000</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">vk</span>::<span class="ident">BorderColor</span>::<span class="ident">FLOAT_OPAQUE_BLACK</span>),
-        <span class="number">0xFFFFFFFF</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">vk</span>::<span class="ident">BorderColor</span>::<span class="ident">FLOAT_OPAQUE_WHITE</span>),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+        <span class="number">0x00000000</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">vk</span>::<span class="ident">BorderColor</span>::<span class="ident">FLOAT_TRANSPARENT_BLACK</span>),
+        <span class="number">0xFF000000</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">vk</span>::<span class="ident">BorderColor</span>::<span class="ident">FLOAT_OPAQUE_BLACK</span>),
+        <span class="number">0xFFFFFFFF</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">vk</span>::<span class="ident">BorderColor</span>::<span class="ident">FLOAT_OPAQUE_WHITE</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_topology</span>(<span class="ident">ia</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">InputAssemblerDesc</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_topology</span>(<span class="ident">ia</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">InputAssemblerDesc</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span> {
     <span class="kw">match</span> (<span class="ident">ia</span>.<span class="ident">primitive</span>, <span class="ident">ia</span>.<span class="ident">with_adjacency</span>) {
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">PointList</span>, <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">POINT_LIST</span>,
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">PointList</span>, <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Points can&#39;t have adjacency info&quot;</span>),
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">LineList</span>, <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">LINE_LIST</span>,
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">LineList</span>, <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">LINE_LIST_WITH_ADJACENCY</span>,
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">LineStrip</span>, <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">LINE_STRIP</span>,
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">LineStrip</span>, <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">LINE_STRIP_WITH_ADJACENCY</span>,
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">TriangleList</span>, <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">TRIANGLE_LIST</span>,
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">TriangleList</span>, <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">TRIANGLE_LIST_WITH_ADJACENCY</span>,
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">TriangleStrip</span>, <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">TRIANGLE_STRIP</span>,
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">TriangleStrip</span>, <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">PointList</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">POINT_LIST</span>,
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">PointList</span>, <span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Points can&#39;t have adjacency info&quot;</span>),
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">LineList</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">LINE_LIST</span>,
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">LineList</span>, <span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">LINE_LIST_WITH_ADJACENCY</span>,
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">LineStrip</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">LINE_STRIP</span>,
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">LineStrip</span>, <span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">LINE_STRIP_WITH_ADJACENCY</span>,
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">TriangleList</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">TRIANGLE_LIST</span>,
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">TriangleList</span>, <span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">TRIANGLE_LIST_WITH_ADJACENCY</span>,
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">TriangleStrip</span>, <span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">TRIANGLE_STRIP</span>,
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">TriangleStrip</span>, <span class="bool-val">true</span>) <span class="op">=&gt;</span> {
             <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">TRIANGLE_STRIP_WITH_ADJACENCY</span>
         }
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">PatchList</span>(<span class="kw">_</span>), <span class="bool-val">false</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">PATCH_LIST</span>,
-        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">PatchList</span>(<span class="kw">_</span>), <span class="bool-val">true</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Patches can&#39;t have adjacency info&quot;</span>),
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">PatchList</span>(<span class="kw">_</span>), <span class="bool-val">false</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">PrimitiveTopology</span>::<span class="ident">PATCH_LIST</span>,
+        (<span class="ident">pso</span>::<span class="ident">Primitive</span>::<span class="ident">PatchList</span>(<span class="kw">_</span>), <span class="bool-val">true</span>) <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Patches can&#39;t have adjacency info&quot;</span>),
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_cull_face</span>(<span class="ident">cf</span>: <span class="ident">pso</span>::<span class="ident">Face</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_cull_face</span>(<span class="ident">cf</span>: <span class="ident">pso</span>::<span class="ident">Face</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span> {
     <span class="kw">match</span> <span class="ident">cf</span> {
-        <span class="ident">pso</span>::<span class="ident">Face</span>::<span class="ident">NONE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span>::<span class="ident">NONE</span>,
-        <span class="ident">pso</span>::<span class="ident">Face</span>::<span class="ident">FRONT</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span>::<span class="ident">FRONT</span>,
-        <span class="ident">pso</span>::<span class="ident">Face</span>::<span class="ident">BACK</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span>::<span class="ident">BACK</span>,
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span>::<span class="ident">FRONT_AND_BACK</span>,
+        <span class="ident">pso</span>::<span class="ident">Face</span>::<span class="ident">NONE</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span>::<span class="ident">NONE</span>,
+        <span class="ident">pso</span>::<span class="ident">Face</span>::<span class="ident">FRONT</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span>::<span class="ident">FRONT</span>,
+        <span class="ident">pso</span>::<span class="ident">Face</span>::<span class="ident">BACK</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span>::<span class="ident">BACK</span>,
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CullModeFlags</span>::<span class="ident">FRONT_AND_BACK</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_front_face</span>(<span class="ident">ff</span>: <span class="ident">pso</span>::<span class="ident">FrontFace</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">FrontFace</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_front_face</span>(<span class="ident">ff</span>: <span class="ident">pso</span>::<span class="ident">FrontFace</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">FrontFace</span> {
     <span class="kw">match</span> <span class="ident">ff</span> {
-        <span class="ident">pso</span>::<span class="ident">FrontFace</span>::<span class="ident">Clockwise</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">FrontFace</span>::<span class="ident">CLOCKWISE</span>,
-        <span class="ident">pso</span>::<span class="ident">FrontFace</span>::<span class="ident">CounterClockwise</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">FrontFace</span>::<span class="ident">COUNTER_CLOCKWISE</span>,
+        <span class="ident">pso</span>::<span class="ident">FrontFace</span>::<span class="ident">Clockwise</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">FrontFace</span>::<span class="ident">CLOCKWISE</span>,
+        <span class="ident">pso</span>::<span class="ident">FrontFace</span>::<span class="ident">CounterClockwise</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">FrontFace</span>::<span class="ident">COUNTER_CLOCKWISE</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_comparison</span>(<span class="ident">fun</span>: <span class="ident">pso</span>::<span class="ident">Comparison</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_comparison</span>(<span class="ident">fun</span>: <span class="ident">pso</span>::<span class="ident">Comparison</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span> {
     <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">pso</span>::<span class="ident">Comparison</span>::<span class="kw-2">*</span>;
     <span class="kw">match</span> <span class="ident">fun</span> {
-        <span class="ident">Never</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">NEVER</span>,
-        <span class="ident">Less</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">LESS</span>,
-        <span class="ident">LessEqual</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">LESS_OR_EQUAL</span>,
-        <span class="ident">Equal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">EQUAL</span>,
-        <span class="ident">GreaterEqual</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">GREATER_OR_EQUAL</span>,
-        <span class="ident">Greater</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">GREATER</span>,
-        <span class="ident">NotEqual</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">NOT_EQUAL</span>,
-        <span class="ident">Always</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">ALWAYS</span>,
+        <span class="ident">Never</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">NEVER</span>,
+        <span class="ident">Less</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">LESS</span>,
+        <span class="ident">LessEqual</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">LESS_OR_EQUAL</span>,
+        <span class="ident">Equal</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">EQUAL</span>,
+        <span class="ident">GreaterEqual</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">GREATER_OR_EQUAL</span>,
+        <span class="ident">Greater</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">GREATER</span>,
+        <span class="ident">NotEqual</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">NOT_EQUAL</span>,
+        <span class="ident">Always</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CompareOp</span>::<span class="ident">ALWAYS</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_stencil_op</span>(<span class="ident">op</span>: <span class="ident">pso</span>::<span class="ident">StencilOp</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_stencil_op</span>(<span class="ident">op</span>: <span class="ident">pso</span>::<span class="ident">StencilOp</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span> {
     <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">pso</span>::<span class="ident">StencilOp</span>::<span class="kw-2">*</span>;
     <span class="kw">match</span> <span class="ident">op</span> {
-        <span class="ident">Keep</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">KEEP</span>,
-        <span class="ident">Zero</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">ZERO</span>,
-        <span class="ident">Replace</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">REPLACE</span>,
-        <span class="ident">IncrementClamp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">INCREMENT_AND_CLAMP</span>,
-        <span class="ident">IncrementWrap</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">INCREMENT_AND_WRAP</span>,
-        <span class="ident">DecrementClamp</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">DECREMENT_AND_CLAMP</span>,
-        <span class="ident">DecrementWrap</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">DECREMENT_AND_WRAP</span>,
-        <span class="ident">Invert</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">INVERT</span>,
+        <span class="ident">Keep</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">KEEP</span>,
+        <span class="ident">Zero</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">ZERO</span>,
+        <span class="ident">Replace</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">REPLACE</span>,
+        <span class="ident">IncrementClamp</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">INCREMENT_AND_CLAMP</span>,
+        <span class="ident">IncrementWrap</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">INCREMENT_AND_WRAP</span>,
+        <span class="ident">DecrementClamp</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">DECREMENT_AND_CLAMP</span>,
+        <span class="ident">DecrementWrap</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">DECREMENT_AND_WRAP</span>,
+        <span class="ident">Invert</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOp</span>::<span class="ident">INVERT</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_stencil_side</span>(<span class="ident">side</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">StencilFace</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOpState</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_stencil_side</span>(<span class="ident">side</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">StencilFace</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">StencilOpState</span> {
     <span class="ident">vk</span>::<span class="ident">StencilOpState</span> {
         <span class="ident">fail_op</span>: <span class="ident">map_stencil_op</span>(<span class="ident">side</span>.<span class="ident">op_fail</span>),
         <span class="ident">pass_op</span>: <span class="ident">map_stencil_op</span>(<span class="ident">side</span>.<span class="ident">op_pass</span>),
@@ -935,55 +935,55 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_blend_factor</span>(<span class="ident">factor</span>: <span class="ident">pso</span>::<span class="ident">Factor</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_blend_factor</span>(<span class="ident">factor</span>: <span class="ident">pso</span>::<span class="ident">Factor</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span> {
     <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">pso</span>::<span class="ident">Factor</span>::<span class="kw-2">*</span>;
     <span class="kw">match</span> <span class="ident">factor</span> {
-        <span class="ident">Zero</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ZERO</span>,
-        <span class="ident">One</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE</span>,
-        <span class="ident">SrcColor</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC_COLOR</span>,
-        <span class="ident">OneMinusSrcColor</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_SRC_COLOR</span>,
-        <span class="ident">DstColor</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">DST_COLOR</span>,
-        <span class="ident">OneMinusDstColor</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_DST_COLOR</span>,
-        <span class="ident">SrcAlpha</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC_ALPHA</span>,
-        <span class="ident">OneMinusSrcAlpha</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_SRC_ALPHA</span>,
-        <span class="ident">DstAlpha</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">DST_ALPHA</span>,
-        <span class="ident">OneMinusDstAlpha</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_DST_ALPHA</span>,
-        <span class="ident">ConstColor</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">CONSTANT_COLOR</span>,
-        <span class="ident">OneMinusConstColor</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_CONSTANT_COLOR</span>,
-        <span class="ident">ConstAlpha</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">CONSTANT_ALPHA</span>,
-        <span class="ident">OneMinusConstAlpha</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_CONSTANT_ALPHA</span>,
-        <span class="ident">SrcAlphaSaturate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC_ALPHA_SATURATE</span>,
-        <span class="ident">Src1Color</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC1_COLOR</span>,
-        <span class="ident">OneMinusSrc1Color</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_SRC1_COLOR</span>,
-        <span class="ident">Src1Alpha</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC1_ALPHA</span>,
-        <span class="ident">OneMinusSrc1Alpha</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_SRC1_ALPHA</span>,
+        <span class="ident">Zero</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ZERO</span>,
+        <span class="ident">One</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE</span>,
+        <span class="ident">SrcColor</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC_COLOR</span>,
+        <span class="ident">OneMinusSrcColor</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_SRC_COLOR</span>,
+        <span class="ident">DstColor</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">DST_COLOR</span>,
+        <span class="ident">OneMinusDstColor</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_DST_COLOR</span>,
+        <span class="ident">SrcAlpha</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC_ALPHA</span>,
+        <span class="ident">OneMinusSrcAlpha</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_SRC_ALPHA</span>,
+        <span class="ident">DstAlpha</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">DST_ALPHA</span>,
+        <span class="ident">OneMinusDstAlpha</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_DST_ALPHA</span>,
+        <span class="ident">ConstColor</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">CONSTANT_COLOR</span>,
+        <span class="ident">OneMinusConstColor</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_CONSTANT_COLOR</span>,
+        <span class="ident">ConstAlpha</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">CONSTANT_ALPHA</span>,
+        <span class="ident">OneMinusConstAlpha</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_CONSTANT_ALPHA</span>,
+        <span class="ident">SrcAlphaSaturate</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC_ALPHA_SATURATE</span>,
+        <span class="ident">Src1Color</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC1_COLOR</span>,
+        <span class="ident">OneMinusSrc1Color</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_SRC1_COLOR</span>,
+        <span class="ident">Src1Alpha</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">SRC1_ALPHA</span>,
+        <span class="ident">OneMinusSrc1Alpha</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ONE_MINUS_SRC1_ALPHA</span>,
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_blend_op</span>(<span class="ident">operation</span>: <span class="ident">pso</span>::<span class="ident">BlendOp</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">vk</span>::<span class="ident">BlendOp</span>, <span class="ident">vk</span>::<span class="ident">BlendFactor</span>, <span class="ident">vk</span>::<span class="ident">BlendFactor</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_blend_op</span>(<span class="ident">operation</span>: <span class="ident">pso</span>::<span class="ident">BlendOp</span>) <span class="op">-&gt;</span> (<span class="ident">vk</span>::<span class="ident">BlendOp</span>, <span class="ident">vk</span>::<span class="ident">BlendFactor</span>, <span class="ident">vk</span>::<span class="ident">BlendFactor</span>) {
     <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">pso</span>::<span class="ident">BlendOp</span>::<span class="kw-2">*</span>;
     <span class="kw">match</span> <span class="ident">operation</span> {
-        <span class="ident">Add</span> { <span class="ident">src</span>, <span class="ident">dst</span> } <span class="op">=</span><span class="op">&gt;</span> (
+        <span class="ident">Add</span> { <span class="ident">src</span>, <span class="ident">dst</span> } <span class="op">=&gt;</span> (
             <span class="ident">vk</span>::<span class="ident">BlendOp</span>::<span class="ident">ADD</span>,
             <span class="ident">map_blend_factor</span>(<span class="ident">src</span>),
             <span class="ident">map_blend_factor</span>(<span class="ident">dst</span>),
         ),
-        <span class="ident">Sub</span> { <span class="ident">src</span>, <span class="ident">dst</span> } <span class="op">=</span><span class="op">&gt;</span> (
+        <span class="ident">Sub</span> { <span class="ident">src</span>, <span class="ident">dst</span> } <span class="op">=&gt;</span> (
             <span class="ident">vk</span>::<span class="ident">BlendOp</span>::<span class="ident">SUBTRACT</span>,
             <span class="ident">map_blend_factor</span>(<span class="ident">src</span>),
             <span class="ident">map_blend_factor</span>(<span class="ident">dst</span>),
         ),
-        <span class="ident">RevSub</span> { <span class="ident">src</span>, <span class="ident">dst</span> } <span class="op">=</span><span class="op">&gt;</span> (
+        <span class="ident">RevSub</span> { <span class="ident">src</span>, <span class="ident">dst</span> } <span class="op">=&gt;</span> (
             <span class="ident">vk</span>::<span class="ident">BlendOp</span>::<span class="ident">REVERSE_SUBTRACT</span>,
             <span class="ident">map_blend_factor</span>(<span class="ident">src</span>),
             <span class="ident">map_blend_factor</span>(<span class="ident">dst</span>),
         ),
-        <span class="ident">Min</span> <span class="op">=</span><span class="op">&gt;</span> (
+        <span class="ident">Min</span> <span class="op">=&gt;</span> (
             <span class="ident">vk</span>::<span class="ident">BlendOp</span>::<span class="ident">MIN</span>,
             <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ZERO</span>,
             <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ZERO</span>,
         ),
-        <span class="ident">Max</span> <span class="op">=</span><span class="op">&gt;</span> (
+        <span class="ident">Max</span> <span class="op">=&gt;</span> (
             <span class="ident">vk</span>::<span class="ident">BlendOp</span>::<span class="ident">MAX</span>,
             <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ZERO</span>,
             <span class="ident">vk</span>::<span class="ident">BlendFactor</span>::<span class="ident">ZERO</span>,
@@ -993,28 +993,28 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_pipeline_statistics</span>(
     <span class="ident">statistics</span>: <span class="ident">query</span>::<span class="ident">PipelineStatistic</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">QueryPipelineStatisticFlags</span> {
+) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">QueryPipelineStatisticFlags</span> {
     <span class="ident">vk</span>::<span class="ident">QueryPipelineStatisticFlags</span>::<span class="ident">from_raw</span>(<span class="ident">statistics</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_query_control_flags</span>(<span class="ident">flags</span>: <span class="ident">query</span>::<span class="ident">ControlFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">QueryControlFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_query_control_flags</span>(<span class="ident">flags</span>: <span class="ident">query</span>::<span class="ident">ControlFlags</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">QueryControlFlags</span> {
     <span class="comment">// Safe due to equivalence of HAL values and Vulkan values</span>
     <span class="ident">vk</span>::<span class="ident">QueryControlFlags</span>::<span class="ident">from_raw</span>(<span class="ident">flags</span>.<span class="ident">bits</span>() <span class="op">&amp;</span> <span class="ident">vk</span>::<span class="ident">QueryControlFlags</span>::<span class="ident">all</span>().<span class="ident">as_raw</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_query_result_flags</span>(<span class="ident">flags</span>: <span class="ident">query</span>::<span class="ident">ResultFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">QueryResultFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_query_result_flags</span>(<span class="ident">flags</span>: <span class="ident">query</span>::<span class="ident">ResultFlags</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">QueryResultFlags</span> {
     <span class="ident">vk</span>::<span class="ident">QueryResultFlags</span>::<span class="ident">from_raw</span>(<span class="ident">flags</span>.<span class="ident">bits</span>() <span class="op">&amp;</span> <span class="ident">vk</span>::<span class="ident">QueryResultFlags</span>::<span class="ident">all</span>().<span class="ident">as_raw</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_features</span>(<span class="ident">features</span>: <span class="ident">vk</span>::<span class="ident">FormatFeatureFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">format</span>::<span class="ident">ImageFeature</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_image_features</span>(<span class="ident">features</span>: <span class="ident">vk</span>::<span class="ident">FormatFeatureFlags</span>) <span class="op">-&gt;</span> <span class="ident">format</span>::<span class="ident">ImageFeature</span> {
     <span class="ident">format</span>::<span class="ident">ImageFeature</span>::<span class="ident">from_bits_truncate</span>(<span class="ident">features</span>.<span class="ident">as_raw</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_buffer_features</span>(<span class="ident">features</span>: <span class="ident">vk</span>::<span class="ident">FormatFeatureFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">format</span>::<span class="ident">BufferFeature</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_buffer_features</span>(<span class="ident">features</span>: <span class="ident">vk</span>::<span class="ident">FormatFeatureFlags</span>) <span class="op">-&gt;</span> <span class="ident">format</span>::<span class="ident">BufferFeature</span> {
     <span class="ident">format</span>::<span class="ident">BufferFeature</span>::<span class="ident">from_bits_truncate</span>(<span class="ident">features</span>.<span class="ident">as_raw</span>())
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">map_device_features</span>(<span class="ident">features</span>: <span class="ident">Features</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">DeviceCreationFeatures</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">map_device_features</span>(<span class="ident">features</span>: <span class="ident">Features</span>) <span class="op">-&gt;</span> <span class="kw">crate</span>::<span class="ident">DeviceCreationFeatures</span> {
     <span class="kw">crate</span>::<span class="ident">DeviceCreationFeatures</span> {
         <span class="comment">// vk::PhysicalDeviceFeatures is a struct composed of Bool32&#39;s while</span>
         <span class="comment">// Features is a bitfield so we need to map everything manually</span>
@@ -1109,7 +1109,7 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_memory_ranges</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">ranges</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="ident">vk</span>::<span class="ident">MappedMemoryRange</span>; <span class="number">4</span>]<span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_memory_ranges</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">ranges</span>: <span class="ident">I</span>) <span class="op">-&gt;</span> <span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="ident">vk</span>::<span class="ident">MappedMemoryRange</span>; <span class="number">4</span>]<span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
     <span class="ident">I</span>::<span class="ident">Item</span>: <span class="ident">Borrow</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">n</span>::<span class="ident">Memory</span>, <span class="ident">Segment</span>)<span class="op">&gt;</span>,
@@ -1129,15 +1129,15 @@
         .<span class="ident">collect</span>()
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_command_buffer_flags</span>(<span class="ident">flags</span>: <span class="ident">command</span>::<span class="ident">CommandBufferFlags</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CommandBufferUsageFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_command_buffer_flags</span>(<span class="ident">flags</span>: <span class="ident">command</span>::<span class="ident">CommandBufferFlags</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">CommandBufferUsageFlags</span> {
     <span class="comment">// Safe due to equivalence of HAL values and Vulkan values</span>
     <span class="ident">vk</span>::<span class="ident">CommandBufferUsageFlags</span>::<span class="ident">from_raw</span>(<span class="ident">flags</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_command_buffer_level</span>(<span class="ident">level</span>: <span class="ident">command</span>::<span class="ident">Level</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CommandBufferLevel</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_command_buffer_level</span>(<span class="ident">level</span>: <span class="ident">command</span>::<span class="ident">Level</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">CommandBufferLevel</span> {
     <span class="kw">match</span> <span class="ident">level</span> {
-        <span class="ident">command</span>::<span class="ident">Level</span>::<span class="ident">Primary</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CommandBufferLevel</span>::<span class="ident">PRIMARY</span>,
-        <span class="ident">command</span>::<span class="ident">Level</span>::<span class="ident">Secondary</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CommandBufferLevel</span>::<span class="ident">SECONDARY</span>,
+        <span class="ident">command</span>::<span class="ident">Level</span>::<span class="ident">Primary</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CommandBufferLevel</span>::<span class="ident">PRIMARY</span>,
+        <span class="ident">command</span>::<span class="ident">Level</span>::<span class="ident">Secondary</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">CommandBufferLevel</span>::<span class="ident">SECONDARY</span>,
     }
 }
 
@@ -1145,25 +1145,25 @@
     <span class="ident">kind</span>: <span class="ident">image</span>::<span class="ident">ViewKind</span>,
     <span class="ident">ty</span>: <span class="ident">vk</span>::<span class="ident">ImageType</span>,
     <span class="ident">is_cube</span>: <span class="ident">bool</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">ImageViewType</span><span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">ImageViewType</span><span class="op">&gt;</span> {
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">image</span>::<span class="ident">ViewKind</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">vk</span>::<span class="ident">ImageType</span>;
 
     <span class="prelude-val">Some</span>(<span class="kw">match</span> (<span class="ident">ty</span>, <span class="ident">kind</span>) {
-        (<span class="ident">ImageType</span>::<span class="ident">TYPE_1D</span>, <span class="ident">D1</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_1D</span>,
-        (<span class="ident">ImageType</span>::<span class="ident">TYPE_1D</span>, <span class="ident">D1Array</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_1D_ARRAY</span>,
-        (<span class="ident">ImageType</span>::<span class="ident">TYPE_2D</span>, <span class="ident">D2</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_2D</span>,
-        (<span class="ident">ImageType</span>::<span class="ident">TYPE_2D</span>, <span class="ident">D2Array</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_2D_ARRAY</span>,
-        (<span class="ident">ImageType</span>::<span class="ident">TYPE_3D</span>, <span class="ident">D3</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_3D</span>,
-        (<span class="ident">ImageType</span>::<span class="ident">TYPE_2D</span>, <span class="ident">Cube</span>) <span class="kw">if</span> <span class="ident">is_cube</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">CUBE</span>,
-        (<span class="ident">ImageType</span>::<span class="ident">TYPE_2D</span>, <span class="ident">CubeArray</span>) <span class="kw">if</span> <span class="ident">is_cube</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">CUBE_ARRAY</span>,
-        (<span class="ident">ImageType</span>::<span class="ident">TYPE_3D</span>, <span class="ident">Cube</span>) <span class="kw">if</span> <span class="ident">is_cube</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">CUBE</span>,
-        (<span class="ident">ImageType</span>::<span class="ident">TYPE_3D</span>, <span class="ident">CubeArray</span>) <span class="kw">if</span> <span class="ident">is_cube</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">CUBE_ARRAY</span>,
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
+        (<span class="ident">ImageType</span>::<span class="ident">TYPE_1D</span>, <span class="ident">D1</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_1D</span>,
+        (<span class="ident">ImageType</span>::<span class="ident">TYPE_1D</span>, <span class="ident">D1Array</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_1D_ARRAY</span>,
+        (<span class="ident">ImageType</span>::<span class="ident">TYPE_2D</span>, <span class="ident">D2</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_2D</span>,
+        (<span class="ident">ImageType</span>::<span class="ident">TYPE_2D</span>, <span class="ident">D2Array</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_2D_ARRAY</span>,
+        (<span class="ident">ImageType</span>::<span class="ident">TYPE_3D</span>, <span class="ident">D3</span>) <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">TYPE_3D</span>,
+        (<span class="ident">ImageType</span>::<span class="ident">TYPE_2D</span>, <span class="ident">Cube</span>) <span class="kw">if</span> <span class="ident">is_cube</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">CUBE</span>,
+        (<span class="ident">ImageType</span>::<span class="ident">TYPE_2D</span>, <span class="ident">CubeArray</span>) <span class="kw">if</span> <span class="ident">is_cube</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">CUBE_ARRAY</span>,
+        (<span class="ident">ImageType</span>::<span class="ident">TYPE_3D</span>, <span class="ident">Cube</span>) <span class="kw">if</span> <span class="ident">is_cube</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">CUBE</span>,
+        (<span class="ident">ImageType</span>::<span class="ident">TYPE_3D</span>, <span class="ident">CubeArray</span>) <span class="kw">if</span> <span class="ident">is_cube</span> <span class="op">=&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageViewType</span>::<span class="ident">CUBE_ARRAY</span>,
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">None</span>,
     })
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_rect</span>(<span class="ident">rect</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">Rect</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Rect2D</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_rect</span>(<span class="ident">rect</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">Rect</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Rect2D</span> {
     <span class="ident">vk</span>::<span class="ident">Rect2D</span> {
         <span class="ident">offset</span>: <span class="ident">vk</span>::<span class="ident">Offset2D</span> {
             <span class="ident">x</span>: <span class="ident">rect</span>.<span class="ident">x</span> <span class="kw">as</span> <span class="kw">_</span>,
@@ -1176,7 +1176,7 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_clear_rect</span>(<span class="ident">rect</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">ClearRect</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ClearRect</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_clear_rect</span>(<span class="ident">rect</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">ClearRect</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ClearRect</span> {
     <span class="ident">vk</span>::<span class="ident">ClearRect</span> {
         <span class="ident">base_array_layer</span>: <span class="ident">rect</span>.<span class="ident">layers</span>.<span class="ident">start</span> <span class="kw">as</span> <span class="kw">_</span>,
         <span class="ident">layer_count</span>: (<span class="ident">rect</span>.<span class="ident">layers</span>.<span class="ident">end</span> <span class="op">-</span> <span class="ident">rect</span>.<span class="ident">layers</span>.<span class="ident">start</span>) <span class="kw">as</span> <span class="kw">_</span>,
@@ -1184,7 +1184,7 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_viewport</span>(<span class="ident">vp</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">Viewport</span>, <span class="ident">flip_y</span>: <span class="ident">bool</span>, <span class="ident">shift_y</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Viewport</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_viewport</span>(<span class="ident">vp</span>: <span class="kw-2">&amp;</span><span class="ident">pso</span>::<span class="ident">Viewport</span>, <span class="ident">flip_y</span>: <span class="ident">bool</span>, <span class="ident">shift_y</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Viewport</span> {
     <span class="ident">vk</span>::<span class="ident">Viewport</span> {
         <span class="ident">x</span>: <span class="ident">vp</span>.<span class="ident">rect</span>.<span class="ident">x</span> <span class="kw">as</span> <span class="kw">_</span>,
         <span class="ident">y</span>: <span class="kw">if</span> <span class="ident">shift_y</span> {
@@ -1199,32 +1199,32 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_view_capabilities</span>(<span class="ident">caps</span>: <span class="ident">image</span>::<span class="ident">ViewCapabilities</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageCreateFlags</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_view_capabilities</span>(<span class="ident">caps</span>: <span class="ident">image</span>::<span class="ident">ViewCapabilities</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">ImageCreateFlags</span> {
     <span class="ident">vk</span>::<span class="ident">ImageCreateFlags</span>::<span class="ident">from_raw</span>(<span class="ident">caps</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_present_mode</span>(<span class="ident">mode</span>: <span class="ident">PresentMode</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span> {
-    <span class="kw">if</span> <span class="ident">mode</span> <span class="op">=</span><span class="op">=</span> <span class="ident">PresentMode</span>::<span class="ident">IMMEDIATE</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_present_mode</span>(<span class="ident">mode</span>: <span class="ident">PresentMode</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span> {
+    <span class="kw">if</span> <span class="ident">mode</span> <span class="op">==</span> <span class="ident">PresentMode</span>::<span class="ident">IMMEDIATE</span> {
         <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">IMMEDIATE</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">=</span><span class="op">=</span> <span class="ident">PresentMode</span>::<span class="ident">MAILBOX</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">==</span> <span class="ident">PresentMode</span>::<span class="ident">MAILBOX</span> {
         <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">MAILBOX</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">=</span><span class="op">=</span> <span class="ident">PresentMode</span>::<span class="ident">FIFO</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">==</span> <span class="ident">PresentMode</span>::<span class="ident">FIFO</span> {
         <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">FIFO</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">=</span><span class="op">=</span> <span class="ident">PresentMode</span>::<span class="ident">RELAXED</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">==</span> <span class="ident">PresentMode</span>::<span class="ident">RELAXED</span> {
         <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">FIFO_RELAXED</span>
     } <span class="kw">else</span> {
         <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected present mode {:?}&quot;</span>, <span class="ident">mode</span>)
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_vk_present_mode</span>(<span class="ident">mode</span>: <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PresentMode</span> {
-    <span class="kw">if</span> <span class="ident">mode</span> <span class="op">=</span><span class="op">=</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">IMMEDIATE</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_vk_present_mode</span>(<span class="ident">mode</span>: <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>) <span class="op">-&gt;</span> <span class="ident">PresentMode</span> {
+    <span class="kw">if</span> <span class="ident">mode</span> <span class="op">==</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">IMMEDIATE</span> {
         <span class="ident">PresentMode</span>::<span class="ident">IMMEDIATE</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">=</span><span class="op">=</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">MAILBOX</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">==</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">MAILBOX</span> {
         <span class="ident">PresentMode</span>::<span class="ident">MAILBOX</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">=</span><span class="op">=</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">FIFO</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">==</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">FIFO</span> {
         <span class="ident">PresentMode</span>::<span class="ident">FIFO</span>
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">=</span><span class="op">=</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">FIFO_RELAXED</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">mode</span> <span class="op">==</span> <span class="ident">vk</span>::<span class="ident">PresentModeKHR</span>::<span class="ident">FIFO_RELAXED</span> {
         <span class="ident">PresentMode</span>::<span class="ident">RELAXED</span>
     } <span class="kw">else</span> {
         <span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;Unrecognized present mode {:?}&quot;</span>, <span class="ident">mode</span>);
@@ -1234,17 +1234,17 @@
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_composite_alpha_mode</span>(
     <span class="ident">composite_alpha_mode</span>: <span class="ident">CompositeAlphaMode</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">CompositeAlphaFlagsKHR</span> {
+) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">CompositeAlphaFlagsKHR</span> {
     <span class="ident">vk</span>::<span class="ident">CompositeAlphaFlagsKHR</span>::<span class="ident">from_raw</span>(<span class="ident">composite_alpha_mode</span>.<span class="ident">bits</span>())
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_vk_composite_alpha</span>(<span class="ident">composite_alpha</span>: <span class="ident">vk</span>::<span class="ident">CompositeAlphaFlagsKHR</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CompositeAlphaMode</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_vk_composite_alpha</span>(<span class="ident">composite_alpha</span>: <span class="ident">vk</span>::<span class="ident">CompositeAlphaFlagsKHR</span>) <span class="op">-&gt;</span> <span class="ident">CompositeAlphaMode</span> {
     <span class="ident">CompositeAlphaMode</span>::<span class="ident">from_bits_truncate</span>(<span class="ident">composite_alpha</span>.<span class="ident">as_raw</span>())
 }
 
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_descriptor_pool_create_flags</span>(
     <span class="ident">flags</span>: <span class="ident">pso</span>::<span class="ident">DescriptorPoolCreateFlags</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorPoolCreateFlags</span> {
+) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">DescriptorPoolCreateFlags</span> {
     <span class="ident">vk</span>::<span class="ident">DescriptorPoolCreateFlags</span>::<span class="ident">from_raw</span>(<span class="ident">flags</span>.<span class="ident">bits</span>())
 }
 </pre></div>

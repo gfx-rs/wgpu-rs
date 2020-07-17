@@ -329,10 +329,10 @@
 }
 
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">HeapsError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">HeapsError</span>::<span class="ident">AllocationError</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>),
-            <span class="ident">HeapsError</span>::<span class="ident">NoSuitableMemory</span> { <span class="ident">mask</span>, <span class="ident">properties</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="ident">HeapsError</span>::<span class="ident">AllocationError</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="ident">e</span>),
+            <span class="ident">HeapsError</span>::<span class="ident">NoSuitableMemory</span> { <span class="ident">mask</span>, <span class="ident">properties</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;Memory type among ({}) with properties ({:?}) not found&quot;</span>,
                 <span class="ident">mask</span>, <span class="ident">properties</span>
@@ -341,22 +341,22 @@
     }
 }
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">HeapsError</span> {
-    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="kw">dyn</span> <span class="ident">std</span>::<span class="ident">error</span>::<span class="ident">Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">HeapsError</span>::<span class="ident">AllocationError</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="ident">HeapsError</span>::<span class="ident">NoSuitableMemory</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="ident">HeapsError</span>::<span class="ident">AllocationError</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>),
+            <span class="ident">HeapsError</span>::<span class="ident">NoSuitableMemory</span> { .. } <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">AllocationError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">HeapsError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">AllocationError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">AllocationError</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">HeapsError</span>::<span class="ident">AllocationError</span>(<span class="ident">error</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">OutOfMemory</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">HeapsError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">OutOfMemory</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">OutOfMemory</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">HeapsError</span>::<span class="ident">AllocationError</span>(<span class="ident">error</span>.<span class="ident">into</span>())
     }
 }
@@ -364,7 +364,7 @@
 <span class="doccomment">/// Heaps available on particular physical device.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Heaps</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> {
-    <span class="ident">types</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MemoryType</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">types</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MemoryType</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
     <span class="ident">heaps</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">MemoryHeap</span><span class="op">&gt;</span>,
 }
 
@@ -378,7 +378,7 @@
         <span class="ident">config_general</span>: <span class="ident">GeneralConfig</span>,
         <span class="ident">config_linear</span>: <span class="ident">LinearConfig</span>,
         <span class="ident">non_coherent_atom_size</span>: <span class="ident">Size</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Heaps</span> {
             <span class="ident">types</span>: <span class="ident">hal_memory_properties</span>
                 .<span class="ident">memory_types</span>
@@ -411,13 +411,13 @@
         <span class="ident">requirements</span>: <span class="kw-2">&amp;</span><span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Requirements</span>,
         <span class="ident">usage</span>: <span class="ident">MemoryUsage</span>,
         <span class="ident">kind</span>: <span class="ident">Kind</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MemoryBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">HeapsError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MemoryBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">HeapsError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">memory_index</span>, <span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span> {
             <span class="kw">let</span> <span class="ident">suitable_types</span> <span class="op">=</span> <span class="self">self</span>
                 .<span class="ident">types</span>
                 .<span class="ident">iter</span>()
                 .<span class="ident">enumerate</span>()
-                .<span class="ident">filter</span>(<span class="op">|</span>(<span class="ident">index</span>, <span class="kw">_</span>)<span class="op">|</span> (<span class="ident">requirements</span>.<span class="ident">type_mask</span> <span class="op">&amp;</span> (<span class="number">1u64</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">index</span>)) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>)
+                .<span class="ident">filter</span>(<span class="op">|</span>(<span class="ident">index</span>, <span class="kw">_</span>)<span class="op">|</span> (<span class="ident">requirements</span>.<span class="ident">type_mask</span> <span class="op">&amp;</span> (<span class="number">1u64</span> <span class="op">&lt;&lt;</span> <span class="ident">index</span>)) <span class="op">!=</span> <span class="number">0</span>)
                 .<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">index</span>, <span class="ident">mt</span>)<span class="op">|</span> {
                     <span class="kw">if</span> <span class="ident">mt</span>.<span class="ident">properties</span>().<span class="ident">contains</span>(<span class="ident">usage</span>.<span class="ident">properties_required</span>()) {
                         <span class="kw">let</span> <span class="ident">fitness</span> <span class="op">=</span> <span class="ident">usage</span>.<span class="ident">memory_fitness</span>(<span class="ident">mt</span>.<span class="ident">properties</span>());
@@ -440,7 +440,7 @@
                         <span class="op">&gt;</span> <span class="ident">requirements</span>.<span class="ident">size</span> <span class="op">+</span> <span class="ident">requirements</span>.<span class="ident">alignment</span>
                 })
                 .<span class="ident">max_by_key</span>(<span class="op">|</span><span class="kw-2">&amp;</span>(<span class="kw">_</span>, <span class="kw">_</span>, <span class="ident">fitness</span>)<span class="op">|</span> <span class="ident">fitness</span>)
-                .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> {
+                .<span class="ident">ok_or_else</span>(<span class="op">||</span> {
                     <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;All suitable heaps are exhausted. {:#?}&quot;</span>, <span class="self">self</span>);
                     <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">OutOfMemory</span>::<span class="ident">Device</span>
                 })<span class="question-mark">?</span>
@@ -467,7 +467,7 @@
         <span class="ident">kind</span>: <span class="ident">Kind</span>,
         <span class="ident">size</span>: <span class="ident">Size</span>,
         <span class="ident">align</span>: <span class="ident">Size</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MemoryBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">HeapsError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MemoryBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">HeapsError</span><span class="op">&gt;</span> {
         <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(
             <span class="string">&quot;Allocate memory block: type &#39;{}&#39;, kind  &#39;{:?}&#39;, size: &#39;{}&#39;, align: &#39;{}&#39;&quot;</span>,
             <span class="ident">memory_index</span>,
@@ -484,12 +484,12 @@
         }
 
         <span class="kw">let</span> (<span class="ident">flavor</span>, <span class="ident">allocated</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">memory_type</span>.<span class="ident">alloc</span>(<span class="ident">device</span>, <span class="ident">kind</span>, <span class="ident">size</span>, <span class="ident">align</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">mapping</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">mapping</span>,
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="kw">if</span> <span class="ident">kind</span> <span class="op">=</span><span class="op">=</span> <span class="ident">Kind</span>::<span class="ident">Linear</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Ok</span>(<span class="ident">mapping</span>) <span class="op">=&gt;</span> <span class="ident">mapping</span>,
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="kw">if</span> <span class="ident">kind</span> <span class="op">==</span> <span class="ident">Kind</span>::<span class="ident">Linear</span> <span class="op">=&gt;</span> {
                 <span class="ident">log</span>::<span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;Unable to allocate {:?} with {:?}: {:?}&quot;</span>, <span class="ident">size</span>, <span class="ident">kind</span>, <span class="ident">e</span>);
                 <span class="ident">memory_type</span>.<span class="ident">alloc</span>(<span class="ident">device</span>, <span class="ident">Kind</span>::<span class="ident">Dedicated</span>, <span class="ident">size</span>, <span class="ident">align</span>)<span class="question-mark">?</span>
             }
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>()),
+            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>()),
         };
         <span class="ident">memory_heap</span>.<span class="ident">allocated</span>(<span class="ident">allocated</span>, <span class="ident">flavor</span>.<span class="ident">size</span>());
 
@@ -532,7 +532,7 @@
     }
 
     <span class="doccomment">/// Get memory utilization.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">utilization</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TotalMemoryUtilization</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">utilization</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">TotalMemoryUtilization</span> {
         <span class="ident">TotalMemoryUtilization</span> {
             <span class="ident">heaps</span>: <span class="self">self</span>.<span class="ident">heaps</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">MemoryHeap</span>::<span class="ident">utilization</span>).<span class="ident">collect</span>(),
             <span class="ident">types</span>: <span class="self">self</span>.<span class="ident">types</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">MemoryType</span>::<span class="ident">utilization</span>).<span class="ident">collect</span>(),
@@ -544,7 +544,7 @@
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">for</span> <span class="ident">memory_heap</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">heaps</span> {
             <span class="kw">let</span> <span class="ident">utilization</span> <span class="op">=</span> <span class="ident">memory_heap</span>.<span class="ident">utilization</span>();
-            <span class="kw">if</span> <span class="ident">utilization</span>.<span class="ident">utilization</span>.<span class="ident">used</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">utilization</span>.<span class="ident">utilization</span>.<span class="ident">effective</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">utilization</span>.<span class="ident">utilization</span>.<span class="ident">used</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">utilization</span>.<span class="ident">utilization</span>.<span class="ident">effective</span> <span class="op">!=</span> <span class="number">0</span> {
                 <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
                     <span class="string">&quot;Heaps not completely freed before drop. Utilization: {:?}&quot;</span>,
                     <span class="ident">utilization</span>
@@ -563,33 +563,33 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">MemoryBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Get memory type id.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">memory_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">memory_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">memory_index</span>
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Block</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">MemoryBlock</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Properties</span> {
+    <span class="kw">fn</span> <span class="ident">properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Properties</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">flavor</span> {
-            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">properties</span>(),
-            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">properties</span>(),
-            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">properties</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">properties</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">properties</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">properties</span>(),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Memory</span> {
+    <span class="kw">fn</span> <span class="ident">memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Memory</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">flavor</span> {
-            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">memory</span>(),
-            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">memory</span>(),
-            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">memory</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">memory</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">memory</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">memory</span>(),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">segment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span> {
+    <span class="kw">fn</span> <span class="ident">segment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">flavor</span> {
-            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">segment</span>(),
-            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">segment</span>(),
-            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">segment</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">segment</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">segment</span>(),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="kw-2">ref</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">segment</span>(),
         }
     }
 
@@ -597,11 +597,11 @@
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
         <span class="ident">segment</span>: <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MappedRange</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">MapError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MappedRange</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">MapError</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">flavor</span> {
-            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">map</span>(<span class="ident">device</span>, <span class="ident">segment</span>),
-            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">map</span>(<span class="ident">device</span>, <span class="ident">segment</span>),
-            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">block</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">block</span>.<span class="ident">map</span>(<span class="ident">device</span>, <span class="ident">segment</span>),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Dedicated</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">map</span>(<span class="ident">device</span>, <span class="ident">segment</span>),
+            <span class="ident">BlockFlavor</span>::<span class="ident">General</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">map</span>(<span class="ident">device</span>, <span class="ident">segment</span>),
+            <span class="ident">BlockFlavor</span>::<span class="ident">Linear</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">block</span>) <span class="op">=&gt;</span> <span class="ident">block</span>.<span class="ident">map</span>(<span class="ident">device</span>, <span class="ident">segment</span>),
         }
     }
 }

@@ -950,7 +950,7 @@
 
 <span class="kw">impl</span> <span class="ident">BitSet</span> {
     <span class="doccomment">/// Creates an empty `BitSet`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BitSet</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">BitSet</span> {
         <span class="ident">Default</span>::<span class="ident">default</span>()
     }
 
@@ -962,7 +962,7 @@
     }
 
     <span class="doccomment">/// Creates an empty `BitSet`, preallocated for up to `max` indices.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_capacity</span>(<span class="ident">max</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BitSet</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_capacity</span>(<span class="ident">max</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">BitSet</span> {
         <span class="self">Self</span>::<span class="ident">valid_range</span>(<span class="ident">max</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">BitSet</span>::<span class="ident">new</span>();
         <span class="ident">value</span>.<span class="ident">extend</span>(<span class="ident">max</span>);
@@ -980,7 +980,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">fill_up</span>(<span class="ident">vec</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>, <span class="ident">upper_index</span>: <span class="ident">usize</span>) {
-        <span class="kw">if</span> <span class="ident">vec</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">upper_index</span> {
+        <span class="kw">if</span> <span class="ident">vec</span>.<span class="ident">len</span>() <span class="op">&lt;=</span> <span class="ident">upper_index</span> {
             <span class="ident">vec</span>.<span class="ident">resize</span>(<span class="ident">upper_index</span> <span class="op">+</span> <span class="number">1</span>, <span class="number">0</span>);
         }
     }
@@ -990,51 +990,51 @@
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">never</span>)]</span>
     <span class="kw">fn</span> <span class="ident">add_slow</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) {
         <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">p1</span>, <span class="ident">p2</span>) <span class="op">=</span> <span class="ident">offsets</span>(<span class="ident">id</span>);
-        <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">p1</span>] <span class="op">|</span><span class="op">=</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT1</span>);
-        <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">p2</span>] <span class="op">|</span><span class="op">=</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT2</span>);
-        <span class="self">self</span>.<span class="ident">layer3</span> <span class="op">|</span><span class="op">=</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT3</span>);
+        <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">p1</span>] <span class="op">|=</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT1</span>);
+        <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">p2</span>] <span class="op">|=</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT2</span>);
+        <span class="self">self</span>.<span class="ident">layer3</span> <span class="op">|=</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT3</span>);
     }
 
     <span class="doccomment">/// Adds `id` to the `BitSet`. Returns `true` if the value was</span>
     <span class="doccomment">/// already in the set.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> (<span class="ident">p0</span>, <span class="ident">mask</span>) <span class="op">=</span> (<span class="ident">id</span>.<span class="ident">offset</span>(<span class="ident">SHIFT1</span>), <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>));
 
-        <span class="kw">if</span> <span class="ident">p0</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">len</span>() {
+        <span class="kw">if</span> <span class="ident">p0</span> <span class="op">&gt;=</span> <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">len</span>() {
             <span class="self">self</span>.<span class="ident">extend</span>(<span class="ident">id</span>);
         }
 
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">&amp;</span> <span class="ident">mask</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">&amp;</span> <span class="ident">mask</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="bool-val">true</span>;
         }
 
         <span class="comment">// we need to set the bit on every layer to indicate</span>
         <span class="comment">// that the value can be found here.</span>
         <span class="kw">let</span> <span class="ident">old</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>];
-        <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">|</span><span class="op">=</span> <span class="ident">mask</span>;
-        <span class="kw">if</span> <span class="ident">old</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">|=</span> <span class="ident">mask</span>;
+        <span class="kw">if</span> <span class="ident">old</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="self">self</span>.<span class="ident">add_slow</span>(<span class="ident">id</span>);
         }
         <span class="bool-val">false</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">layer_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">level</span>: <span class="ident">usize</span>, <span class="ident">idx</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">level</span>: <span class="ident">usize</span>, <span class="ident">idx</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span> {
         <span class="kw">match</span> <span class="ident">level</span> {
-            <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="number">0</span> <span class="op">=&gt;</span> {
                 <span class="self">Self</span>::<span class="ident">fill_up</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">layer0</span>, <span class="ident">idx</span>);
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">idx</span>]
             }
-            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="number">1</span> <span class="op">=&gt;</span> {
                 <span class="self">Self</span>::<span class="ident">fill_up</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">layer1</span>, <span class="ident">idx</span>);
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">idx</span>]
             }
-            <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="number">2</span> <span class="op">=&gt;</span> {
                 <span class="self">Self</span>::<span class="ident">fill_up</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">layer2</span>, <span class="ident">idx</span>);
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">idx</span>]
             }
-            <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">layer3</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid layer: {}&quot;</span>, <span class="ident">level</span>),
+            <span class="number">3</span> <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">layer3</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid layer: {}&quot;</span>, <span class="ident">level</span>),
         }
     }
 
@@ -1042,14 +1042,14 @@
     <span class="doccomment">/// was removed, and `false` if the value was not set</span>
     <span class="doccomment">/// to begin with.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> (<span class="ident">p0</span>, <span class="ident">p1</span>, <span class="ident">p2</span>) <span class="op">=</span> <span class="ident">offsets</span>(<span class="ident">id</span>);
 
-        <span class="kw">if</span> <span class="ident">p0</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">len</span>() {
+        <span class="kw">if</span> <span class="ident">p0</span> <span class="op">&gt;=</span> <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">len</span>() {
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
 
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">&amp;</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>) <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">&amp;</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>) <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
 
@@ -1057,35 +1057,35 @@
         <span class="comment">// its bit from layer0 to 3. the layers abover only</span>
         <span class="comment">// should be cleared if the bit cleared was the last bit</span>
         <span class="comment">// in its set</span>
-        <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>);
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">&amp;=</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>);
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="bool-val">true</span>;
         }
 
-        <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">p1</span>] <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT1</span>);
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">p1</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">p1</span>] <span class="op">&amp;=</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT1</span>);
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">p1</span>] <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="bool-val">true</span>;
         }
 
-        <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">p2</span>] <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT2</span>);
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">p2</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">p2</span>] <span class="op">&amp;=</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT2</span>);
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">p2</span>] <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="bool-val">true</span>;
         }
 
-        <span class="self">self</span>.<span class="ident">layer3</span> <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT3</span>);
+        <span class="self">self</span>.<span class="ident">layer3</span> <span class="op">&amp;=</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT3</span>);
         <span class="kw">return</span> <span class="bool-val">true</span>;
     }
 
     <span class="doccomment">/// Returns `true` if `id` is in the set.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">p0</span> <span class="op">=</span> <span class="ident">id</span>.<span class="ident">offset</span>(<span class="ident">SHIFT1</span>);
-        <span class="ident">p0</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">len</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> (<span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">&amp;</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>)) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
+        <span class="ident">p0</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">len</span>() <span class="op">&amp;&amp;</span> (<span class="self">self</span>.<span class="ident">layer0</span>[<span class="ident">p0</span>] <span class="op">&amp;</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>)) <span class="op">!=</span> <span class="number">0</span>
     }
 
     <span class="doccomment">/// Returns `true` if all ids in `other` are contained in this set</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains_set</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">BitSet</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains_set</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">BitSet</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">for</span> <span class="ident">id</span> <span class="kw">in</span> <span class="ident">other</span>.<span class="ident">iter</span>() {
             <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">contains</span>(<span class="ident">id</span>) {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
@@ -1154,7 +1154,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// assert_eq!(slice[slice_index], 1 &lt;&lt; bit_at_index);</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">layer0_as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">usize</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">layer0_as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">usize</span>] {
         <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">as_slice</span>()
     }
 
@@ -1200,7 +1200,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// assert_eq!(slice[slice_index], 1 &lt;&lt; bit_at_index);</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">layer1_as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">usize</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">layer1_as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">usize</span>] {
         <span class="self">self</span>.<span class="ident">layer1</span>.<span class="ident">as_slice</span>()
     }
 
@@ -1245,7 +1245,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// assert_eq!(slice[slice_index], 1 &lt;&lt; bit_at_index);</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">layer2_as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">usize</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">layer2_as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">usize</span>] {
         <span class="self">self</span>.<span class="ident">layer2</span>.<span class="ident">as_slice</span>()
     }
 }
@@ -1267,42 +1267,42 @@
     <span class="doccomment">/// Gets the `usize` corresponding to layer and index.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The `layer` should be in the range [0, 3]</span>
-    <span class="kw">fn</span> <span class="ident">get_from_layer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">layer</span>: <span class="ident">usize</span>, <span class="ident">idx</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">get_from_layer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">layer</span>: <span class="ident">usize</span>, <span class="ident">idx</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="kw">match</span> <span class="ident">layer</span> {
-            <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">layer0</span>(<span class="ident">idx</span>),
-            <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">layer1</span>(<span class="ident">idx</span>),
-            <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">layer2</span>(<span class="ident">idx</span>),
-            <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">layer3</span>(),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid layer: {}&quot;</span>, <span class="ident">layer</span>),
+            <span class="number">0</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">layer0</span>(<span class="ident">idx</span>),
+            <span class="number">1</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">layer1</span>(<span class="ident">idx</span>),
+            <span class="number">2</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">layer2</span>(<span class="ident">idx</span>),
+            <span class="number">3</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">layer3</span>(),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Invalid layer: {}&quot;</span>, <span class="ident">layer</span>),
         }
     }
 
     <span class="doccomment">/// Returns true if this `BitSetLike` contains nothing, and false otherwise.</span>
-    <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">layer3</span>() <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+    <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">layer3</span>() <span class="op">==</span> <span class="number">0</span>
     }
 
     <span class="doccomment">/// Return a `usize` where each bit represents if any word in layer2</span>
     <span class="doccomment">/// has been set.</span>
-    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>;
 
     <span class="doccomment">/// Return the `usize` from the array of usizes that indicates if any</span>
     <span class="doccomment">/// bit has been set in layer1</span>
-    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>;
 
     <span class="doccomment">/// Return the `usize` from the array of usizes that indicates if any</span>
     <span class="doccomment">/// bit has been set in layer0</span>
-    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>;
 
     <span class="doccomment">/// Return a `usize` that maps to the direct 1:1 association with</span>
     <span class="doccomment">/// each index of the set</span>
-    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>;
+    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>;
 
     <span class="doccomment">/// Allows checking if set bit is contained in the bit set.</span>
-    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
 
     <span class="doccomment">/// Create an iterator that will scan over the keyspace</span>
-    <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BitIter</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">iter</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">BitIter</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
@@ -1313,7 +1313,7 @@
 
     <span class="doccomment">/// Create a parallel iterator that will scan over the keyspace</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parallel&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">par_iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BitParIter</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">par_iter</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">BitParIter</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
@@ -1326,10 +1326,10 @@
     <span class="doccomment">/// Removes bit from the bit set.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns `true` if removal happened and `false` otherwise.</span>
-    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
 
     <span class="doccomment">/// Create a draining iterator that will scan over the keyspace and clears it while doing so.</span>
-    <span class="kw">fn</span> <span class="ident">drain</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DrainBitIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">drain</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">DrainBitIter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="self">Self</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Sized</span>,
     {
@@ -1344,27 +1344,27 @@
     <span class="ident">T</span>: <span class="ident">BitSetLike</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span>,
 {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         (<span class="kw-2">*</span><span class="self">self</span>).<span class="ident">layer3</span>()
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         (<span class="kw-2">*</span><span class="self">self</span>).<span class="ident">layer2</span>(<span class="ident">i</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         (<span class="kw-2">*</span><span class="self">self</span>).<span class="ident">layer1</span>(<span class="ident">i</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         (<span class="kw-2">*</span><span class="self">self</span>).<span class="ident">layer0</span>(<span class="ident">i</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         (<span class="kw-2">*</span><span class="self">self</span>).<span class="ident">contains</span>(<span class="ident">i</span>)
     }
 }
@@ -1374,27 +1374,27 @@
     <span class="ident">T</span>: <span class="ident">BitSetLike</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span>,
 {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">layer3</span>()
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">layer2</span>(<span class="ident">i</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">layer1</span>(<span class="ident">i</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">layer0</span>(<span class="ident">i</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">contains</span>(<span class="ident">i</span>)
     }
 }
@@ -1404,70 +1404,70 @@
     <span class="ident">T</span>: <span class="ident">DrainableBitSet</span>,
 {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         (<span class="kw-2">*</span><span class="kw-2">*</span><span class="self">self</span>).<span class="ident">remove</span>(<span class="ident">i</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">BitSetLike</span> <span class="kw">for</span> <span class="ident">BitSet</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">layer3</span>
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">layer2</span>.<span class="ident">get</span>(<span class="ident">i</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>).<span class="ident">unwrap_or</span>(<span class="number">0</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">layer1</span>.<span class="ident">get</span>(<span class="ident">i</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>).<span class="ident">unwrap_or</span>(<span class="number">0</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">get</span>(<span class="ident">i</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span>).<span class="ident">unwrap_or</span>(<span class="number">0</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">contains</span>(<span class="ident">i</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">DrainableBitSet</span> <span class="kw">for</span> <span class="ident">BitSet</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">i</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">BitSet</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rhv</span>: <span class="kw-2">&amp;</span><span class="ident">BitSet</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer3</span> <span class="op">!</span><span class="op">=</span> <span class="ident">rhv</span>.<span class="ident">layer3</span> {
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rhv</span>: <span class="kw-2">&amp;</span><span class="ident">BitSet</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer3</span> <span class="op">!=</span> <span class="ident">rhv</span>.<span class="ident">layer3</span> {
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer2</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">rhv</span>.<span class="ident">layer2</span>.<span class="ident">len</span>()
-            <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">layer1</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">rhv</span>.<span class="ident">layer1</span>.<span class="ident">len</span>()
-            <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">rhv</span>.<span class="ident">layer0</span>.<span class="ident">len</span>()
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer2</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">rhv</span>.<span class="ident">layer2</span>.<span class="ident">len</span>()
+            <span class="op">||</span> <span class="self">self</span>.<span class="ident">layer1</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">rhv</span>.<span class="ident">layer1</span>.<span class="ident">len</span>()
+            <span class="op">||</span> <span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">rhv</span>.<span class="ident">layer0</span>.<span class="ident">len</span>()
         {
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
 
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">layer2</span>.<span class="ident">len</span>() {
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer2</span>(<span class="ident">i</span>) <span class="op">!</span><span class="op">=</span> <span class="ident">rhv</span>.<span class="ident">layer2</span>(<span class="ident">i</span>) {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer2</span>(<span class="ident">i</span>) <span class="op">!=</span> <span class="ident">rhv</span>.<span class="ident">layer2</span>(<span class="ident">i</span>) {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">layer1</span>.<span class="ident">len</span>() {
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer1</span>(<span class="ident">i</span>) <span class="op">!</span><span class="op">=</span> <span class="ident">rhv</span>.<span class="ident">layer1</span>(<span class="ident">i</span>) {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer1</span>(<span class="ident">i</span>) <span class="op">!=</span> <span class="ident">rhv</span>.<span class="ident">layer1</span>(<span class="ident">i</span>) {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">layer0</span>.<span class="ident">len</span>() {
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer0</span>(<span class="ident">i</span>) <span class="op">!</span><span class="op">=</span> <span class="ident">rhv</span>.<span class="ident">layer0</span>(<span class="ident">i</span>) {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer0</span>(<span class="ident">i</span>) <span class="op">!=</span> <span class="ident">rhv</span>.<span class="ident">layer0</span>(<span class="ident">i</span>) {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }
@@ -1530,7 +1530,7 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">i</span>) <span class="kw">in</span> <span class="ident">c</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-            <span class="ident">count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">count</span> <span class="op">+=</span> <span class="number">1</span>;
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">idx</span>, <span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>);
         }
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">count</span>, <span class="number">100_000</span>);
@@ -1541,7 +1541,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">odd</span> <span class="op">=</span> <span class="ident">BitSet</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">even</span> <span class="op">=</span> <span class="ident">BitSet</span>::<span class="ident">new</span>();
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">100_000</span> {
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">1</span> {
                 <span class="ident">odd</span>.<span class="ident">add</span>(<span class="ident">i</span>);
             } <span class="kw">else</span> {
                 <span class="ident">even</span>.<span class="ident">add</span>(<span class="ident">i</span>);
@@ -1564,7 +1564,7 @@
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..(<span class="ident">limit</span> <span class="op">/</span> <span class="number">10</span>) {
             <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">rng</span>.<span class="ident">gen_range</span>(<span class="number">0</span>, <span class="ident">limit</span>);
             <span class="kw">if</span> <span class="op">!</span><span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">index</span>) {
-                <span class="ident">added</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                <span class="ident">added</span> <span class="op">+=</span> <span class="number">1</span>;
             }
         }
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">set</span>.<span class="ident">iter</span>().<span class="ident">count</span>(), <span class="ident">added</span> <span class="kw">as</span> <span class="ident">usize</span>);
@@ -1574,9 +1574,9 @@
     <span class="kw">fn</span> <span class="ident">iter_clusters</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">BitSet</span>::<span class="ident">new</span>();
         <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
-            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="ident">x</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">&lt;</span><span class="op">&lt;</span> (::<span class="ident">BITS</span> <span class="op">*</span> <span class="number">2</span>); <span class="comment">// scale to the last slot</span>
+            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="ident">x</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">&lt;&lt;</span> (::<span class="ident">BITS</span> <span class="op">*</span> <span class="number">2</span>); <span class="comment">// scale to the last slot</span>
             <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
-                <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> (<span class="ident">y</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">&lt;</span><span class="op">&lt;</span> (::<span class="ident">BITS</span>);
+                <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> (<span class="ident">y</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">&lt;&lt;</span> (::<span class="ident">BITS</span>);
                 <span class="kw">for</span> <span class="ident">z</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
                     <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="ident">z</span> <span class="op">*</span> <span class="number">2</span>;
                     <span class="ident">set</span>.<span class="ident">add</span>(<span class="ident">x</span> <span class="op">+</span> <span class="ident">y</span> <span class="op">+</span> <span class="ident">z</span>);
@@ -1590,7 +1590,7 @@
     <span class="kw">fn</span> <span class="ident">not</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">c</span> <span class="op">=</span> <span class="ident">BitSet</span>::<span class="ident">new</span>();
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">10_000</span> {
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">1</span> {
                 <span class="ident">c</span>.<span class="ident">add</span>(<span class="ident">i</span>);
             }
         }
@@ -1649,7 +1649,7 @@
         });
         <span class="kw">let</span> <span class="ident">check_set</span> <span class="op">=</span> <span class="ident">check_set</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">missing_set</span> <span class="op">=</span> <span class="ident">missing_set</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">check_set</span>.<span class="ident">is_empty</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">missing_set</span>.<span class="ident">is_empty</span>() {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">check_set</span>.<span class="ident">is_empty</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">missing_set</span>.<span class="ident">is_empty</span>() {
             <span class="macro">panic</span><span class="macro">!</span>(
                 <span class="string">&quot;There were values that didn&#39;t get iterated: {:?}
             There were values that got iterated, but that shouldn&#39;t be: {:?}&quot;</span>,
@@ -1675,7 +1675,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">odd</span> <span class="op">=</span> <span class="ident">BitSet</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">even</span> <span class="op">=</span> <span class="ident">BitSet</span>::<span class="ident">new</span>();
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">100_000</span> {
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">1</span> {
                 <span class="ident">odd</span>.<span class="ident">add</span>(<span class="ident">i</span>);
             } <span class="kw">else</span> {
                 <span class="ident">even</span>.<span class="ident">add</span>(<span class="ident">i</span>);
@@ -1694,9 +1694,9 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">set</span> <span class="op">=</span> <span class="ident">BitSet</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">check_set</span> <span class="op">=</span> <span class="ident">HashSet</span>::<span class="ident">new</span>();
         <span class="kw">for</span> <span class="ident">x</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
-            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="ident">x</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">&lt;</span><span class="op">&lt;</span> (::<span class="ident">BITS</span> <span class="op">*</span> <span class="number">2</span>); <span class="comment">// scale to the last slot</span>
+            <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> (<span class="ident">x</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">&lt;&lt;</span> (::<span class="ident">BITS</span> <span class="op">*</span> <span class="number">2</span>); <span class="comment">// scale to the last slot</span>
             <span class="kw">for</span> <span class="ident">y</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
-                <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> (<span class="ident">y</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">&lt;</span><span class="op">&lt;</span> (::<span class="ident">BITS</span>);
+                <span class="kw">let</span> <span class="ident">y</span> <span class="op">=</span> (<span class="ident">y</span> <span class="op">*</span> <span class="number">3</span>) <span class="op">&lt;&lt;</span> (::<span class="ident">BITS</span>);
                 <span class="kw">for</span> <span class="ident">z</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">8</span> {
                     <span class="kw">let</span> <span class="ident">z</span> <span class="op">=</span> <span class="ident">z</span> <span class="op">*</span> <span class="number">2</span>;
                     <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">x</span> <span class="op">+</span> <span class="ident">y</span> <span class="op">+</span> <span class="ident">z</span>;
@@ -1718,7 +1718,7 @@
         });
         <span class="kw">let</span> <span class="ident">check_set</span> <span class="op">=</span> <span class="ident">check_set</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">missing_set</span> <span class="op">=</span> <span class="ident">missing_set</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">check_set</span>.<span class="ident">is_empty</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">missing_set</span>.<span class="ident">is_empty</span>() {
+        <span class="kw">if</span> <span class="op">!</span><span class="ident">check_set</span>.<span class="ident">is_empty</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">missing_set</span>.<span class="ident">is_empty</span>() {
             <span class="macro">panic</span><span class="macro">!</span>(
                 <span class="string">&quot;There were values that didn&#39;t get iterated: {:?}
             There were values that got iterated, but that shouldn&#39;t be: {:?}&quot;</span>,

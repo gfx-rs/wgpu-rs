@@ -239,7 +239,7 @@
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Level</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">LevelFilter</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">level</span>: <span class="ident">Level</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">level</span>: <span class="ident">Level</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">from_level</span>(<span class="ident">level</span>)
     }
 }
@@ -272,7 +272,7 @@
 
     <span class="doccomment">/// Returns a `LevelFilter` that enables spans and events with verbosity up</span>
     <span class="doccomment">/// to and including `level`.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">from_level</span>(<span class="ident">level</span>: <span class="ident">Level</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">from_level</span>(<span class="ident">level</span>: <span class="ident">Level</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>(<span class="prelude-val">Some</span>(<span class="ident">level</span>))
     }
 
@@ -281,25 +281,25 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`Level`]: ../struct.Level.html</span>
     <span class="doccomment">/// [`OFF`]: #associatedconstant.OFF</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">into_level</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Level</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">into_level</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Level</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="number">0</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">PartialEq</span><span class="op">&lt;</span><span class="ident">LevelFilter</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Level</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">LevelFilter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">LevelFilter</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="ident">other</span>.<span class="number">0</span> {
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">level</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">eq</span>(<span class="ident">level</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">level</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">eq</span>(<span class="ident">level</span>),
         }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">PartialOrd</span><span class="op">&lt;</span><span class="ident">LevelFilter</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Level</span> {
-    <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">LevelFilter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ordering</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">partial_cmp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">LevelFilter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ordering</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">other</span>.<span class="number">0</span> {
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Ordering</span>::<span class="ident">Less</span>),
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">level</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">partial_cmp</span>(<span class="ident">level</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">Ordering</span>::<span class="ident">Less</span>),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">level</span>) <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">partial_cmp</span>(<span class="ident">level</span>),
         }
     }
 }

@@ -1710,16 +1710,16 @@ TODO: would be nice to find ways that avoid looking up as much
 }
 
 <span class="kw">impl</span> <span class="ident">Instruction</span> {
-    <span class="kw">fn</span> <span class="ident">expect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">count</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">wc</span> <span class="op">=</span><span class="op">=</span> <span class="ident">count</span> {
+    <span class="kw">fn</span> <span class="ident">expect</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">count</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">wc</span> <span class="op">==</span> <span class="ident">count</span> {
             <span class="prelude-val">Ok</span>(())
         } <span class="kw">else</span> {
             <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidOperandCount</span>(<span class="self">self</span>.<span class="ident">op</span>, <span class="self">self</span>.<span class="ident">wc</span>))
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">expect_at_least</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">count</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">wc</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">count</span> {
+    <span class="kw">fn</span> <span class="ident">expect_at_least</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">count</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">wc</span> <span class="op">&gt;=</span> <span class="ident">count</span> {
             <span class="prelude-val">Ok</span>(())
         } <span class="kw">else</span> {
             <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidOperandCount</span>(<span class="self">self</span>.<span class="ident">op</span>, <span class="self">self</span>.<span class="ident">wc</span>))
@@ -1746,26 +1746,26 @@ TODO: would be nice to find ways that avoid looking up as much
 
 <span class="kw">trait</span> <span class="ident">LookupHelper</span> {
     <span class="kw">type</span> <span class="ident">Target</span>;
-    <span class="kw">fn</span> <span class="ident">lookup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">spirv</span>::<span class="ident">Word</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Target</span>, <span class="ident">Error</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">lookup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">spirv</span>::<span class="ident">Word</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Target</span>, <span class="ident">Error</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">LookupHelper</span> <span class="kw">for</span> <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">spirv</span>::<span class="ident">Word</span>, <span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">T</span>;
-    <span class="kw">fn</span> <span class="ident">lookup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">spirv</span>::<span class="ident">Word</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">lookup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">spirv</span>::<span class="ident">Word</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">key</span>).<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">InvalidId</span>(<span class="ident">key</span>))
     }
 }
 
-<span class="kw">fn</span> <span class="ident">map_vector_size</span>(<span class="ident">word</span>: <span class="ident">spirv</span>::<span class="ident">Word</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">VectorSize</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">map_vector_size</span>(<span class="ident">word</span>: <span class="ident">spirv</span>::<span class="ident">Word</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">VectorSize</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="ident">word</span> {
-        <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="kw">crate</span>::<span class="ident">VectorSize</span>::<span class="ident">Bi</span>),
-        <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="kw">crate</span>::<span class="ident">VectorSize</span>::<span class="ident">Tri</span>),
-        <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="kw">crate</span>::<span class="ident">VectorSize</span>::<span class="ident">Quad</span>),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidVectorSize</span>(<span class="ident">word</span>)),
+        <span class="number">2</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="kw">crate</span>::<span class="ident">VectorSize</span>::<span class="ident">Bi</span>),
+        <span class="number">3</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="kw">crate</span>::<span class="ident">VectorSize</span>::<span class="ident">Tri</span>),
+        <span class="number">4</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="kw">crate</span>::<span class="ident">VectorSize</span>::<span class="ident">Quad</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidVectorSize</span>(<span class="ident">word</span>)),
     }
 }
 
-<span class="kw">fn</span> <span class="ident">map_storage_class</span>(<span class="ident">word</span>: <span class="ident">spirv</span>::<span class="ident">Word</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">spirv</span>::<span class="ident">StorageClass</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">map_storage_class</span>(<span class="ident">word</span>: <span class="ident">spirv</span>::<span class="ident">Word</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">spirv</span>::<span class="ident">StorageClass</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="ident">spirv</span>::<span class="ident">StorageClass</span>::<span class="ident">from_u32</span>(<span class="ident">word</span>).<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedStorageClass</span>(<span class="ident">word</span>))
 }
 
@@ -1789,7 +1789,7 @@ TODO: would be nice to find ways that avoid looking up as much
 }
 
 <span class="kw">impl</span> <span class="ident">Decoration</span> {
-    <span class="kw">fn</span> <span class="ident">get_binding</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Binding</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">get_binding</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Binding</span><span class="op">&gt;</span> {
         <span class="comment">//TODO: validate this better</span>
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">Decoration</span> {
@@ -1798,22 +1798,22 @@ TODO: would be nice to find ways that avoid looking up as much
                 <span class="ident">desc_set</span>: <span class="prelude-val">None</span>,
                 <span class="ident">desc_index</span>: <span class="prelude-val">None</span>,
                 ..
-            } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="kw">crate</span>::<span class="ident">Binding</span>::<span class="ident">BuiltIn</span>(<span class="ident">built_in</span>)),
+            } <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw">crate</span>::<span class="ident">Binding</span>::<span class="ident">BuiltIn</span>(<span class="ident">built_in</span>)),
             <span class="ident">Decoration</span> {
                 <span class="ident">built_in</span>: <span class="prelude-val">None</span>,
                 <span class="ident">location</span>: <span class="prelude-val">Some</span>(<span class="ident">loc</span>),
                 <span class="ident">desc_set</span>: <span class="prelude-val">None</span>,
                 <span class="ident">desc_index</span>: <span class="prelude-val">None</span>,
                 ..
-            } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="kw">crate</span>::<span class="ident">Binding</span>::<span class="ident">Location</span>(<span class="ident">loc</span>)),
+            } <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw">crate</span>::<span class="ident">Binding</span>::<span class="ident">Location</span>(<span class="ident">loc</span>)),
             <span class="ident">Decoration</span> {
                 <span class="ident">built_in</span>: <span class="prelude-val">None</span>,
                 <span class="ident">location</span>: <span class="prelude-val">None</span>,
                 <span class="ident">desc_set</span>: <span class="prelude-val">Some</span>(<span class="ident">set</span>),
                 <span class="ident">desc_index</span>: <span class="prelude-val">Some</span>(<span class="ident">binding</span>),
                 ..
-            } <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="kw">crate</span>::<span class="ident">Binding</span>::<span class="ident">Descriptor</span> { <span class="ident">set</span>, <span class="ident">binding</span> }),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            } <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="kw">crate</span>::<span class="ident">Binding</span>::<span class="ident">Descriptor</span> { <span class="ident">set</span>, <span class="ident">binding</span> }),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         }
     }
 }
@@ -1876,11 +1876,11 @@ TODO: would be nice to find ways that avoid looking up as much
     <span class="ident">lookup_expression</span>: <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">spirv</span>::<span class="ident">Word</span>, <span class="ident">LookupExpression</span><span class="op">&gt;</span>,
     <span class="ident">lookup_sampled_image</span>: <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">spirv</span>::<span class="ident">Word</span>, <span class="ident">LookupSampledImage</span><span class="op">&gt;</span>,
     <span class="ident">lookup_function_type</span>: <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">spirv</span>::<span class="ident">Word</span>, <span class="ident">LookupFunctionType</span><span class="op">&gt;</span>,
-    <span class="ident">lookup_function</span>: <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">spirv</span>::<span class="ident">Word</span>, <span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Function</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">lookup_function</span>: <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">spirv</span>::<span class="ident">Word</span>, <span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Function</span><span class="op">&gt;&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Parser</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">data</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">u32</span><span class="op">&gt;&gt;</span> <span class="ident">Parser</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">data</span>: <span class="ident">I</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Parser</span> {
             <span class="ident">data</span>,
             <span class="ident">state</span>: <span class="ident">ModuleState</span>::<span class="ident">Empty</span>,
@@ -1899,14 +1899,14 @@ TODO: would be nice to find ways that avoid looking up as much
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">next</span>().<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">IncompleteData</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">next_inst</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Instruction</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next_inst</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Instruction</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">word</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
-        <span class="kw">let</span> (<span class="ident">wc</span>, <span class="ident">opcode</span>) <span class="op">=</span> ((<span class="ident">word</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">16</span>) <span class="kw">as</span> <span class="ident">u16</span>, (<span class="ident">word</span> <span class="op">&amp;</span> <span class="number">0xffff</span>) <span class="kw">as</span> <span class="ident">u16</span>);
-        <span class="kw">if</span> <span class="ident">wc</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">let</span> (<span class="ident">wc</span>, <span class="ident">opcode</span>) <span class="op">=</span> ((<span class="ident">word</span> <span class="op">&gt;&gt;</span> <span class="number">16</span>) <span class="kw">as</span> <span class="ident">u16</span>, (<span class="ident">word</span> <span class="op">&amp;</span> <span class="number">0xffff</span>) <span class="kw">as</span> <span class="ident">u16</span>);
+        <span class="kw">if</span> <span class="ident">wc</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidWordCount</span>);
         }
         <span class="kw">let</span> <span class="ident">op</span> <span class="op">=</span> <span class="ident">spirv</span>::<span class="ident">Op</span>::<span class="ident">from_u16</span>(<span class="ident">opcode</span>).<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">UnknownInstruction</span>(<span class="ident">opcode</span>))<span class="question-mark">?</span>;
@@ -1914,15 +1914,15 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(<span class="ident">Instruction</span> { <span class="ident">op</span>, <span class="ident">wc</span> })
     }
 
-    <span class="kw">fn</span> <span class="ident">next_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">count</span>: <span class="ident">u16</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">u16</span>), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next_string</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">count</span>: <span class="ident">u16</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">u16</span>), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">temp_bytes</span>.<span class="ident">clear</span>();
         <span class="kw">loop</span> {
-            <span class="kw">if</span> <span class="ident">count</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">count</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">BadString</span>);
             }
-            <span class="ident">count</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">count</span> <span class="op">-=</span> <span class="number">1</span>;
             <span class="kw">let</span> <span class="ident">chars</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>.<span class="ident">to_le_bytes</span>();
-            <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">chars</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>).<span class="ident">unwrap_or</span>(<span class="number">4</span>);
+            <span class="kw">let</span> <span class="ident">pos</span> <span class="op">=</span> <span class="ident">chars</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">c</span><span class="op">|</span> <span class="ident">c</span> <span class="op">==</span> <span class="number">0</span>).<span class="ident">unwrap_or</span>(<span class="number">4</span>);
             <span class="self">self</span>.<span class="ident">temp_bytes</span>.<span class="ident">extend_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">chars</span>[..<span class="ident">pos</span>]);
             <span class="kw">if</span> <span class="ident">pos</span> <span class="op">&lt;</span> <span class="number">4</span> {
                 <span class="kw">break</span>;
@@ -1938,12 +1938,12 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">base_words</span>: <span class="ident">u16</span>,
         <span class="ident">dec</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Decoration</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">raw</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">dec_typed</span> <span class="op">=</span> <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">from_u32</span>(<span class="ident">raw</span>).<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">InvalidDecoration</span>(<span class="ident">raw</span>))<span class="question-mark">?</span>;
         <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;\t\t{:?}&quot;</span>, <span class="ident">dec_typed</span>);
         <span class="kw">match</span> <span class="ident">dec_typed</span> {
-            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">BuiltIn</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">BuiltIn</span> <span class="op">=&gt;</span> {
                 <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="ident">base_words</span> <span class="op">+</span> <span class="number">2</span>)<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">raw</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">built_in</span> <span class="op">=</span> <span class="ident">spirv</span>::<span class="ident">BuiltIn</span>::<span class="ident">from_u32</span>(<span class="ident">raw</span>);
@@ -1952,33 +1952,33 @@ TODO: would be nice to find ways that avoid looking up as much
                 }
                 <span class="ident">dec</span>.<span class="ident">built_in</span> <span class="op">=</span> <span class="ident">built_in</span>;
             }
-            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">Location</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">Location</span> <span class="op">=&gt;</span> {
                 <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="ident">base_words</span> <span class="op">+</span> <span class="number">2</span>)<span class="question-mark">?</span>;
                 <span class="ident">dec</span>.<span class="ident">location</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>);
             }
-            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">DescriptorSet</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">DescriptorSet</span> <span class="op">=&gt;</span> {
                 <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="ident">base_words</span> <span class="op">+</span> <span class="number">2</span>)<span class="question-mark">?</span>;
                 <span class="ident">dec</span>.<span class="ident">desc_set</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>);
             }
-            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">Binding</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">Binding</span> <span class="op">=&gt;</span> {
                 <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="ident">base_words</span> <span class="op">+</span> <span class="number">2</span>)<span class="question-mark">?</span>;
                 <span class="ident">dec</span>.<span class="ident">desc_index</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>);
             }
-            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">Block</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">Block</span> <span class="op">=&gt;</span> {
                 <span class="ident">dec</span>.<span class="ident">block</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Block</span> { <span class="ident">buffer</span>: <span class="bool-val">false</span> });
             }
-            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">BufferBlock</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">BufferBlock</span> <span class="op">=&gt;</span> {
                 <span class="ident">dec</span>.<span class="ident">block</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Block</span> { <span class="ident">buffer</span>: <span class="bool-val">true</span> });
             }
-            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">Offset</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">Offset</span> <span class="op">=&gt;</span> {
                 <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="ident">base_words</span> <span class="op">+</span> <span class="number">2</span>)<span class="question-mark">?</span>;
                 <span class="ident">dec</span>.<span class="ident">offset</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>);
             }
-            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">ArrayStride</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">spirv</span>::<span class="ident">Decoration</span>::<span class="ident">ArrayStride</span> <span class="op">=&gt;</span> {
                 <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="ident">base_words</span> <span class="op">+</span> <span class="number">2</span>)<span class="question-mark">?</span>;
                 <span class="ident">dec</span>.<span class="ident">array_stride</span> <span class="op">=</span> <span class="ident">NonZeroU32</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>);
             }
-            <span class="ident">other</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">other</span> <span class="op">=&gt;</span> {
                 <span class="ident">log</span>::<span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;Unknown decoration {:?}&quot;</span>, <span class="ident">other</span>);
                 <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="ident">base_words</span> <span class="op">+</span> <span class="number">1</span>..<span class="ident">inst</span>.<span class="ident">wc</span> {
                     <span class="kw">let</span> <span class="ident">_var</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -1993,13 +1993,13 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="ident">fun</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Function</span>,
         <span class="ident">type_arena</span>: <span class="kw-2">&amp;</span><span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Type</span><span class="op">&gt;</span>,
         <span class="ident">const_arena</span>: <span class="kw-2">&amp;</span><span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Constant</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">loop</span> {
             <span class="kw">use</span> <span class="ident">spirv</span>::<span class="ident">Op</span>;
             <span class="kw">let</span> <span class="ident">inst</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_inst</span>()<span class="question-mark">?</span>;
             <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;\t\t{:?} [{}]&quot;</span>, <span class="ident">inst</span>.<span class="ident">op</span>, <span class="ident">inst</span>.<span class="ident">wc</span>);
             <span class="kw">match</span> <span class="ident">inst</span>.<span class="ident">op</span> {
-                <span class="ident">Op</span>::<span class="ident">AccessChain</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">AccessChain</span> <span class="op">=&gt;</span> {
                     <span class="kw">struct</span> <span class="ident">AccessExpression</span> {
                         <span class="ident">base_handle</span>: <span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Expression</span><span class="op">&gt;</span>,
                         <span class="ident">type_id</span>: <span class="ident">spirv</span>::<span class="ident">Word</span>,
@@ -2030,26 +2030,26 @@ TODO: would be nice to find ways that avoid looking up as much
                             <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> {
                                 <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Sint</span>,
                                 ..
-                            } <span class="op">=</span><span class="op">&gt;</span> (),
-                            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">index_type_handle</span>)),
+                            } <span class="op">=&gt;</span> (),
+                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">index_type_handle</span>)),
                         }
                         <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;\t\t\tlooking up type {:?}&quot;</span>, <span class="ident">acex</span>.<span class="ident">type_id</span>);
                         <span class="kw">let</span> <span class="ident">type_lookup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">acex</span>.<span class="ident">type_id</span>)<span class="question-mark">?</span>;
                         <span class="ident">acex</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">type_arena</span>[<span class="ident">type_lookup</span>.<span class="ident">handle</span>].<span class="ident">inner</span> {
-                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Struct</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Struct</span> { .. } <span class="op">=&gt;</span> {
                                 <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">fun</span>.<span class="ident">expressions</span>[<span class="ident">index_expr</span>.<span class="ident">handle</span>] {
-                                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Constant</span>(<span class="ident">const_handle</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Constant</span>(<span class="ident">const_handle</span>) <span class="op">=&gt;</span> {
                                         <span class="kw">match</span> <span class="ident">const_arena</span>[<span class="ident">const_handle</span>].<span class="ident">inner</span> {
-                                            <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Uint</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span> <span class="kw">as</span> <span class="ident">u32</span>,
-                                            <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Sint</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span> <span class="kw">as</span> <span class="ident">u32</span>,
-                                            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+                                            <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Uint</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">v</span> <span class="kw">as</span> <span class="ident">u32</span>,
+                                            <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Sint</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> <span class="ident">v</span> <span class="kw">as</span> <span class="ident">u32</span>,
+                                            <span class="kw">_</span> <span class="op">=&gt;</span> {
                                                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidAccessIndex</span>(
                                                     <span class="ident">index_expr</span>.<span class="ident">handle</span>,
                                                 ))
                                             }
                                         }
                                     }
-                                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidAccessIndex</span>(<span class="ident">index_expr</span>.<span class="ident">handle</span>)),
+                                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidAccessIndex</span>(<span class="ident">index_expr</span>.<span class="ident">handle</span>)),
                                 };
                                 <span class="ident">AccessExpression</span> {
                                     <span class="ident">base_handle</span>: <span class="ident">fun</span>.<span class="ident">expressions</span>.<span class="ident">append</span>(
@@ -2066,7 +2066,7 @@ TODO: would be nice to find ways that avoid looking up as much
                             }
                             <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Array</span> { .. }
                             <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> { .. }
-                            <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Matrix</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">AccessExpression</span> {
+                            <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Matrix</span> { .. } <span class="op">=&gt;</span> <span class="ident">AccessExpression</span> {
                                 <span class="ident">base_handle</span>: <span class="ident">fun</span>.<span class="ident">expressions</span>.<span class="ident">append</span>(<span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Access</span> {
                                     <span class="ident">base</span>: <span class="ident">acex</span>.<span class="ident">base_handle</span>,
                                     <span class="ident">index</span>: <span class="ident">index_expr</span>.<span class="ident">handle</span>,
@@ -2075,7 +2075,7 @@ TODO: would be nice to find ways that avoid looking up as much
                                     .<span class="ident">base_id</span>
                                     .<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">InvalidAccessType</span>(<span class="ident">acex</span>.<span class="ident">type_id</span>))<span class="question-mark">?</span>,
                             },
-                            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">type_lookup</span>.<span class="ident">handle</span>)),
+                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">type_lookup</span>.<span class="ident">handle</span>)),
                         };
                     }
 
@@ -2087,7 +2087,7 @@ TODO: would be nice to find ways that avoid looking up as much
                         },
                     );
                 }
-                <span class="ident">Op</span>::<span class="ident">CompositeExtract</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">CompositeExtract</span> <span class="op">=&gt;</span> {
                     <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2105,16 +2105,16 @@ TODO: would be nice to find ways that avoid looking up as much
                         <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;\t\t\tlooking up type {:?}&quot;</span>, <span class="ident">lexp</span>.<span class="ident">type_id</span>);
                         <span class="kw">let</span> <span class="ident">type_lookup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">lexp</span>.<span class="ident">type_id</span>)<span class="question-mark">?</span>;
                         <span class="kw">let</span> <span class="ident">type_id</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">type_arena</span>[<span class="ident">type_lookup</span>.<span class="ident">handle</span>].<span class="ident">inner</span> {
-                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Struct</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="self">self</span>
+                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Struct</span> { .. } <span class="op">=&gt;</span> <span class="kw-2">*</span><span class="self">self</span>
                                 .<span class="ident">lookup_member_type_id</span>
                                 .<span class="ident">get</span>(<span class="kw-2">&amp;</span>(<span class="ident">lexp</span>.<span class="ident">type_id</span>, <span class="ident">index</span>))
                                 .<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">InvalidAccessType</span>(<span class="ident">lexp</span>.<span class="ident">type_id</span>))<span class="question-mark">?</span>,
                             <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Array</span> { .. }
                             <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> { .. }
-                            <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Matrix</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">type_lookup</span>
+                            <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Matrix</span> { .. } <span class="op">=&gt;</span> <span class="ident">type_lookup</span>
                                 .<span class="ident">base_id</span>
                                 .<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">InvalidAccessType</span>(<span class="ident">lexp</span>.<span class="ident">type_id</span>))<span class="question-mark">?</span>,
-                            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">type_lookup</span>.<span class="ident">handle</span>)),
+                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">type_lookup</span>.<span class="ident">handle</span>)),
                         };
                         <span class="ident">lexp</span> <span class="op">=</span> <span class="ident">LookupExpression</span> {
                             <span class="ident">handle</span>: <span class="ident">fun</span>.<span class="ident">expressions</span>.<span class="ident">append</span>(<span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">AccessIndex</span> {
@@ -2133,7 +2133,7 @@ TODO: would be nice to find ways that avoid looking up as much
                         },
                     );
                 }
-                <span class="ident">Op</span>::<span class="ident">CompositeConstruct</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">CompositeConstruct</span> <span class="op">=&gt;</span> {
                     <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2156,23 +2156,23 @@ TODO: would be nice to find ways that avoid looking up as much
                         },
                     );
                 }
-                <span class="ident">Op</span>::<span class="ident">Load</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">Load</span> <span class="op">=&gt;</span> {
                     <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">pointer_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
-                    <span class="kw">if</span> <span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">!</span><span class="op">=</span> <span class="number">4</span> {
+                    <span class="kw">if</span> <span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">!=</span> <span class="number">4</span> {
                         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">5</span>)<span class="question-mark">?</span>;
                         <span class="kw">let</span> <span class="ident">_memory_access</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     }
                     <span class="kw">let</span> <span class="ident">base_expr</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_expression</span>.<span class="ident">lookup</span>(<span class="ident">pointer_id</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">base_type</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">base_expr</span>.<span class="ident">type_id</span>)<span class="question-mark">?</span>;
-                    <span class="kw">if</span> <span class="ident">base_type</span>.<span class="ident">base_id</span> <span class="op">!</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">result_type_id</span>) {
+                    <span class="kw">if</span> <span class="ident">base_type</span>.<span class="ident">base_id</span> <span class="op">!=</span> <span class="prelude-val">Some</span>(<span class="ident">result_type_id</span>) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidLoadType</span>(<span class="ident">result_type_id</span>));
                     }
                     <span class="kw">match</span> <span class="ident">type_arena</span>[<span class="ident">base_type</span>.<span class="ident">handle</span>].<span class="ident">inner</span> {
-                        <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Pointer</span> { .. } <span class="op">=</span><span class="op">&gt;</span> (),
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">base_type</span>.<span class="ident">handle</span>)),
+                        <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Pointer</span> { .. } <span class="op">=&gt;</span> (),
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">base_type</span>.<span class="ident">handle</span>)),
                     }
                     <span class="kw">let</span> <span class="ident">expr</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Load</span> {
                         <span class="ident">pointer</span>: <span class="ident">base_expr</span>.<span class="ident">handle</span>,
@@ -2185,22 +2185,22 @@ TODO: would be nice to find ways that avoid looking up as much
                         },
                     );
                 }
-                <span class="ident">Op</span>::<span class="ident">Store</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">Store</span> <span class="op">=&gt;</span> {
                     <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">pointer_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">value_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
-                    <span class="kw">if</span> <span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">!</span><span class="op">=</span> <span class="number">3</span> {
+                    <span class="kw">if</span> <span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">!=</span> <span class="number">3</span> {
                         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
                         <span class="kw">let</span> <span class="ident">_memory_access</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     }
                     <span class="kw">let</span> <span class="ident">base_expr</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_expression</span>.<span class="ident">lookup</span>(<span class="ident">pointer_id</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">base_type</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">base_expr</span>.<span class="ident">type_id</span>)<span class="question-mark">?</span>;
                     <span class="kw">match</span> <span class="ident">type_arena</span>[<span class="ident">base_type</span>.<span class="ident">handle</span>].<span class="ident">inner</span> {
-                        <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Pointer</span> { .. } <span class="op">=</span><span class="op">&gt;</span> (),
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">base_type</span>.<span class="ident">handle</span>)),
+                        <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Pointer</span> { .. } <span class="op">=&gt;</span> (),
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">base_type</span>.<span class="ident">handle</span>)),
                     };
                     <span class="kw">let</span> <span class="ident">value_expr</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_expression</span>.<span class="ident">lookup</span>(<span class="ident">value_id</span>)<span class="question-mark">?</span>;
-                    <span class="kw">if</span> <span class="ident">base_type</span>.<span class="ident">base_id</span> <span class="op">!</span><span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">value_expr</span>.<span class="ident">type_id</span>) {
+                    <span class="kw">if</span> <span class="ident">base_type</span>.<span class="ident">base_id</span> <span class="op">!=</span> <span class="prelude-val">Some</span>(<span class="ident">value_expr</span>.<span class="ident">type_id</span>) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidStoreType</span>(<span class="ident">value_expr</span>.<span class="ident">type_id</span>));
                     }
                     <span class="ident">fun</span>.<span class="ident">body</span>.<span class="ident">push</span>(<span class="kw">crate</span>::<span class="ident">Statement</span>::<span class="ident">Store</span> {
@@ -2208,12 +2208,12 @@ TODO: would be nice to find ways that avoid looking up as much
                         <span class="ident">value</span>: <span class="ident">value_expr</span>.<span class="ident">handle</span>,
                     })
                 }
-                <span class="ident">Op</span>::<span class="ident">Return</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">Return</span> <span class="op">=&gt;</span> {
                     <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">1</span>)<span class="question-mark">?</span>;
                     <span class="ident">fun</span>.<span class="ident">body</span>.<span class="ident">push</span>(<span class="kw">crate</span>::<span class="ident">Statement</span>::<span class="ident">Return</span> { <span class="ident">value</span>: <span class="prelude-val">None</span> });
                     <span class="kw">break</span>;
                 }
-                <span class="ident">Op</span>::<span class="ident">VectorTimesScalar</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">VectorTimesScalar</span> <span class="op">=&gt;</span> {
                     <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">5</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_type_loookup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">result_type_id</span>)<span class="question-mark">?</span>;
@@ -2222,8 +2222,8 @@ TODO: would be nice to find ways that avoid looking up as much
                             <span class="ident">size</span>,
                             <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Float</span>,
                             <span class="ident">width</span>,
-                        } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">size</span>, <span class="ident">width</span>),
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">result_type_loookup</span>.<span class="ident">handle</span>)),
+                        } <span class="op">=&gt;</span> (<span class="ident">size</span>, <span class="ident">width</span>),
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">result_type_loookup</span>.<span class="ident">handle</span>)),
                     };
                     <span class="kw">let</span> <span class="ident">result_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">vector_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2235,8 +2235,8 @@ TODO: would be nice to find ways that avoid looking up as much
                             <span class="ident">size</span>,
                             <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Float</span>,
                             <span class="ident">width</span>,
-                        } <span class="kw">if</span> <span class="ident">size</span> <span class="op">=</span><span class="op">=</span> <span class="ident">res_size</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">width</span> <span class="op">=</span><span class="op">=</span> <span class="ident">res_width</span> <span class="op">=</span><span class="op">&gt;</span> (),
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">vector_type_lookup</span>.<span class="ident">handle</span>)),
+                        } <span class="kw">if</span> <span class="ident">size</span> <span class="op">==</span> <span class="ident">res_size</span> <span class="op">&amp;&amp;</span> <span class="ident">width</span> <span class="op">==</span> <span class="ident">res_width</span> <span class="op">=&gt;</span> (),
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">vector_type_lookup</span>.<span class="ident">handle</span>)),
                     };
                     <span class="kw">let</span> <span class="ident">scalar_lexp</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_expression</span>.<span class="ident">lookup</span>(<span class="ident">scalar_id</span>)<span class="question-mark">?</span>.<span class="ident">clone</span>();
                     <span class="kw">let</span> <span class="ident">scalar_type_lookup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">scalar_lexp</span>.<span class="ident">type_id</span>)<span class="question-mark">?</span>;
@@ -2244,8 +2244,8 @@ TODO: would be nice to find ways that avoid looking up as much
                         <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> {
                             <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Float</span>,
                             <span class="ident">width</span>,
-                        } <span class="kw">if</span> <span class="ident">width</span> <span class="op">=</span><span class="op">=</span> <span class="ident">res_width</span> <span class="op">=</span><span class="op">&gt;</span> (),
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">scalar_type_lookup</span>.<span class="ident">handle</span>)),
+                        } <span class="kw">if</span> <span class="ident">width</span> <span class="op">==</span> <span class="ident">res_width</span> <span class="op">=&gt;</span> (),
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">scalar_type_lookup</span>.<span class="ident">handle</span>)),
                     };
                     <span class="kw">let</span> <span class="ident">expr</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Binary</span> {
                         <span class="ident">op</span>: <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Multiply</span>,
@@ -2260,7 +2260,7 @@ TODO: would be nice to find ways that avoid looking up as much
                         },
                     );
                 }
-                <span class="ident">Op</span>::<span class="ident">MatrixTimesVector</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">MatrixTimesVector</span> <span class="op">=&gt;</span> {
                     <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">5</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_type_loookup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">result_type_id</span>)<span class="question-mark">?</span>;
@@ -2269,8 +2269,8 @@ TODO: would be nice to find ways that avoid looking up as much
                             <span class="ident">size</span>,
                             <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Float</span>,
                             <span class="ident">width</span>,
-                        } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">size</span>, <span class="ident">width</span>),
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">result_type_loookup</span>.<span class="ident">handle</span>)),
+                        } <span class="op">=&gt;</span> (<span class="ident">size</span>, <span class="ident">width</span>),
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">result_type_loookup</span>.<span class="ident">handle</span>)),
                     };
                     <span class="kw">let</span> <span class="ident">result_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">matrix_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2283,8 +2283,8 @@ TODO: would be nice to find ways that avoid looking up as much
                             <span class="ident">rows</span>,
                             <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Float</span>,
                             <span class="ident">width</span>,
-                        } <span class="kw">if</span> <span class="ident">rows</span> <span class="op">=</span><span class="op">=</span> <span class="ident">res_size</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">width</span> <span class="op">=</span><span class="op">=</span> <span class="ident">res_width</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">columns</span>,
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">matrix_type_lookup</span>.<span class="ident">handle</span>)),
+                        } <span class="kw">if</span> <span class="ident">rows</span> <span class="op">==</span> <span class="ident">res_size</span> <span class="op">&amp;&amp;</span> <span class="ident">width</span> <span class="op">==</span> <span class="ident">res_width</span> <span class="op">=&gt;</span> <span class="ident">columns</span>,
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">matrix_type_lookup</span>.<span class="ident">handle</span>)),
                     };
                     <span class="kw">let</span> <span class="ident">vector_lexp</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_expression</span>.<span class="ident">lookup</span>(<span class="ident">vector_id</span>)<span class="question-mark">?</span>.<span class="ident">clone</span>();
                     <span class="kw">let</span> <span class="ident">vector_type_lookup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">vector_lexp</span>.<span class="ident">type_id</span>)<span class="question-mark">?</span>;
@@ -2293,8 +2293,8 @@ TODO: would be nice to find ways that avoid looking up as much
                             <span class="ident">size</span>,
                             <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Float</span>,
                             <span class="ident">width</span>,
-                        } <span class="kw">if</span> <span class="ident">size</span> <span class="op">=</span><span class="op">=</span> <span class="ident">columns</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">width</span> <span class="op">=</span><span class="op">=</span> <span class="ident">res_width</span> <span class="op">=</span><span class="op">&gt;</span> (),
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">vector_type_lookup</span>.<span class="ident">handle</span>)),
+                        } <span class="kw">if</span> <span class="ident">size</span> <span class="op">==</span> <span class="ident">columns</span> <span class="op">&amp;&amp;</span> <span class="ident">width</span> <span class="op">==</span> <span class="ident">res_width</span> <span class="op">=&gt;</span> (),
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">vector_type_lookup</span>.<span class="ident">handle</span>)),
                     };
                     <span class="kw">let</span> <span class="ident">expr</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Binary</span> {
                         <span class="ident">op</span>: <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Multiply</span>,
@@ -2309,7 +2309,7 @@ TODO: would be nice to find ways that avoid looking up as much
                         },
                     );
                 }
-                <span class="ident">Op</span>::<span class="ident">SampledImage</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">SampledImage</span> <span class="op">=&gt;</span> {
                     <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">5</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">_result_type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2326,7 +2326,7 @@ TODO: would be nice to find ways that avoid looking up as much
                         },
                     );
                 }
-                <span class="ident">Op</span>::<span class="ident">ImageSampleImplicitLod</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Op</span>::<span class="ident">ImageSampleImplicitLod</span> <span class="op">=&gt;</span> {
                     <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">5</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">result_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2343,8 +2343,8 @@ TODO: would be nice to find ways that avoid looking up as much
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> {
                             <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Float</span>,
                             ..
-                        } <span class="op">=</span><span class="op">&gt;</span> (),
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">coord_type_lookup</span>.<span class="ident">handle</span>)),
+                        } <span class="op">=&gt;</span> (),
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">coord_type_lookup</span>.<span class="ident">handle</span>)),
                     }
                     <span class="comment">//TODO: compare the result type</span>
                     <span class="kw">let</span> <span class="ident">expr</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">ImageSample</span> {
@@ -2360,13 +2360,13 @@ TODO: would be nice to find ways that avoid looking up as much
                         },
                     );
                 }
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedInstruction</span>(<span class="self">self</span>.<span class="ident">state</span>, <span class="ident">inst</span>.<span class="ident">op</span>)),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedInstruction</span>(<span class="self">self</span>.<span class="ident">state</span>, <span class="ident">inst</span>.<span class="ident">op</span>)),
             }
         }
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">make_expression_storage</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Expression</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">make_expression_storage</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Expression</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">expressions</span> <span class="op">=</span> <span class="ident">Arena</span>::<span class="ident">new</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">lookup_expression</span>.<span class="ident">is_empty</span>());
         <span class="comment">// register global variables</span>
@@ -2393,7 +2393,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="ident">expressions</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">switch</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">state</span>: <span class="ident">ModuleState</span>, <span class="ident">op</span>: <span class="ident">spirv</span>::<span class="ident">Op</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">switch</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">state</span>: <span class="ident">ModuleState</span>, <span class="ident">op</span>: <span class="ident">spirv</span>::<span class="ident">Op</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">state</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">state</span> {
             <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedInstruction</span>(<span class="self">self</span>.<span class="ident">state</span>, <span class="ident">op</span>))
         } <span class="kw">else</span> {
@@ -2402,9 +2402,9 @@ TODO: would be nice to find ways that avoid looking up as much
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Module</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Module</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">module</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">Module</span>::<span class="ident">from_header</span>({
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span> <span class="op">!</span><span class="op">=</span> <span class="ident">spirv</span>::<span class="ident">MAGIC_NUMBER</span> {
+            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span> <span class="op">!=</span> <span class="ident">spirv</span>::<span class="ident">MAGIC_NUMBER</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidHeader</span>);
             }
             <span class="kw">let</span> <span class="ident">version_raw</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>.<span class="ident">to_le_bytes</span>();
@@ -2422,36 +2422,36 @@ TODO: would be nice to find ways that avoid looking up as much
             <span class="kw">use</span> <span class="ident">spirv</span>::<span class="ident">Op</span>;
             <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;\t{:?} [{}]&quot;</span>, <span class="ident">inst</span>.<span class="ident">op</span>, <span class="ident">inst</span>.<span class="ident">wc</span>);
             <span class="kw">match</span> <span class="ident">inst</span>.<span class="ident">op</span> {
-                <span class="ident">Op</span>::<span class="ident">Capability</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_capability</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">Extension</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_extension</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">ExtInstImport</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_ext_inst_import</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">MemoryModel</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_memory_model</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">EntryPoint</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_entry_point</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">entry_points</span>),
-                <span class="ident">Op</span>::<span class="ident">ExecutionMode</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_execution_mode</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">Source</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_source</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">SourceExtension</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_source_extension</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">Name</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_name</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">MemberName</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_member_name</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">Decorate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_decorate</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">MemberDecorate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_member_decorate</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeVoid</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_void</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeInt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_int</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeFloat</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_float</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeVector</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_vector</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeMatrix</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_matrix</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeFunction</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_function</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">TypePointer</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_pointer</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeArray</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_array</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeRuntimeArray</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_runtime_array</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeStruct</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_struct</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeImage</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_image</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeSampledImage</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_sampled_image</span>(<span class="ident">inst</span>),
-                <span class="ident">Op</span>::<span class="ident">TypeSampler</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_sampler</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">Constant</span> <span class="op">|</span> <span class="ident">Op</span>::<span class="ident">SpecConstant</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_constant</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">ConstantComposite</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_composite_constant</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">Variable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_variable</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="ident">Op</span>::<span class="ident">Function</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">parse_function</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedInstruction</span>(<span class="self">self</span>.<span class="ident">state</span>, <span class="ident">inst</span>.<span class="ident">op</span>)), <span class="comment">//TODO</span>
+                <span class="ident">Op</span>::<span class="ident">Capability</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_capability</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">Extension</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_extension</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">ExtInstImport</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_ext_inst_import</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">MemoryModel</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_memory_model</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">EntryPoint</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_entry_point</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">entry_points</span>),
+                <span class="ident">Op</span>::<span class="ident">ExecutionMode</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_execution_mode</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">Source</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_source</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">SourceExtension</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_source_extension</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">Name</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_name</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">MemberName</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_member_name</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">Decorate</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_decorate</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">MemberDecorate</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_member_decorate</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeVoid</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_void</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeInt</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_int</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeFloat</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_float</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeVector</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_vector</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeMatrix</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_matrix</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeFunction</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_function</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">TypePointer</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_pointer</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeArray</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_array</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeRuntimeArray</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_runtime_array</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeStruct</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_struct</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeImage</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_image</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeSampledImage</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_sampled_image</span>(<span class="ident">inst</span>),
+                <span class="ident">Op</span>::<span class="ident">TypeSampler</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_type_sampler</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">Constant</span> <span class="op">|</span> <span class="ident">Op</span>::<span class="ident">SpecConstant</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_constant</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">ConstantComposite</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_composite_constant</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">Variable</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_variable</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="ident">Op</span>::<span class="ident">Function</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">parse_function</span>(<span class="ident">inst</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">module</span>),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedInstruction</span>(<span class="self">self</span>.<span class="ident">state</span>, <span class="ident">inst</span>.<span class="ident">op</span>)), <span class="comment">//TODO</span>
             }<span class="question-mark">?</span>;
         }
 
@@ -2476,7 +2476,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(<span class="ident">module</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_capability</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_capability</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Capability</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">2</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">capability</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2488,11 +2488,11 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_extension</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_extension</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Extension</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">2</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">name</span>, <span class="ident">left</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_string</span>(<span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">-</span> <span class="number">1</span>)<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">left</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">left</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidOperand</span>);
         }
         <span class="kw">if</span> <span class="op">!</span><span class="ident">SUPPORTED_EXTENSIONS</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>.<span class="ident">as_str</span>()) {
@@ -2501,12 +2501,12 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_ext_inst_import</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_ext_inst_import</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Extension</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">_result</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">name</span>, <span class="ident">left</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_string</span>(<span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">-</span> <span class="number">2</span>)<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">left</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">left</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidOperand</span>);
         }
         <span class="kw">if</span> <span class="op">!</span><span class="ident">SUPPORTED_EXT_SETS</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>.<span class="ident">as_str</span>()) {
@@ -2515,7 +2515,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_memory_model</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_memory_model</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">MemoryModel</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">_addressing_model</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2527,7 +2527,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">entry_points</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">EntryPoint</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">EntryPoint</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">exec_model</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2545,7 +2545,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_execution_mode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_execution_mode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">ExecutionMode</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">_ep_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2556,7 +2556,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_source</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_source</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Source</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">inst</span>.<span class="ident">wc</span> {
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2564,32 +2564,32 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_source_extension</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_source_extension</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Source</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">2</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">_name</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_string</span>(<span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">-</span> <span class="number">1</span>)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Name</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">name</span>, <span class="ident">left</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_string</span>(<span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">-</span> <span class="number">2</span>)<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">left</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">left</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidOperand</span>);
         }
         <span class="self">self</span>.<span class="ident">future_decor</span>.<span class="ident">entry</span>(<span class="ident">id</span>).<span class="ident">or_default</span>().<span class="ident">name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">name</span>);
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_member_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_member_name</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Name</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">member</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">name</span>, <span class="ident">left</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_string</span>(<span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">-</span> <span class="number">3</span>)<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">left</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">left</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidOperand</span>);
         }
         <span class="self">self</span>.<span class="ident">future_member_decor</span>
@@ -2599,7 +2599,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_decorate</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_decorate</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Annotation</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2609,7 +2609,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_member_decorate</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_member_decorate</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Annotation</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2623,7 +2623,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_type_void</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_type_void</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">2</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2635,7 +2635,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2643,9 +2643,9 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw">let</span> <span class="ident">sign</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> {
             <span class="ident">kind</span>: <span class="kw">match</span> <span class="ident">sign</span> {
-                <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Uint</span>,
-                <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Sint</span>,
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidSign</span>(<span class="ident">sign</span>)),
+                <span class="number">0</span> <span class="op">=&gt;</span> <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Uint</span>,
+                <span class="number">1</span> <span class="op">=&gt;</span> <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Sint</span>,
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidSign</span>(<span class="ident">sign</span>)),
             },
             <span class="ident">width</span>: <span class="ident">width</span>
                 .<span class="ident">try_into</span>()
@@ -2668,7 +2668,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2696,15 +2696,15 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">type_lookup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">type_id</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">kind</span>, <span class="ident">width</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">module</span>.<span class="ident">types</span>[<span class="ident">type_lookup</span>.<span class="ident">handle</span>].<span class="ident">inner</span> {
-            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> { <span class="ident">kind</span>, <span class="ident">width</span> } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">kind</span>, <span class="ident">width</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidInnerType</span>(<span class="ident">type_id</span>)),
+            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> { <span class="ident">kind</span>, <span class="ident">width</span> } <span class="op">=&gt;</span> (<span class="ident">kind</span>, <span class="ident">width</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidInnerType</span>(<span class="ident">type_id</span>)),
         };
         <span class="kw">let</span> <span class="ident">component_count</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> {
@@ -2729,7 +2729,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2737,13 +2737,13 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw">let</span> <span class="ident">num_columns</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">vector_type_lookup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">vector_type_id</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">module</span>.<span class="ident">types</span>[<span class="ident">vector_type_lookup</span>.<span class="ident">handle</span>].<span class="ident">inner</span> {
-            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> { <span class="ident">size</span>, <span class="ident">kind</span>, <span class="ident">width</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Matrix</span> {
+            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> { <span class="ident">size</span>, <span class="ident">kind</span>, <span class="ident">width</span> } <span class="op">=&gt;</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Matrix</span> {
                 <span class="ident">columns</span>: <span class="ident">map_vector_size</span>(<span class="ident">num_columns</span>)<span class="question-mark">?</span>,
                 <span class="ident">rows</span>: <span class="ident">size</span>,
                 <span class="ident">kind</span>,
                 <span class="ident">width</span>,
             },
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidInnerType</span>(<span class="ident">vector_type_id</span>)),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidInnerType</span>(<span class="ident">vector_type_id</span>)),
         };
         <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">insert</span>(
             <span class="ident">id</span>,
@@ -2758,7 +2758,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_type_function</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_type_function</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2778,7 +2778,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2805,7 +2805,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2835,7 +2835,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2864,7 +2864,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">2</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2911,7 +2911,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">9</span>)<span class="question-mark">?</span>;
 
@@ -2920,25 +2920,25 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw">let</span> <span class="ident">dim</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">flags</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">empty</span>();
         <span class="kw">let</span> <span class="ident">_is_depth</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">ARRAYED</span>;
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="ident">flags</span> <span class="op">|=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">ARRAYED</span>;
         }
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">MULTISAMPLED</span>;
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="ident">flags</span> <span class="op">|=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">MULTISAMPLED</span>;
         }
         <span class="kw">let</span> <span class="ident">is_sampled</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">is_sampled</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">SAMPLED</span>;
+        <span class="kw">if</span> <span class="ident">is_sampled</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="ident">flags</span> <span class="op">|=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">SAMPLED</span>;
         }
         <span class="kw">let</span> <span class="ident">_format</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">&gt;</span> <span class="number">9</span> {
             <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">10</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">access</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
-            <span class="kw">if</span> <span class="ident">access</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">access</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span> {
-                <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">CAN_LOAD</span>;
+            <span class="kw">if</span> <span class="ident">access</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">access</span> <span class="op">==</span> <span class="number">2</span> {
+                <span class="ident">flags</span> <span class="op">|=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">CAN_LOAD</span>;
             }
-            <span class="kw">if</span> <span class="ident">access</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> <span class="op">|</span><span class="op">|</span> <span class="ident">access</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span> {
-                <span class="ident">flags</span> <span class="op">|</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">CAN_STORE</span>;
+            <span class="kw">if</span> <span class="ident">access</span> <span class="op">==</span> <span class="number">1</span> <span class="op">||</span> <span class="ident">access</span> <span class="op">==</span> <span class="number">2</span> {
+                <span class="ident">flags</span> <span class="op">|=</span> <span class="kw">crate</span>::<span class="ident">ImageFlags</span>::<span class="ident">CAN_STORE</span>;
             }
         };
 
@@ -2962,7 +2962,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">parse_type_sampled_image</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parse_type_sampled_image</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">inst</span>: <span class="ident">Instruction</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -2981,7 +2981,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">2</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -3004,7 +3004,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -3015,7 +3015,7 @@ TODO: would be nice to find ways that avoid looking up as much
             <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> {
                 <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Uint</span>,
                 <span class="ident">width</span>,
-            } <span class="op">=</span><span class="op">&gt;</span> {
+            } <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">low</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">high</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">width</span> <span class="op">&gt;</span> <span class="number">32</span> {
                     <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
@@ -3023,41 +3023,41 @@ TODO: would be nice to find ways that avoid looking up as much
                 } <span class="kw">else</span> {
                     <span class="number">0</span>
                 };
-                <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Uint</span>((<span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">high</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">32</span>) <span class="op">|</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">low</span>))
+                <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Uint</span>((<span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">high</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>) <span class="op">|</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">low</span>))
             }
             <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> {
                 <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Sint</span>,
                 <span class="ident">width</span>,
-            } <span class="op">=</span><span class="op">&gt;</span> {
+            } <span class="op">=&gt;</span> {
                 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cmp</span>::<span class="ident">Ordering</span>;
                 <span class="kw">let</span> <span class="ident">low</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">high</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">width</span>.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="number">32</span>) {
-                    <span class="ident">Ordering</span>::<span class="ident">Less</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidTypeWidth</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">width</span>))),
-                    <span class="ident">Ordering</span>::<span class="ident">Greater</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="ident">Ordering</span>::<span class="ident">Less</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidTypeWidth</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">width</span>))),
+                    <span class="ident">Ordering</span>::<span class="ident">Greater</span> <span class="op">=&gt;</span> {
                         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
                         <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>
                     }
-                    <span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="op">!</span><span class="number">0</span>,
+                    <span class="ident">Ordering</span>::<span class="ident">Equal</span> <span class="op">=&gt;</span> <span class="op">!</span><span class="number">0</span>,
                 };
-                <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Sint</span>(((<span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">high</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">32</span>) <span class="op">|</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">low</span>)) <span class="kw">as</span> <span class="ident">i64</span>)
+                <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Sint</span>(((<span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">high</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>) <span class="op">|</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">low</span>)) <span class="kw">as</span> <span class="ident">i64</span>)
             }
             <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> {
                 <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Float</span>,
                 <span class="ident">width</span>,
-            } <span class="op">=</span><span class="op">&gt;</span> {
+            } <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">low</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">extended</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">width</span> {
-                    <span class="number">32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f64</span>::<span class="ident">from</span>(<span class="ident">f32</span>::<span class="ident">from_bits</span>(<span class="ident">low</span>)),
-                    <span class="number">64</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="number">32</span> <span class="op">=&gt;</span> <span class="ident">f64</span>::<span class="ident">from</span>(<span class="ident">f32</span>::<span class="ident">from_bits</span>(<span class="ident">low</span>)),
+                    <span class="number">64</span> <span class="op">=&gt;</span> {
                         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
                         <span class="kw">let</span> <span class="ident">high</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
-                        <span class="ident">f64</span>::<span class="ident">from_bits</span>((<span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">high</span>) <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">32</span>) <span class="op">|</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">low</span>))
+                        <span class="ident">f64</span>::<span class="ident">from_bits</span>((<span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">high</span>) <span class="op">&lt;&lt;</span> <span class="number">32</span>) <span class="op">|</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">low</span>))
                     }
-                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidTypeWidth</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">width</span>))),
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidTypeWidth</span>(<span class="ident">u32</span>::<span class="ident">from</span>(<span class="ident">width</span>))),
                 };
                 <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Float</span>(<span class="ident">extended</span>)
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">type_lookup</span>.<span class="ident">handle</span>)),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedType</span>(<span class="ident">type_lookup</span>.<span class="ident">handle</span>)),
         };
         <span class="self">self</span>.<span class="ident">lookup_constant</span>.<span class="ident">insert</span>(
             <span class="ident">id</span>,
@@ -3078,7 +3078,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">3</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -3115,13 +3115,13 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Type</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect_at_least</span>(<span class="number">4</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">storage</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">!</span><span class="op">=</span> <span class="number">4</span> {
+        <span class="kw">if</span> <span class="ident">inst</span>.<span class="ident">wc</span> <span class="op">!=</span> <span class="number">4</span> {
             <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">5</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">_init</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>; <span class="comment">//TODO</span>
         }
@@ -3138,9 +3138,9 @@ TODO: would be nice to find ways that avoid looking up as much
             <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Pointer</span> {
                 <span class="ident">base</span>,
                 <span class="ident">class</span>: <span class="ident">spirv</span>::<span class="ident">StorageClass</span>::<span class="ident">Output</span>,
-            } <span class="op">=</span><span class="op">&gt;</span> {
+            } <span class="op">=&gt;</span> {
                 <span class="kw">match</span> <span class="ident">module</span>.<span class="ident">types</span>[<span class="ident">base</span>].<span class="ident">inner</span> {
-                    <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Struct</span> { <span class="kw-2">ref</span> <span class="ident">members</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Struct</span> { <span class="kw-2">ref</span> <span class="ident">members</span> } <span class="op">=&gt;</span> {
                         <span class="comment">// we don&#39;t expect binding decoration on I/O structs,</span>
                         <span class="comment">// but we do expect them on all of the members</span>
                         <span class="kw">for</span> <span class="ident">member</span> <span class="kw">in</span> <span class="ident">members</span> {
@@ -3155,10 +3155,10 @@ TODO: would be nice to find ways that avoid looking up as much
                         }
                         <span class="prelude-val">None</span>
                     }
-                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">dec</span>.<span class="ident">get_binding</span>().<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">InvalidBinding</span>(<span class="ident">id</span>))<span class="question-mark">?</span>),
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">dec</span>.<span class="ident">get_binding</span>().<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">InvalidBinding</span>(<span class="ident">id</span>))<span class="question-mark">?</span>),
                 }
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">dec</span>.<span class="ident">get_binding</span>().<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">InvalidBinding</span>(<span class="ident">id</span>))<span class="question-mark">?</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Some</span>(<span class="ident">dec</span>.<span class="ident">get_binding</span>().<span class="ident">ok_or</span>(<span class="ident">Error</span>::<span class="ident">InvalidBinding</span>(<span class="ident">id</span>))<span class="question-mark">?</span>),
         };
         <span class="kw">let</span> <span class="ident">var</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">GlobalVariable</span> {
             <span class="ident">name</span>: <span class="ident">dec</span>.<span class="ident">name</span>,
@@ -3180,7 +3180,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">inst</span>: <span class="ident">Instruction</span>,
         <span class="ident">module</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">crate</span>::<span class="ident">Module</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">switch</span>(<span class="ident">ModuleState</span>::<span class="ident">Function</span>, <span class="ident">inst</span>.<span class="ident">op</span>)<span class="question-mark">?</span>;
         <span class="ident">inst</span>.<span class="ident">expect</span>(<span class="number">5</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">result_type</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
@@ -3189,7 +3189,7 @@ TODO: would be nice to find ways that avoid looking up as much
         <span class="kw">let</span> <span class="ident">fun_type</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fun</span> <span class="op">=</span> {
             <span class="kw">let</span> <span class="ident">ft</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_function_type</span>.<span class="ident">lookup</span>(<span class="ident">fun_type</span>)<span class="question-mark">?</span>;
-            <span class="kw">if</span> <span class="ident">ft</span>.<span class="ident">return_type_id</span> <span class="op">!</span><span class="op">=</span> <span class="ident">result_type</span> {
+            <span class="kw">if</span> <span class="ident">ft</span>.<span class="ident">return_type_id</span> <span class="op">!=</span> <span class="ident">result_type</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">WrongFunctionResultType</span>(<span class="ident">result_type</span>));
             }
             <span class="kw">crate</span>::<span class="ident">Function</span> {
@@ -3214,12 +3214,12 @@ TODO: would be nice to find ways that avoid looking up as much
                 <span class="ident">Instruction</span> {
                     <span class="ident">op</span>: <span class="ident">spirv</span>::<span class="ident">Op</span>::<span class="ident">FunctionParameter</span>,
                     <span class="ident">wc</span>: <span class="number">3</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">type_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="comment">//Note: we redo the lookup in order to work around `self` borrowing</span>
                     <span class="kw">if</span> <span class="ident">type_id</span>
-                        <span class="op">!</span><span class="op">=</span> <span class="self">self</span>
+                        <span class="op">!=</span> <span class="self">self</span>
                             .<span class="ident">lookup_function_type</span>
                             .<span class="ident">lookup</span>(<span class="ident">fun_type</span>)<span class="question-mark">?</span>
                             .<span class="ident">parameter_type_ids</span>[<span class="ident">i</span>]
@@ -3229,7 +3229,7 @@ TODO: would be nice to find ways that avoid looking up as much
                     <span class="kw">let</span> <span class="ident">ty</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lookup_type</span>.<span class="ident">lookup</span>(<span class="ident">type_id</span>)<span class="question-mark">?</span>.<span class="ident">handle</span>;
                     <span class="ident">fun</span>.<span class="ident">parameter_types</span>.<span class="ident">push</span>(<span class="ident">ty</span>);
                 }
-                <span class="ident">Instruction</span> { <span class="ident">op</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidParameter</span>(<span class="ident">op</span>)),
+                <span class="ident">Instruction</span> { <span class="ident">op</span>, .. } <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">InvalidParameter</span>(<span class="ident">op</span>)),
             }
         }
         <span class="comment">// read body</span>
@@ -3237,16 +3237,16 @@ TODO: would be nice to find ways that avoid looking up as much
             <span class="kw">let</span> <span class="ident">fun_inst</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next_inst</span>()<span class="question-mark">?</span>;
             <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;\t\t{:?}&quot;</span>, <span class="ident">fun_inst</span>.<span class="ident">op</span>);
             <span class="kw">match</span> <span class="ident">fun_inst</span>.<span class="ident">op</span> {
-                <span class="ident">spirv</span>::<span class="ident">Op</span>::<span class="ident">Label</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">spirv</span>::<span class="ident">Op</span>::<span class="ident">Label</span> <span class="op">=&gt;</span> {
                     <span class="ident">fun_inst</span>.<span class="ident">expect</span>(<span class="number">2</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
                     <span class="self">self</span>.<span class="ident">next_block</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fun</span>, <span class="kw-2">&amp;</span><span class="ident">module</span>.<span class="ident">types</span>, <span class="kw-2">&amp;</span><span class="ident">module</span>.<span class="ident">constants</span>)<span class="question-mark">?</span>;
                 }
-                <span class="ident">spirv</span>::<span class="ident">Op</span>::<span class="ident">FunctionEnd</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">spirv</span>::<span class="ident">Op</span>::<span class="ident">FunctionEnd</span> <span class="op">=&gt;</span> {
                     <span class="ident">fun_inst</span>.<span class="ident">expect</span>(<span class="number">1</span>)<span class="question-mark">?</span>;
                     <span class="kw">break</span>;
                 }
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedInstruction</span>(<span class="self">self</span>.<span class="ident">state</span>, <span class="ident">fun_inst</span>.<span class="ident">op</span>)),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">UnsupportedInstruction</span>(<span class="self">self</span>.<span class="ident">state</span>, <span class="ident">fun_inst</span>.<span class="ident">op</span>)),
             }
         }
         <span class="comment">// done</span>
@@ -3260,8 +3260,8 @@ TODO: would be nice to find ways that avoid looking up as much
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_u8_slice</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Module</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-    <span class="kw">if</span> <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">%</span> <span class="number">4</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_u8_slice</span>(<span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Module</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="ident">data</span>.<span class="ident">len</span>() <span class="op">%</span> <span class="number">4</span> <span class="op">!=</span> <span class="number">0</span> {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">IncompleteData</span>);
     }
 

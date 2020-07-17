@@ -49,14 +49,14 @@ a dummy <code>#[project]</code> attribute for the function.</em></p>
     <span class="kw">fn</span> <span class="ident">baz</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) {
         <span class="attribute">#[<span class="ident">project</span>]</span>
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">project</span>() {
-            <span class="ident">Enum</span>::<span class="ident">Tuple</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Enum</span>::<span class="ident">Tuple</span>(<span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">A</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">x</span>;
                 <span class="kw">let</span> <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span> <span class="op">=</span> <span class="ident">y</span>;
             }
-            <span class="ident">Enum</span>::<span class="ident">Struct</span> { <span class="ident">field</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Enum</span>::<span class="ident">Struct</span> { <span class="ident">field</span> } <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">C</span> <span class="op">=</span> <span class="ident">field</span>;
             }
-            <span class="ident">Enum</span>::<span class="ident">Unit</span> <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="ident">Enum</span>::<span class="ident">Unit</span> <span class="op">=&gt;</span> {}
         }
     }
 }</pre></div>
@@ -114,7 +114,7 @@ get the projected-type with <code>let this = self.project();</code>.</p>
     <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">Foo</span>;
 
     <span class="attribute">#[<span class="ident">project</span>]</span>
-    <span class="kw">fn</span> <span class="ident">baz</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">foo</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Foo</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">baz</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">foo</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Foo</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;&gt;</span>) {
         <span class="attribute">#[<span class="ident">project</span>]</span>
         <span class="kw">let</span> <span class="ident">Foo</span> { <span class="ident">field</span> } <span class="op">=</span> <span class="ident">foo</span>.<span class="ident">project</span>();
         <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">A</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">field</span>;

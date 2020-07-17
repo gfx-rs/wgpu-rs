@@ -133,7 +133,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">St</span>: <span class="ident">Stream</span><span class="op">&gt;</span> <span class="ident">ReadyChunks</span><span class="op">&lt;</span><span class="ident">St</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">St</span>: <span class="ident">Stream</span> {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">stream</span>: <span class="ident">St</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ReadyChunks</span><span class="op">&lt;</span><span class="ident">St</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">stream</span>: <span class="ident">St</span>, <span class="ident">capacity</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">ReadyChunks</span><span class="op">&lt;</span><span class="ident">St</span><span class="op">&gt;</span> {
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">capacity</span> <span class="op">&gt;</span> <span class="number">0</span>);
 
         <span class="ident">ReadyChunks</span> {
@@ -153,7 +153,7 @@
     <span class="kw">fn</span> <span class="ident">poll_next</span>(
         <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;&gt;</span> {
         <span class="attribute">#[<span class="ident">project</span>]</span>
         <span class="kw">let</span> <span class="ident">ReadyChunks</span> { <span class="ident">items</span>, <span class="ident">cap</span>, <span class="kw-2">mut</span> <span class="ident">stream</span> } <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
 
@@ -161,7 +161,7 @@
             <span class="kw">match</span> <span class="ident">stream</span>.<span class="ident">as_mut</span>().<span class="ident">poll_next</span>(<span class="ident">cx</span>) {
                 <span class="comment">// Flush all collected data if underlying stream doesn&#39;t contain</span>
                 <span class="comment">// more ready values</span>
-                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=&gt;</span> {
                     <span class="kw">return</span> <span class="kw">if</span> <span class="ident">items</span>.<span class="ident">is_empty</span>() {
                         <span class="ident">Poll</span>::<span class="ident">Pending</span>
                     } <span class="kw">else</span> {
@@ -172,16 +172,16 @@
                 <span class="comment">// Push the ready item into the buffer and check whether it is full.</span>
                 <span class="comment">// If so, replace our buffer with a new and empty one and return</span>
                 <span class="comment">// the full one.</span>
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">item</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">item</span>)) <span class="op">=&gt;</span> {
                     <span class="ident">items</span>.<span class="ident">push</span>(<span class="ident">item</span>);
-                    <span class="kw">if</span> <span class="ident">items</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">cap</span> {
+                    <span class="kw">if</span> <span class="ident">items</span>.<span class="ident">len</span>() <span class="op">&gt;=</span> <span class="kw-2">*</span><span class="ident">cap</span> {
                         <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">mem</span>::<span class="ident">replace</span>(<span class="ident">items</span>, <span class="ident">Vec</span>::<span class="ident">with_capacity</span>(<span class="kw-2">*</span><span class="ident">cap</span>))))
                     }
                 }
 
                 <span class="comment">// Since the underlying stream ran out of values, return what we</span>
                 <span class="comment">// have buffered, if we have anything.</span>
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>) <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">last</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">items</span>.<span class="ident">is_empty</span>() {
                         <span class="prelude-val">None</span>
                     } <span class="kw">else</span> {
@@ -195,21 +195,21 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
         <span class="kw">let</span> <span class="ident">chunk_len</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">items</span>.<span class="ident">is_empty</span>() { <span class="number">0</span> } <span class="kw">else</span> { <span class="number">1</span> };
         <span class="kw">let</span> (<span class="ident">lower</span>, <span class="ident">upper</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">stream</span>.<span class="ident">size_hint</span>();
         <span class="kw">let</span> <span class="ident">lower</span> <span class="op">=</span> <span class="ident">lower</span>.<span class="ident">saturating_add</span>(<span class="ident">chunk_len</span>);
         <span class="kw">let</span> <span class="ident">upper</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">upper</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">x</span>.<span class="ident">checked_add</span>(<span class="ident">chunk_len</span>),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">None</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">x</span>.<span class="ident">checked_add</span>(<span class="ident">chunk_len</span>),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
         };
         (<span class="ident">lower</span>, <span class="ident">upper</span>)
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">St</span>: <span class="ident">FusedStream</span><span class="op">&gt;</span> <span class="ident">FusedStream</span> <span class="kw">for</span> <span class="ident">ReadyChunks</span><span class="op">&lt;</span><span class="ident">St</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">stream</span>.<span class="ident">is_terminated</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">items</span>.<span class="ident">is_empty</span>()
+    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">stream</span>.<span class="ident">is_terminated</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">items</span>.<span class="ident">is_empty</span>()
     }
 }
 

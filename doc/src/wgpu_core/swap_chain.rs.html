@@ -286,7 +286,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">desc</span>: <span class="ident">SwapChainDescriptor</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">num_frames</span>: <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">SwapImageIndex</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">semaphore</span>: <span class="ident">B</span>::<span class="ident">Semaphore</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">acquired_view_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">TextureViewId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">acquired_view_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Stored</span><span class="op">&lt;</span><span class="ident">TextureViewId</span><span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">acquired_framebuffers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">Framebuffer</span><span class="op">&gt;</span>,
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">active_submission_index</span>: <span class="ident">SubmissionIndex</span>,
 }
@@ -295,7 +295,7 @@
     <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">SwapChainDescriptor</span>,
     <span class="ident">num_frames</span>: <span class="ident">u32</span>,
     <span class="ident">private_features</span>: <span class="ident">PrivateFeatures</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">SwapchainConfig</span> {
+) <span class="op">-&gt;</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">SwapchainConfig</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">SwapchainConfig</span>::<span class="ident">new</span>(
         <span class="ident">desc</span>.<span class="ident">width</span>,
         <span class="ident">desc</span>.<span class="ident">height</span>,
@@ -306,9 +306,9 @@
     <span class="ident">config</span>.<span class="ident">image_usage</span> <span class="op">=</span> <span class="ident">conv</span>::<span class="ident">map_texture_usage</span>(<span class="ident">desc</span>.<span class="ident">usage</span>, <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">COLOR</span>);
     <span class="ident">config</span>.<span class="ident">composite_alpha_mode</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">CompositeAlphaMode</span>::<span class="ident">OPAQUE</span>;
     <span class="ident">config</span>.<span class="ident">present_mode</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">desc</span>.<span class="ident">present_mode</span> {
-        <span class="ident">wgt</span>::<span class="ident">PresentMode</span>::<span class="ident">Immediate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentMode</span>::<span class="ident">IMMEDIATE</span>,
-        <span class="ident">wgt</span>::<span class="ident">PresentMode</span>::<span class="ident">Mailbox</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentMode</span>::<span class="ident">MAILBOX</span>,
-        <span class="ident">wgt</span>::<span class="ident">PresentMode</span>::<span class="ident">Fifo</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentMode</span>::<span class="ident">FIFO</span>,
+        <span class="ident">wgt</span>::<span class="ident">PresentMode</span>::<span class="ident">Immediate</span> <span class="op">=&gt;</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentMode</span>::<span class="ident">IMMEDIATE</span>,
+        <span class="ident">wgt</span>::<span class="ident">PresentMode</span>::<span class="ident">Mailbox</span> <span class="op">=&gt;</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentMode</span>::<span class="ident">MAILBOX</span>,
+        <span class="ident">wgt</span>::<span class="ident">PresentMode</span>::<span class="ident">Fifo</span> <span class="op">=&gt;</span> <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentMode</span>::<span class="ident">FIFO</span>,
     };
     <span class="ident">config</span>
 }
@@ -325,7 +325,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">swap_chain_id</span>: <span class="ident">SwapChainId</span>,
         <span class="ident">view_id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">TextureViewId</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SwapChainOutput</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">SwapChainOutput</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;SwapChain::get_next_texture&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -341,17 +341,17 @@
 
         <span class="kw">let</span> <span class="ident">suf</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">get_surface_mut</span>(<span class="ident">surface</span>);
         <span class="kw">let</span> (<span class="ident">image</span>, <span class="ident">status</span>) <span class="op">=</span> <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">suf</span>.<span class="ident">acquire_image</span>(<span class="ident">FRAME_TIMEOUT_MS</span> <span class="op">*</span> <span class="number">1_000_000</span>) } {
-            <span class="prelude-val">Ok</span>((<span class="ident">surface_image</span>, <span class="prelude-val">None</span>)) <span class="op">=</span><span class="op">&gt;</span> (<span class="prelude-val">Some</span>(<span class="ident">surface_image</span>), <span class="ident">SwapChainStatus</span>::<span class="ident">Good</span>),
-            <span class="prelude-val">Ok</span>((<span class="ident">surface_image</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>))) <span class="op">=</span><span class="op">&gt;</span> (<span class="prelude-val">Some</span>(<span class="ident">surface_image</span>), <span class="ident">SwapChainStatus</span>::<span class="ident">Suboptimal</span>),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> (
+            <span class="prelude-val">Ok</span>((<span class="ident">surface_image</span>, <span class="prelude-val">None</span>)) <span class="op">=&gt;</span> (<span class="prelude-val">Some</span>(<span class="ident">surface_image</span>), <span class="ident">SwapChainStatus</span>::<span class="ident">Good</span>),
+            <span class="prelude-val">Ok</span>((<span class="ident">surface_image</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>))) <span class="op">=&gt;</span> (<span class="prelude-val">Some</span>(<span class="ident">surface_image</span>), <span class="ident">SwapChainStatus</span>::<span class="ident">Suboptimal</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> (
                 <span class="prelude-val">None</span>,
                 <span class="kw">match</span> <span class="ident">err</span> {
-                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">OutOfMemory</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">OutOfMemory</span>,
-                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">NotReady</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(), <span class="comment">// we always set a timeout</span>
-                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">Timeout</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Timeout</span>,
-                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">OutOfDate</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Outdated</span>,
-                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">SurfaceLost</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Lost</span>,
-                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">DeviceLost</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Lost</span>,
+                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">OutOfMemory</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">OutOfMemory</span>,
+                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">NotReady</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(), <span class="comment">// we always set a timeout</span>
+                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">Timeout</span> <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Timeout</span>,
+                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">OutOfDate</span> <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Outdated</span>,
+                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">SurfaceLost</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Lost</span>,
+                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">DeviceLost</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Lost</span>,
                 },
             ),
         };
@@ -400,11 +400,11 @@
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
         <span class="kw">match</span> <span class="ident">device</span>.<span class="ident">trace</span> {
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">trace</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">trace</span>.<span class="ident">lock</span>().<span class="ident">add</span>(<span class="ident">Action</span>::<span class="ident">GetSwapChainTexture</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">trace</span>) <span class="op">=&gt;</span> <span class="ident">trace</span>.<span class="ident">lock</span>().<span class="ident">add</span>(<span class="ident">Action</span>::<span class="ident">GetSwapChainTexture</span> {
                 <span class="ident">id</span>: <span class="ident">view_id</span>,
                 <span class="ident">parent_id</span>: <span class="ident">swap_chain_id</span>,
             }),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> (),
         };
 
         <span class="ident">SwapChainOutput</span> { <span class="ident">status</span>, <span class="ident">view_id</span> }
@@ -425,8 +425,8 @@
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
         <span class="kw">match</span> <span class="ident">device</span>.<span class="ident">trace</span> {
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">trace</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">trace</span>.<span class="ident">lock</span>().<span class="ident">add</span>(<span class="ident">Action</span>::<span class="ident">PresentSwapChain</span>(<span class="ident">swap_chain_id</span>)),
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> (),
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">trace</span>) <span class="op">=&gt;</span> <span class="ident">trace</span>.<span class="ident">lock</span>().<span class="ident">add</span>(<span class="ident">Action</span>::<span class="ident">PresentSwapChain</span>(<span class="ident">swap_chain_id</span>)),
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> (),
         };
 
         <span class="kw">let</span> <span class="ident">view_id</span> <span class="op">=</span> <span class="ident">sc</span>
@@ -435,8 +435,8 @@
             .<span class="ident">expect</span>(<span class="string">&quot;Swap chain image is not acquired&quot;</span>);
         <span class="kw">let</span> (<span class="ident">view</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">texture_views</span>.<span class="ident">unregister</span>(<span class="ident">view_id</span>.<span class="ident">value</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
         <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">view</span>.<span class="ident">inner</span> {
-            <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
-            <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="ident">image</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">image</span>,
+            <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { .. } <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="ident">image</span>, .. } <span class="op">=&gt;</span> <span class="ident">image</span>,
         };
 
         <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> {

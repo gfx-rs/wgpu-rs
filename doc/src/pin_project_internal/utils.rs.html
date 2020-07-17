@@ -420,17 +420,17 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type</span> <span class="ident">Variants</span> <span class="op">=</span> <span class="ident">Punctuated</span><span class="op">&lt;</span><span class="ident">Variant</span>, <span class="macro">Token</span><span class="macro">!</span>[,]<span class="op">&gt;</span>;
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">error</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">msg</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">msg</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {
         <span class="ident">syn</span>::<span class="ident">Error</span>::<span class="ident">new_spanned</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">msg</span>)
     };
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>:<span class="ident">expr</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>:<span class="ident">expr</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
         <span class="macro">error</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>, <span class="macro">format</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>)<span class="kw-2">*</span>))
     };
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">parse_quote_spanned</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>:<span class="ident">expr</span> <span class="op">=</span><span class="op">&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="ident">syn</span>::<span class="ident">parse2</span>(<span class="ident">quote</span>::<span class="macro">quote_spanned</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span> <span class="op">=</span><span class="op">&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>)<span class="kw-2">*</span>)).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>))
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span>:<span class="ident">expr</span> <span class="op">=&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
+        <span class="ident">syn</span>::<span class="ident">parse2</span>(<span class="ident">quote</span>::<span class="macro">quote_spanned</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">span</span> <span class="op">=&gt;</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tt</span>)<span class="kw-2">*</span>)).<span class="ident">unwrap_or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>))
     };
 }
 
@@ -445,21 +445,21 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="ident">ALL</span>: [<span class="self">Self</span>; <span class="number">3</span>] <span class="op">=</span> [<span class="ident">ProjKind</span>::<span class="ident">Mutable</span>, <span class="ident">ProjKind</span>::<span class="ident">Immutable</span>, <span class="ident">ProjKind</span>::<span class="ident">Owned</span>];
 
     <span class="doccomment">/// Returns the name of the projection method.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">method_name</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">method_name</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">ProjKind</span>::<span class="ident">Mutable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;project&quot;</span>,
-            <span class="ident">ProjKind</span>::<span class="ident">Immutable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;project_ref&quot;</span>,
-            <span class="ident">ProjKind</span>::<span class="ident">Owned</span> <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;project_replace&quot;</span>,
+            <span class="ident">ProjKind</span>::<span class="ident">Mutable</span> <span class="op">=&gt;</span> <span class="string">&quot;project&quot;</span>,
+            <span class="ident">ProjKind</span>::<span class="ident">Immutable</span> <span class="op">=&gt;</span> <span class="string">&quot;project_ref&quot;</span>,
+            <span class="ident">ProjKind</span>::<span class="ident">Owned</span> <span class="op">=&gt;</span> <span class="string">&quot;project_replace&quot;</span>,
         }
     }
 
     <span class="doccomment">/// Creates the ident of the projected type from the ident of the original</span>
     <span class="doccomment">/// type.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">proj_ident</span>(<span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ident</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">proj_ident</span>(<span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-&gt;</span> <span class="ident">Ident</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">ProjKind</span>::<span class="ident">Mutable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;__{}Projection&quot;</span>, <span class="ident">ident</span>),
-            <span class="ident">ProjKind</span>::<span class="ident">Immutable</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;__{}ProjectionRef&quot;</span>, <span class="ident">ident</span>),
-            <span class="ident">ProjKind</span>::<span class="ident">Owned</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;__{}ProjectionOwned&quot;</span>, <span class="ident">ident</span>),
+            <span class="ident">ProjKind</span>::<span class="ident">Mutable</span> <span class="op">=&gt;</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;__{}Projection&quot;</span>, <span class="ident">ident</span>),
+            <span class="ident">ProjKind</span>::<span class="ident">Immutable</span> <span class="op">=&gt;</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;__{}ProjectionRef&quot;</span>, <span class="ident">ident</span>),
+            <span class="ident">ProjKind</span>::<span class="ident">Owned</span> <span class="op">=&gt;</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;__{}ProjectionOwned&quot;</span>, <span class="ident">ident</span>),
         }
     }
 }
@@ -493,7 +493,7 @@
     <span class="ident">lifetime</span>: <span class="ident">Lifetime</span>,
     <span class="ident">orig_generics</span>: <span class="kw-2">&amp;</span><span class="ident">Generics</span>,
     <span class="ident">orig_ident</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">WherePredicate</span> {
+) <span class="op">-&gt;</span> <span class="ident">WherePredicate</span> {
     <span class="ident">insert_lifetime</span>(<span class="ident">generics</span>, <span class="ident">lifetime</span>.<span class="ident">clone</span>());
 
     <span class="kw">let</span> <span class="ident">orig_type</span>: <span class="ident">Type</span> <span class="op">=</span> <span class="macro">parse_quote</span><span class="macro">!</span>(#<span class="ident">orig_ident</span> #<span class="ident">orig_generics</span>);
@@ -516,9 +516,9 @@
 }
 
 <span class="doccomment">/// Determines the visibility of the projected type and projection method.</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">determine_visibility</span>(<span class="ident">vis</span>: <span class="kw-2">&amp;</span><span class="ident">Visibility</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Visibility</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">determine_visibility</span>(<span class="ident">vis</span>: <span class="kw-2">&amp;</span><span class="ident">Visibility</span>) <span class="op">-&gt;</span> <span class="ident">Visibility</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Visibility</span>::<span class="ident">Public</span>(<span class="ident">token</span>) <span class="op">=</span> <span class="ident">vis</span> {
-        <span class="macro">parse_quote_spanned</span><span class="macro">!</span>(<span class="ident">token</span>.<span class="ident">pub_token</span>.<span class="ident">span</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">pub</span>(<span class="kw">crate</span>))
+        <span class="macro">parse_quote_spanned</span><span class="macro">!</span>(<span class="ident">token</span>.<span class="ident">pub_token</span>.<span class="ident">span</span> <span class="op">=&gt;</span> <span class="kw">pub</span>(<span class="kw">crate</span>))
     } <span class="kw">else</span> {
         <span class="ident">vis</span>.<span class="ident">clone</span>()
     }
@@ -527,11 +527,11 @@
 <span class="doccomment">/// Check if `tokens` is an empty `TokenStream`.</span>
 <span class="doccomment">/// This is almost equivalent to `syn::parse2::&lt;Nothing&gt;()`, but produces</span>
 <span class="doccomment">/// a better error message and does not require ownership of `tokens`.</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_as_empty</span>(<span class="ident">tokens</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_as_empty</span>(<span class="ident">tokens</span>: <span class="kw-2">&amp;</span><span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">tokens</span>.<span class="ident">is_empty</span>() { <span class="prelude-val">Ok</span>(()) } <span class="kw">else</span> { <span class="prelude-val">Err</span>(<span class="macro">error</span><span class="macro">!</span>(<span class="ident">tokens</span>, <span class="string">&quot;unexpected token: {}&quot;</span>, <span class="ident">tokens</span>)) }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">respan</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">span</span>: <span class="ident">Span</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">respan</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">span</span>: <span class="ident">Span</span>) <span class="op">-&gt;</span> <span class="ident">T</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">ToTokens</span> <span class="op">+</span> <span class="ident">Parse</span>,
 {
@@ -540,7 +540,7 @@
     <span class="ident">syn</span>::<span class="ident">parse2</span>(<span class="ident">respanned</span>).<span class="ident">unwrap</span>()
 }
 
-<span class="kw">fn</span> <span class="ident">respan_tokens</span>(<span class="ident">tokens</span>: <span class="ident">TokenStream</span>, <span class="ident">span</span>: <span class="ident">Span</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">fn</span> <span class="ident">respan_tokens</span>(<span class="ident">tokens</span>: <span class="ident">TokenStream</span>, <span class="ident">span</span>: <span class="ident">Span</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="ident">tokens</span>
         .<span class="ident">into_iter</span>()
         .<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">mut</span> <span class="ident">token</span><span class="op">|</span> {
@@ -554,16 +554,16 @@
 <span class="comment">// extension traits</span>
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">SliceExt</span> {
-    <span class="kw">fn</span> <span class="ident">position_exact</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Attribute</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">position_exact</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Attribute</span><span class="op">&gt;</span>;
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">VecExt</span> {
-    <span class="kw">fn</span> <span class="ident">find_remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">find_remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;&gt;</span>;
 }
 
 <span class="kw">impl</span> <span class="ident">SliceExt</span> <span class="kw">for</span> [<span class="ident">Attribute</span>] {
-    <span class="kw">fn</span> <span class="ident">position_exact</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">position_exact</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;&gt;</span> {
         <span class="self">self</span>.<span class="ident">iter</span>()
             .<span class="ident">try_fold</span>((<span class="number">0</span>, <span class="prelude-val">None</span>), <span class="op">|</span>(<span class="ident">i</span>, <span class="kw-2">mut</span> <span class="ident">prev</span>), <span class="ident">attr</span><span class="op">|</span> {
                 <span class="kw">if</span> <span class="ident">attr</span>.<span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="ident">ident</span>) {
@@ -577,23 +577,23 @@
             .<span class="ident">map</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">pos</span>)<span class="op">|</span> <span class="ident">pos</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Attribute</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Attribute</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">attr</span><span class="op">|</span> <span class="ident">attr</span>.<span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="ident">ident</span>)).<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">i</span>))
     }
 }
 
 <span class="kw">impl</span> <span class="ident">VecExt</span> <span class="kw">for</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">find_remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">find_remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&gt;&gt;</span> {
         <span class="self">self</span>.<span class="ident">position_exact</span>(<span class="ident">ident</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">pos</span><span class="op">|</span> <span class="ident">pos</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">i</span>)))
     }
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">ParseBufferExt</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">parenthesized</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParseBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">parenthesized</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParseBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span>;
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ParseBufferExt</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ParseStream</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">parenthesized</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParseBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parenthesized</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParseBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">content</span>;
         <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">token</span>::<span class="ident">Paren</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="macro">parenthesized</span><span class="macro">!</span>(<span class="ident">content</span> <span class="kw">in</span> <span class="self">self</span>);
         <span class="prelude-val">Ok</span>(<span class="ident">content</span>)
@@ -601,7 +601,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">ParseBufferExt</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ParseBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">parenthesized</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParseBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">parenthesized</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParseBuffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">content</span>;
         <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">token</span>::<span class="ident">Paren</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="macro">parenthesized</span><span class="macro">!</span>(<span class="ident">content</span> <span class="kw">in</span> <span class="self">self</span>);
         <span class="prelude-val">Ok</span>(<span class="ident">content</span>)
@@ -617,7 +617,7 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">ReplaceReceiver</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">TypePath</span>);
 
 <span class="kw">impl</span> <span class="ident">ReplaceReceiver</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">self_ty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">span</span>: <span class="ident">Span</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TypePath</span> {
+    <span class="kw">fn</span> <span class="ident">self_ty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">span</span>: <span class="ident">Span</span>) <span class="op">-&gt;</span> <span class="ident">TypePath</span> {
         <span class="ident">respan</span>(<span class="self">self</span>.<span class="number">0</span>, <span class="ident">span</span>)
     }
 
@@ -627,11 +627,11 @@
         }
 
         <span class="kw">let</span> <span class="ident">first</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">path</span>.<span class="ident">segments</span>[<span class="number">0</span>];
-        <span class="kw">if</span> <span class="ident">first</span>.<span class="ident">ident</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;Self&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">first</span>.<span class="ident">arguments</span>.<span class="ident">is_empty</span>() {
+        <span class="kw">if</span> <span class="ident">first</span>.<span class="ident">ident</span> <span class="op">!=</span> <span class="string">&quot;Self&quot;</span> <span class="op">||</span> <span class="op">!</span><span class="ident">first</span>.<span class="ident">arguments</span>.<span class="ident">is_empty</span>() {
             <span class="kw">return</span>;
         }
 
-        <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">segments</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="ident">path</span>.<span class="ident">segments</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">1</span> {
             <span class="self">self</span>.<span class="ident">self_to_expr_path</span>(<span class="ident">path</span>);
             <span class="kw">return</span>;
         }
@@ -657,7 +657,7 @@
         }
 
         <span class="kw">let</span> <span class="ident">first</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">path</span>.<span class="ident">segments</span>[<span class="number">0</span>];
-        <span class="kw">if</span> <span class="ident">first</span>.<span class="ident">ident</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;Self&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">first</span>.<span class="ident">arguments</span>.<span class="ident">is_empty</span>() {
+        <span class="kw">if</span> <span class="ident">first</span>.<span class="ident">ident</span> <span class="op">!=</span> <span class="string">&quot;Self&quot;</span> <span class="op">||</span> <span class="op">!</span><span class="ident">first</span>.<span class="ident">arguments</span>.<span class="ident">is_empty</span>() {
             <span class="kw">return</span>;
         }
 
@@ -665,7 +665,7 @@
         <span class="kw">let</span> <span class="ident">variant</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="ident">path</span>, <span class="ident">self_ty</span>.<span class="ident">path</span>);
         <span class="kw">for</span> <span class="ident">segment</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">path</span>.<span class="ident">segments</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">PathArguments</span>::<span class="ident">AngleBracketed</span>(<span class="ident">bracketed</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">segment</span>.<span class="ident">arguments</span> {
-                <span class="kw">if</span> <span class="ident">bracketed</span>.<span class="ident">colon2_token</span>.<span class="ident">is_none</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">!</span><span class="ident">bracketed</span>.<span class="ident">args</span>.<span class="ident">is_empty</span>() {
+                <span class="kw">if</span> <span class="ident">bracketed</span>.<span class="ident">colon2_token</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">bracketed</span>.<span class="ident">args</span>.<span class="ident">is_empty</span>() {
                     <span class="ident">bracketed</span>.<span class="ident">colon2_token</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="op">&lt;</span><span class="macro">Token</span><span class="macro">!</span>[::]<span class="op">&gt;</span>::<span class="ident">default</span>());
                 }
             }
@@ -676,45 +676,45 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">visit_token_stream</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">tokens</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">visit_token_stream</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">tokens</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">modified</span> <span class="op">=</span> <span class="bool-val">false</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">tokens</span>.<span class="ident">clone</span>().<span class="ident">into_iter</span>().<span class="ident">peekable</span>();
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">tt</span>) <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>() {
             <span class="kw">match</span> <span class="ident">tt</span> {
-                <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="kw-2">mut</span> <span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="ident">modified</span> <span class="op">|</span><span class="op">=</span> <span class="ident">prepend_underscore_to_self</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ident</span>);
-                    <span class="kw">if</span> <span class="ident">ident</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;Self&quot;</span> {
+                <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="kw-2">mut</span> <span class="ident">ident</span>) <span class="op">=&gt;</span> {
+                    <span class="ident">modified</span> <span class="op">|=</span> <span class="ident">prepend_underscore_to_self</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">ident</span>);
+                    <span class="kw">if</span> <span class="ident">ident</span> <span class="op">==</span> <span class="string">&quot;Self&quot;</span> {
                         <span class="ident">modified</span> <span class="op">=</span> <span class="bool-val">true</span>;
                         <span class="kw">let</span> <span class="ident">self_ty</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">self_ty</span>(<span class="ident">ident</span>.<span class="ident">span</span>());
                         <span class="kw">match</span> <span class="ident">iter</span>.<span class="ident">peek</span>() {
                             <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Punct</span>(<span class="ident">p</span>))
-                                <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">as_char</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&#39;:&#39;</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">p</span>.<span class="ident">spacing</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Spacing</span>::<span class="ident">Joint</span> <span class="op">=</span><span class="op">&gt;</span>
+                                <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">as_char</span>() <span class="op">==</span> <span class="string">&#39;:&#39;</span> <span class="op">&amp;&amp;</span> <span class="ident">p</span>.<span class="ident">spacing</span>() <span class="op">==</span> <span class="ident">Spacing</span>::<span class="ident">Joint</span> <span class="op">=&gt;</span>
                             {
                                 <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
                                 <span class="kw">match</span> <span class="ident">iter</span>.<span class="ident">peek</span>() {
-                                    <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Punct</span>(<span class="ident">p</span>)) <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">as_char</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&#39;:&#39;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                                    <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Punct</span>(<span class="ident">p</span>)) <span class="kw">if</span> <span class="ident">p</span>.<span class="ident">as_char</span>() <span class="op">==</span> <span class="string">&#39;:&#39;</span> <span class="op">=&gt;</span> {
                                         <span class="kw">let</span> <span class="ident">span</span> <span class="op">=</span> <span class="ident">ident</span>.<span class="ident">span</span>();
-                                        <span class="ident">out</span>.<span class="ident">extend</span>(<span class="macro">quote_spanned</span><span class="macro">!</span>(<span class="ident">span</span><span class="op">=</span><span class="op">&gt;</span> <span class="op">&lt;</span>#<span class="ident">self_ty</span><span class="op">&gt;</span>))
+                                        <span class="ident">out</span>.<span class="ident">extend</span>(<span class="macro">quote_spanned</span><span class="macro">!</span>(<span class="ident">span</span><span class="op">=&gt;</span> <span class="op">&lt;</span>#<span class="ident">self_ty</span><span class="op">&gt;</span>))
                                     }
-                                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">out</span>.<span class="ident">extend</span>(<span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">self_ty</span>)),
+                                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">out</span>.<span class="ident">extend</span>(<span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">self_ty</span>)),
                                 }
                                 <span class="ident">out</span>.<span class="ident">push</span>(<span class="ident">next</span>);
                             }
-                            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">out</span>.<span class="ident">extend</span>(<span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">self_ty</span>)),
+                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">out</span>.<span class="ident">extend</span>(<span class="macro">quote</span><span class="macro">!</span>(#<span class="ident">self_ty</span>)),
                         }
                     } <span class="kw">else</span> {
                         <span class="ident">out</span>.<span class="ident">push</span>(<span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>));
                     }
                 }
-                <span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">group</span>.<span class="ident">stream</span>();
-                    <span class="ident">modified</span> <span class="op">|</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">visit_token_stream</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">content</span>);
+                    <span class="ident">modified</span> <span class="op">|=</span> <span class="self">self</span>.<span class="ident">visit_token_stream</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">content</span>);
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new</span> <span class="op">=</span> <span class="ident">Group</span>::<span class="ident">new</span>(<span class="ident">group</span>.<span class="ident">delimiter</span>(), <span class="ident">content</span>);
                     <span class="ident">new</span>.<span class="ident">set_span</span>(<span class="ident">group</span>.<span class="ident">span</span>());
                     <span class="ident">out</span>.<span class="ident">push</span>(<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">new</span>));
                 }
-                <span class="ident">other</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">out</span>.<span class="ident">push</span>(<span class="ident">other</span>),
+                <span class="ident">other</span> <span class="op">=&gt;</span> <span class="ident">out</span>.<span class="ident">push</span>(<span class="ident">other</span>),
             }
         }
         <span class="kw">if</span> <span class="ident">modified</span> {
@@ -728,7 +728,7 @@
     <span class="comment">// `Self` -&gt; `Receiver`</span>
     <span class="kw">fn</span> <span class="ident">visit_type_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ty</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Type</span>) {
         <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Type</span>::<span class="ident">Path</span>(<span class="ident">node</span>) <span class="op">=</span> <span class="ident">ty</span> {
-            <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">qself</span>.<span class="ident">is_none</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">node</span>.<span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="string">&quot;Self&quot;</span>) {
+            <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">qself</span>.<span class="ident">is_none</span>() <span class="op">&amp;&amp;</span> <span class="ident">node</span>.<span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="string">&quot;Self&quot;</span>) {
                 <span class="kw-2">*</span><span class="ident">ty</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">self_ty</span>(<span class="ident">node</span>.<span class="ident">path</span>.<span class="ident">segments</span>[<span class="number">0</span>].<span class="ident">ident</span>.<span class="ident">span</span>()).<span class="ident">into</span>();
             } <span class="kw">else</span> {
                 <span class="self">self</span>.<span class="ident">visit_type_path_mut</span>(<span class="ident">node</span>);
@@ -780,11 +780,11 @@
     <span class="kw">fn</span> <span class="ident">visit_item_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">item</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Item</span>) {
         <span class="kw">match</span> <span class="ident">item</span> {
             <span class="comment">// Visit `macro_rules!` because locally defined macros can refer to `self`.</span>
-            <span class="ident">Item</span>::<span class="ident">Macro</span>(<span class="ident">item</span>) <span class="kw">if</span> <span class="ident">item</span>.<span class="ident">mac</span>.<span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="string">&quot;macro_rules&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Item</span>::<span class="ident">Macro</span>(<span class="ident">item</span>) <span class="kw">if</span> <span class="ident">item</span>.<span class="ident">mac</span>.<span class="ident">path</span>.<span class="ident">is_ident</span>(<span class="string">&quot;macro_rules&quot;</span>) <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">visit_macro_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">item</span>.<span class="ident">mac</span>)
             }
             <span class="comment">// Otherwise, do not recurse into nested items.</span>
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="kw">_</span> <span class="op">=&gt;</span> {}
         }
     }
 
@@ -800,16 +800,16 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">contains_fn</span>(<span class="ident">tokens</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+<span class="kw">fn</span> <span class="ident">contains_fn</span>(<span class="ident">tokens</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
     <span class="ident">tokens</span>.<span class="ident">into_iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">tt</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">tt</span> {
-        <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ident</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;fn&quot;</span>,
-        <span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">contains_fn</span>(<span class="ident">group</span>.<span class="ident">stream</span>()),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+        <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>) <span class="op">=&gt;</span> <span class="ident">ident</span> <span class="op">==</span> <span class="string">&quot;fn&quot;</span>,
+        <span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=&gt;</span> <span class="ident">contains_fn</span>(<span class="ident">group</span>.<span class="ident">stream</span>()),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
     })
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">prepend_underscore_to_self</span>(<span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Ident</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-    <span class="kw">let</span> <span class="ident">modified</span> <span class="op">=</span> <span class="ident">ident</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;self&quot;</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">prepend_underscore_to_self</span>(<span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Ident</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">let</span> <span class="ident">modified</span> <span class="op">=</span> <span class="ident">ident</span> <span class="op">==</span> <span class="string">&quot;self&quot;</span>;
     <span class="kw">if</span> <span class="ident">modified</span> {
         <span class="kw-2">*</span><span class="ident">ident</span> <span class="op">=</span> <span class="ident">Ident</span>::<span class="ident">new</span>(<span class="string">&quot;__self&quot;</span>, <span class="ident">ident</span>.<span class="ident">span</span>());
     }

@@ -1219,7 +1219,7 @@
 <span class="doccomment">/// [undefined-behavior]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html</span>
 <span class="doccomment">/// [unsafe-unpin]: ./attr.pin_project.html#unsafeunpin</span>
 <span class="attribute">#[<span class="ident">proc_macro_attribute</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pin_project</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pin_project</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="ident">pin_project</span>::<span class="ident">attribute</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>.<span class="ident">into</span>(), <span class="ident">input</span>.<span class="ident">into</span>()).<span class="ident">into</span>()
 }
 
@@ -1299,7 +1299,7 @@
 <span class="doccomment">/// [`Pin`]: core::pin::Pin</span>
 <span class="doccomment">/// [pinned-drop]: ./attr.pin_project.html#pinned_drop</span>
 <span class="attribute">#[<span class="ident">proc_macro_attribute</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pinned_drop</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">pinned_drop</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="macro">parse_macro_input</span><span class="macro">!</span>(<span class="ident">input</span>);
     <span class="ident">pinned_drop</span>::<span class="ident">attribute</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>.<span class="ident">into</span>(), <span class="ident">input</span>).<span class="ident">into</span>()
 }
@@ -1468,7 +1468,7 @@
     )
 )]</span>
 <span class="attribute">#[<span class="ident">proc_macro_attribute</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">project</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">project</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="macro">parse_macro_input</span><span class="macro">!</span>(<span class="ident">input</span>);
     <span class="ident">project</span>::<span class="ident">attribute</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>.<span class="ident">into</span>(), <span class="ident">input</span>, <span class="ident">ProjKind</span>::<span class="ident">Mutable</span>).<span class="ident">into</span>()
 }
@@ -1498,7 +1498,7 @@
     )
 )]</span>
 <span class="attribute">#[<span class="ident">proc_macro_attribute</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">project_ref</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">project_ref</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="macro">parse_macro_input</span><span class="macro">!</span>(<span class="ident">input</span>);
     <span class="ident">project</span>::<span class="ident">attribute</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>.<span class="ident">into</span>(), <span class="ident">input</span>, <span class="ident">ProjKind</span>::<span class="ident">Immutable</span>).<span class="ident">into</span>()
 }
@@ -1528,7 +1528,7 @@
     )
 )]</span>
 <span class="attribute">#[<span class="ident">proc_macro_attribute</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">project_replace</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">project_replace</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">syn</span>::<span class="macro">parse_macro_input</span><span class="macro">!</span>(<span class="ident">input</span>);
     <span class="ident">project</span>::<span class="ident">attribute</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>.<span class="ident">into</span>(), <span class="ident">input</span>, <span class="ident">ProjKind</span>::<span class="ident">Owned</span>).<span class="ident">into</span>()
 }
@@ -1536,7 +1536,7 @@
 <span class="comment">// An internal helper macro. Not public API.</span>
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">__PinProjectInternalDerive</span>, <span class="ident">attributes</span>(<span class="ident">pin</span>))]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">__pin_project_internal_derive</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">__pin_project_internal_derive</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="ident">pin_project</span>::<span class="ident">derive</span>(<span class="ident">input</span>.<span class="ident">into</span>()).<span class="ident">into</span>()
 }
 </pre></div>

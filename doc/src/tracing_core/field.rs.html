@@ -1227,7 +1227,7 @@
 
 <span class="doccomment">/// Wraps a type implementing `fmt::Display` as a `Value` that can be</span>
 <span class="doccomment">/// recorded using its `Display` implementation.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">display</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DisplayValue</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">display</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">DisplayValue</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span>,
 {
@@ -1236,7 +1236,7 @@
 
 <span class="doccomment">/// Wraps a type implementing `fmt::Debug` as a `Value` that can be</span>
 <span class="doccomment">/// recorded using its `Debug` implementation.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">DebugValue</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">debug</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">DebugValue</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
 {
@@ -1269,7 +1269,7 @@
 <span class="comment">// ===== impl Value =====</span>
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_values</span> {
-    ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">whatever</span>:<span class="ident">tt</span>)<span class="op">+</span> ) ),<span class="op">+</span> ) <span class="op">=</span><span class="op">&gt;</span> {
+    ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">whatever</span>:<span class="ident">tt</span>)<span class="op">+</span> ) ),<span class="op">+</span> ) <span class="op">=&gt;</span> {
         $(
             <span class="macro">impl_value</span><span class="macro">!</span>{ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">whatever</span> )<span class="op">+</span> ) }
         )<span class="op">+</span>
@@ -1277,53 +1277,53 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">ty_to_nonzero</span> {
-    (<span class="ident">u8</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">u8</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroU8</span>
     };
-    (<span class="ident">u16</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">u16</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroU16</span>
     };
-    (<span class="ident">u32</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">u32</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroU32</span>
     };
-    (<span class="ident">u64</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">u64</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroU64</span>
     };
-    (<span class="ident">u128</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">u128</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroU128</span>
     };
-    (<span class="ident">usize</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">usize</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroUsize</span>
     };
-    (<span class="ident">i8</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">i8</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroI8</span>
     };
-    (<span class="ident">i16</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">i16</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroI16</span>
     };
-    (<span class="ident">i32</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">i32</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroI32</span>
     };
-    (<span class="ident">i64</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">i64</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroI64</span>
     };
-    (<span class="ident">i128</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">i128</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroI128</span>
     };
-    (<span class="ident">isize</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">isize</span>) <span class="op">=&gt;</span> {
         <span class="ident">NonZeroIsize</span>
     };
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_one_value</span> {
-    (<span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {
         <span class="macro">impl_one_value</span><span class="macro">!</span>(<span class="ident">normal</span>, <span class="ident">bool</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>);
     };
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {
         <span class="macro">impl_one_value</span><span class="macro">!</span>(<span class="ident">normal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>);
         <span class="macro">impl_one_value</span><span class="macro">!</span>(<span class="ident">nonzero</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>);
     };
-    (<span class="ident">normal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">normal</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {
         <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">sealed</span>::<span class="ident">Sealed</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span> {}
         <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">field</span>::<span class="ident">Value</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span> {
             <span class="kw">fn</span> <span class="ident">record</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">field</span>::<span class="ident">Field</span>, <span class="ident">visitor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">field</span>::<span class="ident">Visit</span>) {
@@ -1331,7 +1331,7 @@
             }
         }
     };
-    (<span class="ident">nonzero</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">nonzero</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">op</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {
         <span class="comment">// This `use num::*;` is reported as unused because it gets emitted</span>
         <span class="comment">// for every single invocation of this macro, so there are multiple `use`s.</span>
         <span class="comment">// All but the first are useless indeed.</span>
@@ -1349,12 +1349,12 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_value</span> {
-    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span> ),<span class="op">+</span> ) ) <span class="op">=</span><span class="op">&gt;</span> {
+    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span> ),<span class="op">+</span> ) ) <span class="op">=&gt;</span> {
         $(
             <span class="macro">impl_one_value</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>, <span class="op">|</span><span class="ident">this</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span><span class="op">|</span> <span class="ident">this</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>);
         )<span class="op">+</span>
     };
-    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span> ),<span class="op">+</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">as_ty</span>:<span class="ident">ty</span>) ) <span class="op">=</span><span class="op">&gt;</span> {
+    ( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>:<span class="ident">ident</span>( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>:<span class="ident">tt</span> ),<span class="op">+</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">as_ty</span>:<span class="ident">ty</span>) ) <span class="op">=&gt;</span> {
         $(
             <span class="macro">impl_one_value</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span>, <span class="op">|</span><span class="ident">this</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">value_ty</span><span class="op">|</span> <span class="ident">this</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">as_ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">record</span>);
         )<span class="op">+</span>
@@ -1417,7 +1417,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="kw">dyn</span> <span class="ident">Value</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="comment">// We are only going to be recording the field value, so we don&#39;t</span>
         <span class="comment">// actually care about the field name here.</span>
         <span class="kw">struct</span> <span class="ident">NullCallsite</span>;
@@ -1427,7 +1427,7 @@
                 <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;you somehow managed to register the null callsite?&quot;</span>)
             }
 
-            <span class="kw">fn</span> <span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
                 <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;you somehow managed to access the null callsite?&quot;</span>)
             }
         }
@@ -1446,7 +1446,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="kw">dyn</span> <span class="ident">Value</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">fmt</span>::<span class="ident">Debug</span>::<span class="ident">fmt</span>(<span class="self">self</span>, <span class="ident">f</span>)
     }
 }
@@ -1465,7 +1465,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Display</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">DisplayValue</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>)
     }
 }
@@ -1484,7 +1484,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">DebugValue</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>)
     }
 }
@@ -1504,31 +1504,31 @@
     <span class="doccomment">/// [`Identifier`]: ../callsite/struct.Identifier.html</span>
     <span class="doccomment">/// [`Callsite`]: ../callsite/trait.Callsite.html</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">callsite</span>::<span class="ident">Identifier</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">callsite</span>::<span class="ident">Identifier</span> {
         <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">callsite</span>()
     }
 
     <span class="doccomment">/// Returns a string representing the name of the field.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
         <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">names</span>[<span class="self">self</span>.<span class="ident">i</span>]
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Field</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">pad</span>(<span class="self">self</span>.<span class="ident">name</span>())
     }
 }
 
 <span class="kw">impl</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Field</span> {
-    <span class="kw">fn</span> <span class="ident">as_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">as_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="self">self</span>.<span class="ident">name</span>()
     }
 }
 
 <span class="kw">impl</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Field</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">callsite</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">callsite</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>.<span class="ident">i</span> <span class="op">=</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">i</span>
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">callsite</span>() <span class="op">==</span> <span class="ident">other</span>.<span class="ident">callsite</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">i</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">i</span>
     }
 }
 
@@ -1545,7 +1545,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Field</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Field</span> {
             <span class="ident">i</span>: <span class="self">self</span>.<span class="ident">i</span>,
             <span class="ident">fields</span>: <span class="ident">FieldSet</span> {
@@ -1560,7 +1560,7 @@
 
 <span class="kw">impl</span> <span class="ident">FieldSet</span> {
     <span class="doccomment">/// Constructs a new `FieldSet` with the given array of field names and callsite.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">names</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>], <span class="ident">callsite</span>: <span class="ident">callsite</span>::<span class="ident">Identifier</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">names</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>], <span class="ident">callsite</span>: <span class="ident">callsite</span>::<span class="ident">Identifier</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">names</span>, <span class="ident">callsite</span> }
     }
 
@@ -1569,19 +1569,19 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`Identifier`]: ../callsite/struct.Identifier.html</span>
     <span class="doccomment">/// [`Callsite`]: ../callsite/trait.Callsite.html</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">callsite</span>::<span class="ident">Identifier</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">callsite</span>::<span class="ident">Identifier</span> {
         <span class="ident">callsite</span>::<span class="ident">Identifier</span>(<span class="self">self</span>.<span class="ident">callsite</span>.<span class="number">0</span>)
     }
 
     <span class="doccomment">/// Returns the [`Field`] named `name`, or `None` if no such field exists.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`Field`]: ../struct.Field.html</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">field</span><span class="op">&lt;</span><span class="ident">Q</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">Q</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Field</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">field</span><span class="op">&lt;</span><span class="ident">Q</span>: <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">Q</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Field</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">Q</span>: <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">name</span>.<span class="ident">borrow</span>();
-        <span class="self">self</span>.<span class="ident">names</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span> <span class="op">=</span><span class="op">=</span> <span class="ident">name</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">Field</span> {
+        <span class="self">self</span>.<span class="ident">names</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="ident">f</span><span class="op">|</span> <span class="ident">f</span> <span class="op">==</span> <span class="ident">name</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">Field</span> {
             <span class="ident">i</span>,
             <span class="ident">fields</span>: <span class="ident">FieldSet</span> {
                 <span class="ident">names</span>: <span class="self">self</span>.<span class="ident">names</span>,
@@ -1604,12 +1604,12 @@
     <span class="doccomment">/// named &quot;foo&quot;, the &lt;code&gt;Field&lt;/code&gt; corresponding to &quot;foo&quot; for each</span>
     <span class="doccomment">/// of those callsites are not equivalent.</span>
     <span class="doccomment">/// &lt;/pre&gt;&lt;/div&gt;</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">field</span>.<span class="ident">callsite</span>() <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">callsite</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">field</span>.<span class="ident">i</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>()
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="ident">field</span>.<span class="ident">callsite</span>() <span class="op">==</span> <span class="self">self</span>.<span class="ident">callsite</span>() <span class="op">&amp;&amp;</span> <span class="ident">field</span>.<span class="ident">i</span> <span class="op">&lt;=</span> <span class="self">self</span>.<span class="ident">len</span>()
     }
 
     <span class="doccomment">/// Returns an iterator over the `Field`s in this `FieldSet`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Iter</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Iter</span> {
         <span class="kw">let</span> <span class="ident">idxs</span> <span class="op">=</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">len</span>();
         <span class="ident">Iter</span> {
             <span class="ident">idxs</span>,
@@ -1625,7 +1625,7 @@
     <span class="doccomment">/// Note that a `ValueSet` may not be constructed with arrays of over 32</span>
     <span class="doccomment">/// elements.</span>
     <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value_set</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="self">self</span>, <span class="ident">values</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ValueSet</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value_set</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span>, <span class="ident">V</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="self">self</span>, <span class="ident">values</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;v</span> <span class="ident">V</span>) <span class="op">-&gt;</span> <span class="ident">ValueSet</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">V</span>: <span class="ident">ValidLen</span><span class="op">&lt;</span><span class="lifetime">&#39;v</span><span class="op">&gt;</span>,
     {
@@ -1637,13 +1637,13 @@
 
     <span class="doccomment">/// Returns the number of fields in this `FieldSet`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">names</span>.<span class="ident">len</span>()
     }
 
     <span class="doccomment">/// Returns whether or not this `FieldSet` has fields.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">names</span>.<span class="ident">is_empty</span>()
     }
 }
@@ -1652,13 +1652,13 @@
     <span class="kw">type</span> <span class="ident">IntoIter</span> <span class="op">=</span> <span class="ident">Iter</span>;
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">Field</span>;
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">IntoIter</span> {
+    <span class="kw">fn</span> <span class="ident">into_iter</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>::<span class="ident">IntoIter</span> {
         <span class="self">self</span>.<span class="ident">iter</span>()
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">FieldSet</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;FieldSet&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;names&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">names</span>)
             .<span class="ident">field</span>(<span class="string">&quot;callsite&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">callsite</span>)
@@ -1667,7 +1667,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">FieldSet</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_set</span>()
             .<span class="ident">entries</span>(<span class="self">self</span>.<span class="ident">names</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">display</span>))
             .<span class="ident">finish</span>()
@@ -1678,7 +1678,7 @@
 
 <span class="kw">impl</span> <span class="ident">Iterator</span> <span class="kw">for</span> <span class="ident">Iter</span> {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">Field</span>;
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Field</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Field</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">idxs</span>.<span class="ident">next</span>()<span class="question-mark">?</span>;
         <span class="prelude-val">Some</span>(<span class="ident">Field</span> {
             <span class="ident">i</span>,
@@ -1699,7 +1699,7 @@
     <span class="doccomment">/// [`Identifier`]: ../callsite/struct.Identifier.html</span>
     <span class="doccomment">/// [`Callsite`]: ../callsite/trait.Callsite.html</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">callsite</span>::<span class="ident">Identifier</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">callsite</span>::<span class="ident">Identifier</span> {
         <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">callsite</span>()
     }
 
@@ -1709,7 +1709,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">record</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">visitor</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">dyn</span> <span class="ident">Visit</span>) {
         <span class="kw">let</span> <span class="ident">my_callsite</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">callsite</span>();
         <span class="kw">for</span> (<span class="ident">field</span>, <span class="ident">value</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">values</span> {
-            <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">callsite</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">my_callsite</span> {
+            <span class="kw">if</span> <span class="ident">field</span>.<span class="ident">callsite</span>() <span class="op">!=</span> <span class="ident">my_callsite</span> {
                 <span class="kw">continue</span>;
             }
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">value</span>) <span class="op">=</span> <span class="ident">value</span> {
@@ -1719,29 +1719,29 @@
     }
 
     <span class="doccomment">/// Returns `true` if this `ValueSet` contains a value for the given `Field`.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">field</span>.<span class="ident">callsite</span>() <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">callsite</span>()
-            <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="self">self</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">field</span>: <span class="kw-2">&amp;</span><span class="ident">Field</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="ident">field</span>.<span class="ident">callsite</span>() <span class="op">==</span> <span class="self">self</span>.<span class="ident">callsite</span>()
+            <span class="op">&amp;&amp;</span> <span class="self">self</span>
                 .<span class="ident">values</span>
                 .<span class="ident">iter</span>()
-                .<span class="ident">any</span>(<span class="op">|</span>(<span class="ident">key</span>, <span class="ident">val</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">key</span> <span class="op">=</span><span class="op">=</span> <span class="ident">field</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">val</span>.<span class="ident">is_some</span>())
+                .<span class="ident">any</span>(<span class="op">|</span>(<span class="ident">key</span>, <span class="ident">val</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">key</span> <span class="op">==</span> <span class="ident">field</span> <span class="op">&amp;&amp;</span> <span class="ident">val</span>.<span class="ident">is_some</span>())
     }
 
     <span class="doccomment">/// Returns true if this `ValueSet` contains _no_ values.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">my_callsite</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">callsite</span>();
         <span class="self">self</span>.<span class="ident">values</span>
             .<span class="ident">iter</span>()
-            .<span class="ident">all</span>(<span class="op">|</span>(<span class="ident">key</span>, <span class="ident">val</span>)<span class="op">|</span> <span class="ident">val</span>.<span class="ident">is_none</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">key</span>.<span class="ident">callsite</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">my_callsite</span>)
+            .<span class="ident">all</span>(<span class="op">|</span>(<span class="ident">key</span>, <span class="ident">val</span>)<span class="op">|</span> <span class="ident">val</span>.<span class="ident">is_none</span>() <span class="op">||</span> <span class="ident">key</span>.<span class="ident">callsite</span>() <span class="op">!=</span> <span class="ident">my_callsite</span>)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">field_set</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">FieldSet</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">field_set</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">FieldSet</span> {
         <span class="self">self</span>.<span class="ident">fields</span>
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">ValueSet</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="self">self</span>.<span class="ident">values</span>
             .<span class="ident">iter</span>()
             .<span class="ident">fold</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;ValueSet&quot;</span>), <span class="op">|</span><span class="ident">dbg</span>, (<span class="ident">key</span>, <span class="ident">v</span>)<span class="op">|</span> {
@@ -1756,7 +1756,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ValueSet</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="self">self</span>.<span class="ident">values</span>
             .<span class="ident">iter</span>()
             .<span class="ident">fold</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">f</span>.<span class="ident">debug_map</span>(), <span class="op">|</span><span class="ident">dbg</span>, (<span class="ident">key</span>, <span class="ident">v</span>)<span class="op">|</span> {
@@ -1785,7 +1785,7 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_valid_len</span> {
-    ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">len</span>:<span class="ident">tt</span> ),<span class="op">+</span> ) <span class="op">=</span><span class="op">&gt;</span> {
+    ( $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">len</span>:<span class="ident">tt</span> ),<span class="op">+</span> ) <span class="op">=&gt;</span> {
         $(
             <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">private</span>::<span class="ident">ValidLen</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span>
                 [(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Field</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> (<span class="kw">dyn</span> <span class="ident">Value</span> <span class="op">+</span> <span class="lifetime">&#39;a</span>)<span class="op">&gt;</span>); <span class="macro-nonterminal">$</span><span class="macro-nonterminal">len</span>] {}
@@ -1820,7 +1820,7 @@
             <span class="macro">unimplemented</span><span class="macro">!</span>()
         }
 
-        <span class="kw">fn</span> <span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
             <span class="kw-2">&amp;</span><span class="ident">TEST_META_1</span>
         }
     }
@@ -1841,7 +1841,7 @@
             <span class="macro">unimplemented</span><span class="macro">!</span>()
         }
 
-        <span class="kw">fn</span> <span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
+        <span class="kw">fn</span> <span class="ident">metadata</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
             <span class="kw-2">&amp;</span><span class="ident">TEST_META_2</span>
         }
     }

@@ -12,7 +12,7 @@ value that was given to the <code>Sender</code> handle.</p>
 
 <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">oneshot</span>::<span class="ident">channel</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>();
 
-<span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="op">|</span><span class="op">|</span> {
+<span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="op">||</span> {
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;THREAD: sleeping zzz...&quot;</span>);
     <span class="ident">thread</span>::<span class="ident">sleep</span>(<span class="ident">Duration</span>::<span class="ident">from_millis</span>(<span class="number">1000</span>));
     <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;THREAD: i&#39;m awake! sending.&quot;</span>);

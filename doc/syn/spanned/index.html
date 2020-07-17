@@ -21,10 +21,10 @@ static assertion that <code>Sync</code> is implemented for that type.</p>
 <span class="kw">use</span> <span class="ident">syn</span>::<span class="ident">spanned</span>::<span class="ident">Spanned</span>;
 
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">MyMacro</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">my_macro</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">my_macro</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="comment">/* ... */</span>
 
-    <span class="kw">let</span> <span class="ident">assert_sync</span> <span class="op">=</span> <span class="macro">quote_spanned</span><span class="macro">!</span> {<span class="ident">ty</span>.<span class="ident">span</span>()<span class="op">=</span><span class="op">&gt;</span>
+    <span class="kw">let</span> <span class="ident">assert_sync</span> <span class="op">=</span> <span class="macro">quote_spanned</span><span class="macro">!</span> {<span class="ident">ty</span>.<span class="ident">span</span>()<span class="op">=&gt;</span>
         <span class="kw">struct</span> <span class="ident">_AssertSync</span> <span class="kw">where</span> #<span class="ident">ty</span>: <span class="ident">Sync</span>;
     };
 

@@ -416,7 +416,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">DescriptorSet</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Get a reference to gfx-hal descriptor set.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">raw</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">DescriptorSet</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">raw</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">DescriptorSet</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">raw</span>
     }
 
@@ -424,7 +424,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">/// Object needs not to be replaced.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">raw_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span>::<span class="ident">DescriptorSet</span> {
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">raw_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span>::<span class="ident">DescriptorSet</span> {
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">raw</span>
     }
 }
@@ -441,7 +441,7 @@
         <span class="ident">pool</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">B</span>::<span class="ident">DescriptorPool</span>,
         <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">DescriptorSetLayout</span>,
         <span class="ident">count</span>: <span class="ident">u32</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">sets_were</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">sets</span>.<span class="ident">len</span>();
         <span class="kw">match</span> <span class="kw">unsafe</span> {
             <span class="ident">pool</span>.<span class="ident">allocate</span>(
@@ -449,12 +449,12 @@
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">sets</span>,
             )
         } {
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
                 <span class="kw">unsafe</span> { <span class="ident">pool</span>.<span class="ident">free_sets</span>(<span class="self">self</span>.<span class="ident">sets</span>.<span class="ident">drain</span>(<span class="ident">sets_were</span>..)) };
                 <span class="prelude-val">Err</span>(<span class="kw">match</span> <span class="ident">err</span> {
-                    <span class="ident">AllocationError</span>::<span class="ident">Host</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">OutOfMemory</span>::<span class="ident">Host</span>,
-                    <span class="ident">AllocationError</span>::<span class="ident">Device</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">OutOfMemory</span>::<span class="ident">Device</span>,
-                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="ident">AllocationError</span>::<span class="ident">Host</span> <span class="op">=&gt;</span> <span class="ident">OutOfMemory</span>::<span class="ident">Host</span>,
+                    <span class="ident">AllocationError</span>::<span class="ident">Device</span> <span class="op">=&gt;</span> <span class="ident">OutOfMemory</span>::<span class="ident">Device</span>,
+                    <span class="kw">_</span> <span class="op">=&gt;</span> {
                         <span class="comment">// We check pool for free descriptors and sets before calling this function,</span>
                         <span class="comment">// so it can&#39;t be exhausted.</span>
                         <span class="comment">// And it can&#39;t be fragmented either according to spec</span>
@@ -470,7 +470,7 @@
                     }
                 })
             }
-            <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> {
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">sets</span>.<span class="ident">len</span>(), <span class="ident">sets_were</span> <span class="op">+</span> <span class="ident">count</span> <span class="kw">as</span> <span class="ident">usize</span>);
                 <span class="prelude-val">Ok</span>(())
             }
@@ -489,12 +489,12 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">struct</span> <span class="ident">DescriptorBucket</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> {
     <span class="ident">pools_offset</span>: <span class="ident">PoolIndex</span>,
-    <span class="ident">pools</span>: <span class="ident">VecDeque</span><span class="op">&lt;</span><span class="ident">DescriptorPool</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">pools</span>: <span class="ident">VecDeque</span><span class="op">&lt;</span><span class="ident">DescriptorPool</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
     <span class="ident">total</span>: <span class="ident">u64</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">DescriptorBucket</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">DescriptorBucket</span> {
             <span class="ident">pools_offset</span>: <span class="number">0</span>,
             <span class="ident">pools</span>: <span class="ident">VecDeque</span>::<span class="ident">new</span>(),
@@ -502,7 +502,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">new_pool_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">count</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">fn</span> <span class="ident">new_pool_size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">count</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
         <span class="ident">MIN_SETS</span> <span class="comment">// at least MIN_SETS</span>
             .<span class="ident">max</span>(<span class="ident">count</span>) <span class="comment">// at least enough for allocation</span>
             .<span class="ident">max</span>(<span class="self">self</span>.<span class="ident">total</span>.<span class="ident">min</span>(<span class="ident">MAX_SETS</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="kw">as</span> <span class="ident">u32</span>) <span class="comment">// at least as much as was allocated so far capped to MAX_SETS</span>
@@ -532,13 +532,13 @@
         <span class="ident">layout_counts</span>: <span class="kw-2">&amp;</span><span class="ident">DescriptorCounts</span>,
         <span class="kw-2">mut</span> <span class="ident">count</span>: <span class="ident">u32</span>,
         <span class="ident">allocation</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Allocation</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">count</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">count</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
 
         <span class="kw">for</span> (<span class="ident">index</span>, <span class="ident">pool</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">pools</span>.<span class="ident">iter_mut</span>().<span class="ident">enumerate</span>().<span class="ident">rev</span>() {
-            <span class="kw">if</span> <span class="ident">pool</span>.<span class="ident">available</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">pool</span>.<span class="ident">available</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">continue</span>;
             }
 
@@ -548,11 +548,11 @@
             <span class="ident">allocation</span>.<span class="ident">pools</span>.<span class="ident">extend</span>(
                 <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">repeat</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">PoolIndex</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">pools_offset</span>).<span class="ident">take</span>(<span class="ident">allocate</span> <span class="kw">as</span> <span class="ident">usize</span>),
             );
-            <span class="ident">count</span> <span class="op">-</span><span class="op">=</span> <span class="ident">allocate</span>;
-            <span class="ident">pool</span>.<span class="ident">available</span> <span class="op">-</span><span class="op">=</span> <span class="ident">allocate</span>;
-            <span class="self">self</span>.<span class="ident">total</span> <span class="op">+</span><span class="op">=</span> <span class="ident">allocate</span> <span class="kw">as</span> <span class="ident">u64</span>;
+            <span class="ident">count</span> <span class="op">-=</span> <span class="ident">allocate</span>;
+            <span class="ident">pool</span>.<span class="ident">available</span> <span class="op">-=</span> <span class="ident">allocate</span>;
+            <span class="self">self</span>.<span class="ident">total</span> <span class="op">+=</span> <span class="ident">allocate</span> <span class="kw">as</span> <span class="ident">u64</span>;
 
-            <span class="kw">if</span> <span class="ident">count</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">count</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
             }
         }
@@ -581,13 +581,13 @@
                 <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">repeat</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">PoolIndex</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">pools_offset</span>).<span class="ident">take</span>(<span class="ident">allocate</span> <span class="kw">as</span> <span class="ident">usize</span>),
             );
 
-            <span class="ident">count</span> <span class="op">-</span><span class="op">=</span> <span class="ident">allocate</span>;
+            <span class="ident">count</span> <span class="op">-=</span> <span class="ident">allocate</span>;
             <span class="self">self</span>.<span class="ident">pools</span>.<span class="ident">push_back</span>(<span class="ident">DescriptorPool</span> {
                 <span class="ident">raw</span>,
                 <span class="ident">capacity</span>: <span class="ident">size</span>,
                 <span class="ident">available</span>: <span class="ident">size</span> <span class="op">-</span> <span class="ident">allocate</span>,
             });
-            <span class="self">self</span>.<span class="ident">total</span> <span class="op">+</span><span class="op">=</span> <span class="ident">allocate</span> <span class="kw">as</span> <span class="ident">u64</span>;
+            <span class="self">self</span>.<span class="ident">total</span> <span class="op">+=</span> <span class="ident">allocate</span> <span class="kw">as</span> <span class="ident">u64</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -598,12 +598,12 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">unsafe</span> {
             <span class="ident">pool</span>.<span class="ident">raw</span>.<span class="ident">free_sets</span>(<span class="ident">sets</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">set</span><span class="op">|</span> {
-                <span class="ident">count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                <span class="ident">count</span> <span class="op">+=</span> <span class="number">1</span>;
                 <span class="ident">set</span>
             }))
         };
-        <span class="ident">pool</span>.<span class="ident">available</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count</span>;
-        <span class="self">self</span>.<span class="ident">total</span> <span class="op">-</span><span class="op">=</span> <span class="ident">count</span> <span class="kw">as</span> <span class="ident">u64</span>;
+        <span class="ident">pool</span>.<span class="ident">available</span> <span class="op">+=</span> <span class="ident">count</span>;
+        <span class="self">self</span>.<span class="ident">total</span> <span class="op">-=</span> <span class="ident">count</span> <span class="kw">as</span> <span class="ident">u64</span>;
         <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Freed {} from descriptor bucket&quot;</span>, <span class="ident">count</span>);
     }
 
@@ -615,7 +615,7 @@
             }
             <span class="ident">log</span>::<span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Destroying used up descriptor pool&quot;</span>);
             <span class="kw">unsafe</span> { <span class="ident">device</span>.<span class="ident">destroy_descriptor_pool</span>(<span class="ident">pool</span>.<span class="ident">raw</span>) };
-            <span class="self">self</span>.<span class="ident">pools_offset</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="self">self</span>.<span class="ident">pools_offset</span> <span class="op">+=</span> <span class="number">1</span>;
         }
     }
 }
@@ -624,7 +624,7 @@
 <span class="doccomment">/// Can be used to allocate descriptor sets for any layout.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DescriptorAllocator</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> {
-    <span class="ident">buckets</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">DescriptorCounts</span>, <span class="ident">DescriptorBucket</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">BuildHasherDefault</span><span class="op">&lt;</span><span class="ident">fxhash</span>::<span class="ident">FxHasher</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">buckets</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">DescriptorCounts</span>, <span class="ident">DescriptorBucket</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">BuildHasherDefault</span><span class="op">&lt;</span><span class="ident">fxhash</span>::<span class="ident">FxHasher</span><span class="op">&gt;&gt;</span>,
     <span class="ident">allocation</span>: <span class="ident">Allocation</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
     <span class="ident">total</span>: <span class="ident">u64</span>,
     <span class="ident">free_sets</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">B</span>::<span class="ident">DescriptorSet</span><span class="op">&gt;</span>,
@@ -643,7 +643,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">/// All later operations assume the device is not lost.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">DescriptorAllocator</span> {
             <span class="ident">buckets</span>: <span class="ident">HashMap</span>::<span class="ident">default</span>(),
             <span class="ident">allocation</span>: <span class="ident">Allocation</span> {
@@ -667,9 +667,9 @@
         <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">DescriptorSetLayout</span>,
         <span class="ident">layout_counts</span>: <span class="kw-2">&amp;</span><span class="ident">DescriptorCounts</span>,
         <span class="ident">count</span>: <span class="ident">u32</span>,
-        <span class="ident">extend</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">impl</span> <span class="ident">Extend</span><span class="op">&lt;</span><span class="ident">DescriptorSet</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">count</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="ident">extend</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw">impl</span> <span class="ident">Extend</span><span class="op">&lt;</span><span class="ident">DescriptorSet</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">OutOfMemory</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">count</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
         }
 
@@ -685,7 +685,7 @@
             .<span class="ident">entry</span>(<span class="ident">layout_counts</span>.<span class="ident">clone</span>())
             .<span class="ident">or_insert_with</span>(<span class="ident">DescriptorBucket</span>::<span class="ident">new</span>);
         <span class="kw">match</span> <span class="ident">bucket</span>.<span class="ident">allocate</span>(<span class="ident">device</span>, <span class="ident">layout</span>, <span class="ident">layout_counts</span>, <span class="ident">count</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">allocation</span>) {
-            <span class="prelude-val">Ok</span>(()) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Ok</span>(()) <span class="op">=&gt;</span> {
                 <span class="ident">extend</span>.<span class="ident">extend</span>(
                     <span class="self">self</span>.<span class="ident">allocation</span>
                         .<span class="ident">pools</span>
@@ -699,11 +699,11 @@
                 );
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// Free sets allocated so far.</span>
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">last</span> <span class="op">=</span> <span class="prelude-val">None</span>;
                 <span class="kw">for</span> (<span class="ident">index</span>, <span class="ident">pool_id</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">allocation</span>.<span class="ident">pools</span>.<span class="ident">drain</span>(..).<span class="ident">enumerate</span>().<span class="ident">rev</span>() {
-                    <span class="kw">if</span> <span class="prelude-val">Some</span>(<span class="ident">pool_id</span>) <span class="op">!</span><span class="op">=</span> <span class="ident">last</span> {
+                    <span class="kw">if</span> <span class="prelude-val">Some</span>(<span class="ident">pool_id</span>) <span class="op">!=</span> <span class="ident">last</span> {
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">last_id</span>) <span class="op">=</span> <span class="ident">last</span> {
                             <span class="comment">// Free contiguous range of sets from one pool in one go.</span>
                             <span class="ident">bucket</span>.<span class="ident">free</span>(<span class="self">self</span>.<span class="ident">allocation</span>.<span class="ident">sets</span>.<span class="ident">drain</span>(<span class="ident">index</span> <span class="op">+</span> <span class="number">1</span>..), <span class="ident">last_id</span>);
@@ -728,18 +728,18 @@
     <span class="doccomment">/// None of descriptor sets can be referenced in any pending command buffers.</span>
     <span class="doccomment">/// All command buffers where at least one of descriptor sets referenced</span>
     <span class="doccomment">/// move to invalid state.</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">free</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">all_sets</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">DescriptorSet</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>) {
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">free</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">all_sets</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">DescriptorSet</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;&gt;</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">free_counts</span> <span class="op">=</span> <span class="ident">DescriptorCounts</span>::<span class="ident">EMPTY</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">free_pool_id</span>: <span class="ident">PoolIndex</span> <span class="op">=</span> <span class="op">!</span><span class="number">0</span>;
 
         <span class="kw">for</span> <span class="ident">set</span> <span class="kw">in</span> <span class="ident">all_sets</span> {
-            <span class="kw">if</span> <span class="ident">free_counts</span> <span class="op">!</span><span class="op">=</span> <span class="ident">set</span>.<span class="ident">counts</span> <span class="op">|</span><span class="op">|</span> <span class="ident">free_pool_id</span> <span class="op">!</span><span class="op">=</span> <span class="ident">set</span>.<span class="ident">pool_id</span> {
-                <span class="kw">if</span> <span class="ident">free_pool_id</span> <span class="op">!</span><span class="op">=</span> <span class="op">!</span><span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">free_counts</span> <span class="op">!=</span> <span class="ident">set</span>.<span class="ident">counts</span> <span class="op">||</span> <span class="ident">free_pool_id</span> <span class="op">!=</span> <span class="ident">set</span>.<span class="ident">pool_id</span> {
+                <span class="kw">if</span> <span class="ident">free_pool_id</span> <span class="op">!=</span> <span class="op">!</span><span class="number">0</span> {
                     <span class="kw">let</span> <span class="ident">bucket</span> <span class="op">=</span> <span class="self">self</span>
                         .<span class="ident">buckets</span>
                         .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">free_counts</span>)
                         .<span class="ident">expect</span>(<span class="string">&quot;Set should be allocated from this allocator&quot;</span>);
-                    <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">bucket</span>.<span class="ident">total</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">free_sets</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>);
+                    <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">bucket</span>.<span class="ident">total</span> <span class="op">&gt;=</span> <span class="self">self</span>.<span class="ident">free_sets</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>);
                     <span class="ident">bucket</span>.<span class="ident">free</span>(<span class="self">self</span>.<span class="ident">free_sets</span>.<span class="ident">drain</span>(..), <span class="ident">free_pool_id</span>);
                 }
                 <span class="ident">free_counts</span> <span class="op">=</span> <span class="ident">set</span>.<span class="ident">counts</span>;
@@ -748,12 +748,12 @@
             <span class="self">self</span>.<span class="ident">free_sets</span>.<span class="ident">push</span>(<span class="ident">set</span>.<span class="ident">raw</span>);
         }
 
-        <span class="kw">if</span> <span class="ident">free_pool_id</span> <span class="op">!</span><span class="op">=</span> <span class="op">!</span><span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">free_pool_id</span> <span class="op">!=</span> <span class="op">!</span><span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">bucket</span> <span class="op">=</span> <span class="self">self</span>
                 .<span class="ident">buckets</span>
                 .<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">free_counts</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;Set should be allocated from this allocator&quot;</span>);
-            <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">bucket</span>.<span class="ident">total</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">free_sets</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>);
+            <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">bucket</span>.<span class="ident">total</span> <span class="op">&gt;=</span> <span class="self">self</span>.<span class="ident">free_sets</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>);
 
             <span class="ident">bucket</span>.<span class="ident">free</span>(<span class="self">self</span>.<span class="ident">free_sets</span>.<span class="ident">drain</span>(..), <span class="ident">free_pool_id</span>);
         }

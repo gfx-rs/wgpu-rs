@@ -122,17 +122,17 @@
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">CachedGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span>);
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">Cached</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cached</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">Cached</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
             <span class="ident">Cached</span>(<span class="ident">CachedThreadLocal</span>::<span class="ident">new</span>())
         }
 
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_or</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">create</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CachedGuard</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-            <span class="ident">CachedGuard</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">get_or</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">create</span>()))
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_or</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">create</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>() <span class="op">-&gt;</span> <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">CachedGuard</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+            <span class="ident">CachedGuard</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">get_or</span>(<span class="op">||</span> <span class="ident">create</span>()))
         }
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">CachedGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> {
             <span class="self">self</span>.<span class="number">0</span>
         }
     }
@@ -146,7 +146,7 @@
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Cached</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> {
-        <span class="ident">stack</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">stack</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>,
         <span class="doccomment">/// When perf-cache is enabled, the thread_local crate is used, and</span>
         <span class="doccomment">/// its CachedThreadLocal impls Send, Sync and UnwindSafe, but NOT</span>
         <span class="doccomment">/// RefUnwindSafe. However, a Mutex impls RefUnwindSafe. So in order</span>
@@ -157,7 +157,7 @@
         <span class="doccomment">/// tricky to do that right now.</span>
         <span class="doccomment">///</span>
         <span class="doccomment">/// See also: https://github.com/rust-lang/regex/issues/576</span>
-        <span class="ident">_phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">UnwindSafe</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">_phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">dyn</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">UnwindSafe</span><span class="op">&gt;&gt;</span>,
     }
 
     <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -167,15 +167,15 @@
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">Cached</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Cached</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">Cached</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
             <span class="ident">Cached</span> { <span class="ident">stack</span>: <span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="macro">vec</span><span class="macro">!</span>[]), <span class="ident">_phantom</span>: <span class="ident">PhantomData</span> }
         }
 
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_or</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">create</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CachedGuard</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_or</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">create</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>() <span class="op">-&gt;</span> <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">CachedGuard</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stack</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">stack</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
             <span class="kw">match</span> <span class="ident">stack</span>.<span class="ident">pop</span>() {
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">CachedGuard</span> { <span class="ident">cache</span>: <span class="self">self</span>, <span class="ident">value</span>: <span class="prelude-val">Some</span>(<span class="ident">create</span>()) },
-                <span class="prelude-val">Some</span>(<span class="ident">value</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">CachedGuard</span> { <span class="ident">cache</span>: <span class="self">self</span>, <span class="ident">value</span>: <span class="prelude-val">Some</span>(<span class="ident">value</span>) },
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">CachedGuard</span> { <span class="ident">cache</span>: <span class="self">self</span>, <span class="ident">value</span>: <span class="prelude-val">Some</span>(<span class="ident">create</span>()) },
+                <span class="prelude-val">Some</span>(<span class="ident">value</span>) <span class="op">=&gt;</span> <span class="ident">CachedGuard</span> { <span class="ident">cache</span>: <span class="self">self</span>, <span class="ident">value</span>: <span class="prelude-val">Some</span>(<span class="ident">value</span>) },
             }
         }
 
@@ -186,7 +186,7 @@
     }
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">CachedGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">value</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">T</span> {
             <span class="self">self</span>.<span class="ident">value</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>()
         }
     }

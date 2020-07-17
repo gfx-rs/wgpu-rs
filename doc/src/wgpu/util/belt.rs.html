@@ -184,7 +184,7 @@
     <span class="doccomment">/// The `chunk_size` is the unit of internal buffer allocation.</span>
     <span class="doccomment">/// It&#39;s better when it&#39;s big, but ideally still 1-4 times less than</span>
     <span class="doccomment">/// the total amount of data uploaded per submission.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">chunk_size</span>: <span class="ident">BufferAddress</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">chunk_size</span>: <span class="ident">BufferAddress</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">Device</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> (<span class="ident">sender</span>, <span class="ident">receiver</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>();
         <span class="ident">StagingBelt</span> {
             <span class="ident">chunk_size</span>,
@@ -207,17 +207,17 @@
         <span class="ident">offset</span>: <span class="ident">BufferAddress</span>,
         <span class="ident">size</span>: <span class="ident">BufferSize</span>,
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">Device</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BufferViewMut</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">BufferViewMut</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">chunk</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">index</span>) <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">active_chunks</span>
             .<span class="ident">iter</span>()
-            .<span class="ident">position</span>(<span class="op">|</span><span class="ident">chunk</span><span class="op">|</span> <span class="ident">chunk</span>.<span class="ident">offset</span> <span class="op">+</span> <span class="ident">size</span>.<span class="ident">get</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">chunk</span>.<span class="ident">size</span>)
+            .<span class="ident">position</span>(<span class="op">|</span><span class="ident">chunk</span><span class="op">|</span> <span class="ident">chunk</span>.<span class="ident">offset</span> <span class="op">+</span> <span class="ident">size</span>.<span class="ident">get</span>() <span class="op">&lt;=</span> <span class="ident">chunk</span>.<span class="ident">size</span>)
         {
             <span class="self">self</span>.<span class="ident">active_chunks</span>.<span class="ident">swap_remove</span>(<span class="ident">index</span>)
         } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">index</span>) <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">free_chunks</span>
             .<span class="ident">iter</span>()
-            .<span class="ident">position</span>(<span class="op">|</span><span class="ident">chunk</span><span class="op">|</span> <span class="ident">size</span>.<span class="ident">get</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">chunk</span>.<span class="ident">size</span>)
+            .<span class="ident">position</span>(<span class="op">|</span><span class="ident">chunk</span><span class="op">|</span> <span class="ident">size</span>.<span class="ident">get</span>() <span class="op">&lt;=</span> <span class="ident">chunk</span>.<span class="ident">size</span>)
         {
             <span class="self">self</span>.<span class="ident">free_chunks</span>.<span class="ident">swap_remove</span>(<span class="ident">index</span>)
         } <span class="kw">else</span> {
@@ -239,10 +239,10 @@
         <span class="self">self</span>.<span class="ident">encoder</span>
             .<span class="ident">copy_buffer_to_buffer</span>(<span class="kw-2">&amp;</span><span class="ident">chunk</span>.<span class="ident">buffer</span>, <span class="ident">chunk</span>.<span class="ident">offset</span>, <span class="ident">target</span>, <span class="ident">offset</span>, <span class="ident">size</span>.<span class="ident">get</span>());
         <span class="kw">let</span> <span class="ident">old_offset</span> <span class="op">=</span> <span class="ident">chunk</span>.<span class="ident">offset</span>;
-        <span class="ident">chunk</span>.<span class="ident">offset</span> <span class="op">+</span><span class="op">=</span> <span class="ident">size</span>.<span class="ident">get</span>();
+        <span class="ident">chunk</span>.<span class="ident">offset</span> <span class="op">+=</span> <span class="ident">size</span>.<span class="ident">get</span>();
         <span class="kw">let</span> <span class="ident">remainder</span> <span class="op">=</span> <span class="ident">chunk</span>.<span class="ident">offset</span> <span class="op">%</span> <span class="kw">crate</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span>;
-        <span class="kw">if</span> <span class="ident">remainder</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="ident">chunk</span>.<span class="ident">offset</span> <span class="op">+</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span> <span class="op">-</span> <span class="ident">remainder</span>;
+        <span class="kw">if</span> <span class="ident">remainder</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="ident">chunk</span>.<span class="ident">offset</span> <span class="op">+=</span> <span class="kw">crate</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span> <span class="op">-</span> <span class="ident">remainder</span>;
         }
 
         <span class="self">self</span>.<span class="ident">active_chunks</span>.<span class="ident">push</span>(<span class="ident">chunk</span>);
@@ -258,7 +258,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// At this point, all the partially used staging buffers are closed until</span>
     <span class="doccomment">/// the GPU is done copying the data from them.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">Device</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CommandBuffer</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">Device</span>) <span class="op">-&gt;</span> <span class="ident">CommandBuffer</span> {
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>))]</span>
         <span class="ident">wgc</span>::<span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">DEBUG</span>, <span class="string">&quot;Flushing chunks&quot;</span>);
 
@@ -277,7 +277,7 @@
     <span class="doccomment">/// Recall all of the closed buffers back for re-usal.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This has to be called after the command buffer produced by `flush` is submitted!</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recall</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">recall</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw">impl</span> <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> {
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="kw-2">mut</span> <span class="ident">chunk</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">receiver</span>.<span class="ident">try_recv</span>() {
             <span class="ident">chunk</span>.<span class="ident">offset</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="self">self</span>.<span class="ident">free_chunks</span>.<span class="ident">push</span>(<span class="ident">chunk</span>);

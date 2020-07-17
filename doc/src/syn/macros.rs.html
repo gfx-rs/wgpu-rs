@@ -194,7 +194,7 @@
     (
         [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>]
         <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> #<span class="ident">full</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;full&quot;</span>)]</span>
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;extra-traits&quot;</span>, <span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>))]</span>
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clone-impls&quot;</span>, <span class="ident">derive</span>(<span class="ident">Clone</span>))]</span>
@@ -218,7 +218,7 @@
     (
         [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>]
         <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> #<span class="ident">manual_extra_traits</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;extra-traits&quot;</span>, <span class="ident">derive</span>(<span class="ident">Debug</span>))]</span>
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clone-impls&quot;</span>, <span class="ident">derive</span>(<span class="ident">Clone</span>))]</span>
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>)<span class="op">*</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span>
@@ -227,7 +227,7 @@
     (
         [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>]
         <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> #<span class="ident">manual_extra_traits_debug</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clone-impls&quot;</span>, <span class="ident">derive</span>(<span class="ident">Clone</span>))]</span>
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>)<span class="op">*</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span>
     };
@@ -235,13 +235,13 @@
     (
         [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>]
         <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;extra-traits&quot;</span>, <span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>))]</span>
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clone-impls&quot;</span>, <span class="ident">derive</span>(<span class="ident">Clone</span>))]</span>
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>)<span class="op">*</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span>
     };
 
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
         <span class="macro">strip_attrs_pub</span><span class="macro">!</span>(<span class="macro">ast_struct</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>)<span class="kw-2">*</span>));
     };
 }
@@ -251,14 +251,14 @@
     (
         [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>]
         <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> #<span class="ident">no_visit</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> (
+    ) <span class="op">=&gt;</span> (
         <span class="macro">ast_enum</span><span class="macro">!</span>([$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>)<span class="kw-2">*</span>] <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="kw-2">*</span>);
     );
 
     (
         [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>]
         <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> #<span class="ident">manual_extra_traits</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> (
+    ) <span class="op">=&gt;</span> (
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;extra-traits&quot;</span>, <span class="ident">derive</span>(<span class="ident">Debug</span>))]</span>
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clone-impls&quot;</span>, <span class="ident">derive</span>(<span class="ident">Clone</span>))]</span>
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>)<span class="op">*</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span>
@@ -267,13 +267,13 @@
     (
         [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>]
         <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> (
+    ) <span class="op">=&gt;</span> (
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;extra-traits&quot;</span>, <span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>))]</span>
         <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;clone-impls&quot;</span>, <span class="ident">derive</span>(<span class="ident">Clone</span>))]</span>
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">attrs_pub</span>)<span class="op">*</span> <span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>)<span class="op">*</span>
     );
 
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
         <span class="macro">strip_attrs_pub</span><span class="macro">!</span>(<span class="macro">ast_enum</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>)<span class="kw-2">*</span>));
     };
 }
@@ -283,7 +283,7 @@
         $(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span>)<span class="op">*</span>
         <span class="macro-nonterminal">$</span><span class="kw">pub</span>:<span class="macro-nonterminal">ident</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span>:<span class="macro-nonterminal">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> #<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">tt</span>
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">remaining</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="macro">ast_enum</span><span class="macro">!</span>($(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> #<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tag</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>);
         <span class="macro">ast_enum_of_structs_impl</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">remaining</span>)<span class="kw-2">*</span>);
     };
@@ -292,7 +292,7 @@
         $(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>:<span class="ident">meta</span>]</span>)<span class="op">*</span>
         <span class="macro-nonterminal">$</span><span class="kw">pub</span>:<span class="macro-nonterminal">ident</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span>:<span class="macro-nonterminal">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>:<span class="ident">tt</span>
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">remaining</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="macro">ast_enum</span><span class="macro">!</span>($(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">enum_attr</span>]</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span>);
         <span class="macro">ast_enum_of_structs_impl</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">body</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">remaining</span>)<span class="kw-2">*</span>);
     };
@@ -308,7 +308,7 @@
         }
 
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">remaining</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="macro">check_keyword_matches</span><span class="macro">!</span>(<span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="kw">pub</span>);
         <span class="macro-nonterminal">check_keyword_matches</span><span class="op">!</span>(<span class="kw">enum</span> <span class="macro-nonterminal">$</span><span class="kw">enum</span>);
 
@@ -328,11 +328,11 @@
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">ast_enum_from_struct</span> {
     <span class="comment">// No From&lt;TokenStream&gt; for verbatim variants.</span>
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>::<span class="ident">Verbatim</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">member</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {};
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>::<span class="ident">Verbatim</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">member</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {};
 
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">member</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">member</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {
         <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">member</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
-            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">member</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
+            <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">e</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">member</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>(<span class="ident">e</span>)
             }
         }
@@ -341,23 +341,23 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;printing&quot;</span>)]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">generate_to_tokens</span> {
-    (<span class="ident">do_not_generate_to_tokens</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">foo</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> ();
+    (<span class="ident">do_not_generate_to_tokens</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">foo</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> ();
 
-    (($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">next</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>}) <span class="op">=</span><span class="op">&gt;</span> {
+    (($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">next</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>}) <span class="op">=&gt;</span> {
         <span class="macro">generate_to_tokens</span><span class="macro">!</span>(
-            ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> <span class="op">=</span><span class="op">&gt;</span> {})
+            ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> <span class="op">=&gt;</span> {})
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">next</span>)<span class="op">*</span> }
         );
     };
 
-    (($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">member</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">next</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>}) <span class="op">=</span><span class="op">&gt;</span> {
+    (($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> { <span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">member</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">next</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>}) <span class="op">=&gt;</span> {
         <span class="macro">generate_to_tokens</span><span class="macro">!</span>(
-            ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>(<span class="ident">_e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">_e</span>.<span class="ident">to_tokens</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>),)
+            ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>(<span class="ident">_e</span>) <span class="op">=&gt;</span> <span class="ident">_e</span>.<span class="ident">to_tokens</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>),)
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">next</span>)<span class="op">*</span> }
         );
     };
 
-    (($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {}) <span class="op">=</span><span class="op">&gt;</span> {
+    (($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arms</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">ident</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>:<span class="ident">ident</span> {}) <span class="op">=&gt;</span> {
         <span class="kw">impl</span> ::<span class="ident">quote</span>::<span class="ident">ToTokens</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span> {
             <span class="kw">fn</span> <span class="ident">to_tokens</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> ::<span class="ident">proc_macro2</span>::<span class="ident">TokenStream</span>) {
                 <span class="kw">match</span> <span class="self">self</span> {
@@ -369,7 +369,7 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">strip_attrs_pub</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mac</span>:<span class="macro">ident</span><span class="macro">!</span>($(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>]</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="kw">pub</span>:<span class="macro-nonterminal">ident</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">mac</span>:<span class="macro">ident</span><span class="macro">!</span>($(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>]</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="kw">pub</span>:<span class="macro-nonterminal">ident</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>)) <span class="op">=&gt;</span> {
         <span class="macro">check_keyword_matches</span><span class="macro">!</span>(<span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="kw">pub</span>);
 
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mac</span><span class="op">!</span>([$(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>]</span>)<span class="op">*</span> <span class="macro-nonterminal">$</span><span class="kw">pub</span>] $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>)<span class="kw-2">*</span>);
@@ -377,9 +377,9 @@
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">check_keyword_matches</span> {
-    (<span class="kw">struct</span> <span class="kw">struct</span>) <span class="op">=</span><span class="op">&gt;</span> {};
-    (<span class="kw">enum</span> <span class="kw">enum</span>) <span class="op">=</span><span class="op">&gt;</span> {};
-    (<span class="kw">pub</span> <span class="kw">pub</span>) <span class="op">=</span><span class="op">&gt;</span> {};
+    (<span class="kw">struct</span> <span class="kw">struct</span>) <span class="op">=&gt;</span> {};
+    (<span class="kw">enum</span> <span class="kw">enum</span>) <span class="op">=&gt;</span> {};
+    (<span class="kw">pub</span> <span class="kw">pub</span>) <span class="op">=&gt;</span> {};
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "syn";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

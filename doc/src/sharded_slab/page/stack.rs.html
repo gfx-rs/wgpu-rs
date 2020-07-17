@@ -133,17 +133,17 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">cfg</span>::<span class="ident">Config</span><span class="op">&gt;</span> <span class="ident">TransferStack</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">head</span>: <span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="kw">super</span>::<span class="ident">Addr</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>::<span class="ident">NULL</span>),
             <span class="ident">_cfg</span>: <span class="ident">PhantomData</span>,
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">pop_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">pop_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">val</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">head</span>.<span class="ident">swap</span>(<span class="kw">super</span>::<span class="ident">Addr</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>::<span class="ident">NULL</span>, <span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
         <span class="macro">test_println</span><span class="macro">!</span>(<span class="string">&quot;-&gt; pop {:#x}&quot;</span>, <span class="ident">val</span>);
-        <span class="kw">if</span> <span class="ident">val</span> <span class="op">=</span><span class="op">=</span> <span class="kw">super</span>::<span class="ident">Addr</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>::<span class="ident">NULL</span> {
+        <span class="kw">if</span> <span class="ident">val</span> <span class="op">==</span> <span class="kw">super</span>::<span class="ident">Addr</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>::<span class="ident">NULL</span> {
             <span class="prelude-val">None</span>
         } <span class="kw">else</span> {
             <span class="prelude-val">Some</span>(<span class="ident">val</span>)
@@ -164,11 +164,11 @@
                 .<span class="ident">compare_exchange</span>(<span class="ident">next</span>, <span class="ident">new_head</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>)
             {
                 <span class="comment">// lost the race!</span>
-                <span class="prelude-val">Err</span>(<span class="ident">actual</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Err</span>(<span class="ident">actual</span>) <span class="op">=&gt;</span> {
                     <span class="macro">test_println</span><span class="macro">!</span>(<span class="string">&quot;-&gt; retry!&quot;</span>);
                     <span class="ident">next</span> <span class="op">=</span> <span class="ident">actual</span>;
                 }
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                     <span class="macro">test_println</span><span class="macro">!</span>(<span class="string">&quot;-&gt; successful; next={:#x}&quot;</span>, <span class="ident">next</span>);
                     <span class="kw">return</span>;
                 }
@@ -184,7 +184,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">TransferStack</span><span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;TransferStack&quot;</span>)
             .<span class="ident">field</span>(
                 <span class="string">&quot;head&quot;</span>,
@@ -203,13 +203,13 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">transfer_stack</span>() {
-        <span class="ident">test_util</span>::<span class="ident">run_model</span>(<span class="string">&quot;transfer_stack&quot;</span>, <span class="op">|</span><span class="op">|</span> {
+        <span class="ident">test_util</span>::<span class="ident">run_model</span>(<span class="string">&quot;transfer_stack&quot;</span>, <span class="op">||</span> {
             <span class="kw">let</span> <span class="ident">causalities</span> <span class="op">=</span> [<span class="ident">UnsafeCell</span>::<span class="ident">new</span>(<span class="number">999</span>), <span class="ident">UnsafeCell</span>::<span class="ident">new</span>(<span class="number">999</span>)];
             <span class="kw">let</span> <span class="ident">shared</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>((<span class="ident">causalities</span>, <span class="ident">TransferStack</span>::<span class="op">&lt;</span><span class="ident">cfg</span>::<span class="ident">DefaultConfig</span><span class="op">&gt;</span>::<span class="ident">new</span>()));
             <span class="kw">let</span> <span class="ident">shared1</span> <span class="op">=</span> <span class="ident">shared</span>.<span class="ident">clone</span>();
             <span class="kw">let</span> <span class="ident">shared2</span> <span class="op">=</span> <span class="ident">shared</span>.<span class="ident">clone</span>();
 
-            <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">t1</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
                 <span class="kw">let</span> (<span class="ident">causalities</span>, <span class="ident">stack</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">shared1</span>;
                 <span class="ident">stack</span>.<span class="ident">push</span>(<span class="number">0</span>, <span class="op">|</span><span class="ident">prev</span><span class="op">|</span> {
                     <span class="ident">causalities</span>[<span class="number">0</span>].<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="kw">unsafe</span> {
@@ -218,7 +218,7 @@
                     <span class="macro">test_println</span><span class="macro">!</span>(<span class="string">&quot;prev={:#x}&quot;</span>, <span class="ident">prev</span>)
                 });
             });
-            <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">t2</span> <span class="op">=</span> <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> {
                 <span class="kw">let</span> (<span class="ident">causalities</span>, <span class="ident">stack</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">shared2</span>;
                 <span class="ident">stack</span>.<span class="ident">push</span>(<span class="number">1</span>, <span class="op">|</span><span class="ident">prev</span><span class="op">|</span> {
                     <span class="ident">causalities</span>[<span class="number">1</span>].<span class="ident">with_mut</span>(<span class="op">|</span><span class="ident">c</span><span class="op">|</span> <span class="kw">unsafe</span> {
@@ -230,7 +230,7 @@
 
             <span class="kw">let</span> (<span class="ident">causalities</span>, <span class="ident">stack</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">shared</span>;
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">idx</span> <span class="op">=</span> <span class="ident">stack</span>.<span class="ident">pop_all</span>();
-            <span class="kw">while</span> <span class="ident">idx</span> <span class="op">=</span><span class="op">=</span> <span class="prelude-val">None</span> {
+            <span class="kw">while</span> <span class="ident">idx</span> <span class="op">==</span> <span class="prelude-val">None</span> {
                 <span class="ident">idx</span> <span class="op">=</span> <span class="ident">stack</span>.<span class="ident">pop_all</span>();
                 <span class="ident">thread</span>::<span class="ident">yield_now</span>();
             }

@@ -206,56 +206,56 @@
 
 <span class="kw">impl</span> <span class="ident">Error</span> {
     <span class="doccomment">/// Return the kind of this error.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">ErrorKind</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">ErrorKind</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">kind</span>
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">syntax</span>(<span class="ident">err</span>: <span class="ident">regex_syntax</span>::<span class="ident">Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">syntax</span>(<span class="ident">err</span>: <span class="ident">regex_syntax</span>::<span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
         <span class="ident">Error</span> { <span class="ident">kind</span>: <span class="ident">ErrorKind</span>::<span class="ident">Syntax</span>(<span class="ident">err</span>.<span class="ident">to_string</span>()) }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">unsupported_anchor</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">unsupported_anchor</span>() <span class="op">-&gt;</span> <span class="ident">Error</span> {
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">r&quot;anchors such as ^, $, \A and \z are not supported&quot;</span>;
         <span class="ident">Error</span> { <span class="ident">kind</span>: <span class="ident">ErrorKind</span>::<span class="ident">Unsupported</span>(<span class="ident">msg</span>.<span class="ident">to_string</span>()) }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">unsupported_word</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">unsupported_word</span>() <span class="op">-&gt;</span> <span class="ident">Error</span> {
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">r&quot;word boundary assertions (\b and \B) are not supported&quot;</span>;
         <span class="ident">Error</span> { <span class="ident">kind</span>: <span class="ident">ErrorKind</span>::<span class="ident">Unsupported</span>(<span class="ident">msg</span>.<span class="ident">to_string</span>()) }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">unsupported_longest_match</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">unsupported_longest_match</span>() <span class="op">-&gt;</span> <span class="ident">Error</span> {
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="string">&quot;unachored searches with longest match \
                    semantics are not supported&quot;</span>;
         <span class="ident">Error</span> { <span class="ident">kind</span>: <span class="ident">ErrorKind</span>::<span class="ident">Unsupported</span>(<span class="ident">msg</span>.<span class="ident">to_string</span>()) }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">serialize</span>(<span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">serialize</span>(<span class="ident">message</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
         <span class="ident">Error</span> { <span class="ident">kind</span>: <span class="ident">ErrorKind</span>::<span class="ident">Serialize</span>(<span class="ident">message</span>.<span class="ident">to_string</span>()) }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">state_id_overflow</span>(<span class="ident">max</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">state_id_overflow</span>(<span class="ident">max</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">Error</span> {
         <span class="ident">Error</span> { <span class="ident">kind</span>: <span class="ident">ErrorKind</span>::<span class="ident">StateIDOverflow</span> { <span class="ident">max</span> } }
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">premultiply_overflow</span>(
         <span class="ident">max</span>: <span class="ident">usize</span>,
         <span class="ident">requested_max</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Error</span> {
         <span class="ident">Error</span> { <span class="ident">kind</span>: <span class="ident">ErrorKind</span>::<span class="ident">PremultiplyOverflow</span> { <span class="ident">max</span>, <span class="ident">requested_max</span> } }
     }
 }
 
 <span class="kw">impl</span> <span class="ident">error</span>::<span class="ident">Error</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">description</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">ErrorKind</span>::<span class="ident">Syntax</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;syntax error&quot;</span>,
-            <span class="ident">ErrorKind</span>::<span class="ident">Unsupported</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;unsupported syntax&quot;</span>,
-            <span class="ident">ErrorKind</span>::<span class="ident">Serialize</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="string">&quot;serialization error&quot;</span>,
-            <span class="ident">ErrorKind</span>::<span class="ident">StateIDOverflow</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">ErrorKind</span>::<span class="ident">Syntax</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;syntax error&quot;</span>,
+            <span class="ident">ErrorKind</span>::<span class="ident">Unsupported</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;unsupported syntax&quot;</span>,
+            <span class="ident">ErrorKind</span>::<span class="ident">Serialize</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="string">&quot;serialization error&quot;</span>,
+            <span class="ident">ErrorKind</span>::<span class="ident">StateIDOverflow</span> { .. } <span class="op">=&gt;</span> {
                 <span class="string">&quot;state id representation too small&quot;</span>
             }
-            <span class="ident">ErrorKind</span>::<span class="ident">PremultiplyOverflow</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">ErrorKind</span>::<span class="ident">PremultiplyOverflow</span> { .. } <span class="op">=&gt;</span> {
                 <span class="string">&quot;state id representation too small for premultiplication&quot;</span>
             }
         }
@@ -263,22 +263,22 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Error</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">ErrorKind</span>::<span class="ident">Syntax</span>(<span class="kw-2">ref</span> <span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>),
-            <span class="ident">ErrorKind</span>::<span class="ident">Unsupported</span>(<span class="kw-2">ref</span> <span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>),
-            <span class="ident">ErrorKind</span>::<span class="ident">Serialize</span>(<span class="kw-2">ref</span> <span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">ErrorKind</span>::<span class="ident">Syntax</span>(<span class="kw-2">ref</span> <span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Unsupported</span>(<span class="kw-2">ref</span> <span class="ident">msg</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">msg</span>),
+            <span class="ident">ErrorKind</span>::<span class="ident">Serialize</span>(<span class="kw-2">ref</span> <span class="ident">msg</span>) <span class="op">=&gt;</span> {
                 <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;DFA serialization error: {}&quot;</span>, <span class="ident">msg</span>)
             }
-            <span class="ident">ErrorKind</span>::<span class="ident">StateIDOverflow</span> { <span class="ident">max</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="ident">ErrorKind</span>::<span class="ident">StateIDOverflow</span> { <span class="ident">max</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;building the DFA failed because it required building \
                  more states that can be identified, where the maximum \
                  ID for the chosen representation is {}&quot;</span>,
                 <span class="ident">max</span>,
             ),
-            <span class="ident">ErrorKind</span>::<span class="ident">PremultiplyOverflow</span> { <span class="ident">max</span>, <span class="ident">requested_max</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="ident">max</span> <span class="op">=</span><span class="op">=</span> <span class="ident">requested_max</span> {
+            <span class="ident">ErrorKind</span>::<span class="ident">PremultiplyOverflow</span> { <span class="ident">max</span>, <span class="ident">requested_max</span> } <span class="op">=&gt;</span> {
+                <span class="kw">if</span> <span class="ident">max</span> <span class="op">==</span> <span class="ident">requested_max</span> {
                     <span class="macro">write</span><span class="macro">!</span>(
                         <span class="ident">f</span>,
                         <span class="string">&quot;premultiplication of states requires the ability to \

@@ -690,7 +690,7 @@
     <span class="doccomment">/// [`Interest`]: struct.Interest.html</span>
     <span class="doccomment">/// [`enabled`]: #method.enabled</span>
     <span class="doccomment">/// [`rebuild_interest_cache`]: ../callsite/fn.rebuild_interest_cache.html</span>
-    <span class="kw">fn</span> <span class="ident">register_callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">metadata</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Interest</span> {
+    <span class="kw">fn</span> <span class="ident">register_callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">metadata</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Interest</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">enabled</span>(<span class="ident">metadata</span>) {
             <span class="ident">Interest</span>::<span class="ident">always</span>()
         } <span class="kw">else</span> {
@@ -718,7 +718,7 @@
     <span class="doccomment">/// [interested]: struct.Interest.html</span>
     <span class="doccomment">/// [`Interest::sometimes`]: struct.Interest.html#method.sometimes</span>
     <span class="doccomment">/// [`register_callsite`]: #method.register_callsite</span>
-    <span class="kw">fn</span> <span class="ident">enabled</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">metadata</span>: <span class="kw-2">&amp;</span><span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">enabled</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">metadata</span>: <span class="kw-2">&amp;</span><span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
 
     <span class="doccomment">/// Visit the construction of a new span, returning a new [span ID] for the</span>
     <span class="doccomment">/// span being constructed.</span>
@@ -744,7 +744,7 @@
     <span class="doccomment">/// [`Attributes`]: ../span/struct.Attributes.html</span>
     <span class="doccomment">/// [visitor]: ../field/trait.Visit.html</span>
     <span class="doccomment">/// [`record` method]: ../span/struct.Attributes.html#method.record</span>
-    <span class="kw">fn</span> <span class="ident">new_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">span</span>: <span class="kw-2">&amp;</span><span class="ident">span</span>::<span class="ident">Attributes</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">span</span>::<span class="ident">Id</span>;
+    <span class="kw">fn</span> <span class="ident">new_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">span</span>: <span class="kw-2">&amp;</span><span class="ident">span</span>::<span class="ident">Attributes</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">span</span>::<span class="ident">Id</span>;
 
     <span class="comment">// === Notification methods ===============================================</span>
 
@@ -869,7 +869,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [span ID]: ../span/struct.Id.html</span>
     <span class="doccomment">/// [`try_close`]: trait.Subscriber.html#method.try_close</span>
-    <span class="kw">fn</span> <span class="ident">clone_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">span</span>::<span class="ident">Id</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">span</span>::<span class="ident">Id</span> {
+    <span class="kw">fn</span> <span class="ident">clone_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="kw-2">&amp;</span><span class="ident">span</span>::<span class="ident">Id</span>) <span class="op">-&gt;</span> <span class="ident">span</span>::<span class="ident">Id</span> {
         <span class="ident">id</span>.<span class="ident">clone</span>()
     }
 
@@ -921,7 +921,7 @@
     <span class="doccomment">/// [span ID]: ../span/struct.Id.html</span>
     <span class="doccomment">/// [`clone_span`]: trait.Subscriber.html#method.clone_span</span>
     <span class="doccomment">/// [`drop_span`]: trait.Subscriber.html#method.drop_span</span>
-    <span class="kw">fn</span> <span class="ident">try_close</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">span</span>::<span class="ident">Id</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_close</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">span</span>::<span class="ident">Id</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
         <span class="self">self</span>.<span class="ident">drop_span</span>(<span class="ident">id</span>);
         <span class="bool-val">false</span>
@@ -940,7 +940,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`Current::new`]: ../span/struct.Current.html#tymethod.new</span>
     <span class="doccomment">/// [`Current::none`]: ../span/struct.Current.html#tymethod.none</span>
-    <span class="kw">fn</span> <span class="ident">current_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">span</span>::<span class="ident">Current</span> {
+    <span class="kw">fn</span> <span class="ident">current_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">span</span>::<span class="ident">Current</span> {
         <span class="ident">span</span>::<span class="ident">Current</span>::<span class="ident">unknown</span>()
     }
 
@@ -971,8 +971,8 @@
     <span class="doccomment">/// undefined behaviour, so implementing `downcast_raw` is unsafe.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`downcast_ref`]: #method.downcast_ref</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">downcast_raw</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">TypeId</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> ()<span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">downcast_raw</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">TypeId</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw">const</span> ()<span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">id</span> <span class="op">==</span> <span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>() {
             <span class="prelude-val">Some</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="self">Self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> ())
         } <span class="kw">else</span> {
             <span class="prelude-val">None</span>
@@ -982,13 +982,13 @@
 
 <span class="kw">impl</span> <span class="kw">dyn</span> <span class="ident">Subscriber</span> {
     <span class="doccomment">/// Returns `true` if this `Subscriber` is the same type as `T`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Any</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Any</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>().<span class="ident">is_some</span>()
     }
 
     <span class="doccomment">/// Returns some reference to this `Subscriber` value if it is of type `T`,</span>
     <span class="doccomment">/// or `None` if it isn&#39;t.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">downcast_ref</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Any</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">downcast_ref</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Any</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="kw">unsafe</span> {
             <span class="kw">let</span> <span class="ident">raw</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">downcast_raw</span>(<span class="ident">TypeId</span>::<span class="ident">of</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>())<span class="question-mark">?</span>;
             <span class="kw">if</span> <span class="ident">raw</span>.<span class="ident">is_null</span>() {
@@ -1024,7 +1024,7 @@
     <span class="doccomment">/// If all active subscribers are `never()` interested in a callsite, it will</span>
     <span class="doccomment">/// be completely disabled unless a new subscriber becomes active.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">never</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">never</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Interest</span>(<span class="ident">InterestKind</span>::<span class="ident">Never</span>)
     }
 
@@ -1036,7 +1036,7 @@
     <span class="doccomment">/// callsite every time it creates a span. This will be the case until a new</span>
     <span class="doccomment">/// subscriber expresses that it is `always` interested in the callsite.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sometimes</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sometimes</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Interest</span>(<span class="ident">InterestKind</span>::<span class="ident">Sometimes</span>)
     }
 
@@ -1046,37 +1046,37 @@
     <span class="doccomment">/// If any subscriber expresses that it is `always()` interested in a given</span>
     <span class="doccomment">/// callsite, then the callsite will always be enabled.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">always</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">always</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Interest</span>(<span class="ident">InterestKind</span>::<span class="ident">Always</span>)
     }
 
     <span class="doccomment">/// Returns `true` if the subscriber is never interested in being notified</span>
     <span class="doccomment">/// about this callsite.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_never</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_never</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="number">0</span> {
-            <span class="ident">InterestKind</span>::<span class="ident">Never</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">InterestKind</span>::<span class="ident">Never</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
     <span class="doccomment">/// Returns `true` if the subscriber is sometimes interested in being notified</span>
     <span class="doccomment">/// about this callsite.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_sometimes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_sometimes</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="number">0</span> {
-            <span class="ident">InterestKind</span>::<span class="ident">Sometimes</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">InterestKind</span>::<span class="ident">Sometimes</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
     <span class="doccomment">/// Returns `true` if the subscriber is always interested in being notified</span>
     <span class="doccomment">/// about this callsite.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_always</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_always</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="number">0</span> {
-            <span class="ident">InterestKind</span>::<span class="ident">Always</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">InterestKind</span>::<span class="ident">Always</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
@@ -1085,21 +1085,21 @@
     <span class="doccomment">/// The common interest is defined as the least restrictive, so if one</span>
     <span class="doccomment">/// interest is `never` and the other is `always` the common interest is</span>
     <span class="doccomment">/// `always`.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">and</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Interest</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">and</span>(<span class="self">self</span>, <span class="ident">rhs</span>: <span class="ident">Interest</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">match</span> <span class="ident">rhs</span>.<span class="number">0</span> {
             <span class="comment">// If the added interest is `never()`, don&#39;t change anything —</span>
             <span class="comment">// either a different subscriber added a higher interest, which we</span>
             <span class="comment">// want to preserve, or the interest is 0 anyway (as it&#39;s</span>
             <span class="comment">// initialized to 0).</span>
-            <span class="ident">InterestKind</span>::<span class="ident">Never</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>,
+            <span class="ident">InterestKind</span>::<span class="ident">Never</span> <span class="op">=&gt;</span> <span class="self">self</span>,
             <span class="comment">// If the interest is `sometimes()`, that overwrites a `never()`</span>
             <span class="comment">// interest, but doesn&#39;t downgrade an `always()` interest.</span>
-            <span class="ident">InterestKind</span>::<span class="ident">Sometimes</span> <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">=</span><span class="op">=</span> <span class="ident">InterestKind</span>::<span class="ident">Never</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rhs</span>,
+            <span class="ident">InterestKind</span>::<span class="ident">Sometimes</span> <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span> <span class="op">==</span> <span class="ident">InterestKind</span>::<span class="ident">Never</span> <span class="op">=&gt;</span> <span class="ident">rhs</span>,
             <span class="comment">// If the interest is `always()`, we overwrite the current interest,</span>
             <span class="comment">// as always() is the highest interest level and should take</span>
             <span class="comment">// precedent.</span>
-            <span class="ident">InterestKind</span>::<span class="ident">Always</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">rhs</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>,
+            <span class="ident">InterestKind</span>::<span class="ident">Always</span> <span class="op">=&gt;</span> <span class="ident">rhs</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="self">self</span>,
         }
     }
 }

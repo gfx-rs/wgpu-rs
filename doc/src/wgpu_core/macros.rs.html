@@ -326,7 +326,7 @@
         <span class="attribute">#[<span class="ident">metal</span>]</span> <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mtl_field</span>:<span class="ident">pat</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mtl_expr</span>:<span class="ident">expr</span>;
         <span class="attribute">#[<span class="ident">dx12</span>]</span> <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx12_field</span>:<span class="ident">pat</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx12_expr</span>:<span class="ident">expr</span>;
         <span class="attribute">#[<span class="ident">dx11</span>]</span> <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx11_field</span>:<span class="ident">pat</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx11_expr</span>:<span class="ident">expr</span>;
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
             <span class="ident">windows</span>,
             <span class="ident">all</span>(<span class="ident">unix</span>, <span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;ios&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;macos&quot;</span>))),
@@ -350,7 +350,7 @@
         <span class="attribute">#[<span class="ident">metal</span>]</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">mtl_block</span>:<span class="ident">block</span>
         <span class="attribute">#[<span class="ident">dx12</span>]</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx12_block</span>:<span class="ident">block</span>
         <span class="attribute">#[<span class="ident">dx11</span>]</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx11_block</span>:<span class="ident">block</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
             <span class="ident">windows</span>,
             <span class="ident">all</span>(<span class="ident">unix</span>, <span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;ios&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;macos&quot;</span>))),
@@ -376,7 +376,7 @@
             <span class="attribute">#[<span class="ident">dx12</span>]</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx12_field</span>:<span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx12_expr</span>:<span class="ident">expr</span>,
             <span class="attribute">#[<span class="ident">dx11</span>]</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx11_field</span>:<span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dx11_expr</span>:<span class="ident">expr</span>,
         }
-    ) <span class="op">=</span><span class="op">&gt;</span> {{
+    ) <span class="op">=&gt;</span> {{
         <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Struct</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
                 <span class="ident">windows</span>,
@@ -404,7 +404,7 @@
         $(
             <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend_attr</span>:<span class="ident">ident</span>]</span> <span class="kw">let</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">pat</span>:<span class="ident">pat</span> <span class="op">=</span> <span class="ident">map</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">expr</span>:<span class="ident">expr</span>);
         )<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="macro">backends</span><span class="macro">!</span> {
             $(
                 <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend_attr</span>]</span>
@@ -422,7 +422,7 @@
         $(
             <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend_attr</span>:<span class="ident">ident</span>]</span> <span class="ident">map</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">expr</span>:<span class="ident">expr</span>),
         )<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="macro">backends</span><span class="macro">!</span> {
             $(
                 <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend_attr</span>]</span>
@@ -442,7 +442,7 @@
                 <span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">backend_attr</span>:<span class="ident">ident</span>]</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ident</span>:<span class="ident">ident</span> : <span class="ident">map</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">expr</span>:<span class="ident">expr</span>),
             )<span class="op">*</span>
         }
-    ) <span class="op">=</span><span class="op">&gt;</span> {
+    ) <span class="op">=&gt;</span> {
         <span class="macro">backends</span><span class="macro">!</span> {
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Struct</span> {
                 $(
@@ -534,16 +534,16 @@
         };
 
         <span class="attribute">#[<span class="ident">vulkan</span>]</span>
-        <span class="ident">map</span>((<span class="ident">test_foo</span>.<span class="ident">vulkan</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span>, <span class="op">|</span><span class="op">|</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;vulkan&quot;</span>))),
+        <span class="ident">map</span>((<span class="ident">test_foo</span>.<span class="ident">vulkan</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span> <span class="op">==</span> <span class="number">1</span>, <span class="op">||</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;vulkan&quot;</span>))),
 
         <span class="attribute">#[<span class="ident">metal</span>]</span>
-        <span class="ident">map</span>((<span class="ident">test_foo</span>.<span class="ident">metal</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span> <span class="op">=</span><span class="op">=</span> <span class="number">2</span>, <span class="op">|</span><span class="op">|</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;metal&quot;</span>))),
+        <span class="ident">map</span>((<span class="ident">test_foo</span>.<span class="ident">metal</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span> <span class="op">==</span> <span class="number">2</span>, <span class="op">||</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;metal&quot;</span>))),
 
         <span class="attribute">#[<span class="ident">dx12</span>]</span>
-        <span class="ident">map</span>((<span class="ident">test_foo</span>.<span class="ident">dx12</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span> <span class="op">=</span><span class="op">=</span> <span class="number">3</span>, <span class="op">|</span><span class="op">|</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;dx12&quot;</span>))),
+        <span class="ident">map</span>((<span class="ident">test_foo</span>.<span class="ident">dx12</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span> <span class="op">==</span> <span class="number">3</span>, <span class="op">||</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;dx12&quot;</span>))),
 
         <span class="attribute">#[<span class="ident">dx11</span>]</span>
-        <span class="ident">map</span>((<span class="ident">test_foo</span>.<span class="ident">dx11</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span> <span class="op">=</span><span class="op">=</span> <span class="number">4</span>, <span class="op">|</span><span class="op">|</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;dx11&quot;</span>))),
+        <span class="ident">map</span>((<span class="ident">test_foo</span>.<span class="ident">dx11</span>, <span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span> <span class="op">==</span> <span class="number">4</span>, <span class="op">||</span> <span class="macro">println</span><span class="macro">!</span>(<span class="string">&quot;dx11&quot;</span>))),
     }
 
     <span class="comment">// test struct construction 2</span>

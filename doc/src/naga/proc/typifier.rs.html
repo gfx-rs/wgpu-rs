@@ -252,7 +252,7 @@
 };
 
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Typifier</span> {
-    <span class="ident">types</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Type</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">types</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Type</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -263,7 +263,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Typifier</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Typifier</span> { <span class="ident">types</span>: <span class="ident">Vec</span>::<span class="ident">new</span>() }
     }
 
@@ -277,21 +277,21 @@
         <span class="ident">global_vars</span>: <span class="kw-2">&amp;</span><span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">GlobalVariable</span><span class="op">&gt;</span>,
         <span class="ident">local_vars</span>: <span class="kw-2">&amp;</span><span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">LocalVariable</span><span class="op">&gt;</span>,
         <span class="ident">functions</span>: <span class="kw-2">&amp;</span><span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Function</span><span class="op">&gt;</span>,
-        <span class="ident">function_lookup</span>: <span class="kw-2">&amp;</span><span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Function</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Type</span><span class="op">&gt;</span>, <span class="ident">ResolveError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">types</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="ident">expr_handle</span>.<span class="ident">index</span>() {
+        <span class="ident">function_lookup</span>: <span class="kw-2">&amp;</span><span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">String</span>, <span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Function</span><span class="op">&gt;&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Type</span><span class="op">&gt;</span>, <span class="ident">ResolveError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">types</span>.<span class="ident">len</span>() <span class="op">&lt;=</span> <span class="ident">expr_handle</span>.<span class="ident">index</span>() {
             <span class="kw">for</span> (<span class="ident">eh</span>, <span class="ident">expr</span>) <span class="kw">in</span> <span class="ident">expressions</span>.<span class="ident">iter</span>().<span class="ident">skip</span>(<span class="self">self</span>.<span class="ident">types</span>.<span class="ident">len</span>()) {
                 <span class="kw">let</span> <span class="ident">ty</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">expr</span> {
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Access</span> { <span class="ident">base</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Access</span> { <span class="ident">base</span>, .. } <span class="op">=&gt;</span> {
                         <span class="kw">match</span> <span class="ident">types</span>[<span class="self">self</span>.<span class="ident">types</span>[<span class="ident">base</span>.<span class="ident">index</span>()]].<span class="ident">inner</span> {
-                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Array</span> { <span class="ident">base</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">base</span>,
-                            <span class="kw-2">ref</span> <span class="ident">other</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Can&#39;t access into {:?}&quot;</span>, <span class="ident">other</span>),
+                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Array</span> { <span class="ident">base</span>, .. } <span class="op">=&gt;</span> <span class="ident">base</span>,
+                            <span class="kw-2">ref</span> <span class="ident">other</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Can&#39;t access into {:?}&quot;</span>, <span class="ident">other</span>),
                         }
                     }
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">AccessIndex</span> { <span class="ident">base</span>, <span class="ident">index</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">AccessIndex</span> { <span class="ident">base</span>, <span class="ident">index</span> } <span class="op">=&gt;</span> {
                         <span class="kw">match</span> <span class="ident">types</span>[<span class="self">self</span>.<span class="ident">types</span>[<span class="ident">base</span>.<span class="ident">index</span>()]].<span class="ident">inner</span> {
-                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> { <span class="ident">size</span>, <span class="ident">kind</span>, <span class="ident">width</span> } <span class="op">=</span><span class="op">&gt;</span> {
-                                <span class="kw">if</span> <span class="ident">index</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">size</span> <span class="kw">as</span> <span class="ident">u32</span> {
+                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> { <span class="ident">size</span>, <span class="ident">kind</span>, <span class="ident">width</span> } <span class="op">=&gt;</span> {
+                                <span class="kw">if</span> <span class="ident">index</span> <span class="op">&gt;=</span> <span class="ident">size</span> <span class="kw">as</span> <span class="ident">u32</span> {
                                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ResolveError</span>::<span class="ident">InvalidAccessIndex</span>);
                                 }
                                 <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> { <span class="ident">kind</span>, <span class="ident">width</span> };
@@ -302,8 +302,8 @@
                                 <span class="ident">rows</span>,
                                 <span class="ident">kind</span>,
                                 <span class="ident">width</span>,
-                            } <span class="op">=</span><span class="op">&gt;</span> {
-                                <span class="kw">if</span> <span class="ident">index</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">columns</span> <span class="kw">as</span> <span class="ident">u32</span> {
+                            } <span class="op">=&gt;</span> {
+                                <span class="kw">if</span> <span class="ident">index</span> <span class="op">&gt;=</span> <span class="ident">columns</span> <span class="kw">as</span> <span class="ident">u32</span> {
                                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ResolveError</span>::<span class="ident">InvalidAccessIndex</span>);
                                 }
                                 <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> {
@@ -313,23 +313,23 @@
                                 };
                                 <span class="self">Self</span>::<span class="ident">deduce_type_handle</span>(<span class="ident">inner</span>, <span class="ident">types</span>)
                             }
-                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Array</span> { <span class="ident">base</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">base</span>,
-                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Struct</span> { <span class="kw-2">ref</span> <span class="ident">members</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Array</span> { <span class="ident">base</span>, .. } <span class="op">=&gt;</span> <span class="ident">base</span>,
+                            <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Struct</span> { <span class="kw-2">ref</span> <span class="ident">members</span> } <span class="op">=&gt;</span> {
                                 <span class="ident">members</span>
                                     .<span class="ident">get</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>)
                                     .<span class="ident">ok_or</span>(<span class="ident">ResolveError</span>::<span class="ident">InvalidAccessIndex</span>)<span class="question-mark">?</span>
                                     .<span class="ident">ty</span>
                             }
-                            <span class="kw-2">ref</span> <span class="ident">other</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Can&#39;t access into {:?}&quot;</span>, <span class="ident">other</span>),
+                            <span class="kw-2">ref</span> <span class="ident">other</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Can&#39;t access into {:?}&quot;</span>, <span class="ident">other</span>),
                         }
                     }
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Constant</span>(<span class="ident">h</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">constants</span>[<span class="ident">h</span>].<span class="ident">ty</span>,
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Compose</span> { <span class="ident">ty</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ty</span>,
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">FunctionParameter</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">GlobalVariable</span>(<span class="ident">h</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">global_vars</span>[<span class="ident">h</span>].<span class="ident">ty</span>,
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">LocalVariable</span>(<span class="ident">h</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">local_vars</span>[<span class="ident">h</span>].<span class="ident">ty</span>,
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Load</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">ImageSample</span> { <span class="ident">image</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Constant</span>(<span class="ident">h</span>) <span class="op">=&gt;</span> <span class="ident">constants</span>[<span class="ident">h</span>].<span class="ident">ty</span>,
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Compose</span> { <span class="ident">ty</span>, .. } <span class="op">=&gt;</span> <span class="ident">ty</span>,
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">FunctionParameter</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">GlobalVariable</span>(<span class="ident">h</span>) <span class="op">=&gt;</span> <span class="ident">global_vars</span>[<span class="ident">h</span>].<span class="ident">ty</span>,
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">LocalVariable</span>(<span class="ident">h</span>) <span class="op">=&gt;</span> <span class="ident">local_vars</span>[<span class="ident">h</span>].<span class="ident">ty</span>,
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Load</span> { .. } <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">ImageSample</span> { <span class="ident">image</span>, .. } <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">resolve</span>(
                             <span class="ident">image</span>,
                             <span class="ident">expressions</span>,
@@ -342,11 +342,11 @@
                         )<span class="question-mark">?</span>;
 
                         <span class="kw">let</span> (<span class="ident">kind</span>, <span class="ident">width</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">types</span>[<span class="ident">image</span>].<span class="ident">inner</span> {
-                            <span class="ident">TypeInner</span>::<span class="ident">Image</span> { <span class="ident">base</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">types</span>[<span class="ident">base</span>].<span class="ident">inner</span> {
-                                <span class="ident">TypeInner</span>::<span class="ident">Scalar</span> { <span class="ident">kind</span>, <span class="ident">width</span> } <span class="op">=</span><span class="op">&gt;</span> (<span class="ident">kind</span>, <span class="ident">width</span>),
-                                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                            <span class="ident">TypeInner</span>::<span class="ident">Image</span> { <span class="ident">base</span>, .. } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">types</span>[<span class="ident">base</span>].<span class="ident">inner</span> {
+                                <span class="ident">TypeInner</span>::<span class="ident">Scalar</span> { <span class="ident">kind</span>, <span class="ident">width</span> } <span class="op">=&gt;</span> (<span class="ident">kind</span>, <span class="ident">width</span>),
+                                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
                             },
-                            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
                         };
 
                         <span class="ident">types</span>.<span class="ident">fetch_or_append</span>(<span class="ident">Type</span> {
@@ -358,16 +358,16 @@
                             },
                         })
                     }
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Unary</span> { <span class="ident">expr</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">expr</span>.<span class="ident">index</span>()],
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Binary</span> { <span class="ident">op</span>, <span class="ident">left</span>, <span class="ident">right</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">op</span> {
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Unary</span> { <span class="ident">expr</span>, .. } <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">expr</span>.<span class="ident">index</span>()],
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Binary</span> { <span class="ident">op</span>, <span class="ident">left</span>, <span class="ident">right</span> } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">op</span> {
                         <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Add</span>
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Subtract</span>
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Divide</span>
-                        <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Modulo</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">left</span>.<span class="ident">index</span>()],
-                        <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Multiply</span> <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Modulo</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">left</span>.<span class="ident">index</span>()],
+                        <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Multiply</span> <span class="op">=&gt;</span> {
                             <span class="kw">let</span> <span class="ident">ty_left</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">left</span>.<span class="ident">index</span>()];
                             <span class="kw">let</span> <span class="ident">ty_right</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">right</span>.<span class="ident">index</span>()];
-                            <span class="kw">if</span> <span class="ident">ty_left</span> <span class="op">=</span><span class="op">=</span> <span class="ident">ty_right</span> {
+                            <span class="kw">if</span> <span class="ident">ty_left</span> <span class="op">==</span> <span class="ident">ty_right</span> {
                                 <span class="ident">ty_left</span>
                             } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> { .. } <span class="op">=</span> <span class="ident">types</span>[<span class="ident">ty_right</span>].<span class="ident">inner</span> {
                                 <span class="ident">ty_left</span>
@@ -398,34 +398,34 @@
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">Greater</span>
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">GreaterEqual</span>
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">LogicalAnd</span>
-                        <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">LogicalOr</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">left</span>.<span class="ident">index</span>()],
+                        <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">LogicalOr</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">left</span>.<span class="ident">index</span>()],
                         <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">And</span>
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">ExclusiveOr</span>
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">InclusiveOr</span>
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">ShiftLeftLogical</span>
                         <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">ShiftRightLogical</span>
-                        <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">ShiftRightArithmetic</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">left</span>.<span class="ident">index</span>()],
+                        <span class="op">|</span> <span class="kw">crate</span>::<span class="ident">BinaryOperator</span>::<span class="ident">ShiftRightArithmetic</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">left</span>.<span class="ident">index</span>()],
                     },
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Intrinsic</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">DotProduct</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">CrossProduct</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Derivative</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Intrinsic</span> { .. } <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">DotProduct</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">CrossProduct</span>(<span class="kw">_</span>, <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Derivative</span> { .. } <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
                     <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Call</span> {
                         <span class="kw-2">ref</span> <span class="ident">name</span>,
                         <span class="kw-2">ref</span> <span class="ident">arguments</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">name</span>.<span class="ident">as_str</span>() {
-                        <span class="string">&quot;distance&quot;</span> <span class="op">|</span> <span class="string">&quot;length&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    } <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">name</span>.<span class="ident">as_str</span>() {
+                        <span class="string">&quot;distance&quot;</span> <span class="op">|</span> <span class="string">&quot;length&quot;</span> <span class="op">=&gt;</span> {
                             <span class="kw">let</span> <span class="ident">ty_handle</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">arguments</span>[<span class="number">0</span>].<span class="ident">index</span>()];
                             <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">types</span>[<span class="ident">ty_handle</span>].<span class="ident">inner</span> {
-                                <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> { <span class="ident">kind</span>, <span class="ident">width</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                                <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Vector</span> { <span class="ident">kind</span>, <span class="ident">width</span>, .. } <span class="op">=&gt;</span> {
                                     <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> { <span class="ident">kind</span>, <span class="ident">width</span> }
                                 }
-                                <span class="kw-2">ref</span> <span class="ident">other</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected argument {:?}&quot;</span>, <span class="ident">other</span>),
+                                <span class="kw-2">ref</span> <span class="ident">other</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Unexpected argument {:?}&quot;</span>, <span class="ident">other</span>),
                             };
                             <span class="self">Self</span>::<span class="ident">deduce_type_handle</span>(<span class="ident">inner</span>, <span class="ident">types</span>)
                         }
-                        <span class="string">&quot;normalize&quot;</span> <span class="op">|</span> <span class="string">&quot;fclamp&quot;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">arguments</span>[<span class="number">0</span>].<span class="ident">index</span>()],
-                        <span class="ident">other</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">functions</span>[<span class="kw-2">*</span><span class="ident">function_lookup</span>
+                        <span class="string">&quot;normalize&quot;</span> <span class="op">|</span> <span class="string">&quot;fclamp&quot;</span> <span class="op">=&gt;</span> <span class="self">self</span>.<span class="ident">types</span>[<span class="ident">arguments</span>[<span class="number">0</span>].<span class="ident">index</span>()],
+                        <span class="ident">other</span> <span class="op">=&gt;</span> <span class="ident">functions</span>[<span class="kw-2">*</span><span class="ident">function_lookup</span>
                             .<span class="ident">get</span>(<span class="ident">other</span>)
                             .<span class="ident">ok_or</span>(<span class="ident">ResolveError</span>::<span class="ident">FunctionNotDefined</span>)<span class="question-mark">?</span>]
                         .<span class="ident">return_type</span>
@@ -442,8 +442,8 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">deduce_type_handle</span>(
         <span class="ident">inner</span>: <span class="kw">crate</span>::<span class="ident">TypeInner</span>,
         <span class="ident">arena</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Type</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Type</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">token</span>, <span class="kw">_</span>)) <span class="op">=</span> <span class="ident">arena</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">ty</span>)<span class="op">|</span> <span class="ident">ty</span>.<span class="ident">inner</span> <span class="op">=</span><span class="op">=</span> <span class="ident">inner</span>) {
+    ) <span class="op">-&gt;</span> <span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Type</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">token</span>, <span class="kw">_</span>)) <span class="op">=</span> <span class="ident">arena</span>.<span class="ident">iter</span>().<span class="ident">find</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">ty</span>)<span class="op">|</span> <span class="ident">ty</span>.<span class="ident">inner</span> <span class="op">==</span> <span class="ident">inner</span>) {
             <span class="kw">return</span> <span class="ident">token</span>;
         }
         <span class="ident">arena</span>.<span class="ident">append</span>(<span class="kw">crate</span>::<span class="ident">Type</span> { <span class="ident">name</span>: <span class="prelude-val">None</span>, <span class="ident">inner</span> })
@@ -456,7 +456,7 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_constant_types</span>(
     <span class="ident">inner</span>: <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">ConstantInner</span>,
     <span class="ident">type_inner</span>: <span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">TypeInner</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">UnexpectedConstantTypeError</span><span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">UnexpectedConstantTypeError</span><span class="op">&gt;</span> {
     <span class="kw">match</span> (<span class="ident">inner</span>, <span class="ident">type_inner</span>) {
         (
             <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Sint</span>(<span class="kw">_</span>),
@@ -464,30 +464,30 @@
                 <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Sint</span>,
                 <span class="ident">width</span>: <span class="kw">_</span>,
             },
-        ) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
+        ) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
         (
             <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Uint</span>(<span class="kw">_</span>),
             <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> {
                 <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Uint</span>,
                 <span class="ident">width</span>: <span class="kw">_</span>,
             },
-        ) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
+        ) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
         (
             <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Float</span>(<span class="kw">_</span>),
             <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> {
                 <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Float</span>,
                 <span class="ident">width</span>: <span class="kw">_</span>,
             },
-        ) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
+        ) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
         (
             <span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Bool</span>(<span class="kw">_</span>),
             <span class="kw">crate</span>::<span class="ident">TypeInner</span>::<span class="ident">Scalar</span> {
                 <span class="ident">kind</span>: <span class="kw">crate</span>::<span class="ident">ScalarKind</span>::<span class="ident">Bool</span>,
                 <span class="ident">width</span>: <span class="kw">_</span>,
             },
-        ) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-        (<span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Composite</span>(<span class="ident">_inner</span>), <span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()), <span class="comment">// TODO recursively check composite types</span>
-        (<span class="ident">other_inner</span>, <span class="ident">other_type_inner</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">UnexpectedConstantTypeError</span>(
+        ) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+        (<span class="kw">crate</span>::<span class="ident">ConstantInner</span>::<span class="ident">Composite</span>(<span class="ident">_inner</span>), <span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()), <span class="comment">// TODO recursively check composite types</span>
+        (<span class="ident">other_inner</span>, <span class="ident">other_type_inner</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">UnexpectedConstantTypeError</span>(
             <span class="ident">other_inner</span>.<span class="ident">clone</span>(),
             <span class="ident">other_type_inner</span>.<span class="ident">clone</span>(),
         )),

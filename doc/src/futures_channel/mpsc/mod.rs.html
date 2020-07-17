@@ -1386,18 +1386,18 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">struct</span> <span class="ident">UnboundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="comment">// Channel state shared between the sender and receiver.</span>
-    <span class="ident">inner</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">UnboundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">inner</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">UnboundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">struct</span> <span class="ident">BoundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="comment">// Channel state shared between the sender and receiver.</span>
-    <span class="ident">inner</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">BoundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">inner</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">BoundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>,
 
     <span class="comment">// Handle to the task that is blocked on this sender. This handle is sent</span>
     <span class="comment">// to the receiver half in order to be notified when the sender becomes</span>
     <span class="comment">// unblocked.</span>
-    <span class="ident">sender_task</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">SenderTask</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">sender_task</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">SenderTask</span><span class="op">&gt;&gt;</span>,
 
     <span class="comment">// `true` if the sender might be blocked. This is an optimization to avoid</span>
     <span class="comment">// having to lock the mutex most of the time.</span>
@@ -1412,13 +1412,13 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// This value is created by the [`channel`](channel) function.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BoundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BoundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>);
 
 <span class="doccomment">/// The transmission end of an unbounded mpsc channel.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This value is created by the [`unbounded`](unbounded) function.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UnboundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UnboundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>);
 
 <span class="kw">trait</span> <span class="ident">AssertKinds</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="ident">Clone</span> {}
 <span class="kw">impl</span> <span class="ident">AssertKinds</span> <span class="kw">for</span> <span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {}
@@ -1428,7 +1428,7 @@
 <span class="doccomment">/// This value is created by the [`channel`](channel) function.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="ident">inner</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">BoundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">inner</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">BoundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="doccomment">/// The receiving end of an unbounded mpsc channel.</span>
@@ -1436,7 +1436,7 @@
 <span class="doccomment">/// This value is created by the [`unbounded`](unbounded) function.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="ident">inner</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">UnboundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">inner</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">UnboundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="comment">// `Pin&lt;&amp;mut UnboundedReceiver&lt;T&gt;&gt;` is never projected to `Pin&lt;&amp;mut T&gt;`</span>
@@ -1467,7 +1467,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">SendError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_full</span>() {
             <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;send failed because channel is full&quot;</span>)
         } <span class="kw">else</span> {
@@ -1480,24 +1480,24 @@
 
 <span class="kw">impl</span> <span class="ident">SendError</span> {
     <span class="doccomment">/// Returns `true` if this error is a result of the channel being full.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_full</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_full</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">SendErrorKind</span>::<span class="ident">Full</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">SendErrorKind</span>::<span class="ident">Full</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
     <span class="doccomment">/// Returns `true` if this error is a result of the receiver being dropped.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_disconnected</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_disconnected</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">SendErrorKind</span>::<span class="ident">Disconnected</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">SendErrorKind</span>::<span class="ident">Disconnected</span> <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;TrySendError&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;kind&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">err</span>.<span class="ident">kind</span>)
             .<span class="ident">finish</span>()
@@ -1505,7 +1505,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_full</span>() {
             <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;send failed because channel is full&quot;</span>)
         } <span class="kw">else</span> {
@@ -1518,35 +1518,35 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Returns `true` if this error is a result of the channel being full.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_full</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_full</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">err</span>.<span class="ident">is_full</span>()
     }
 
     <span class="doccomment">/// Returns `true` if this error is a result of the receiver being dropped.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_disconnected</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_disconnected</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">err</span>.<span class="ident">is_disconnected</span>()
     }
 
     <span class="doccomment">/// Returns the message that was attempted to be sent but failed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
         <span class="self">self</span>.<span class="ident">val</span>
     }
 
     <span class="doccomment">/// Drops the message and converts into a `SendError`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_send_error</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">SendError</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_send_error</span>(<span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">SendError</span> {
         <span class="self">self</span>.<span class="ident">err</span>
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">TryRecvError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_tuple</span>(<span class="string">&quot;TryRecvError&quot;</span>)
             .<span class="ident">finish</span>()
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">TryRecvError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;receiver channel is empty&quot;</span>)
     }
 }
@@ -1582,7 +1582,7 @@
     <span class="ident">message_queue</span>: <span class="ident">Queue</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
 
     <span class="comment">// Atomic, FIFO queue used to send parked task handles to the receiver.</span>
-    <span class="ident">parked_queue</span>: <span class="ident">Queue</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">SenderTask</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">parked_queue</span>: <span class="ident">Queue</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">SenderTask</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
 
     <span class="comment">// Number of senders in existence</span>
     <span class="ident">num_senders</span>: <span class="ident">AtomicUsize</span>,
@@ -1602,7 +1602,7 @@
 }
 
 <span class="comment">// The `is_open` flag is stored in the left-most bit of `Inner::state`</span>
-<span class="kw">const</span> <span class="ident">OPEN_MASK</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">max_value</span>() <span class="op">-</span> (<span class="ident">usize</span>::<span class="ident">max_value</span>() <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>);
+<span class="kw">const</span> <span class="ident">OPEN_MASK</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">max_value</span>() <span class="op">-</span> (<span class="ident">usize</span>::<span class="ident">max_value</span>() <span class="op">&gt;&gt;</span> <span class="number">1</span>);
 
 <span class="comment">// When a new channel is created, it is created in the open state with no</span>
 <span class="comment">// pending messages.</span>
@@ -1613,7 +1613,7 @@
 
 <span class="comment">// The maximum requested buffer size must be less than the maximum capacity of</span>
 <span class="comment">// a channel. This is because each sender gets a guaranteed slot.</span>
-<span class="kw">const</span> <span class="ident">MAX_BUFFER</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">MAX_CAPACITY</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">1</span>;
+<span class="kw">const</span> <span class="ident">MAX_BUFFER</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">MAX_CAPACITY</span> <span class="op">&gt;&gt;</span> <span class="number">1</span>;
 
 <span class="comment">// Sent to the consumer to wake up blocked producers</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -1623,7 +1623,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">SenderTask</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">SenderTask</span> {
             <span class="ident">task</span>: <span class="prelude-val">None</span>,
             <span class="ident">is_parked</span>: <span class="bool-val">false</span>,
@@ -1650,7 +1650,7 @@
 <span class="doccomment">/// The [`Receiver`](Receiver) returned implements the</span>
 <span class="doccomment">/// [`Stream`](futures_core::stream::Stream) trait, while [`Sender`](Sender) implements</span>
 <span class="doccomment">/// `Sink`.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">buffer</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">channel</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">buffer</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> (<span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {
     <span class="comment">// Check that the requested buffer size does not exceed the maximum buffer</span>
     <span class="comment">// size permitted by the system.</span>
     <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">buffer</span> <span class="op">&lt;</span> <span class="ident">MAX_BUFFER</span>, <span class="string">&quot;requested buffer size too large&quot;</span>);
@@ -1687,7 +1687,7 @@
 <span class="doccomment">/// **Note** that the amount of available system memory is an implicit bound to</span>
 <span class="doccomment">/// the channel. Using an `unbounded` channel has the ability of causing the</span>
 <span class="doccomment">/// process to run out of memory. In this case, the process will be aborted.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unbounded</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unbounded</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>() <span class="op">-&gt;</span> (<span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) {
 
     <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">UnboundedInner</span> {
         <span class="ident">state</span>: <span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="ident">INIT_STATE</span>),
@@ -1714,7 +1714,7 @@
  */</span>
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">UnboundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">poll_ready_nb</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">poll_ready_nb</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">decode_state</span>(<span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">SeqCst</span>));
         <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_open</span> {
             <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(()))
@@ -1737,7 +1737,7 @@
     }
 
     <span class="comment">// Increment the number of queued messages. Returns the resulting number.</span>
-    <span class="kw">fn</span> <span class="ident">inc_num_messages</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">inc_num_messages</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">curr</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">SeqCst</span>);
 
         <span class="kw">loop</span> {
@@ -1754,32 +1754,32 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">&lt;</span> <span class="ident">MAX_CAPACITY</span>, <span class="string">&quot;buffer space \
                     exhausted; sending this messages would overflow the state&quot;</span>);
 
-            <span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">+=</span> <span class="number">1</span>;
 
             <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">encode_state</span>(<span class="kw-2">&amp;</span><span class="ident">state</span>);
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">compare_exchange</span>(<span class="ident">curr</span>, <span class="ident">next</span>, <span class="ident">SeqCst</span>, <span class="ident">SeqCst</span>) {
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">state</span>.<span class="ident">num_messages</span>)
                 }
-                <span class="prelude-val">Err</span>(<span class="ident">actual</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">curr</span> <span class="op">=</span> <span class="ident">actual</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">actual</span>) <span class="op">=&gt;</span> <span class="ident">curr</span> <span class="op">=</span> <span class="ident">actual</span>,
             }
         }
     }
 
     <span class="doccomment">/// Returns whether the senders send to the same receiver.</span>
-    <span class="kw">fn</span> <span class="ident">same_receiver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">same_receiver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="ident">Arc</span>::<span class="ident">ptr_eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>, <span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">inner</span>)
     }
 
     <span class="doccomment">/// Returns pointer to the Arc containing sender</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The returned pointer is not referenced and should be only used for hashing!</span>
-    <span class="kw">fn</span> <span class="ident">ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">UnboundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">UnboundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">inner</span>
     }
 
     <span class="doccomment">/// Returns whether this channel is closed without needing a context.</span>
-    <span class="kw">fn</span> <span class="ident">is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="op">!</span><span class="ident">decode_state</span>(<span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">SeqCst</span>)).<span class="ident">is_open</span>
     }
 
@@ -1797,7 +1797,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">BoundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Attempts to send a message on this `Sender`, returning the message</span>
     <span class="doccomment">/// if there was an error.</span>
-    <span class="kw">fn</span> <span class="ident">try_send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">try_send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> {
         <span class="comment">// If the sender is currently blocked, reject the message</span>
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">poll_unparked</span>(<span class="prelude-val">None</span>).<span class="ident">is_ready</span>() {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TrySendError</span> {
@@ -1816,7 +1816,7 @@
     <span class="comment">// Can be called only by bounded sender.</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">debug_assert_with_mut_call</span>)]</span>
     <span class="kw">fn</span> <span class="ident">do_send_b</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>)
-        <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span>
     {
         <span class="comment">// Anyone callig do_send *should* make sure there is room first,</span>
         <span class="comment">// but assert here for tests as a sanity check.</span>
@@ -1830,12 +1830,12 @@
         <span class="comment">// receiver. This happens when `Receiver::close` is called or the</span>
         <span class="comment">// receiver is dropped.</span>
         <span class="kw">let</span> <span class="ident">park_self</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">inc_num_messages</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">num_messages</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">num_messages</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// Block if the current number of pending messages has exceeded</span>
                 <span class="comment">// the configured buffer size</span>
                 <span class="ident">num_messages</span> <span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">buffer</span>
             }
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TrySendError</span> {
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">TrySendError</span> {
                 <span class="ident">err</span>: <span class="ident">SendError</span> {
                     <span class="ident">kind</span>: <span class="ident">SendErrorKind</span>::<span class="ident">Disconnected</span>,
                 },
@@ -1870,7 +1870,7 @@
     }
 
     <span class="comment">// Increment the number of queued messages. Returns the resulting number.</span>
-    <span class="kw">fn</span> <span class="ident">inc_num_messages</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">inc_num_messages</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">curr</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">SeqCst</span>);
 
         <span class="kw">loop</span> {
@@ -1887,14 +1887,14 @@
             <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">&lt;</span> <span class="ident">MAX_CAPACITY</span>, <span class="string">&quot;buffer space \
                     exhausted; sending this messages would overflow the state&quot;</span>);
 
-            <span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">+=</span> <span class="number">1</span>;
 
             <span class="kw">let</span> <span class="ident">next</span> <span class="op">=</span> <span class="ident">encode_state</span>(<span class="kw-2">&amp;</span><span class="ident">state</span>);
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">compare_exchange</span>(<span class="ident">curr</span>, <span class="ident">next</span>, <span class="ident">SeqCst</span>, <span class="ident">SeqCst</span>) {
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                     <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">state</span>.<span class="ident">num_messages</span>)
                 }
-                <span class="prelude-val">Err</span>(<span class="ident">actual</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">curr</span> <span class="op">=</span> <span class="ident">actual</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">actual</span>) <span class="op">=&gt;</span> <span class="ident">curr</span> <span class="op">=</span> <span class="ident">actual</span>,
             }
         }
     }
@@ -1931,7 +1931,7 @@
     <span class="kw">fn</span> <span class="ident">poll_ready</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">decode_state</span>(<span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">SeqCst</span>));
         <span class="kw">if</span> <span class="op">!</span><span class="ident">state</span>.<span class="ident">is_open</span> {
             <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">SendError</span> {
@@ -1943,19 +1943,19 @@
     }
 
     <span class="doccomment">/// Returns whether the senders send to the same receiver.</span>
-    <span class="kw">fn</span> <span class="ident">same_receiver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">same_receiver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="ident">Arc</span>::<span class="ident">ptr_eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>, <span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">inner</span>)
     }
 
     <span class="doccomment">/// Returns pointer to the Arc containing sender</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The returned pointer is not referenced and should be only used for hashing!</span>
-    <span class="kw">fn</span> <span class="ident">ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">BoundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">BoundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">inner</span>
     }
 
     <span class="doccomment">/// Returns whether this channel is closed without needing a context.</span>
-    <span class="kw">fn</span> <span class="ident">is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="op">!</span><span class="ident">decode_state</span>(<span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">SeqCst</span>)).<span class="ident">is_open</span>
     }
 
@@ -1969,7 +1969,7 @@
         <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">recv_task</span>.<span class="ident">wake</span>();
     }
 
-    <span class="kw">fn</span> <span class="ident">poll_unparked</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">poll_unparked</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">cx</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="comment">// First check the `maybe_parked` variable. This avoids acquiring the</span>
         <span class="comment">// lock in most cases</span>
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">maybe_parked</span> {
@@ -1999,7 +1999,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Attempts to send a message on this `Sender`, returning the message</span>
     <span class="doccomment">/// if there was an error.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="number">0</span> {
             <span class="ident">inner</span>.<span class="ident">try_send</span>(<span class="ident">msg</span>)
         } <span class="kw">else</span> {
@@ -2017,7 +2017,7 @@
     <span class="doccomment">/// This function should only be called after</span>
     <span class="doccomment">/// [`poll_ready`](Sender::poll_ready) has reported that the channel is</span>
     <span class="doccomment">/// ready to receive a message.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start_send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start_send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">try_send</span>(<span class="ident">msg</span>)
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">err</span>)
     }
@@ -2037,7 +2037,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">poll_ready</span>(
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_mut</span>().<span class="ident">ok_or</span>(<span class="ident">SendError</span> {
             <span class="ident">kind</span>: <span class="ident">SendErrorKind</span>::<span class="ident">Disconnected</span>,
         })<span class="question-mark">?</span>;
@@ -2045,7 +2045,7 @@
     }
 
     <span class="doccomment">/// Returns whether this channel is closed without needing a context.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="ident">BoundedSenderInner</span>::<span class="ident">is_closed</span>).<span class="ident">unwrap_or</span>(<span class="bool-val">true</span>)
     }
 
@@ -2062,10 +2062,10 @@
     }
 
     <span class="doccomment">/// Returns whether the senders send to the same receiver.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">same_receiver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">same_receiver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> (<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="number">0</span>) {
-            (<span class="prelude-val">Some</span>(<span class="ident">inner</span>), <span class="prelude-val">Some</span>(<span class="ident">other</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">inner</span>.<span class="ident">same_receiver</span>(<span class="ident">other</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            (<span class="prelude-val">Some</span>(<span class="ident">inner</span>), <span class="prelude-val">Some</span>(<span class="ident">other</span>)) <span class="op">=&gt;</span> <span class="ident">inner</span>.<span class="ident">same_receiver</span>(<span class="ident">other</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
@@ -2083,7 +2083,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">poll_ready</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>().<span class="ident">ok_or</span>(<span class="ident">SendError</span> {
             <span class="ident">kind</span>: <span class="ident">SendErrorKind</span>::<span class="ident">Disconnected</span>,
         })<span class="question-mark">?</span>;
@@ -2091,7 +2091,7 @@
     }
 
     <span class="doccomment">/// Returns whether this channel is closed without needing a context.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_closed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="ident">UnboundedSenderInner</span>::<span class="ident">is_closed</span>).<span class="ident">unwrap_or</span>(<span class="bool-val">true</span>)
     }
 
@@ -2108,7 +2108,7 @@
     }
 
     <span class="comment">// Do the send without parking current task.</span>
-    <span class="kw">fn</span> <span class="ident">do_send_nb</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">do_send_nb</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>) <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span> {
             <span class="kw">if</span> <span class="ident">inner</span>.<span class="ident">inc_num_messages</span>().<span class="ident">is_some</span>() {
                 <span class="ident">inner</span>.<span class="ident">queue_push_and_signal</span>(<span class="ident">msg</span>);
@@ -2128,7 +2128,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method should only be called after `poll_ready` has been used to</span>
     <span class="doccomment">/// verify that the channel is ready to receive a message.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start_send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">start_send</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SendError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">do_send_nb</span>(<span class="ident">msg</span>)
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">e</span>.<span class="ident">err</span>)
     }
@@ -2138,15 +2138,15 @@
     <span class="doccomment">/// This is an unbounded sender, so this function differs from `Sink::send`</span>
     <span class="doccomment">/// by ensuring the return type reflects that the channel is always ready to</span>
     <span class="doccomment">/// receive messages.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unbounded_send</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unbounded_send</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">TrySendError</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> {
         <span class="self">self</span>.<span class="ident">do_send_nb</span>(<span class="ident">msg</span>)
     }
 
     <span class="doccomment">/// Returns whether the senders send to the same receiver.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">same_receiver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">same_receiver</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> (<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="number">0</span>) {
-            (<span class="prelude-val">Some</span>(<span class="ident">inner</span>), <span class="prelude-val">Some</span>(<span class="ident">other</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">inner</span>.<span class="ident">same_receiver</span>(<span class="ident">other</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            (<span class="prelude-val">Some</span>(<span class="ident">inner</span>), <span class="prelude-val">Some</span>(<span class="ident">other</span>)) <span class="op">=&gt;</span> <span class="ident">inner</span>.<span class="ident">same_receiver</span>(<span class="ident">other</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
@@ -2160,19 +2160,19 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Sender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">Sender</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>())
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">UnboundedSender</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">clone</span>())
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">UnboundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UnboundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">UnboundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="comment">// Since this atomic op isn&#39;t actually guarding any memory and we don&#39;t</span>
         <span class="comment">// care about any orderings besides the ordering on the single atomic</span>
         <span class="comment">// variable, a relaxed ordering is acceptable.</span>
@@ -2180,7 +2180,7 @@
 
         <span class="kw">loop</span> {
             <span class="comment">// If the maximum number of senders has been reached, then fail</span>
-            <span class="kw">if</span> <span class="ident">curr</span> <span class="op">=</span><span class="op">=</span> <span class="ident">MAX_BUFFER</span> {
+            <span class="kw">if</span> <span class="ident">curr</span> <span class="op">==</span> <span class="ident">MAX_BUFFER</span> {
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;cannot clone `Sender` -- too many outstanding senders&quot;</span>);
             }
 
@@ -2191,7 +2191,7 @@
 
             <span class="comment">// The ABA problem doesn&#39;t matter here. We only care that the</span>
             <span class="comment">// number of senders never exceeds the maximum.</span>
-            <span class="kw">if</span> <span class="ident">actual</span> <span class="op">=</span><span class="op">=</span> <span class="ident">curr</span> {
+            <span class="kw">if</span> <span class="ident">actual</span> <span class="op">==</span> <span class="ident">curr</span> {
                 <span class="kw">return</span> <span class="ident">UnboundedSenderInner</span> {
                     <span class="ident">inner</span>: <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">clone</span>(),
                 };
@@ -2203,7 +2203,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">BoundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">BoundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">BoundedSenderInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="comment">// Since this atomic op isn&#39;t actually guarding any memory and we don&#39;t</span>
         <span class="comment">// care about any orderings besides the ordering on the single atomic</span>
         <span class="comment">// variable, a relaxed ordering is acceptable.</span>
@@ -2211,7 +2211,7 @@
 
         <span class="kw">loop</span> {
             <span class="comment">// If the maximum number of senders has been reached, then fail</span>
-            <span class="kw">if</span> <span class="ident">curr</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">max_senders</span>() {
+            <span class="kw">if</span> <span class="ident">curr</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">max_senders</span>() {
                 <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;cannot clone `Sender` -- too many outstanding senders&quot;</span>);
             }
 
@@ -2222,7 +2222,7 @@
 
             <span class="comment">// The ABA problem doesn&#39;t matter here. We only care that the</span>
             <span class="comment">// number of senders never exceeds the maximum.</span>
-            <span class="kw">if</span> <span class="ident">actual</span> <span class="op">=</span><span class="op">=</span> <span class="ident">curr</span> {
+            <span class="kw">if</span> <span class="ident">actual</span> <span class="op">==</span> <span class="ident">curr</span> {
                 <span class="kw">return</span> <span class="ident">BoundedSenderInner</span> {
                     <span class="ident">inner</span>: <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">clone</span>(),
                     <span class="ident">sender_task</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Mutex</span>::<span class="ident">new</span>(<span class="ident">SenderTask</span>::<span class="ident">new</span>())),
@@ -2240,7 +2240,7 @@
         <span class="comment">// Ordering between variables don&#39;t matter here</span>
         <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">num_senders</span>.<span class="ident">fetch_sub</span>(<span class="number">1</span>, <span class="ident">SeqCst</span>);
 
-        <span class="kw">if</span> <span class="ident">prev</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="ident">prev</span> <span class="op">==</span> <span class="number">1</span> {
             <span class="self">self</span>.<span class="ident">close_channel</span>();
         }
     }
@@ -2251,7 +2251,7 @@
         <span class="comment">// Ordering between variables don&#39;t matter here</span>
         <span class="kw">let</span> <span class="ident">prev</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">num_senders</span>.<span class="ident">fetch_sub</span>(<span class="number">1</span>, <span class="ident">SeqCst</span>);
 
-        <span class="kw">if</span> <span class="ident">prev</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+        <span class="kw">if</span> <span class="ident">prev</span> <span class="op">==</span> <span class="number">1</span> {
             <span class="self">self</span>.<span class="ident">close_channel</span>();
         }
     }
@@ -2288,20 +2288,20 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function will panic if called after `try_next` or `poll_next` has</span>
     <span class="doccomment">/// returned `None`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">TryRecvError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">TryRecvError</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_message</span>() {
-            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">msg</span>)
             },
-            <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">TryRecvError</span> { <span class="ident">_priv</span>: () }),
+            <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">TryRecvError</span> { <span class="ident">_priv</span>: () }),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">next_message</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next_message</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">as_mut</span>().<span class="ident">expect</span>(<span class="string">&quot;Receiver::next_message called after `None`&quot;</span>);
         <span class="comment">// Pop off a message</span>
         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">inner</span>.<span class="ident">message_queue</span>.<span class="ident">pop_spin</span>() } {
-            <span class="prelude-val">Some</span>(<span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// If there are any parked task handles in the parked queue,</span>
                 <span class="comment">// pop one and unpark it.</span>
                 <span class="self">self</span>.<span class="ident">unpark_one</span>();
@@ -2311,9 +2311,9 @@
 
                 <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">msg</span>))
             }
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">decode_state</span>(<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">SeqCst</span>));
-                <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_open</span> <span class="op">|</span><span class="op">|</span> <span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_open</span> <span class="op">||</span> <span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">!=</span> <span class="number">0</span> {
                     <span class="comment">// If queue is open, we need to return Pending</span>
                     <span class="comment">// to be woken up when new messages arrive.</span>
                     <span class="comment">// If queue is closed but num_messages is non-zero,</span>
@@ -2355,7 +2355,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Unpin</span> <span class="kw">for</span> <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">FusedStream</span> <span class="kw">for</span> <span class="ident">Receiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">is_none</span>()
     }
 }
@@ -2366,16 +2366,16 @@
     <span class="kw">fn</span> <span class="ident">poll_next</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> {
             <span class="comment">// Try to read a message off of the message queue.</span>
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_message</span>() {
-            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
                 <span class="kw">if</span> <span class="ident">msg</span>.<span class="ident">is_none</span>() {
                     <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="prelude-val">None</span>;
                 }
                 <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>)
             },
-            <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=&gt;</span> {
                 <span class="comment">// There are no messages to read, in this case, park.</span>
                 <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>().<span class="ident">recv_task</span>.<span class="ident">register</span>(<span class="ident">cx</span>.<span class="ident">waker</span>());
                 <span class="comment">// Check queue again after parking to prevent race condition:</span>
@@ -2418,28 +2418,28 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function will panic if called after `try_next` or `poll_next` has</span>
     <span class="doccomment">/// returned `None`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">TryRecvError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">TryRecvError</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_message</span>() {
-            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
                 <span class="prelude-val">Ok</span>(<span class="ident">msg</span>)
             },
-            <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">TryRecvError</span> { <span class="ident">_priv</span>: () }),
+            <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">TryRecvError</span> { <span class="ident">_priv</span>: () }),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">next_message</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next_message</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">as_mut</span>().<span class="ident">expect</span>(<span class="string">&quot;Receiver::next_message called after `None`&quot;</span>);
         <span class="comment">// Pop off a message</span>
         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">inner</span>.<span class="ident">message_queue</span>.<span class="ident">pop_spin</span>() } {
-            <span class="prelude-val">Some</span>(<span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
                 <span class="comment">// Decrement number of messages</span>
                 <span class="self">self</span>.<span class="ident">dec_num_messages</span>();
 
                 <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">msg</span>))
             }
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">decode_state</span>(<span class="ident">inner</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">SeqCst</span>));
-                <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_open</span> <span class="op">|</span><span class="op">|</span> <span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_open</span> <span class="op">||</span> <span class="ident">state</span>.<span class="ident">num_messages</span> <span class="op">!=</span> <span class="number">0</span> {
                     <span class="comment">// If queue is open, we need to return Pending</span>
                     <span class="comment">// to be woken up when new messages arrive.</span>
                     <span class="comment">// If queue is closed but num_messages is non-zero,</span>
@@ -2469,7 +2469,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">FusedStream</span> <span class="kw">for</span> <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">is_none</span>()
     }
 }
@@ -2480,16 +2480,16 @@
     <span class="kw">fn</span> <span class="ident">poll_next</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;&gt;</span> {
         <span class="comment">// Try to read a message off of the message queue.</span>
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">next_message</span>() {
-            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>) <span class="op">=&gt;</span> {
                 <span class="kw">if</span> <span class="ident">msg</span>.<span class="ident">is_none</span>() {
                     <span class="self">self</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="prelude-val">None</span>;
                 }
                 <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">msg</span>)
             },
-            <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=&gt;</span> {
                 <span class="comment">// There are no messages to read, in this case, park.</span>
                 <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>().<span class="ident">recv_task</span>.<span class="ident">register</span>(<span class="ident">cx</span>.<span class="ident">waker</span>());
                 <span class="comment">// Check queue again after parking to prevent race condition:</span>
@@ -2534,7 +2534,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">BoundedInner</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="comment">// The return value is such that the total number of messages that can be</span>
     <span class="comment">// enqueued into the channel will never exceed MAX_CAPACITY</span>
-    <span class="kw">fn</span> <span class="ident">max_senders</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">max_senders</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="ident">MAX_CAPACITY</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">buffer</span>
     }
 
@@ -2561,18 +2561,18 @@
  *
  */</span>
 
-<span class="kw">fn</span> <span class="ident">decode_state</span>(<span class="ident">num</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">State</span> {
+<span class="kw">fn</span> <span class="ident">decode_state</span>(<span class="ident">num</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">State</span> {
     <span class="ident">State</span> {
-        <span class="ident">is_open</span>: <span class="ident">num</span> <span class="op">&amp;</span> <span class="ident">OPEN_MASK</span> <span class="op">=</span><span class="op">=</span> <span class="ident">OPEN_MASK</span>,
+        <span class="ident">is_open</span>: <span class="ident">num</span> <span class="op">&amp;</span> <span class="ident">OPEN_MASK</span> <span class="op">==</span> <span class="ident">OPEN_MASK</span>,
         <span class="ident">num_messages</span>: <span class="ident">num</span> <span class="op">&amp;</span> <span class="ident">MAX_CAPACITY</span>,
     }
 }
 
-<span class="kw">fn</span> <span class="ident">encode_state</span>(<span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="ident">State</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">fn</span> <span class="ident">encode_state</span>(<span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="ident">State</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">num</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">num_messages</span>;
 
     <span class="kw">if</span> <span class="ident">state</span>.<span class="ident">is_open</span> {
-        <span class="ident">num</span> <span class="op">|</span><span class="op">=</span> <span class="ident">OPEN_MASK</span>;
+        <span class="ident">num</span> <span class="op">|=</span> <span class="ident">OPEN_MASK</span>;
     }
 
     <span class="ident">num</span>

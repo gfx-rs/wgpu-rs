@@ -703,8 +703,8 @@
 <span class="doccomment">/// library is activated, and it is activated by default.</span>
 <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;streams do nothing unless polled&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
-    <span class="ident">ready_to_run_queue</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ReadyToRunQueue</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">head_all</span>: <span class="ident">AtomicPtr</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">ready_to_run_queue</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ReadyToRunQueue</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;&gt;</span>,
+    <span class="ident">head_all</span>: <span class="ident">AtomicPtr</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;&gt;</span>,
     <span class="ident">is_terminated</span>: <span class="ident">AtomicBool</span>,
 }
 
@@ -712,18 +712,18 @@
 <span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Sync</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {}
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> <span class="ident">Unpin</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {}
 
-<span class="kw">impl</span> <span class="ident">Spawn</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">FutureObj</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">impl</span> <span class="ident">Spawn</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">FutureObj</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, ()<span class="op">&gt;&gt;</span> {
     <span class="kw">fn</span> <span class="ident">spawn_obj</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">future_obj</span>: <span class="ident">FutureObj</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, ()<span class="op">&gt;</span>)
-        <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SpawnError</span><span class="op">&gt;</span>
+        <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SpawnError</span><span class="op">&gt;</span>
     {
         <span class="self">self</span>.<span class="ident">push</span>(<span class="ident">future_obj</span>);
         <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="kw">impl</span> <span class="ident">LocalSpawn</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">LocalFutureObj</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, ()<span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">impl</span> <span class="ident">LocalSpawn</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">LocalFutureObj</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, ()<span class="op">&gt;&gt;</span> {
     <span class="kw">fn</span> <span class="ident">spawn_local_obj</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">future_obj</span>: <span class="ident">LocalFutureObj</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, ()<span class="op">&gt;</span>)
-        <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SpawnError</span><span class="op">&gt;</span>
+        <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">SpawnError</span><span class="op">&gt;</span>
     {
         <span class="self">self</span>.<span class="ident">push</span>(<span class="ident">future_obj</span>);
         <span class="prelude-val">Ok</span>(())
@@ -756,7 +756,7 @@
 <span class="comment">// run queue if it isn&#39;t inserted already.</span>
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
         <span class="ident">FuturesUnordered</span>::<span class="ident">new</span>()
     }
 }
@@ -767,7 +767,7 @@
     <span class="doccomment">/// The returned [`FuturesUnordered`] does not contain any futures.</span>
     <span class="doccomment">/// In this state, [`FuturesUnordered::poll_next`](Stream::poll_next) will</span>
     <span class="doccomment">/// return [`Poll::Ready(None)`](Poll::Ready).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">stub</span> <span class="op">=</span> <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Task</span> {
             <span class="ident">future</span>: <span class="ident">UnsafeCell</span>::<span class="ident">new</span>(<span class="prelude-val">None</span>),
             <span class="ident">next_all</span>: <span class="ident">AtomicPtr</span>::<span class="ident">new</span>(<span class="ident">ptr</span>::<span class="ident">null_mut</span>()),
@@ -795,13 +795,13 @@
     <span class="doccomment">/// Returns the number of futures contained in the set.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This represents the total number of in-flight futures.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">len</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">atomic_load_head_and_len_all</span>();
         <span class="ident">len</span>
     }
 
     <span class="doccomment">/// Returns `true` if the set contains no futures.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="comment">// Relaxed ordering can be used here since we don&#39;t need to read from</span>
         <span class="comment">// the head pointer, only check whether it is null.</span>
         <span class="self">self</span>.<span class="ident">head_all</span>.<span class="ident">load</span>(<span class="ident">Relaxed</span>).<span class="ident">is_null</span>()
@@ -841,12 +841,12 @@
     }
 
     <span class="doccomment">/// Returns an iterator that allows inspecting each future in the set.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Iter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Fut</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Fut</span>: <span class="ident">Unpin</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">Iter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Fut</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Fut</span>: <span class="ident">Unpin</span> {
         <span class="ident">Iter</span>(<span class="ident">Pin</span>::<span class="ident">new</span>(<span class="self">self</span>).<span class="ident">iter_pin_ref</span>())
     }
 
     <span class="doccomment">/// Returns an iterator that allows inspecting each future in the set.</span>
-    <span class="kw">fn</span> <span class="ident">iter_pin_ref</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IterPinRef</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Fut</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">iter_pin_ref</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">IterPinRef</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Fut</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">task</span>, <span class="ident">len</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">atomic_load_head_and_len_all</span>();
 
         <span class="ident">IterPinRef</span> {
@@ -858,12 +858,12 @@
     }
 
     <span class="doccomment">/// Returns an iterator that allows modifying each future in the set.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IterMut</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Fut</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Fut</span>: <span class="ident">Unpin</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">IterMut</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Fut</span><span class="op">&gt;</span> <span class="kw">where</span> <span class="ident">Fut</span>: <span class="ident">Unpin</span> {
         <span class="ident">IterMut</span>(<span class="ident">Pin</span>::<span class="ident">new</span>(<span class="self">self</span>).<span class="ident">iter_pin_mut</span>())
     }
 
     <span class="doccomment">/// Returns an iterator that allows modifying each future in the set.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter_pin_mut</span>(<span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IterPinMut</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Fut</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iter_pin_mut</span>(<span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">IterPinMut</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Fut</span><span class="op">&gt;</span> {
         <span class="comment">// `head_all` can be accessed directly and we don&#39;t need to spin on</span>
         <span class="comment">// `Task::next_all` since we have exclusive access to the set.</span>
         <span class="kw">let</span> <span class="ident">task</span> <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">head_all</span>.<span class="ident">get_mut</span>();
@@ -885,7 +885,7 @@
     <span class="doccomment">/// Returns the current head node and number of futures in the list of all</span>
     <span class="doccomment">/// futures within a context where access is shared with other threads</span>
     <span class="doccomment">/// (mostly for use with the `len` and `iter_pin_ref` methods).</span>
-    <span class="kw">fn</span> <span class="ident">atomic_load_head_and_len_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span>, <span class="ident">usize</span>) {
+    <span class="kw">fn</span> <span class="ident">atomic_load_head_and_len_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span>, <span class="ident">usize</span>) {
         <span class="kw">let</span> <span class="ident">task</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">head_all</span>.<span class="ident">load</span>(<span class="ident">Acquire</span>);
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">task</span>.<span class="ident">is_null</span>() {
             <span class="number">0</span>
@@ -902,7 +902,7 @@
     <span class="doccomment">/// Releases the task. It destorys the future inside and either drops</span>
     <span class="doccomment">/// the `Arc&lt;Task&gt;` or transfers ownership to the ready to run queue.</span>
     <span class="doccomment">/// The task this method is called on must have been unlinked before.</span>
-    <span class="kw">fn</span> <span class="ident">release_task</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">task</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">release_task</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">task</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;&gt;</span>) {
         <span class="comment">// `release_task` must only be called on unlinked tasks</span>
         <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">task</span>.<span class="ident">next_all</span>.<span class="ident">load</span>(<span class="ident">Relaxed</span>), <span class="self">self</span>.<span class="ident">pending_next_all</span>());
         <span class="kw">unsafe</span> {
@@ -940,7 +940,7 @@
     }
 
     <span class="doccomment">/// Insert a new task into the internal linked list.</span>
-    <span class="kw">fn</span> <span class="ident">link</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">task</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">link</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">task</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;&gt;</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
         <span class="comment">// `next_all` should already be reset to the pending state before this</span>
         <span class="comment">// function is called.</span>
         <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">task</span>.<span class="ident">next_all</span>.<span class="ident">load</span>(<span class="ident">Relaxed</span>), <span class="self">self</span>.<span class="ident">pending_next_all</span>());
@@ -980,7 +980,7 @@
     <span class="doccomment">/// managed by `FuturesUnordered`.</span>
     <span class="doccomment">/// This method is unsafe because it has be guaranteed that `task` is a</span>
     <span class="doccomment">/// valid pointer.</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">unlink</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">task</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">unlink</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">task</span>: <span class="kw-2">*</span><span class="kw">const</span> <span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;&gt;</span> {
         <span class="comment">// Compute the new list length now in case we&#39;re removing the head node</span>
         <span class="comment">// and won&#39;t be able to retrieve the correct length later.</span>
         <span class="kw">let</span> <span class="ident">head</span> <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">head_all</span>.<span class="ident">get_mut</span>();
@@ -1034,7 +1034,7 @@
     <span class="doccomment">/// A valid `Task` pointer in the `head_all` list is guaranteed to never be</span>
     <span class="doccomment">/// this value, so it is safe to use as a reserved value until the correct</span>
     <span class="doccomment">/// value can be written.</span>
-    <span class="kw">fn</span> <span class="ident">pending_next_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">pending_next_all</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
         <span class="comment">// The `ReadyToRunQueue` stub is never inserted into the `head_all`</span>
         <span class="comment">// list, and its pointer value will remain valid for the lifetime of</span>
         <span class="comment">// this `FuturesUnordered`, so we can make use of its value here.</span>
@@ -1046,7 +1046,7 @@
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">Fut</span>::<span class="ident">Output</span>;
 
     <span class="kw">fn</span> <span class="ident">poll_next</span>(<span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>)
-        <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span><span class="op">&gt;</span>
+        <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;&gt;</span>
     {
         <span class="comment">// Keep track of how many child futures we have polled,</span>
         <span class="comment">// in case we want to forcibly yield.</span>
@@ -1059,7 +1059,7 @@
             <span class="comment">// Safety: &amp;mut self guarantees the mutual exclusion `dequeue`</span>
             <span class="comment">// expects</span>
             <span class="kw">let</span> <span class="ident">task</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">ready_to_run_queue</span>.<span class="ident">dequeue</span>() } {
-                <span class="ident">Dequeue</span>::<span class="ident">Empty</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Dequeue</span>::<span class="ident">Empty</span> <span class="op">=&gt;</span> {
                     <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_empty</span>() {
                         <span class="comment">// We can only consider ourselves terminated once we</span>
                         <span class="comment">// have yielded a `None`</span>
@@ -1069,30 +1069,30 @@
                         <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Pending</span>;
                     }
                 }
-                <span class="ident">Dequeue</span>::<span class="ident">Inconsistent</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Dequeue</span>::<span class="ident">Inconsistent</span> <span class="op">=&gt;</span> {
                     <span class="comment">// At this point, it may be worth yielding the thread &amp;</span>
                     <span class="comment">// spinning a few times... but for now, just yield using the</span>
                     <span class="comment">// task system.</span>
                     <span class="ident">cx</span>.<span class="ident">waker</span>().<span class="ident">wake_by_ref</span>();
                     <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Pending</span>;
                 }
-                <span class="ident">Dequeue</span>::<span class="ident">Data</span>(<span class="ident">task</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">task</span>,
+                <span class="ident">Dequeue</span>::<span class="ident">Data</span>(<span class="ident">task</span>) <span class="op">=&gt;</span> <span class="ident">task</span>,
             };
 
-            <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">task</span> <span class="op">!</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">ready_to_run_queue</span>.<span class="ident">stub</span>());
+            <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">task</span> <span class="op">!=</span> <span class="self">self</span>.<span class="ident">ready_to_run_queue</span>.<span class="ident">stub</span>());
 
             <span class="comment">// Safety:</span>
             <span class="comment">// - `task` is a valid pointer.</span>
             <span class="comment">// - We are the only thread that accesses the `UnsafeCell` that</span>
             <span class="comment">//   contains the future</span>
             <span class="kw">let</span> <span class="ident">future</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span>(<span class="kw-2">*</span><span class="ident">task</span>).<span class="ident">future</span>.<span class="ident">get</span>() } {
-                <span class="prelude-val">Some</span>(<span class="ident">future</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">future</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">future</span>) <span class="op">=&gt;</span> <span class="ident">future</span>,
 
                 <span class="comment">// If the future has already gone away then we&#39;re just</span>
                 <span class="comment">// cleaning out this task. See the comment in</span>
                 <span class="comment">// `release_task` for more information, but we&#39;re basically</span>
                 <span class="comment">// just taking ownership of our reference count here.</span>
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
                     <span class="comment">// This case only happens when `release_task` was called</span>
                     <span class="comment">// for this task before and couldn&#39;t drop the task</span>
                     <span class="comment">// because it was already enqueued in the ready to run</span>
@@ -1139,7 +1139,7 @@
             <span class="comment">//   regardless.</span>
             <span class="kw">struct</span> <span class="ident">Bomb</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Fut</span><span class="op">&gt;</span> {
                 <span class="ident">queue</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span>,
-                <span class="ident">task</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+                <span class="ident">task</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Task</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
             }
 
             <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Bomb</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Fut</span><span class="op">&gt;</span> {
@@ -1175,14 +1175,14 @@
 
                 <span class="ident">future</span>.<span class="ident">poll</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cx</span>)
             };
-            <span class="ident">polled</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">polled</span> <span class="op">+=</span> <span class="number">1</span>;
 
             <span class="kw">match</span> <span class="ident">res</span> {
-                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">task</span> <span class="op">=</span> <span class="ident">bomb</span>.<span class="ident">task</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>();
                     <span class="ident">bomb</span>.<span class="ident">queue</span>.<span class="ident">link</span>(<span class="ident">task</span>);
 
-                    <span class="kw">if</span> <span class="ident">polled</span> <span class="op">=</span><span class="op">=</span> <span class="ident">YIELD_EVERY</span> {
+                    <span class="kw">if</span> <span class="ident">polled</span> <span class="op">==</span> <span class="ident">YIELD_EVERY</span> {
                         <span class="comment">// We have polled a large number of futures in a row without yielding.</span>
                         <span class="comment">// To ensure we do not starve other tasks waiting on the executor,</span>
                         <span class="comment">// we yield here, but immediately wake ourselves up to continue.</span>
@@ -1191,21 +1191,21 @@
                     }
                     <span class="kw">continue</span>
                 }
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">output</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">output</span>) <span class="op">=&gt;</span> {
                     <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">output</span>))
                 }
             }
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
+    <span class="kw">fn</span> <span class="ident">size_hint</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">usize</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>) {
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>();
         (<span class="ident">len</span>, <span class="prelude-val">Some</span>(<span class="ident">len</span>))
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> <span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;FuturesUnordered {{ ... }}&quot;</span>)
     }
 }
@@ -1240,7 +1240,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> <span class="ident">FromIterator</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from_iter</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">iter</span>: <span class="ident">I</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+    <span class="kw">fn</span> <span class="ident">from_iter</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>(<span class="ident">iter</span>: <span class="ident">I</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="ident">I</span>: <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">Fut</span><span class="op">&gt;</span>,
     {
@@ -1250,7 +1250,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span> <span class="ident">FusedStream</span> <span class="kw">for</span> <span class="ident">FuturesUnordered</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">is_terminated</span>.<span class="ident">load</span>(<span class="ident">Relaxed</span>)
     }
 }

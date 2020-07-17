@@ -28,7 +28,7 @@ the duration of a block:</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="comment">// no default subscriber</span>
 
-<span class="ident">dispatcher</span>::<span class="ident">with_default</span>(<span class="kw-2">&amp;</span><span class="ident">my_dispatch</span>, <span class="op">|</span><span class="op">|</span> {
+<span class="ident">dispatcher</span>::<span class="ident">with_default</span>(<span class="kw-2">&amp;</span><span class="ident">my_dispatch</span>, <span class="op">||</span> {
     <span class="comment">// my_subscriber is the default</span>
 });
 

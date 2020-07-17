@@ -39,18 +39,18 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Image</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">kind</span>: <span class="ident">Kind</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">kind</span>: <span class="ident">Kind</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Image</span> { <span class="ident">kind</span> }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MemoryRequirements</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_requirements</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">MemoryRequirements</span> {
         <span class="kw">let</span> <span class="ident">size</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">Kind</span>::<span class="ident">D2</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">layers</span>, <span class="ident">samples</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">Kind</span>::<span class="ident">D2</span>(<span class="ident">width</span>, <span class="ident">height</span>, <span class="ident">layers</span>, <span class="ident">samples</span>) <span class="op">=&gt;</span> {
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">layers</span>, <span class="number">1</span>, <span class="string">&quot;Multi-layer images are not supported&quot;</span>);
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">samples</span>, <span class="number">1</span>, <span class="string">&quot;Multisampled images are not supported&quot;</span>);
                 <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">width</span>) <span class="op">*</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">height</span>)
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;Unsupported image kind&quot;</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(<span class="string">&quot;Unsupported image kind&quot;</span>),
         };
         <span class="ident">MemoryRequirements</span> {
             <span class="ident">size</span>,

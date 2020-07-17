@@ -13,7 +13,7 @@
 <span class="kw">use</span> ::<span class="ident">xlib</span>::<span class="ident">Display</span>;
 
 <span class="macro">x11_link</span><span class="macro">!</span> { <span class="ident">Xlib_xcb</span>, <span class="ident">xlib_xcb</span>, [<span class="string">&quot;libX11-xcb.so.1&quot;</span>, <span class="string">&quot;libX11-xcb.so&quot;</span>], <span class="number">1</span>,
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">XGetXCBConnection</span>(<span class="ident">_1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Display</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">xcb_connection_t</span>,
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">XGetXCBConnection</span>(<span class="ident">_1</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">Display</span>) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">xcb_connection_t</span>,
     <span class="ident">variadic</span>:
     <span class="ident">globals</span>:
 }

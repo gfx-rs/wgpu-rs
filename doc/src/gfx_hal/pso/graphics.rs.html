@@ -371,17 +371,17 @@
     <span class="doccomment">/// a small portion of a shape, which may be actual geometry or may</span>
     <span class="doccomment">/// be parameters for creating geometry) and produces one or more</span>
     <span class="doccomment">/// output patches.</span>
-    <span class="kw">pub</span> <span class="ident">hull</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">hull</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;&gt;</span>,
     <span class="doccomment">/// A shader that takes in domains produced from a hull shader&#39;s output</span>
     <span class="doccomment">/// patches and computes actual vertex positions.</span>
-    <span class="kw">pub</span> <span class="ident">domain</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">domain</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;&gt;</span>,
     <span class="doccomment">/// A shader that takes given input vertexes and outputs zero</span>
     <span class="doccomment">/// or more output vertexes.</span>
-    <span class="kw">pub</span> <span class="ident">geometry</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">geometry</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;&gt;</span>,
     <span class="doccomment">/// A shader that outputs a value for a fragment.</span>
     <span class="doccomment">/// Usually this value is a color that is then displayed as a</span>
     <span class="doccomment">/// pixel on a screen.</span>
-    <span class="kw">pub</span> <span class="ident">fragment</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">fragment</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EntryPoint</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="doccomment">/// Baked-in pipeline states.</span>
@@ -395,7 +395,7 @@
     <span class="doccomment">/// Static blend constant color.</span>
     <span class="kw">pub</span> <span class="ident">blend_color</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ColorValue</span><span class="op">&gt;</span>,
     <span class="doccomment">/// Static depth bounds.</span>
-    <span class="kw">pub</span> <span class="ident">depth_bounds</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Range</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">depth_bounds</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Range</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="doccomment">/// A description of all the settings that can be altered</span>
@@ -440,7 +440,7 @@
         <span class="ident">rasterizer</span>: <span class="ident">Rasterizer</span>,
         <span class="ident">layout</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">B</span>::<span class="ident">PipelineLayout</span>,
         <span class="ident">subpass</span>: <span class="ident">pass</span>::<span class="ident">Subpass</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">GraphicsPipelineDesc</span> {
             <span class="ident">shaders</span>,
             <span class="ident">rasterizer</span>,
@@ -517,7 +517,7 @@
     <span class="doccomment">/// they will be clamped to the min or max z value.</span>
     <span class="kw">pub</span> <span class="ident">depth_clamping</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// What depth bias, if any, to use for the drawn primitives.</span>
-    <span class="kw">pub</span> <span class="ident">depth_bias</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&lt;</span><span class="ident">DepthBias</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">depth_bias</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&lt;</span><span class="ident">DepthBias</span><span class="op">&gt;&gt;</span>,
     <span class="doccomment">/// Controls how triangles will be rasterized depending on their overlap with pixels.</span>
     <span class="kw">pub</span> <span class="ident">conservative</span>: <span class="ident">bool</span>,
     <span class="doccomment">/// Controls width of rasterized line segments.</span>

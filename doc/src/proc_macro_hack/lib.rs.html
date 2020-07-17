@@ -687,19 +687,19 @@
 }
 
 <span class="attribute">#[<span class="ident">proc_macro_attribute</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">proc_macro_hack</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">proc_macro_hack</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">iter</span>::<span class="ident">new</span>(<span class="ident">args</span>);
     <span class="kw">let</span> <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">iter</span>::<span class="ident">new</span>(<span class="ident">input</span>);
     <span class="ident">expand_proc_macro_hack</span>(<span class="ident">args</span>, <span class="ident">input</span>).<span class="ident">unwrap_or_else</span>(<span class="ident">compile_error</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">expand_proc_macro_hack</span>(<span class="ident">args</span>: <span class="ident">Iter</span>, <span class="ident">input</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">expand_proc_macro_hack</span>(<span class="ident">args</span>: <span class="ident">Iter</span>, <span class="ident">input</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="ident">parse_input</span>(<span class="ident">input</span>)<span class="question-mark">?</span> {
-        <span class="ident">Input</span>::<span class="ident">Export</span>(<span class="ident">export</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">Input</span>::<span class="ident">Export</span>(<span class="ident">export</span>) <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">parse_export_args</span>(<span class="ident">args</span>)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="ident">expand_export</span>(<span class="ident">export</span>, <span class="ident">args</span>))
         }
-        <span class="ident">Input</span>::<span class="ident">Define</span>(<span class="ident">define</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">Input</span>::<span class="ident">Define</span>(<span class="ident">define</span>) <span class="op">=&gt;</span> {
             <span class="ident">parse_define_args</span>(<span class="ident">args</span>)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="ident">expand_define</span>(<span class="ident">define</span>))
         }
@@ -708,7 +708,7 @@
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">ProcMacroHack</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">enum_hack</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">enum_hack</span>(<span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">iter</span>::<span class="ident">new</span>(<span class="ident">input</span>);
     <span class="ident">parse_enum_hack</span>(<span class="ident">input</span>).<span class="ident">unwrap_or_else</span>(<span class="ident">compile_error</span>)
 }
@@ -720,16 +720,16 @@
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="attribute">#[<span class="ident">proc_macro_attribute</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fake_call_site</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fake_call_site</span>(<span class="ident">args</span>: <span class="ident">TokenStream</span>, <span class="ident">input</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">iter</span>::<span class="ident">new</span>(<span class="ident">args</span>);
     <span class="kw">let</span> <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">iter</span>::<span class="ident">new</span>(<span class="ident">input</span>);
     <span class="ident">expand_fake_call_site</span>(<span class="ident">args</span>, <span class="ident">input</span>).<span class="ident">unwrap_or_else</span>(<span class="ident">compile_error</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">expand_fake_call_site</span>(<span class="ident">args</span>: <span class="ident">Iter</span>, <span class="ident">input</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">expand_fake_call_site</span>(<span class="ident">args</span>: <span class="ident">Iter</span>, <span class="ident">input</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">span</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">args</span>.<span class="ident">next</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">token</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">token</span>.<span class="ident">span</span>(),
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">input</span>.<span class="ident">collect</span>()),
+        <span class="prelude-val">Some</span>(<span class="ident">token</span>) <span class="op">=&gt;</span> <span class="ident">token</span>.<span class="ident">span</span>(),
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">input</span>.<span class="ident">collect</span>()),
     };
 
     <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">parse_fake_call_site</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
@@ -749,18 +749,18 @@
     <span class="ident">fake_call_site</span>: <span class="ident">bool</span>,
 }
 
-<span class="kw">fn</span> <span class="ident">expand_export</span>(<span class="ident">export</span>: <span class="ident">Export</span>, <span class="ident">args</span>: <span class="ident">ExportArgs</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">fn</span> <span class="ident">expand_export</span>(<span class="ident">export</span>: <span class="ident">Export</span>, <span class="ident">args</span>: <span class="ident">ExportArgs</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">dummy</span> <span class="op">=</span> <span class="ident">dummy_name_for_export</span>(<span class="kw-2">&amp;</span><span class="ident">export</span>);
 
     <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="ident">export</span>.<span class="ident">attrs</span>;
     <span class="kw">let</span> <span class="kw-2">ref</span> <span class="ident">vis</span> <span class="op">=</span> <span class="ident">export</span>.<span class="ident">vis</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">span</span><span class="op">|</span> <span class="ident">Ident</span>::<span class="ident">new</span>(<span class="string">&quot;pub&quot;</span>, <span class="ident">span</span>));
     <span class="kw">let</span> <span class="ident">macro_export</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">vis</span> {
-        <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote</span><span class="macro">!</span>(<span class="attribute">#[<span class="ident">macro_export</span>]</span>),
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">quote</span><span class="macro">!</span>(),
+        <span class="prelude-val">Some</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">quote</span><span class="macro">!</span>(<span class="attribute">#[<span class="ident">macro_export</span>]</span>),
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="macro">quote</span><span class="macro">!</span>(),
     };
     <span class="kw">let</span> <span class="ident">crate_prefix</span> <span class="op">=</span> <span class="ident">vis</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="macro">quote</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="kw">crate</span>::));
     <span class="kw">let</span> <span class="macro-nonterminal">enum_variant</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">support_nested</span> {
-        <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">internal_macro_calls</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">internal_macro_calls</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="ident">Ident</span>::<span class="ident">new</span>(<span class="string">&quot;Nested&quot;</span>, <span class="ident">Span</span>::<span class="ident">call_site</span>())
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Nested{}&quot;</span>, <span class="ident">args</span>.<span class="ident">internal_macro_calls</span>);
@@ -837,7 +837,7 @@
                 #<span class="ident">attrs</span>
                 #<span class="ident">macro_export</span>
                 <span class="macro">macro_rules</span><span class="macro">!</span> #<span class="ident">export_as</span> {
-                    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">proc_macro</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+                    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">proc_macro</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {{
                         #<span class="ident">do_derive</span>
                         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
                         <span class="kw">enum</span> <span class="ident">ProcMacroHack</span> {
@@ -853,7 +853,7 @@
     <span class="ident">wrap_in_enum_hack</span>(<span class="ident">dummy</span>, <span class="ident">rules</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">expand_define</span>(<span class="ident">define</span>: <span class="ident">Define</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">fn</span> <span class="ident">expand_define</span>(<span class="ident">define</span>: <span class="ident">Define</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="ident">define</span>.<span class="ident">attrs</span>;
     <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">define</span>.<span class="ident">name</span>;
     <span class="kw">let</span> <span class="ident">dummy</span> <span class="op">=</span> <span class="ident">actual_proc_macro_name</span>(<span class="kw-2">&amp;</span><span class="ident">name</span>);
@@ -867,7 +867,7 @@
 
         #<span class="ident">attrs</span>
         <span class="attribute">#[<span class="ident">proc_macro_derive</span>(#<span class="ident">dummy</span>)]</span>
-        <span class="kw">pub</span> <span class="kw">fn</span> #<span class="ident">dummy</span>(<span class="ident">input</span>: #<span class="ident">dummy</span>::<span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> #<span class="ident">dummy</span>::<span class="ident">TokenStream</span> {
+        <span class="kw">pub</span> <span class="kw">fn</span> #<span class="ident">dummy</span>(<span class="ident">input</span>: #<span class="ident">dummy</span>::<span class="ident">TokenStream</span>) <span class="op">-&gt;</span> #<span class="ident">dummy</span>::<span class="ident">TokenStream</span> {
             <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>::<span class="ident">FromIterator</span>;
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">into_iter</span>();
@@ -877,8 +877,8 @@
             <span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>(); <span class="comment">// `[allow(dead_code)]`</span>
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">braces</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>() {
-                #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">group</span>.<span class="ident">stream</span>().<span class="ident">into_iter</span>(),
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=&gt;</span> <span class="ident">group</span>.<span class="ident">stream</span>().<span class="ident">into_iter</span>(),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
             };
             <span class="kw">let</span> <span class="ident">variant</span> <span class="op">=</span> <span class="ident">braces</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>(); <span class="comment">// `Value` or `Nested`</span>
             <span class="kw">let</span> <span class="ident">varname</span> <span class="op">=</span> <span class="ident">variant</span>.<span class="ident">to_string</span>();
@@ -886,32 +886,32 @@
             <span class="ident">braces</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>(); <span class="comment">// `=`</span>
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parens</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">braces</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>() {
-                #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">group</span>.<span class="ident">stream</span>().<span class="ident">into_iter</span>(),
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=&gt;</span> <span class="ident">group</span>.<span class="ident">stream</span>().<span class="ident">into_iter</span>(),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
             };
             <span class="ident">parens</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>(); <span class="comment">// `stringify`</span>
             <span class="ident">parens</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>(); <span class="comment">// `!`</span>
 
             <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">parens</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>() {
-                #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">group</span>.<span class="ident">stream</span>(),
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=&gt;</span> <span class="ident">group</span>.<span class="ident">stream</span>(),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
             };
 
             <span class="kw">let</span> <span class="ident">output</span>: #<span class="ident">dummy</span>::<span class="ident">TokenStream</span> <span class="op">=</span> #<span class="ident">name</span>(<span class="ident">inner</span>.<span class="ident">clone</span>());
 
-            <span class="kw">fn</span> <span class="ident">count_bangs</span>(<span class="ident">input</span>: #<span class="ident">dummy</span>::<span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+            <span class="kw">fn</span> <span class="ident">count_bangs</span>(<span class="ident">input</span>: #<span class="ident">dummy</span>::<span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
                 <span class="kw">for</span> <span class="ident">token</span> <span class="kw">in</span> <span class="ident">input</span> {
                     <span class="kw">match</span> <span class="ident">token</span> {
-                        #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Punct</span>(<span class="ident">punct</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="kw">if</span> <span class="ident">punct</span>.<span class="ident">as_char</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&#39;!&#39;</span> {
-                                <span class="ident">count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                        #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Punct</span>(<span class="ident">punct</span>) <span class="op">=&gt;</span> {
+                            <span class="kw">if</span> <span class="ident">punct</span>.<span class="ident">as_char</span>() <span class="op">==</span> <span class="string">&#39;!&#39;</span> {
+                                <span class="ident">count</span> <span class="op">+=</span> <span class="number">1</span>;
                             }
                         }
-                        #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="ident">count</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count_bangs</span>(<span class="ident">group</span>.<span class="ident">stream</span>());
+                        #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>) <span class="op">=&gt;</span> {
+                            <span class="ident">count</span> <span class="op">+=</span> <span class="ident">count_bangs</span>(<span class="ident">group</span>.<span class="ident">stream</span>());
                         }
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
+                        <span class="kw">_</span> <span class="op">=&gt;</span> {}
                     }
                 }
                 <span class="ident">count</span>
@@ -930,7 +930,7 @@
                 #<span class="ident">dummy</span>::<span class="ident">TokenTree</span>::<span class="ident">Ident</span>(
                     #<span class="ident">dummy</span>::<span class="ident">Ident</span>::<span class="ident">new</span>(
                         <span class="kw-2">&amp;</span><span class="kw">if</span> <span class="ident">support_nested</span> {
-                            <span class="kw">let</span> <span class="ident">extra_bangs</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">varname</span> <span class="op">=</span><span class="op">=</span> <span class="string">&quot;Nested&quot;</span> {
+                            <span class="kw">let</span> <span class="ident">extra_bangs</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">varname</span> <span class="op">==</span> <span class="string">&quot;Nested&quot;</span> {
                                 <span class="number">0</span>
                             } <span class="kw">else</span> {
                                 <span class="ident">varname</span>[<span class="string">&quot;Nested&quot;</span>.<span class="ident">len</span>()..].<span class="ident">parse</span>().<span class="ident">unwrap</span>()
@@ -965,28 +965,28 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">actual_proc_macro_name</span>(<span class="ident">conceptual</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ident</span> {
+<span class="kw">fn</span> <span class="ident">actual_proc_macro_name</span>(<span class="ident">conceptual</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-&gt;</span> <span class="ident">Ident</span> {
     <span class="ident">Ident</span>::<span class="ident">new</span>(
         <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;proc_macro_hack_{}&quot;</span>, <span class="ident">conceptual</span>),
         <span class="ident">conceptual</span>.<span class="ident">span</span>(),
     )
 }
 
-<span class="kw">fn</span> <span class="ident">dispatch_macro_name</span>(<span class="ident">conceptual</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ident</span> {
+<span class="kw">fn</span> <span class="ident">dispatch_macro_name</span>(<span class="ident">conceptual</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-&gt;</span> <span class="ident">Ident</span> {
     <span class="ident">Ident</span>::<span class="ident">new</span>(
         <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;proc_macro_call_{}&quot;</span>, <span class="ident">conceptual</span>),
         <span class="ident">conceptual</span>.<span class="ident">span</span>(),
     )
 }
 
-<span class="kw">fn</span> <span class="ident">call_site_macro_name</span>(<span class="ident">conceptual</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ident</span> {
+<span class="kw">fn</span> <span class="ident">call_site_macro_name</span>(<span class="ident">conceptual</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-&gt;</span> <span class="ident">Ident</span> {
     <span class="ident">Ident</span>::<span class="ident">new</span>(
         <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;proc_macro_fake_call_site_{}&quot;</span>, <span class="ident">conceptual</span>),
         <span class="ident">conceptual</span>.<span class="ident">span</span>(),
     )
 }
 
-<span class="kw">fn</span> <span class="ident">dummy_name_for_export</span>(<span class="ident">export</span>: <span class="kw-2">&amp;</span><span class="ident">Export</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">String</span> {
+<span class="kw">fn</span> <span class="ident">dummy_name_for_export</span>(<span class="ident">export</span>: <span class="kw-2">&amp;</span><span class="ident">Export</span>) <span class="op">-&gt;</span> <span class="ident">String</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dummy</span> <span class="op">=</span> <span class="ident">String</span>::<span class="ident">new</span>();
     <span class="kw">let</span> <span class="ident">from</span> <span class="op">=</span> <span class="ident">unraw</span>(<span class="kw-2">&amp;</span><span class="ident">export</span>.<span class="ident">from</span>).<span class="ident">to_string</span>();
     <span class="macro">write</span><span class="macro">!</span>(<span class="ident">dummy</span>, <span class="string">&quot;_{}{}&quot;</span>, <span class="ident">from</span>.<span class="ident">len</span>(), <span class="ident">from</span>).<span class="ident">unwrap</span>();
@@ -997,7 +997,7 @@
     <span class="ident">dummy</span>
 }
 
-<span class="kw">fn</span> <span class="ident">unraw</span>(<span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Ident</span> {
+<span class="kw">fn</span> <span class="ident">unraw</span>(<span class="ident">ident</span>: <span class="kw-2">&amp;</span><span class="ident">Ident</span>) <span class="op">-&gt;</span> <span class="ident">Ident</span> {
     <span class="kw">let</span> <span class="ident">string</span> <span class="op">=</span> <span class="ident">ident</span>.<span class="ident">to_string</span>();
     <span class="kw">if</span> <span class="ident">string</span>.<span class="ident">starts_with</span>(<span class="string">&quot;r#&quot;</span>) {
         <span class="ident">Ident</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">string</span>[<span class="number">2</span>..], <span class="ident">ident</span>.<span class="ident">span</span>())
@@ -1006,7 +1006,7 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">wrap_in_enum_hack</span>(<span class="ident">dummy</span>: <span class="ident">String</span>, <span class="ident">inner</span>: <span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
+<span class="kw">fn</span> <span class="ident">wrap_in_enum_hack</span>(<span class="ident">dummy</span>: <span class="ident">String</span>, <span class="ident">inner</span>: <span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">dummy</span> <span class="op">=</span> <span class="ident">Ident</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">dummy</span>, <span class="ident">Span</span>::<span class="ident">call_site</span>());
     <span class="macro">quote</span><span class="macro">!</span> {
         <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">proc_macro_hack</span>::<span class="ident">ProcMacroHack</span>)]</span>

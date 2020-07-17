@@ -469,7 +469,7 @@
         <span class="ident">module_path</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">fields</span>: <span class="ident">field</span>::<span class="ident">FieldSet</span>,
         <span class="ident">kind</span>: <span class="ident">Kind</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    ) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Metadata</span> {
             <span class="ident">name</span>,
             <span class="ident">target</span>,
@@ -483,17 +483,17 @@
     }
 
     <span class="doccomment">/// Returns the names of the fields on the described span or event.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fields</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">field</span>::<span class="ident">FieldSet</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fields</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">field</span>::<span class="ident">FieldSet</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fields</span>
     }
 
     <span class="doccomment">/// Returns the level of verbosity of the described span or event.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">level</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Level</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">level</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Level</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">level</span>
     }
 
     <span class="doccomment">/// Returns the name of the span.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
         <span class="self">self</span>.<span class="ident">name</span>
     }
 
@@ -502,48 +502,48 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Typically, this is the module path, but alternate targets may be set</span>
     <span class="doccomment">/// when spans or events are constructed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">target</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">target</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {
         <span class="self">self</span>.<span class="ident">target</span>
     }
 
     <span class="doccomment">/// Returns the path to the Rust module where the span occurred, or</span>
     <span class="doccomment">/// `None` if the module path is unknown.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">module_path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">module_path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">module_path</span>
     }
 
     <span class="doccomment">/// Returns the name of the source code file where the span</span>
     <span class="doccomment">/// occurred, or `None` if the file is unknown</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">file</span>
     }
 
     <span class="doccomment">/// Returns the line number in the source code file where the span</span>
     <span class="doccomment">/// occurred, or `None` if the line number is unknown.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">line</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">line</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">line</span>
     }
 
     <span class="doccomment">/// Returns an opaque `Identifier` that uniquely identifies the callsite</span>
     <span class="doccomment">/// this `Metadata` originated from.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">callsite</span>::<span class="ident">Identifier</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">callsite</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">callsite</span>::<span class="ident">Identifier</span> {
         <span class="self">self</span>.<span class="ident">fields</span>.<span class="ident">callsite</span>()
     }
 
     <span class="doccomment">/// Returns true if the callsite kind is `Event`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">kind</span>.<span class="ident">is_event</span>()
     }
 
     <span class="doccomment">/// Return true if the callsite kind is `Span`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">kind</span>.<span class="ident">is_span</span>()
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Metadata</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">meta</span> <span class="op">=</span> <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Metadata&quot;</span>);
         <span class="ident">meta</span>.<span class="ident">field</span>(<span class="string">&quot;name&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">name</span>)
             .<span class="ident">field</span>(<span class="string">&quot;target&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">target</span>)
@@ -554,18 +554,18 @@
         }
 
         <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">file</span>(), <span class="self">self</span>.<span class="ident">line</span>()) {
-            (<span class="prelude-val">Some</span>(<span class="ident">file</span>), <span class="prelude-val">Some</span>(<span class="ident">line</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+            (<span class="prelude-val">Some</span>(<span class="ident">file</span>), <span class="prelude-val">Some</span>(<span class="ident">line</span>)) <span class="op">=&gt;</span> {
                 <span class="ident">meta</span>.<span class="ident">field</span>(<span class="string">&quot;location&quot;</span>, <span class="kw-2">&amp;</span><span class="macro">format_args</span><span class="macro">!</span>(<span class="string">&quot;{}:{}&quot;</span>, <span class="ident">file</span>, <span class="ident">line</span>));
             }
-            (<span class="prelude-val">Some</span>(<span class="ident">file</span>), <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            (<span class="prelude-val">Some</span>(<span class="ident">file</span>), <span class="prelude-val">None</span>) <span class="op">=&gt;</span> {
                 <span class="ident">meta</span>.<span class="ident">field</span>(<span class="string">&quot;file&quot;</span>, <span class="kw-2">&amp;</span><span class="macro">format_args</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">file</span>));
             }
 
             <span class="comment">// Note: a line num with no file is a kind of weird case that _probably_ never occurs...</span>
-            (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">line</span>)) <span class="op">=</span><span class="op">&gt;</span> {
+            (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="ident">line</span>)) <span class="op">=&gt;</span> {
                 <span class="ident">meta</span>.<span class="ident">field</span>(<span class="string">&quot;line&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">line</span>);
             }
-            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {}
+            (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) <span class="op">=&gt;</span> {}
         };
 
         <span class="ident">meta</span>.<span class="ident">field</span>(<span class="string">&quot;fields&quot;</span>, <span class="kw-2">&amp;</span><span class="macro">format_args</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="self">self</span>.<span class="ident">fields</span>))
@@ -589,18 +589,18 @@
     <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SPAN</span>: <span class="ident">Kind</span> <span class="op">=</span> <span class="ident">Kind</span>(<span class="ident">KindInner</span>::<span class="ident">Span</span>);
 
     <span class="doccomment">/// Return true if the callsite kind is `Span`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_span</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Kind</span>(<span class="ident">KindInner</span>::<span class="ident">Span</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">Kind</span>(<span class="ident">KindInner</span>::<span class="ident">Span</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 
     <span class="doccomment">/// Return true if the callsite kind is `Event`</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">Kind</span>(<span class="ident">KindInner</span>::<span class="ident">Event</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">true</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+            <span class="ident">Kind</span>(<span class="ident">KindInner</span>::<span class="ident">Event</span>) <span class="op">=&gt;</span> <span class="bool-val">true</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
         }
     }
 }
@@ -631,13 +631,13 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Level</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">Level</span>::<span class="ident">TRACE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;TRACE&quot;</span>),
-            <span class="ident">Level</span>::<span class="ident">DEBUG</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;DEBUG&quot;</span>),
-            <span class="ident">Level</span>::<span class="ident">INFO</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;INFO&quot;</span>),
-            <span class="ident">Level</span>::<span class="ident">WARN</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;WARN&quot;</span>),
-            <span class="ident">Level</span>::<span class="ident">ERROR</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;ERROR&quot;</span>),
+            <span class="ident">Level</span>::<span class="ident">TRACE</span> <span class="op">=&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;TRACE&quot;</span>),
+            <span class="ident">Level</span>::<span class="ident">DEBUG</span> <span class="op">=&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;DEBUG&quot;</span>),
+            <span class="ident">Level</span>::<span class="ident">INFO</span> <span class="op">=&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;INFO&quot;</span>),
+            <span class="ident">Level</span>::<span class="ident">WARN</span> <span class="op">=&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;WARN&quot;</span>),
+            <span class="ident">Level</span>::<span class="ident">ERROR</span> <span class="op">=&gt;</span> <span class="ident">f</span>.<span class="ident">pad</span>(<span class="string">&quot;ERROR&quot;</span>),
         }
     }
 }
@@ -648,24 +648,24 @@
 
 <span class="kw">impl</span> <span class="ident">FromStr</span> <span class="kw">for</span> <span class="ident">Level</span> {
     <span class="kw">type</span> <span class="prelude-val">Err</span> <span class="op">=</span> <span class="ident">ParseLevelError</span>;
-    <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ParseLevelError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">ParseLevelError</span><span class="op">&gt;</span> {
         <span class="ident">s</span>.<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>()
             .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ParseLevelError</span> { <span class="ident">_p</span>: () })
             .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">num</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">num</span> {
-                <span class="number">1</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">ERROR</span>),
-                <span class="number">2</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">WARN</span>),
-                <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">INFO</span>),
-                <span class="number">4</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">DEBUG</span>),
-                <span class="number">5</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">TRACE</span>),
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParseLevelError</span> { <span class="ident">_p</span>: () }),
+                <span class="number">1</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">ERROR</span>),
+                <span class="number">2</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">WARN</span>),
+                <span class="number">3</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">INFO</span>),
+                <span class="number">4</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">DEBUG</span>),
+                <span class="number">5</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">TRACE</span>),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParseLevelError</span> { <span class="ident">_p</span>: () }),
             })
             .<span class="ident">or_else</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">s</span> {
-                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;error&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">ERROR</span>),
-                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;warn&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">WARN</span>),
-                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;info&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">INFO</span>),
-                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;debug&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">DEBUG</span>),
-                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;trace&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">TRACE</span>),
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParseLevelError</span> { <span class="ident">_p</span>: () }),
+                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;error&quot;</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">ERROR</span>),
+                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;warn&quot;</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">WARN</span>),
+                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;info&quot;</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">INFO</span>),
+                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;debug&quot;</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">DEBUG</span>),
+                <span class="ident">s</span> <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">eq_ignore_ascii_case</span>(<span class="string">&quot;trace&quot;</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">Level</span>::<span class="ident">TRACE</span>),
+                <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParseLevelError</span> { <span class="ident">_p</span>: () }),
             })
     }
 }
@@ -702,7 +702,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ParseLevelError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">pad</span>(
             <span class="string">&quot;error parsing level: expected one of \&quot;error\&quot;, \&quot;warn\&quot;, \
              \&quot;info\&quot;, \&quot;debug\&quot;, \&quot;trace\&quot;, or a number 1-5&quot;</span>,

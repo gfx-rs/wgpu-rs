@@ -400,12 +400,12 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Clear</span> <span class="op">+</span> <span class="ident">Default</span>,
 {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">new_with_config</span>()
     }
 
     <span class="doccomment">/// Returns a new `Pool` with the provided configuration parameters.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_config</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">cfg</span>::<span class="ident">Config</span><span class="op">&gt;</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Pool</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">C</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_config</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">cfg</span>::<span class="ident">Config</span><span class="op">&gt;</span>() <span class="op">-&gt;</span> <span class="ident">Pool</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">C</span><span class="op">&gt;</span> {
         <span class="ident">C</span>::<span class="ident">validate</span>();
         <span class="kw">let</span> <span class="ident">shards</span> <span class="op">=</span> (<span class="number">0</span>..<span class="ident">C</span>::<span class="ident">MAX_SHARDS</span>).<span class="ident">map</span>(<span class="ident">Shard</span>::<span class="ident">new</span>).<span class="ident">collect</span>();
         <span class="ident">Pool</span> {
@@ -462,7 +462,7 @@
     <span class="doccomment">/// let key = pool.create(|item| item.push_str(&quot;Hello&quot;)).unwrap();</span>
     <span class="doccomment">/// assert_eq!(pool.get(key).unwrap(), String::from(&quot;Hello&quot;));</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">initializer</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">initializer</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span>)) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">tid</span> <span class="op">=</span> <span class="ident">Tid</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>::<span class="ident">current</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">init</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">initializer</span>);
         <span class="macro">test_println</span><span class="macro">!</span>(<span class="string">&quot;pool: create {:?}&quot;</span>, <span class="ident">tid</span>);
@@ -488,7 +488,7 @@
     <span class="doccomment">/// assert_eq!(pool.get(key).unwrap(), String::from(&quot;hello world&quot;));</span>
     <span class="doccomment">/// assert!(pool.get(12345).is_none());</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PoolGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">T</span>, <span class="ident">C</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">PoolGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">T</span>, <span class="ident">C</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">tid</span> <span class="op">=</span> <span class="ident">C</span>::<span class="ident">unpack_tid</span>(<span class="ident">key</span>);
 
         <span class="macro">test_println</span><span class="macro">!</span>(<span class="string">&quot;pool: get{:?}; current={:?}&quot;</span>, <span class="ident">tid</span>, <span class="ident">Tid</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>::<span class="ident">current</span>());
@@ -534,7 +534,7 @@
     <span class="doccomment">/// assert_eq!(pool.clear(key), false);</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// [`clear`]: #method.clear</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clear</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clear</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">key</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">tid</span> <span class="op">=</span> <span class="ident">C</span>::<span class="ident">unpack_tid</span>(<span class="ident">key</span>);
 
         <span class="kw">let</span> <span class="ident">shard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">shards</span>.<span class="ident">get</span>(<span class="ident">tid</span>.<span class="ident">as_usize</span>());
@@ -567,7 +567,7 @@
 <span class="kw">where</span>
     <span class="ident">T</span>: <span class="ident">Clear</span> <span class="op">+</span> <span class="ident">Default</span>,
 {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">new</span>()
     }
 }
@@ -577,7 +577,7 @@
     <span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Clear</span> <span class="op">+</span> <span class="ident">Default</span>,
     <span class="ident">C</span>: <span class="ident">cfg</span>::<span class="ident">Config</span>,
 {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Pool&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;shards&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">shards</span>)
             .<span class="ident">field</span>(<span class="string">&quot;config&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">C</span>::<span class="ident">debug</span>())
@@ -591,7 +591,7 @@
     <span class="ident">C</span>: <span class="ident">cfg</span>::<span class="ident">Config</span>,
 {
     <span class="doccomment">/// Returns the key used to access this guard</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">key</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">key</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">key</span>
     }
 }
@@ -603,7 +603,7 @@
 {
     <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">T</span>;
 
-    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Target</span> {
+    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">Target</span> {
         <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">item</span>()
     }
 }
@@ -618,7 +618,7 @@
         <span class="macro">test_println</span><span class="macro">!</span>(<span class="string">&quot; -&gt; drop PoolGuard: clearing data&quot;</span>);
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">release</span>() {
             <span class="ident">atomic</span>::<span class="ident">fence</span>(<span class="ident">atomic</span>::<span class="ident">Ordering</span>::<span class="ident">Acquire</span>);
-            <span class="kw">if</span> <span class="ident">Tid</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>::<span class="ident">current</span>().<span class="ident">as_usize</span>() <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">shard</span>.<span class="ident">tid</span> {
+            <span class="kw">if</span> <span class="ident">Tid</span>::<span class="op">&lt;</span><span class="ident">C</span><span class="op">&gt;</span>::<span class="ident">current</span>().<span class="ident">as_usize</span>() <span class="op">==</span> <span class="self">self</span>.<span class="ident">shard</span>.<span class="ident">tid</span> {
                 <span class="self">self</span>.<span class="ident">shard</span>.<span class="ident">mark_clear_local</span>(<span class="self">self</span>.<span class="ident">key</span>);
             } <span class="kw">else</span> {
                 <span class="self">self</span>.<span class="ident">shard</span>.<span class="ident">mark_clear_remote</span>(<span class="self">self</span>.<span class="ident">key</span>);
@@ -632,7 +632,7 @@
     <span class="ident">T</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="op">+</span> <span class="ident">Clear</span> <span class="op">+</span> <span class="ident">Default</span>,
     <span class="ident">C</span>: <span class="ident">cfg</span>::<span class="ident">Config</span>,
 {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">fmt</span>::<span class="ident">Debug</span>::<span class="ident">fmt</span>(<span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">item</span>(), <span class="ident">f</span>)
     }
 }
@@ -642,8 +642,8 @@
     <span class="ident">T</span>: <span class="ident">PartialEq</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Clear</span> <span class="op">+</span> <span class="ident">Default</span>,
     <span class="ident">C</span>: <span class="ident">cfg</span>::<span class="ident">Config</span>,
 {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">item</span>() <span class="op">=</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">other</span>
+    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">item</span>() <span class="op">==</span> <span class="kw-2">*</span><span class="ident">other</span>
     }
 }
 

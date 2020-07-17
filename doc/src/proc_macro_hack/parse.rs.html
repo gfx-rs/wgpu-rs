@@ -249,13 +249,13 @@
 <span class="kw">use</span> <span class="ident">proc_macro</span>::<span class="ident">Delimiter</span>::{<span class="ident">Brace</span>, <span class="ident">Bracket</span>, <span class="ident">Parenthesis</span>};
 <span class="kw">use</span> <span class="ident">proc_macro</span>::{<span class="ident">Delimiter</span>, <span class="ident">Ident</span>, <span class="ident">Span</span>, <span class="ident">TokenStream</span>, <span class="ident">TokenTree</span>};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_input</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Input</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_input</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Input</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="ident">parse_attributes</span>(<span class="ident">tokens</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">vis</span> <span class="op">=</span> <span class="ident">parse_visibility</span>(<span class="ident">tokens</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">kw</span> <span class="op">=</span> <span class="ident">parse_ident</span>(<span class="ident">tokens</span>)<span class="question-mark">?</span>;
-    <span class="kw">if</span> <span class="ident">kw</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;use&quot;</span> {
+    <span class="kw">if</span> <span class="ident">kw</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="string">&quot;use&quot;</span> {
         <span class="ident">parse_export</span>(<span class="ident">attrs</span>, <span class="ident">vis</span>, <span class="ident">tokens</span>).<span class="ident">map</span>(<span class="ident">Input</span>::<span class="ident">Export</span>)
-    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">kw</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;fn&quot;</span> {
+    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">kw</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="string">&quot;fn&quot;</span> {
         <span class="ident">parse_define</span>(<span class="ident">attrs</span>, <span class="ident">vis</span>, <span class="ident">kw</span>.<span class="ident">span</span>(), <span class="ident">tokens</span>).<span class="ident">map</span>(<span class="ident">Input</span>::<span class="ident">Define</span>)
     } <span class="kw">else</span> {
         <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
@@ -265,7 +265,7 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">parse_export</span>(<span class="ident">attrs</span>: <span class="ident">TokenStream</span>, <span class="ident">vis</span>: <span class="ident">Visibility</span>, <span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Export</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_export</span>(<span class="ident">attrs</span>: <span class="ident">TokenStream</span>, <span class="ident">vis</span>: <span class="ident">Visibility</span>, <span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Export</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">parse_punct</span>(<span class="ident">tokens</span>, <span class="string">&#39;:&#39;</span>);
     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">parse_punct</span>(<span class="ident">tokens</span>, <span class="string">&#39;:&#39;</span>);
     <span class="kw">let</span> <span class="ident">from</span> <span class="op">=</span> <span class="ident">parse_ident</span>(<span class="ident">tokens</span>)<span class="question-mark">?</span>;
@@ -274,7 +274,7 @@
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">macros</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
     <span class="kw">match</span> <span class="ident">tokens</span>.<span class="ident">peek</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>)) <span class="kw">if</span> <span class="ident">group</span>.<span class="ident">delimiter</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Brace</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>)) <span class="kw">if</span> <span class="ident">group</span>.<span class="ident">delimiter</span>() <span class="op">==</span> <span class="ident">Brace</span> <span class="op">=&gt;</span> {
             <span class="kw">let</span> <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">content</span> <span class="op">=</span> <span class="ident">iter</span>::<span class="ident">new</span>(<span class="ident">group</span>.<span class="ident">stream</span>());
             <span class="kw">loop</span> {
                 <span class="ident">macros</span>.<span class="ident">push</span>(<span class="ident">parse_macro</span>(<span class="ident">content</span>)<span class="question-mark">?</span>);
@@ -288,7 +288,7 @@
             }
             <span class="ident">tokens</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
         }
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">macros</span>.<span class="ident">push</span>(<span class="ident">parse_macro</span>(<span class="ident">tokens</span>)<span class="question-mark">?</span>),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">macros</span>.<span class="ident">push</span>(<span class="ident">parse_macro</span>(<span class="ident">tokens</span>)<span class="question-mark">?</span>),
     }
 
     <span class="ident">parse_punct</span>(<span class="ident">tokens</span>, <span class="string">&#39;;&#39;</span>)<span class="question-mark">?</span>;
@@ -300,13 +300,13 @@
     })
 }
 
-<span class="kw">fn</span> <span class="ident">parse_punct</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>, <span class="ident">ch</span>: <span class="ident">char</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_punct</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>, <span class="ident">ch</span>: <span class="ident">char</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="ident">tokens</span>.<span class="ident">peek</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Punct</span>(<span class="ident">punct</span>)) <span class="kw">if</span> <span class="ident">punct</span>.<span class="ident">as_char</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">ch</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Punct</span>(<span class="ident">punct</span>)) <span class="kw">if</span> <span class="ident">punct</span>.<span class="ident">as_char</span>() <span class="op">==</span> <span class="ident">ch</span> <span class="op">=&gt;</span> {
             <span class="ident">tokens</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
             <span class="prelude-val">Ok</span>(())
         }
-        <span class="ident">tt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
+        <span class="ident">tt</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
             <span class="ident">tt</span>.<span class="ident">map_or_else</span>(<span class="ident">Span</span>::<span class="ident">call_site</span>, <span class="ident">TokenTree</span>::<span class="ident">span</span>),
             <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;expected `{}`&quot;</span>, <span class="ident">ch</span>),
         )),
@@ -318,7 +318,7 @@
     <span class="ident">vis</span>: <span class="ident">Visibility</span>,
     <span class="ident">fn_token</span>: <span class="ident">Span</span>,
     <span class="ident">tokens</span>: <span class="ident">Iter</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Define</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Define</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">vis</span>.<span class="ident">is_none</span>() {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
             <span class="ident">fn_token</span>,
@@ -330,86 +330,86 @@
     <span class="prelude-val">Ok</span>(<span class="ident">Define</span> { <span class="ident">attrs</span>, <span class="ident">name</span>, <span class="ident">body</span> })
 }
 
-<span class="kw">fn</span> <span class="ident">parse_macro</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Macro</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_macro</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Macro</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="ident">parse_ident</span>(<span class="ident">tokens</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">export_as</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">tokens</span>.<span class="ident">peek</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>)) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;as&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>)) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="string">&quot;as&quot;</span> <span class="op">=&gt;</span> {
             <span class="ident">tokens</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
             <span class="ident">parse_ident</span>(<span class="ident">tokens</span>)<span class="question-mark">?</span>
         }
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">name</span>.<span class="ident">clone</span>(),
+        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="ident">name</span>.<span class="ident">clone</span>(),
     };
     <span class="prelude-val">Ok</span>(<span class="ident">Macro</span> { <span class="ident">name</span>, <span class="ident">export_as</span> })
 }
 
-<span class="kw">fn</span> <span class="ident">parse_ident</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Ident</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_ident</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Ident</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="ident">tokens</span>.<span class="ident">next</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ident</span>),
-        <span class="ident">tt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
+        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ident</span>),
+        <span class="ident">tt</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
             <span class="ident">tt</span>.<span class="ident">as_ref</span>().<span class="ident">map_or_else</span>(<span class="ident">Span</span>::<span class="ident">call_site</span>, <span class="ident">TokenTree</span>::<span class="ident">span</span>),
             <span class="string">&quot;expected identifier&quot;</span>,
         )),
     }
 }
 
-<span class="kw">fn</span> <span class="ident">parse_keyword</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>, <span class="ident">kw</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_keyword</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>, <span class="ident">kw</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">tokens</span>.<span class="ident">next</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>)) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">kw</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
-        <span class="ident">tt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
+        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>)) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="ident">kw</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(()),
+        <span class="ident">tt</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
             <span class="ident">tt</span>.<span class="ident">as_ref</span>().<span class="ident">map_or_else</span>(<span class="ident">Span</span>::<span class="ident">call_site</span>, <span class="ident">TokenTree</span>::<span class="ident">span</span>),
             <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;expected `{}`&quot;</span>, <span class="ident">kw</span>),
         )),
     }
 }
 
-<span class="kw">fn</span> <span class="ident">parse_int</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u16</span>, <span class="ident">Span</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_int</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u16</span>, <span class="ident">Span</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="ident">tokens</span>.<span class="ident">next</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Literal</span>(<span class="ident">lit</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">lit</span>.<span class="ident">to_string</span>().<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">lit</span>.<span class="ident">span</span>()),
-        <span class="prelude-val">Some</span>(<span class="ident">tt</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">tt</span>.<span class="ident">span</span>()),
-        <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Span</span>::<span class="ident">call_site</span>()),
+        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Literal</span>(<span class="ident">lit</span>)) <span class="op">=&gt;</span> <span class="ident">lit</span>.<span class="ident">to_string</span>().<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">lit</span>.<span class="ident">span</span>()),
+        <span class="prelude-val">Some</span>(<span class="ident">tt</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">tt</span>.<span class="ident">span</span>()),
+        <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Span</span>::<span class="ident">call_site</span>()),
     }
 }
 
-<span class="kw">fn</span> <span class="ident">parse_group</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>, <span class="ident">delimiter</span>: <span class="ident">Delimiter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">IterImpl</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_group</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>, <span class="ident">delimiter</span>: <span class="ident">Delimiter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">IterImpl</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">tokens</span>.<span class="ident">next</span>() {
-        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>)) <span class="kw">if</span> <span class="ident">group</span>.<span class="ident">delimiter</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">delimiter</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>)) <span class="kw">if</span> <span class="ident">group</span>.<span class="ident">delimiter</span>() <span class="op">==</span> <span class="ident">delimiter</span> <span class="op">=&gt;</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">iter</span>::<span class="ident">new</span>(<span class="ident">group</span>.<span class="ident">stream</span>()))
         }
-        <span class="ident">tt</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
+        <span class="ident">tt</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
             <span class="ident">tt</span>.<span class="ident">as_ref</span>().<span class="ident">map_or_else</span>(<span class="ident">Span</span>::<span class="ident">call_site</span>, <span class="ident">TokenTree</span>::<span class="ident">span</span>),
             <span class="string">&quot;expected delimiter&quot;</span>,
         )),
     }
 }
 
-<span class="kw">fn</span> <span class="ident">parse_visibility</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Visibility</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_visibility</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Visibility</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>)) <span class="op">=</span> <span class="ident">tokens</span>.<span class="ident">peek</span>() {
-        <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;pub&quot;</span> {
+        <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="string">&quot;pub&quot;</span> {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">tokens</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>().<span class="ident">span</span>()));
         }
     }
     <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
 }
 
-<span class="kw">fn</span> <span class="ident">parse_attributes</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_attributes</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="ident">TokenStream</span>::<span class="ident">new</span>();
     <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Punct</span>(<span class="ident">punct</span>)) <span class="op">=</span> <span class="ident">tokens</span>.<span class="ident">peek</span>() {
-        <span class="kw">if</span> <span class="ident">punct</span>.<span class="ident">as_char</span>() <span class="op">!</span><span class="op">=</span> <span class="string">&#39;#&#39;</span> {
+        <span class="kw">if</span> <span class="ident">punct</span>.<span class="ident">as_char</span>() <span class="op">!=</span> <span class="string">&#39;#&#39;</span> {
             <span class="kw">break</span>;
         }
         <span class="kw">let</span> <span class="ident">span</span> <span class="op">=</span> <span class="ident">punct</span>.<span class="ident">span</span>();
         <span class="ident">attrs</span>.<span class="ident">extend</span>(<span class="ident">tokens</span>.<span class="ident">next</span>());
         <span class="kw">match</span> <span class="ident">tokens</span>.<span class="ident">peek</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>)) <span class="kw">if</span> <span class="ident">group</span>.<span class="ident">delimiter</span>() <span class="op">=</span><span class="op">=</span> <span class="ident">Bracket</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">TokenTree</span>::<span class="ident">Group</span>(<span class="ident">group</span>)) <span class="kw">if</span> <span class="ident">group</span>.<span class="ident">delimiter</span>() <span class="op">==</span> <span class="ident">Bracket</span> <span class="op">=&gt;</span> {
                 <span class="ident">attrs</span>.<span class="ident">extend</span>(<span class="ident">tokens</span>.<span class="ident">next</span>());
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">span</span>, <span class="string">&quot;unexpected input&quot;</span>)),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">span</span>, <span class="string">&quot;unexpected input&quot;</span>)),
         }
     }
     <span class="prelude-val">Ok</span>(<span class="ident">attrs</span>)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_export_args</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ExportArgs</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_export_args</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ExportArgs</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">ExportArgs</span> {
         <span class="ident">support_nested</span>: <span class="bool-val">false</span>,
         <span class="ident">internal_macro_calls</span>: <span class="number">0</span>,
@@ -418,20 +418,20 @@
 
     <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">tt</span>) <span class="op">=</span> <span class="ident">tokens</span>.<span class="ident">next</span>() {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">tt</span> {
-            <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;support_nested&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="string">&quot;support_nested&quot;</span> <span class="op">=&gt;</span> {
                 <span class="ident">args</span>.<span class="ident">support_nested</span> <span class="op">=</span> <span class="bool-val">true</span>;
             }
-            <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;internal_macro_calls&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="string">&quot;internal_macro_calls&quot;</span> <span class="op">=&gt;</span> {
                 <span class="ident">parse_punct</span>(<span class="ident">tokens</span>, <span class="string">&#39;=&#39;</span>)<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">calls</span> <span class="op">=</span> <span class="ident">parse_int</span>(<span class="ident">tokens</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">span</span><span class="op">|</span> {
                     <span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">span</span>, <span class="string">&quot;expected integer value for internal_macro_calls&quot;</span>)
                 })<span class="question-mark">?</span>;
                 <span class="ident">args</span>.<span class="ident">internal_macro_calls</span> <span class="op">=</span> <span class="ident">calls</span>;
             }
-            <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">=</span><span class="op">=</span> <span class="string">&quot;fake_call_site&quot;</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">TokenTree</span>::<span class="ident">Ident</span>(<span class="ident">ident</span>) <span class="kw">if</span> <span class="ident">ident</span>.<span class="ident">to_string</span>() <span class="op">==</span> <span class="string">&quot;fake_call_site&quot;</span> <span class="op">=&gt;</span> {
                 <span class="ident">args</span>.<span class="ident">fake_call_site</span> <span class="op">=</span> <span class="bool-val">true</span>;
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">Error</span>::<span class="ident">new</span>(
                     <span class="ident">tt</span>.<span class="ident">span</span>(),
                     <span class="string">&quot;expected one of: `support_nested`, `internal_macro_calls`, `fake_call_site`&quot;</span>,
@@ -447,7 +447,7 @@
     <span class="prelude-val">Ok</span>(<span class="ident">args</span>)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_define_args</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_define_args</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">tokens</span>.<span class="ident">peek</span>().<span class="ident">is_none</span>() {
         <span class="prelude-val">Ok</span>(())
     } <span class="kw">else</span> {
@@ -455,7 +455,7 @@
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_enum_hack</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_enum_hack</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">TokenStream</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="ident">parse_keyword</span>(<span class="ident">tokens</span>, <span class="string">&quot;enum&quot;</span>)<span class="question-mark">?</span>;
     <span class="ident">parse_ident</span>(<span class="ident">tokens</span>)<span class="question-mark">?</span>;
 
@@ -479,7 +479,7 @@
     <span class="prelude-val">Ok</span>(<span class="ident">token_stream</span>)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_fake_call_site</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">FakeCallSite</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_fake_call_site</span>(<span class="ident">tokens</span>: <span class="ident">Iter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">FakeCallSite</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
     <span class="ident">parse_punct</span>(<span class="ident">tokens</span>, <span class="string">&#39;#&#39;</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">attr</span> <span class="op">=</span> <span class="ident">parse_group</span>(<span class="ident">tokens</span>, <span class="ident">Bracket</span>)<span class="question-mark">?</span>;
     <span class="ident">parse_keyword</span>(<span class="ident">attr</span>, <span class="string">&quot;derive&quot;</span>)<span class="question-mark">?</span>;

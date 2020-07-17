@@ -33,13 +33,13 @@
 <span class="doccomment">/// Provides access to safe memory range mapping.</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Block</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Get memory properties of the block.</span>
-    <span class="kw">fn</span> <span class="ident">properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">m</span>::<span class="ident">Properties</span>;
+    <span class="kw">fn</span> <span class="ident">properties</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">m</span>::<span class="ident">Properties</span>;
 
     <span class="doccomment">/// Get raw memory object.</span>
-    <span class="kw">fn</span> <span class="ident">memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Memory</span>;
+    <span class="kw">fn</span> <span class="ident">memory</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Memory</span>;
 
     <span class="doccomment">/// Get memory segment owned by this block.</span>
-    <span class="kw">fn</span> <span class="ident">segment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">m</span>::<span class="ident">Segment</span>;
+    <span class="kw">fn</span> <span class="ident">segment</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">m</span>::<span class="ident">Segment</span>;
 
     <span class="doccomment">/// Get mapping for the block segment.</span>
     <span class="doccomment">/// Memory writes to the region performed by device become available for the host.</span>
@@ -47,7 +47,7 @@
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>,
         <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">B</span>::<span class="ident">Device</span>,
         <span class="ident">segment</span>: <span class="ident">m</span>::<span class="ident">Segment</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MappedRange</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">MapError</span><span class="op">&gt;</span>;
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">MappedRange</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">MapError</span><span class="op">&gt;</span>;
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "gfx_memory";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -156,7 +156,7 @@
     <span class="ident">f</span>: <span class="ident">F</span>,
     <span class="attribute">#[<span class="ident">pin</span>]</span>
     <span class="ident">state</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span>,
-    <span class="ident">_phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw">fn</span>(<span class="ident">U</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Item</span><span class="op">&gt;</span>,
+    <span class="ident">_phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw">fn</span>(<span class="ident">U</span>) <span class="op">-&gt;</span> <span class="ident">Item</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">With</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
@@ -164,7 +164,7 @@
     <span class="ident">Si</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
     <span class="ident">Fut</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
 {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;With&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;sink&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">sink</span>)
             .<span class="ident">field</span>(<span class="string">&quot;state&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>)
@@ -174,12 +174,12 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">With</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
 <span class="kw">where</span> <span class="ident">Si</span>: <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span>,
-      <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>,
+      <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
       <span class="ident">Fut</span>: <span class="ident">Future</span>,
 {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">sink</span>: <span class="ident">Si</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>(<span class="ident">sink</span>: <span class="ident">Si</span>, <span class="ident">f</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
         <span class="kw">where</span>
-            <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+            <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;&gt;</span>,
             <span class="ident">E</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Si</span>::<span class="ident">Error</span><span class="op">&gt;</span>,
     {
         <span class="ident">With</span> {
@@ -194,7 +194,7 @@
 <span class="comment">// Forwarding impl of Stream from the underlying sink</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span> <span class="ident">Stream</span> <span class="kw">for</span> <span class="ident">With</span><span class="op">&lt;</span><span class="ident">S</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">S</span>: <span class="ident">Stream</span> <span class="op">+</span> <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>,
+          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
           <span class="ident">Fut</span>: <span class="ident">Future</span>
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">S</span>::<span class="ident">Item</span>;
@@ -204,8 +204,8 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span>, <span class="ident">E</span><span class="op">&gt;</span> <span class="ident">With</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">Si</span>: <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>,
-          <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
+          <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;&gt;</span>,
           <span class="ident">E</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Si</span>::<span class="ident">Error</span><span class="op">&gt;</span>,
 {
     <span class="macro">delegate_access_inner</span><span class="macro">!</span>(<span class="ident">sink</span>, <span class="ident">Si</span>, ());
@@ -215,13 +215,13 @@
     <span class="kw">fn</span> <span class="ident">poll</span>(
         <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">E</span><span class="op">&gt;&gt;</span> {
         <span class="attribute">#[<span class="ident">project</span>]</span>
         <span class="kw">let</span> <span class="ident">With</span> { <span class="kw-2">mut</span> <span class="ident">state</span>, <span class="ident">sink</span>, .. } <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
 
         <span class="kw">let</span> <span class="ident">item</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">state</span>.<span class="ident">as_mut</span>().<span class="ident">as_pin_mut</span>() {
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(())),
-            <span class="prelude-val">Some</span>(<span class="ident">fut</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>))<span class="question-mark">?</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(())),
+            <span class="prelude-val">Some</span>(<span class="ident">fut</span>) <span class="op">=&gt;</span> <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>))<span class="question-mark">?</span>,
         };
         <span class="ident">state</span>.<span class="ident">set</span>(<span class="prelude-val">None</span>);
         <span class="ident">sink</span>.<span class="ident">start_send</span>(<span class="ident">item</span>)<span class="question-mark">?</span>;
@@ -231,8 +231,8 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span>, <span class="ident">E</span><span class="op">&gt;</span> <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">U</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">With</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">Item</span>, <span class="ident">U</span>, <span class="ident">Fut</span>, <span class="ident">F</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">Si</span>: <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span>,
-          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>,
-          <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+          <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">U</span>) <span class="op">-&gt;</span> <span class="ident">Fut</span>,
+          <span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&lt;</span><span class="ident">Output</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;&gt;</span>,
           <span class="ident">E</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Si</span>::<span class="ident">Error</span><span class="op">&gt;</span>,
 {
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">E</span>;
@@ -240,7 +240,7 @@
     <span class="kw">fn</span> <span class="ident">poll_ready</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span> {
         <span class="macro">ready</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>))<span class="question-mark">?</span>;
         <span class="macro">ready</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">project</span>().<span class="ident">sink</span>.<span class="ident">poll_ready</span>(<span class="ident">cx</span>)<span class="question-mark">?</span>);
         <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(()))
@@ -250,7 +250,7 @@
     <span class="kw">fn</span> <span class="ident">start_send</span>(
         <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">item</span>: <span class="ident">U</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">project</span>]</span>
         <span class="kw">let</span> <span class="ident">With</span> { <span class="kw-2">mut</span> <span class="ident">state</span>, <span class="ident">f</span>, .. } <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
 
@@ -262,7 +262,7 @@
     <span class="kw">fn</span> <span class="ident">poll_flush</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span> {
         <span class="macro">ready</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>))<span class="question-mark">?</span>;
         <span class="macro">ready</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">project</span>().<span class="ident">sink</span>.<span class="ident">poll_flush</span>(<span class="ident">cx</span>)<span class="question-mark">?</span>);
         <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(()))
@@ -271,7 +271,7 @@
     <span class="kw">fn</span> <span class="ident">poll_close</span>(
         <span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;&gt;</span> {
         <span class="macro">ready</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>))<span class="question-mark">?</span>;
         <span class="macro">ready</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">project</span>().<span class="ident">sink</span>.<span class="ident">poll_close</span>(<span class="ident">cx</span>)<span class="question-mark">?</span>);
         <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(()))

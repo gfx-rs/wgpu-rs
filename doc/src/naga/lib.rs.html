@@ -343,8 +343,8 @@
     <span class="ident">num</span>::<span class="ident">NonZeroU32</span>,
 };
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">T</span>, <span class="ident">BuildHasherDefault</span><span class="op">&lt;</span><span class="ident">fxhash</span>::<span class="ident">FxHasher</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">FastHashSet</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">BuildHasherDefault</span><span class="op">&lt;</span><span class="ident">fxhash</span>::<span class="ident">FxHasher</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">FastHashMap</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">T</span>, <span class="ident">BuildHasherDefault</span><span class="op">&lt;</span><span class="ident">fxhash</span>::<span class="ident">FxHasher</span><span class="op">&gt;&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">FastHashSet</span><span class="op">&lt;</span><span class="ident">K</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">HashSet</span><span class="op">&lt;</span><span class="ident">K</span>, <span class="ident">BuildHasherDefault</span><span class="op">&lt;</span><span class="ident">fxhash</span>::<span class="ident">FxHasher</span><span class="op">&gt;&gt;</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Header</span> {
@@ -458,7 +458,7 @@
     <span class="ident">Uint</span>(<span class="ident">u64</span>),
     <span class="ident">Float</span>(<span class="ident">f64</span>),
     <span class="ident">Bool</span>(<span class="ident">bool</span>),
-    <span class="ident">Composite</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Constant</span><span class="op">&gt;</span><span class="op">&gt;</span>),
+    <span class="ident">Composite</span>(<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Constant</span><span class="op">&gt;&gt;</span>),
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
@@ -490,7 +490,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LocalVariable</span> {
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">ty</span>: <span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Type</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">init</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Expression</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">init</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Expression</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
@@ -552,7 +552,7 @@
     <span class="ident">Constant</span>(<span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Constant</span><span class="op">&gt;</span>),
     <span class="ident">Compose</span> {
         <span class="ident">ty</span>: <span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Type</span><span class="op">&gt;</span>,
-        <span class="ident">components</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Expression</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">components</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Expression</span><span class="op">&gt;&gt;</span>,
     },
     <span class="ident">FunctionParameter</span>(<span class="ident">u32</span>),
     <span class="ident">GlobalVariable</span>(<span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">GlobalVariable</span><span class="op">&gt;</span>),
@@ -587,7 +587,7 @@
     },
     <span class="ident">Call</span> {
         <span class="ident">name</span>: <span class="ident">String</span>,
-        <span class="ident">arguments</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Expression</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">arguments</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Expression</span><span class="op">&gt;&gt;</span>,
     },
 }
 
@@ -620,7 +620,7 @@
     <span class="ident">Break</span>,
     <span class="ident">Continue</span>,
     <span class="ident">Return</span> {
-        <span class="ident">value</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Expression</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">value</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Expression</span><span class="op">&gt;&gt;</span>,
     },
     <span class="ident">Kill</span>,
     <span class="ident">Store</span> {
@@ -633,8 +633,8 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Function</span> {
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">control</span>: <span class="ident">spirv</span>::<span class="ident">FunctionControl</span>,
-    <span class="kw">pub</span> <span class="ident">parameter_types</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Type</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">return_type</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Type</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">parameter_types</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Type</span><span class="op">&gt;&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">return_type</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&lt;</span><span class="ident">Type</span><span class="op">&gt;&gt;</span>,
     <span class="kw">pub</span> <span class="ident">global_usage</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">GlobalUse</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">local_variables</span>: <span class="ident">Arena</span><span class="op">&lt;</span><span class="ident">LocalVariable</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">expressions</span>: <span class="ident">Arena</span><span class="op">&lt;</span><span class="ident">Expression</span><span class="op">&gt;</span>,

@@ -188,7 +188,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;colorful&quot;</span>)]</span>
 <span class="kw">impl</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">TotalMemoryUtilization</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">fmt</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">std</span>::<span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">const</span> <span class="ident">MB</span>: <span class="ident">Size</span> <span class="op">=</span> <span class="number">1024</span> <span class="op">*</span> <span class="number">1024</span>;
 
         <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">fmt</span>, <span class="string">&quot;!!! Memory utilization !!!&quot;</span>)<span class="question-mark">?</span>;
@@ -221,7 +221,7 @@
                 <span class="ident">line</span>
             )<span class="question-mark">?</span>;
 
-            <span class="kw">for</span> <span class="ident">ty</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">types</span>.<span class="ident">iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">ty</span><span class="op">|</span> <span class="ident">ty</span>.<span class="ident">heap_index</span> <span class="op">=</span><span class="op">=</span> <span class="ident">index</span>) {
+            <span class="kw">for</span> <span class="ident">ty</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">types</span>.<span class="ident">iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">ty</span><span class="op">|</span> <span class="ident">ty</span>.<span class="ident">heap_index</span> <span class="op">==</span> <span class="ident">index</span>) {
                 <span class="kw">let</span> <span class="ident">properties</span> <span class="op">=</span> <span class="ident">ty</span>.<span class="ident">properties</span>;
                 <span class="kw">let</span> <span class="ident">MemoryUtilization</span> { <span class="ident">used</span>, <span class="ident">effective</span> } <span class="op">=</span> <span class="ident">ty</span>.<span class="ident">utilization</span>;
                 <span class="kw">let</span> <span class="ident">usage_basis_points</span> <span class="op">=</span> <span class="ident">used</span> <span class="op">*</span> <span class="number">10000</span> <span class="op">/</span> <span class="ident">size</span>;
@@ -247,8 +247,8 @@
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;colorful&quot;</span>)]</span>
-<span class="kw">fn</span> <span class="ident">format_basis_points</span>(<span class="ident">basis_points</span>: <span class="ident">Size</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CString</span> {
-    <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">basis_points</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">10000</span>);
+<span class="kw">fn</span> <span class="ident">format_basis_points</span>(<span class="ident">basis_points</span>: <span class="ident">Size</span>) <span class="op">-&gt;</span> <span class="ident">CString</span> {
+    <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">basis_points</span> <span class="op">&lt;=</span> <span class="number">10000</span>);
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:&gt;3}.{:02}%&quot;</span>, <span class="ident">basis_points</span> <span class="op">/</span> <span class="number">100</span>, <span class="ident">basis_points</span> <span class="op">%</span> <span class="number">100</span>);
     <span class="kw">if</span> <span class="ident">basis_points</span> <span class="op">&gt;</span> <span class="number">7500</span> {
         <span class="ident">s</span>.<span class="ident">red</span>()
@@ -264,8 +264,8 @@
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;colorful&quot;</span>)]</span>
-<span class="kw">fn</span> <span class="ident">format_basis_points_inverted</span>(<span class="ident">basis_points</span>: <span class="ident">Size</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">CString</span> {
-    <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">basis_points</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">10000</span>);
+<span class="kw">fn</span> <span class="ident">format_basis_points_inverted</span>(<span class="ident">basis_points</span>: <span class="ident">Size</span>) <span class="op">-&gt;</span> <span class="ident">CString</span> {
+    <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">basis_points</span> <span class="op">&lt;=</span> <span class="number">10000</span>);
     <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:&gt;3}.{:02}%&quot;</span>, <span class="ident">basis_points</span> <span class="op">/</span> <span class="number">100</span>, <span class="ident">basis_points</span> <span class="op">%</span> <span class="number">100</span>);
     <span class="kw">if</span> <span class="ident">basis_points</span> <span class="op">&gt;</span> <span class="number">9900</span> {
         <span class="ident">s</span>.<span class="ident">white</span>()

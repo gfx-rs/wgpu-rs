@@ -26,7 +26,7 @@ a macro to be testable in isolation, they must be implemented using
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">proc_macro</span>;
 
 <span class="attribute">#[<span class="ident">proc_macro_derive</span>(<span class="ident">MyDerive</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">my_derive</span>(<span class="ident">input</span>: <span class="ident">proc_macro</span>::<span class="ident">TokenStream</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">proc_macro</span>::<span class="ident">TokenStream</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">my_derive</span>(<span class="ident">input</span>: <span class="ident">proc_macro</span>::<span class="ident">TokenStream</span>) <span class="op">-&gt;</span> <span class="ident">proc_macro</span>::<span class="ident">TokenStream</span> {
     <span class="kw">let</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">proc_macro2</span>::<span class="ident">TokenStream</span>::<span class="ident">from</span>(<span class="ident">input</span>);
 
     <span class="kw">let</span> <span class="ident">output</span>: <span class="ident">proc_macro2</span>::<span class="ident">TokenStream</span> <span class="op">=</span> {

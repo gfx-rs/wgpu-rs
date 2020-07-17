@@ -4,16 +4,16 @@
         <span class="kw">if</span> <span class="attribute">#[<span class="ident">cfg</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">meta</span>:<span class="ident">meta</span>),<span class="kw-2">*</span>)]</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="op">*</span> }
     ) <span class="kw">else</span> <span class="op">*</span> <span class="kw">else</span> {
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens2</span>:<span class="ident">tt</span>)<span class="op">*</span>
-    }) <span class="op">=</span><span class="op">&gt;</span> { ... };
+    }) <span class="op">=&gt;</span> { ... };
     (
         <span class="kw">if</span> <span class="attribute">#[<span class="ident">cfg</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i_met</span>:<span class="ident">meta</span>),<span class="kw-2">*</span>)]</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">i_tokens</span>:<span class="ident">tt</span>)<span class="op">*</span> }
         $(
             <span class="kw">else</span> <span class="kw">if</span> <span class="attribute">#[<span class="ident">cfg</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e_met</span>:<span class="ident">meta</span>),<span class="kw-2">*</span>)]</span> { $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e_tokens</span>:<span class="ident">tt</span>)<span class="op">*</span> }
         )<span class="op">*</span>
-    ) <span class="op">=</span><span class="op">&gt;</span> { ... };
-    (@<span class="ident">__items</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">not</span>:<span class="ident">meta</span>,)<span class="kw-2">*</span>) ; ) <span class="op">=</span><span class="op">&gt;</span> { ... };
-    (@<span class="ident">__items</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">not</span>:<span class="ident">meta</span>,)<span class="kw-2">*</span>) ; ( ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>),<span class="kw-2">*</span>) ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) ), $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> { ... };
-    (@<span class="ident">__identity</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> { ... };
+    ) <span class="op">=&gt;</span> { ... };
+    (@<span class="ident">__items</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">not</span>:<span class="ident">meta</span>,)<span class="kw-2">*</span>) ; ) <span class="op">=&gt;</span> { ... };
+    (@<span class="ident">__items</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">not</span>:<span class="ident">meta</span>,)<span class="kw-2">*</span>) ; ( ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">m</span>:<span class="ident">meta</span>),<span class="kw-2">*</span>) ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) ), $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rest</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> { ... };
+    (@<span class="ident">__identity</span> $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> { ... };
 }</pre></div>
 </div><div class='docblock'><p>The main macro provided by this crate. See crate documentation for more
 information.</p>

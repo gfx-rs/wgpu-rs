@@ -1395,7 +1395,7 @@
     <span class="doccomment">/// assert!((-1).div_floor(&amp; 2) == -1);</span>
     <span class="doccomment">/// assert!((-1).div_floor(&amp;-2) ==  0);</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">div_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">div_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 
     <span class="doccomment">/// Floored integer modulo, satisfying:</span>
     <span class="doccomment">///</span>
@@ -1419,7 +1419,7 @@
     <span class="doccomment">/// assert!((-1).mod_floor(&amp; 2) ==  1);</span>
     <span class="doccomment">/// assert!((-1).mod_floor(&amp;-2) == -1);</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 
     <span class="doccomment">/// Ceiled integer division.</span>
     <span class="doccomment">///</span>
@@ -1437,7 +1437,7 @@
     <span class="doccomment">/// assert_eq!((-1).div_ceil( &amp;2), 0);</span>
     <span class="doccomment">/// assert_eq!((-1).div_ceil(&amp;-2), 1);</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">div_ceil</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">div_ceil</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> (<span class="ident">q</span>, <span class="ident">r</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">div_mod_floor</span>(<span class="ident">other</span>);
         <span class="kw">if</span> <span class="ident">r</span>.<span class="ident">is_zero</span>() {
             <span class="ident">q</span>
@@ -1455,7 +1455,7 @@
     <span class="doccomment">/// assert_eq!(6.gcd(&amp;8), 2);</span>
     <span class="doccomment">/// assert_eq!(7.gcd(&amp;3), 1);</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 
     <span class="doccomment">/// Lowest Common Multiple (LCM).</span>
     <span class="doccomment">///</span>
@@ -1467,7 +1467,7 @@
     <span class="doccomment">/// assert_eq!(2.lcm(&amp;4), 4);</span>
     <span class="doccomment">/// assert_eq!(0.lcm(&amp;0), 0);</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>;
+    <span class="kw">fn</span> <span class="ident">lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>;
 
     <span class="doccomment">/// Greatest Common Divisor (GCD) and</span>
     <span class="doccomment">/// Lowest Common Multiple (LCM) together.</span>
@@ -1483,7 +1483,7 @@
     <span class="doccomment">/// assert_eq!(8.gcd_lcm(&amp;9), (1, 72));</span>
     <span class="doccomment">/// ~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
+    <span class="kw">fn</span> <span class="ident">gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
         (<span class="self">self</span>.<span class="ident">gcd</span>(<span class="ident">other</span>), <span class="self">self</span>.<span class="ident">lcm</span>(<span class="ident">other</span>))
     }
 
@@ -1506,7 +1506,7 @@
     <span class="doccomment">/// # }</span>
     <span class="doccomment">/// ~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">extended_gcd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ExtendedGcd</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+    <span class="kw">fn</span> <span class="ident">extended_gcd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">ExtendedGcd</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Clone</span>,
     {
@@ -1526,7 +1526,7 @@
             <span class="ident">t</span> <span class="op">=</span> <span class="ident">f</span>(<span class="ident">t</span>);
         }
 
-        <span class="kw">if</span> <span class="ident">r</span>.<span class="number">1</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">Self</span>::<span class="ident">zero</span>() {
+        <span class="kw">if</span> <span class="ident">r</span>.<span class="number">1</span> <span class="op">&gt;=</span> <span class="self">Self</span>::<span class="ident">zero</span>() {
             <span class="ident">ExtendedGcd</span> {
                 <span class="ident">gcd</span>: <span class="ident">r</span>.<span class="number">1</span>,
                 <span class="ident">x</span>: <span class="ident">s</span>.<span class="number">1</span>,
@@ -1545,7 +1545,7 @@
 
     <span class="doccomment">/// Greatest common divisor, least common multiple, and Bézout coefficients.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">extended_gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">ExtendedGcd</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="self">Self</span>)
+    <span class="kw">fn</span> <span class="ident">extended_gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="ident">ExtendedGcd</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="self">Self</span>)
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">Signed</span>,
     {
@@ -1553,7 +1553,7 @@
     }
 
     <span class="doccomment">/// Deprecated, use `is_multiple_of` instead.</span>
-    <span class="kw">fn</span> <span class="ident">divides</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">divides</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
 
     <span class="doccomment">/// Returns `true` if `self` is a multiple of `other`.</span>
     <span class="doccomment">///</span>
@@ -1564,7 +1564,7 @@
     <span class="doccomment">/// assert_eq!(9.is_multiple_of(&amp;3), true);</span>
     <span class="doccomment">/// assert_eq!(3.is_multiple_of(&amp;9), false);</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">is_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">is_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
 
     <span class="doccomment">/// Returns `true` if the number is even.</span>
     <span class="doccomment">///</span>
@@ -1575,7 +1575,7 @@
     <span class="doccomment">/// assert_eq!(3.is_even(), false);</span>
     <span class="doccomment">/// assert_eq!(4.is_even(), true);</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">is_even</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">is_even</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
 
     <span class="doccomment">/// Returns `true` if the number is odd.</span>
     <span class="doccomment">///</span>
@@ -1586,7 +1586,7 @@
     <span class="doccomment">/// assert_eq!(3.is_odd(), true);</span>
     <span class="doccomment">/// assert_eq!(4.is_odd(), false);</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">is_odd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>;
+    <span class="kw">fn</span> <span class="ident">is_odd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>;
 
     <span class="doccomment">/// Simultaneous truncated integer division and modulus.</span>
     <span class="doccomment">/// Returns `(quotient, remainder)`.</span>
@@ -1605,7 +1605,7 @@
     <span class="doccomment">/// assert_eq!((-1).div_rem( &amp;2), ( 0, -1));</span>
     <span class="doccomment">/// assert_eq!((-1).div_rem(&amp;-2), ( 0, -1));</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">div_rem</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>);
+    <span class="kw">fn</span> <span class="ident">div_rem</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>);
 
     <span class="doccomment">/// Simultaneous floored integer division and modulus.</span>
     <span class="doccomment">/// Returns `(quotient, remainder)`.</span>
@@ -1624,7 +1624,7 @@
     <span class="doccomment">/// assert_eq!((-1).div_mod_floor( &amp;2), (-1,  1));</span>
     <span class="doccomment">/// assert_eq!((-1).div_mod_floor(&amp;-2), ( 0, -1));</span>
     <span class="doccomment">/// ~~~</span>
-    <span class="kw">fn</span> <span class="ident">div_mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
+    <span class="kw">fn</span> <span class="ident">div_mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
         (<span class="self">self</span>.<span class="ident">div_floor</span>(<span class="ident">other</span>), <span class="self">self</span>.<span class="ident">mod_floor</span>(<span class="ident">other</span>))
     }
 
@@ -1648,7 +1648,7 @@
     <span class="doccomment">/// assert_eq!((-23).next_multiple_of(&amp;-8), -24);</span>
     <span class="doccomment">/// ~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">next_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+    <span class="kw">fn</span> <span class="ident">next_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Clone</span>,
     {
@@ -1681,7 +1681,7 @@
     <span class="doccomment">/// assert_eq!((-23).prev_multiple_of(&amp;-8), -16);</span>
     <span class="doccomment">/// ~~~</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">prev_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>
+    <span class="kw">fn</span> <span class="ident">prev_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span>
     <span class="kw">where</span>
         <span class="self">Self</span>: <span class="ident">Clone</span>,
     {
@@ -1705,59 +1705,59 @@
 
 <span class="doccomment">/// Simultaneous integer division and modulus</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">div_rem</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">T</span>, <span class="ident">T</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">div_rem</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> (<span class="ident">T</span>, <span class="ident">T</span>) {
     <span class="ident">x</span>.<span class="ident">div_rem</span>(<span class="kw-2">&amp;</span><span class="ident">y</span>)
 }
 <span class="doccomment">/// Floored integer division</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">div_floor</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">div_floor</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
     <span class="ident">x</span>.<span class="ident">div_floor</span>(<span class="kw-2">&amp;</span><span class="ident">y</span>)
 }
 <span class="doccomment">/// Floored integer modulus</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mod_floor</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mod_floor</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
     <span class="ident">x</span>.<span class="ident">mod_floor</span>(<span class="kw-2">&amp;</span><span class="ident">y</span>)
 }
 <span class="doccomment">/// Simultaneous floored integer division and modulus</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">div_mod_floor</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">T</span>, <span class="ident">T</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">div_mod_floor</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> (<span class="ident">T</span>, <span class="ident">T</span>) {
     <span class="ident">x</span>.<span class="ident">div_mod_floor</span>(<span class="kw-2">&amp;</span><span class="ident">y</span>)
 }
 <span class="doccomment">/// Ceiled integer division</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">div_ceil</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">div_ceil</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
     <span class="ident">x</span>.<span class="ident">div_ceil</span>(<span class="kw-2">&amp;</span><span class="ident">y</span>)
 }
 
 <span class="doccomment">/// Calculates the Greatest Common Divisor (GCD) of the number and `other`. The</span>
 <span class="doccomment">/// result is always positive.</span>
 <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gcd</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gcd</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
     <span class="ident">x</span>.<span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="ident">y</span>)
 }
 <span class="doccomment">/// Calculates the Lowest Common Multiple (LCM) of the number and `other`.</span>
 <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lcm</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lcm</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
     <span class="ident">x</span>.<span class="ident">lcm</span>(<span class="kw-2">&amp;</span><span class="ident">y</span>)
 }
 
 <span class="doccomment">/// Calculates the Greatest Common Divisor (GCD) and</span>
 <span class="doccomment">/// Lowest Common Multiple (LCM) of the number and `other`.</span>
 <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gcd_lcm</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">T</span>, <span class="ident">T</span>) {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">gcd_lcm</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span><span class="op">&gt;</span>(<span class="ident">x</span>: <span class="ident">T</span>, <span class="ident">y</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> (<span class="ident">T</span>, <span class="ident">T</span>) {
     <span class="ident">x</span>.<span class="ident">gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="ident">y</span>)
 }
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_integer_for_isize</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">test_mod</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">test_mod</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {
         <span class="kw">impl</span> <span class="ident">Integer</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span> {
             <span class="doccomment">/// Floored integer division</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">div_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">div_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
                 <span class="comment">// Algorithm from [Daan Leijen. _Division and Modulus for Computer Scientists_,</span>
                 <span class="comment">// December 2001](http://research.microsoft.com/pubs/151917/divmodnote-letter.pdf)</span>
                 <span class="kw">let</span> (<span class="ident">d</span>, <span class="ident">r</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">div_rem</span>(<span class="ident">other</span>);
-                <span class="kw">if</span> (<span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&lt;</span> <span class="number">0</span>) <span class="op">|</span><span class="op">|</span> (<span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&gt;</span> <span class="number">0</span>) {
+                <span class="kw">if</span> (<span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&lt;</span> <span class="number">0</span>) <span class="op">||</span> (<span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&gt;</span> <span class="number">0</span>) {
                     <span class="ident">d</span> <span class="op">-</span> <span class="number">1</span>
                 } <span class="kw">else</span> {
                     <span class="ident">d</span>
@@ -1766,11 +1766,11 @@
 
             <span class="doccomment">/// Floored integer modulo</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
                 <span class="comment">// Algorithm from [Daan Leijen. _Division and Modulus for Computer Scientists_,</span>
                 <span class="comment">// December 2001](http://research.microsoft.com/pubs/151917/divmodnote-letter.pdf)</span>
                 <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span>;
-                <span class="kw">if</span> (<span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&lt;</span> <span class="number">0</span>) <span class="op">|</span><span class="op">|</span> (<span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&gt;</span> <span class="number">0</span>) {
+                <span class="kw">if</span> (<span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&lt;</span> <span class="number">0</span>) <span class="op">||</span> (<span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&gt;</span> <span class="number">0</span>) {
                     <span class="ident">r</span> <span class="op">+</span> <span class="kw-2">*</span><span class="ident">other</span>
                 } <span class="kw">else</span> {
                     <span class="ident">r</span>
@@ -1779,11 +1779,11 @@
 
             <span class="doccomment">/// Calculates `div_floor` and `mod_floor` simultaneously</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">div_mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
+            <span class="kw">fn</span> <span class="ident">div_mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
                 <span class="comment">// Algorithm from [Daan Leijen. _Division and Modulus for Computer Scientists_,</span>
                 <span class="comment">// December 2001](http://research.microsoft.com/pubs/151917/divmodnote-letter.pdf)</span>
                 <span class="kw">let</span> (<span class="ident">d</span>, <span class="ident">r</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">div_rem</span>(<span class="ident">other</span>);
-                <span class="kw">if</span> (<span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&lt;</span> <span class="number">0</span>) <span class="op">|</span><span class="op">|</span> (<span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&gt;</span> <span class="number">0</span>) {
+                <span class="kw">if</span> (<span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&lt;</span> <span class="number">0</span>) <span class="op">||</span> (<span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&gt;</span> <span class="number">0</span>) {
                     (<span class="ident">d</span> <span class="op">-</span> <span class="number">1</span>, <span class="ident">r</span> <span class="op">+</span> <span class="kw-2">*</span><span class="ident">other</span>)
                 } <span class="kw">else</span> {
                     (<span class="ident">d</span>, <span class="ident">r</span>)
@@ -1791,9 +1791,9 @@
             }
 
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">div_ceil</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">div_ceil</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
                 <span class="kw">let</span> (<span class="ident">d</span>, <span class="ident">r</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">div_rem</span>(<span class="ident">other</span>);
-                <span class="kw">if</span> (<span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&gt;</span> <span class="number">0</span>) <span class="op">|</span><span class="op">|</span> (<span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&lt;</span> <span class="number">0</span>) {
+                <span class="kw">if</span> (<span class="ident">r</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&gt;</span> <span class="number">0</span>) <span class="op">||</span> (<span class="ident">r</span> <span class="op">&lt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">&lt;</span> <span class="number">0</span>) {
                     <span class="ident">d</span> <span class="op">+</span> <span class="number">1</span>
                 } <span class="kw">else</span> {
                     <span class="ident">d</span>
@@ -1803,11 +1803,11 @@
             <span class="doccomment">/// Calculates the Greatest Common Divisor (GCD) of the number and</span>
             <span class="doccomment">/// `other`. The result is always positive.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
                 <span class="comment">// Use Stein&#39;s algorithm</span>
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">m</span> <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">other</span>;
-                <span class="kw">if</span> <span class="ident">m</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="ident">m</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> {
                     <span class="kw">return</span> (<span class="ident">m</span> <span class="op">|</span> <span class="ident">n</span>).<span class="ident">abs</span>();
                 }
 
@@ -1822,8 +1822,8 @@
                 <span class="comment">// Assuming two&#39;s complement, the number created by the shift</span>
                 <span class="comment">// is positive for all numbers except gcd = abs(min value)</span>
                 <span class="comment">// The call to .abs() causes a panic in debug mode</span>
-                <span class="kw">if</span> <span class="ident">m</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span>::<span class="ident">min_value</span>() <span class="op">|</span><span class="op">|</span> <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="self">Self</span>::<span class="ident">min_value</span>() {
-                    <span class="kw">return</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>).<span class="ident">abs</span>();
+                <span class="kw">if</span> <span class="ident">m</span> <span class="op">==</span> <span class="self">Self</span>::<span class="ident">min_value</span>() <span class="op">||</span> <span class="ident">n</span> <span class="op">==</span> <span class="self">Self</span>::<span class="ident">min_value</span>() {
+                    <span class="kw">return</span> (<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>).<span class="ident">abs</span>();
                 }
 
                 <span class="comment">// guaranteed to be positive now, rest like unsigned algorithm</span>
@@ -1831,23 +1831,23 @@
                 <span class="ident">n</span> <span class="op">=</span> <span class="ident">n</span>.<span class="ident">abs</span>();
 
                 <span class="comment">// divide n and m by 2 until odd</span>
-                <span class="ident">m</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">trailing_zeros</span>();
-                <span class="ident">n</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="ident">n</span>.<span class="ident">trailing_zeros</span>();
+                <span class="ident">m</span> <span class="op">&gt;&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">trailing_zeros</span>();
+                <span class="ident">n</span> <span class="op">&gt;&gt;</span><span class="op">=</span> <span class="ident">n</span>.<span class="ident">trailing_zeros</span>();
 
-                <span class="kw">while</span> <span class="ident">m</span> <span class="op">!</span><span class="op">=</span> <span class="ident">n</span> {
+                <span class="kw">while</span> <span class="ident">m</span> <span class="op">!=</span> <span class="ident">n</span> {
                     <span class="kw">if</span> <span class="ident">m</span> <span class="op">&gt;</span> <span class="ident">n</span> {
-                        <span class="ident">m</span> <span class="op">-</span><span class="op">=</span> <span class="ident">n</span>;
-                        <span class="ident">m</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">trailing_zeros</span>();
+                        <span class="ident">m</span> <span class="op">-=</span> <span class="ident">n</span>;
+                        <span class="ident">m</span> <span class="op">&gt;&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">trailing_zeros</span>();
                     } <span class="kw">else</span> {
-                        <span class="ident">n</span> <span class="op">-</span><span class="op">=</span> <span class="ident">m</span>;
-                        <span class="ident">n</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="ident">n</span>.<span class="ident">trailing_zeros</span>();
+                        <span class="ident">n</span> <span class="op">-=</span> <span class="ident">m</span>;
+                        <span class="ident">n</span> <span class="op">&gt;&gt;</span><span class="op">=</span> <span class="ident">n</span>.<span class="ident">trailing_zeros</span>();
                     }
                 }
-                <span class="ident">m</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>
+                <span class="ident">m</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>
             }
 
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">extended_gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">ExtendedGcd</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="self">Self</span>) {
+            <span class="kw">fn</span> <span class="ident">extended_gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="ident">ExtendedGcd</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="self">Self</span>) {
                 <span class="kw">let</span> <span class="ident">egcd</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">extended_gcd</span>(<span class="ident">other</span>);
                 <span class="comment">// should not have to recalculate abs</span>
                 <span class="kw">let</span> <span class="ident">lcm</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">egcd</span>.<span class="ident">gcd</span>.<span class="ident">is_zero</span>() {
@@ -1861,15 +1861,15 @@
             <span class="doccomment">/// Calculates the Lowest Common Multiple (LCM) of the number and</span>
             <span class="doccomment">/// `other`.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
                 <span class="self">self</span>.<span class="ident">gcd_lcm</span>(<span class="ident">other</span>).<span class="number">1</span>
             }
 
             <span class="doccomment">/// Calculates the Greatest Common Divisor (GCD) and</span>
             <span class="doccomment">/// Lowest Common Multiple (LCM) of the number and `other`.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
-                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_zero</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">other</span>.<span class="ident">is_zero</span>() {
+            <span class="kw">fn</span> <span class="ident">gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_zero</span>() <span class="op">&amp;&amp;</span> <span class="ident">other</span>.<span class="ident">is_zero</span>() {
                     <span class="kw">return</span> (<span class="self">Self</span>::<span class="ident">zero</span>(), <span class="self">Self</span>::<span class="ident">zero</span>());
                 }
                 <span class="kw">let</span> <span class="ident">gcd</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">gcd</span>(<span class="ident">other</span>);
@@ -1880,31 +1880,31 @@
 
             <span class="doccomment">/// Deprecated, use `is_multiple_of` instead.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">divides</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+            <span class="kw">fn</span> <span class="ident">divides</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
                 <span class="self">self</span>.<span class="ident">is_multiple_of</span>(<span class="ident">other</span>)
             }
 
             <span class="doccomment">/// Returns `true` if the number is a multiple of `other`.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">is_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-                <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+            <span class="kw">fn</span> <span class="ident">is_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">==</span> <span class="number">0</span>
             }
 
             <span class="doccomment">/// Returns `true` if the number is divisible by `2`</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">is_even</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-                (<span class="kw-2">*</span><span class="self">self</span>) <span class="op">&amp;</span> <span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+            <span class="kw">fn</span> <span class="ident">is_even</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                (<span class="kw-2">*</span><span class="self">self</span>) <span class="op">&amp;</span> <span class="number">1</span> <span class="op">==</span> <span class="number">0</span>
             }
 
             <span class="doccomment">/// Returns `true` if the number is not divisible by `2`</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">is_odd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+            <span class="kw">fn</span> <span class="ident">is_odd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
                 <span class="op">!</span><span class="self">self</span>.<span class="ident">is_even</span>()
             }
 
             <span class="doccomment">/// Simultaneous truncated integer division and modulus.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">div_rem</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
+            <span class="kw">fn</span> <span class="ident">div_rem</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
                 (<span class="kw-2">*</span><span class="self">self</span> <span class="op">/</span> <span class="kw-2">*</span><span class="ident">other</span>, <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span>)
             }
         }
@@ -1988,10 +1988,10 @@
 
             <span class="attribute">#[<span class="ident">test</span>]</span>
             <span class="kw">fn</span> <span class="ident">test_gcd_cmp_with_euclidean</span>() {
-                <span class="kw">fn</span> <span class="ident">euclidean_gcd</span>(<span class="kw-2">mut</span> <span class="ident">m</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>, <span class="kw-2">mut</span> <span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span> {
-                    <span class="kw">while</span> <span class="ident">m</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">fn</span> <span class="ident">euclidean_gcd</span>(<span class="kw-2">mut</span> <span class="ident">m</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>, <span class="kw-2">mut</span> <span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span> {
+                    <span class="kw">while</span> <span class="ident">m</span> <span class="op">!=</span> <span class="number">0</span> {
                         <span class="ident">mem</span>::<span class="ident">swap</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">m</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">n</span>);
-                        <span class="ident">m</span> <span class="op">%</span><span class="op">=</span> <span class="ident">n</span>;
+                        <span class="ident">m</span> <span class="op">%=</span> <span class="ident">n</span>;
                     }
 
                     <span class="ident">n</span>.<span class="ident">abs</span>()
@@ -2031,21 +2031,21 @@
             <span class="attribute">#[<span class="ident">should_panic</span>]</span>
             <span class="kw">fn</span> <span class="ident">test_gcd_min_val_min_val</span>() {
                 <span class="kw">let</span> <span class="ident">min</span> <span class="op">=</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span><span class="op">&gt;</span>::<span class="ident">min_value</span>();
-                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">min</span>.<span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="ident">min</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span>);
+                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">min</span>.<span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="ident">min</span>) <span class="op">&gt;=</span> <span class="number">0</span>);
             }
 
             <span class="attribute">#[<span class="ident">test</span>]</span>
             <span class="attribute">#[<span class="ident">should_panic</span>]</span>
             <span class="kw">fn</span> <span class="ident">test_gcd_min_val_0</span>() {
                 <span class="kw">let</span> <span class="ident">min</span> <span class="op">=</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span><span class="op">&gt;</span>::<span class="ident">min_value</span>();
-                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">min</span>.<span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="number">0</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span>);
+                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">min</span>.<span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="number">0</span>) <span class="op">&gt;=</span> <span class="number">0</span>);
             }
 
             <span class="attribute">#[<span class="ident">test</span>]</span>
             <span class="attribute">#[<span class="ident">should_panic</span>]</span>
             <span class="kw">fn</span> <span class="ident">test_gcd_0_min_val</span>() {
                 <span class="kw">let</span> <span class="ident">min</span> <span class="op">=</span> <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span><span class="op">&gt;</span>::<span class="ident">min_value</span>();
-                <span class="macro">assert</span><span class="macro">!</span>((<span class="number">0</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>).<span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="ident">min</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span>);
+                <span class="macro">assert</span><span class="macro">!</span>((<span class="number">0</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>).<span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="ident">min</span>) <span class="op">&gt;=</span> <span class="number">0</span>);
             }
 
             <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2141,32 +2141,32 @@
 <span class="macro">impl_integer_for_isize</span><span class="macro">!</span>(<span class="ident">i128</span>, <span class="ident">test_integer_i128</span>);
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">impl_integer_for_usize</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">test_mod</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">test_mod</span>:<span class="ident">ident</span>) <span class="op">=&gt;</span> {
         <span class="kw">impl</span> <span class="ident">Integer</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span> {
             <span class="doccomment">/// Unsigned integer division. Returns the same result as `div` (`/`).</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">div_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">div_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
                 <span class="kw-2">*</span><span class="self">self</span> <span class="op">/</span> <span class="kw-2">*</span><span class="ident">other</span>
             }
 
             <span class="doccomment">/// Unsigned integer modulo operation. Returns the same result as `rem` (`%`).</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">mod_floor</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
                 <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span>
             }
 
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">div_ceil</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
-                <span class="kw-2">*</span><span class="self">self</span> <span class="op">/</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">+</span> (<span class="number">0</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span>) <span class="kw">as</span> <span class="self">Self</span>
+            <span class="kw">fn</span> <span class="ident">div_ceil</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+                <span class="kw-2">*</span><span class="self">self</span> <span class="op">/</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">+</span> (<span class="number">0</span> <span class="op">!=</span> <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span>) <span class="kw">as</span> <span class="self">Self</span>
             }
 
             <span class="doccomment">/// Calculates the Greatest Common Divisor (GCD) of the number and `other`</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">gcd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
                 <span class="comment">// Use Stein&#39;s algorithm</span>
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">m</span> <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">n</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">other</span>;
-                <span class="kw">if</span> <span class="ident">m</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">n</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="ident">m</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">n</span> <span class="op">==</span> <span class="number">0</span> {
                     <span class="kw">return</span> <span class="ident">m</span> <span class="op">|</span> <span class="ident">n</span>;
                 }
 
@@ -2174,23 +2174,23 @@
                 <span class="kw">let</span> <span class="ident">shift</span> <span class="op">=</span> (<span class="ident">m</span> <span class="op">|</span> <span class="ident">n</span>).<span class="ident">trailing_zeros</span>();
 
                 <span class="comment">// divide n and m by 2 until odd</span>
-                <span class="ident">m</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">trailing_zeros</span>();
-                <span class="ident">n</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="ident">n</span>.<span class="ident">trailing_zeros</span>();
+                <span class="ident">m</span> <span class="op">&gt;&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">trailing_zeros</span>();
+                <span class="ident">n</span> <span class="op">&gt;&gt;</span><span class="op">=</span> <span class="ident">n</span>.<span class="ident">trailing_zeros</span>();
 
-                <span class="kw">while</span> <span class="ident">m</span> <span class="op">!</span><span class="op">=</span> <span class="ident">n</span> {
+                <span class="kw">while</span> <span class="ident">m</span> <span class="op">!=</span> <span class="ident">n</span> {
                     <span class="kw">if</span> <span class="ident">m</span> <span class="op">&gt;</span> <span class="ident">n</span> {
-                        <span class="ident">m</span> <span class="op">-</span><span class="op">=</span> <span class="ident">n</span>;
-                        <span class="ident">m</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">trailing_zeros</span>();
+                        <span class="ident">m</span> <span class="op">-=</span> <span class="ident">n</span>;
+                        <span class="ident">m</span> <span class="op">&gt;&gt;</span><span class="op">=</span> <span class="ident">m</span>.<span class="ident">trailing_zeros</span>();
                     } <span class="kw">else</span> {
-                        <span class="ident">n</span> <span class="op">-</span><span class="op">=</span> <span class="ident">m</span>;
-                        <span class="ident">n</span> <span class="op">&gt;</span><span class="op">&gt;</span><span class="op">=</span> <span class="ident">n</span>.<span class="ident">trailing_zeros</span>();
+                        <span class="ident">n</span> <span class="op">-=</span> <span class="ident">m</span>;
+                        <span class="ident">n</span> <span class="op">&gt;&gt;</span><span class="op">=</span> <span class="ident">n</span>.<span class="ident">trailing_zeros</span>();
                     }
                 }
-                <span class="ident">m</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>
+                <span class="ident">m</span> <span class="op">&lt;&lt;</span> <span class="ident">shift</span>
             }
 
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">extended_gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">ExtendedGcd</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="self">Self</span>) {
+            <span class="kw">fn</span> <span class="ident">extended_gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="ident">ExtendedGcd</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="self">Self</span>) {
                 <span class="kw">let</span> <span class="ident">egcd</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">extended_gcd</span>(<span class="ident">other</span>);
                 <span class="comment">// should not have to recalculate abs</span>
                 <span class="kw">let</span> <span class="ident">lcm</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">egcd</span>.<span class="ident">gcd</span>.<span class="ident">is_zero</span>() {
@@ -2203,15 +2203,15 @@
 
             <span class="doccomment">/// Calculates the Lowest Common Multiple (LCM) of the number and `other`.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+            <span class="kw">fn</span> <span class="ident">lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
                 <span class="self">self</span>.<span class="ident">gcd_lcm</span>(<span class="ident">other</span>).<span class="number">1</span>
             }
 
             <span class="doccomment">/// Calculates the Greatest Common Divisor (GCD) and</span>
             <span class="doccomment">/// Lowest Common Multiple (LCM) of the number and `other`.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
-                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_zero</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">other</span>.<span class="ident">is_zero</span>() {
+            <span class="kw">fn</span> <span class="ident">gcd_lcm</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
+                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_zero</span>() <span class="op">&amp;&amp;</span> <span class="ident">other</span>.<span class="ident">is_zero</span>() {
                     <span class="kw">return</span> (<span class="self">Self</span>::<span class="ident">zero</span>(), <span class="self">Self</span>::<span class="ident">zero</span>());
                 }
                 <span class="kw">let</span> <span class="ident">gcd</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">gcd</span>(<span class="ident">other</span>);
@@ -2221,31 +2221,31 @@
 
             <span class="doccomment">/// Deprecated, use `is_multiple_of` instead.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">divides</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+            <span class="kw">fn</span> <span class="ident">divides</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
                 <span class="self">self</span>.<span class="ident">is_multiple_of</span>(<span class="ident">other</span>)
             }
 
             <span class="doccomment">/// Returns `true` if the number is a multiple of `other`.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">is_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-                <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+            <span class="kw">fn</span> <span class="ident">is_multiple_of</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span> <span class="op">==</span> <span class="number">0</span>
             }
 
             <span class="doccomment">/// Returns `true` if the number is divisible by `2`.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">is_even</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-                <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="number">2</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span>
+            <span class="kw">fn</span> <span class="ident">is_even</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+                <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">0</span>
             }
 
             <span class="doccomment">/// Returns `true` if the number is not divisible by `2`.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">is_odd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+            <span class="kw">fn</span> <span class="ident">is_odd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
                 <span class="op">!</span><span class="self">self</span>.<span class="ident">is_even</span>()
             }
 
             <span class="doccomment">/// Simultaneous truncated integer division and modulus.</span>
             <span class="attribute">#[<span class="ident">inline</span>]</span>
-            <span class="kw">fn</span> <span class="ident">div_rem</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
+            <span class="kw">fn</span> <span class="ident">div_rem</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) <span class="op">-&gt;</span> (<span class="self">Self</span>, <span class="self">Self</span>) {
                 (<span class="kw-2">*</span><span class="self">self</span> <span class="op">/</span> <span class="kw-2">*</span><span class="ident">other</span>, <span class="kw-2">*</span><span class="self">self</span> <span class="op">%</span> <span class="kw-2">*</span><span class="ident">other</span>)
             }
         }
@@ -2279,10 +2279,10 @@
 
             <span class="attribute">#[<span class="ident">test</span>]</span>
             <span class="kw">fn</span> <span class="ident">test_gcd_cmp_with_euclidean</span>() {
-                <span class="kw">fn</span> <span class="ident">euclidean_gcd</span>(<span class="kw-2">mut</span> <span class="ident">m</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>, <span class="kw-2">mut</span> <span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span> {
-                    <span class="kw">while</span> <span class="ident">m</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">fn</span> <span class="ident">euclidean_gcd</span>(<span class="kw-2">mut</span> <span class="ident">m</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>, <span class="kw-2">mut</span> <span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span> {
+                    <span class="kw">while</span> <span class="ident">m</span> <span class="op">!=</span> <span class="number">0</span> {
                         <span class="ident">mem</span>::<span class="ident">swap</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">m</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">n</span>);
-                        <span class="ident">m</span> <span class="op">%</span><span class="op">=</span> <span class="ident">n</span>;
+                        <span class="ident">m</span> <span class="op">%=</span> <span class="ident">n</span>;
                     }
                     <span class="ident">n</span>
                 }
@@ -2386,7 +2386,7 @@
     <span class="doccomment">/// i64  | 66</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// For larger n, `T` should be a bigint type.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">n</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">IterBinomial</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">n</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">IterBinomial</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="ident">IterBinomial</span> {
             <span class="ident">k</span>: <span class="ident">T</span>::<span class="ident">zero</span>(),
             <span class="ident">a</span>: <span class="ident">T</span>::<span class="ident">one</span>(),
@@ -2401,7 +2401,7 @@
 {
     <span class="kw">type</span> <span class="ident">Item</span> <span class="op">=</span> <span class="ident">T</span>;
 
-    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">next</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">k</span> <span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">n</span> {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
@@ -2422,7 +2422,7 @@
 <span class="doccomment">/// Calculate r * a / b, avoiding overflows and fractions.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Assumes that b divides r * a evenly.</span>
-<span class="kw">fn</span> <span class="ident">multiply_and_divide</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span> <span class="op">+</span> <span class="ident">Clone</span><span class="op">&gt;</span>(<span class="ident">r</span>: <span class="ident">T</span>, <span class="ident">a</span>: <span class="ident">T</span>, <span class="ident">b</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
+<span class="kw">fn</span> <span class="ident">multiply_and_divide</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span> <span class="op">+</span> <span class="ident">Clone</span><span class="op">&gt;</span>(<span class="ident">r</span>: <span class="ident">T</span>, <span class="ident">a</span>: <span class="ident">T</span>, <span class="ident">b</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
     <span class="comment">// See http://blog.plover.com/math/choose-2.html for the idea.</span>
     <span class="kw">let</span> <span class="ident">g</span> <span class="op">=</span> <span class="ident">gcd</span>(<span class="ident">r</span>.<span class="ident">clone</span>(), <span class="ident">b</span>.<span class="ident">clone</span>());
     <span class="ident">r</span> <span class="op">/</span> <span class="ident">g</span>.<span class="ident">clone</span>() <span class="op">*</span> (<span class="ident">a</span> <span class="op">/</span> (<span class="ident">b</span> <span class="op">/</span> <span class="ident">g</span>))
@@ -2446,7 +2446,7 @@
 <span class="doccomment">/// i64  | 66</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// For larger n, consider using a bigint type for `T`.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">binomial</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span> <span class="op">+</span> <span class="ident">Clone</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">n</span>: <span class="ident">T</span>, <span class="ident">k</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">binomial</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span> <span class="op">+</span> <span class="ident">Clone</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="ident">n</span>: <span class="ident">T</span>, <span class="ident">k</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">T</span> {
     <span class="comment">// See http://blog.plover.com/math/choose.html for the idea.</span>
     <span class="kw">if</span> <span class="ident">k</span> <span class="op">&gt;</span> <span class="ident">n</span> {
         <span class="kw">return</span> <span class="ident">T</span>::<span class="ident">zero</span>();
@@ -2468,7 +2468,7 @@
 }
 
 <span class="doccomment">/// Calculate the multinomial coefficient.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">multinomial</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span> <span class="op">+</span> <span class="ident">Clone</span><span class="op">&gt;</span>(<span class="ident">k</span>: <span class="kw-2">&amp;</span>[<span class="ident">T</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">T</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">multinomial</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Integer</span> <span class="op">+</span> <span class="ident">Clone</span><span class="op">&gt;</span>(<span class="ident">k</span>: <span class="kw-2">&amp;</span>[<span class="ident">T</span>]) <span class="op">-&gt;</span> <span class="ident">T</span>
 <span class="kw">where</span>
     <span class="kw">for</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">T</span>: <span class="ident">Add</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span>, <span class="ident">Output</span> <span class="op">=</span> <span class="ident">T</span><span class="op">&gt;</span>,
 {
@@ -2484,7 +2484,7 @@
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_lcm_overflow</span>() {
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">check</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">y</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">y</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
             <span class="kw">let</span> <span class="ident">x</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>;
             <span class="kw">let</span> <span class="ident">y</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">y</span>;
             <span class="kw">let</span> <span class="ident">o</span> <span class="op">=</span> <span class="ident">x</span>.<span class="ident">checked_mul</span>(<span class="ident">y</span>);
@@ -2516,7 +2516,7 @@
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_iter_binomial</span>() {
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">check_simple</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>) <span class="op">=&gt;</span> {{
             <span class="kw">let</span> <span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="number">3</span>;
             <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> [<span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">1</span>];
             <span class="kw">for</span> (<span class="ident">b</span>, <span class="kw-2">&amp;</span><span class="ident">e</span>) <span class="kw">in</span> <span class="ident">IterBinomial</span>::<span class="ident">new</span>(<span class="ident">n</span>).<span class="ident">zip</span>(<span class="kw-2">&amp;</span><span class="ident">expected</span>) {
@@ -2535,12 +2535,12 @@
     <span class="macro">check_simple</span><span class="macro">!</span>(<span class="ident">i64</span>);
 
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">check_binomial</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
             <span class="kw">let</span> <span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>;
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">k</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">for</span> <span class="ident">b</span> <span class="kw">in</span> <span class="ident">IterBinomial</span>::<span class="ident">new</span>(<span class="ident">n</span>) {
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">b</span>, <span class="ident">binomial</span>(<span class="ident">n</span>, <span class="ident">k</span>));
-                <span class="ident">k</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                <span class="ident">k</span> <span class="op">+=</span> <span class="number">1</span>;
             }
         }};
     }
@@ -2559,12 +2559,12 @@
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_binomial</span>() {
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">check</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">y</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">y</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
             <span class="kw">let</span> <span class="ident">x</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>;
             <span class="kw">let</span> <span class="ident">y</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">y</span>;
             <span class="kw">let</span> <span class="ident">expected</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>;
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">binomial</span>(<span class="ident">x</span>, <span class="ident">y</span>), <span class="ident">expected</span>);
-            <span class="kw">if</span> <span class="ident">y</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">x</span> {
+            <span class="kw">if</span> <span class="ident">y</span> <span class="op">&lt;=</span> <span class="ident">x</span> {
                 <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">binomial</span>(<span class="ident">x</span>, <span class="ident">x</span> <span class="op">-</span> <span class="ident">y</span>), <span class="ident">expected</span>);
             }
         }};
@@ -2615,7 +2615,7 @@
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_multinomial</span>() {
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">check_binomial</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
             <span class="kw">let</span> <span class="ident">n</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>.<span class="ident">iter</span>().<span class="ident">fold</span>(<span class="number">0</span>, <span class="op">|</span><span class="ident">acc</span>, <span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">acc</span> <span class="op">+</span> <span class="ident">x</span>);
             <span class="kw">let</span> <span class="ident">k</span>: <span class="kw-2">&amp;</span>[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>] <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>;
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">k</span>.<span class="ident">len</span>(), <span class="number">2</span>);
@@ -2650,7 +2650,7 @@
     <span class="macro">check_binomial</span><span class="macro">!</span>(<span class="ident">i64</span>, <span class="kw-2">&amp;</span>[<span class="number">4</span>, <span class="number">10</span>]);
 
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">check_multinomial</span> {
-        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>:<span class="ident">expr</span>) <span class="op">=&gt;</span> {{
             <span class="kw">let</span> <span class="ident">k</span>: <span class="kw-2">&amp;</span>[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>] <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">k</span>;
             <span class="kw">let</span> <span class="ident">expected</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">r</span>;
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">multinomial</span>(<span class="ident">k</span>), <span class="ident">expected</span>);

@@ -1215,7 +1215,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_exclusive</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_exclusive</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">if</span> <span class="self">self</span>
             .<span class="ident">state</span>
             .<span class="ident">compare_exchange</span>(<span class="number">0</span>, <span class="ident">WRITER_BIT</span>, <span class="ident">Ordering</span>::<span class="ident">Acquire</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>)
@@ -1251,7 +1251,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_shared</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_shared</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">try_lock_shared_fast</span>(<span class="bool-val">false</span>) {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -1271,7 +1271,7 @@
         } <span class="kw">else</span> {
             <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">fetch_sub</span>(<span class="ident">ONE_READER</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>)
         };
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">READERS_MASK</span> <span class="op">|</span> <span class="ident">WRITER_PARKED_BIT</span>) <span class="op">=</span><span class="op">=</span> (<span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">WRITER_PARKED_BIT</span>) {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">READERS_MASK</span> <span class="op">|</span> <span class="ident">WRITER_PARKED_BIT</span>) <span class="op">==</span> (<span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">WRITER_PARKED_BIT</span>) {
             <span class="self">self</span>.<span class="ident">unlock_shared_slow</span>();
         }
     }
@@ -1300,7 +1300,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">bump_shared</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">&amp;</span> (<span class="ident">READERS_MASK</span> <span class="op">|</span> <span class="ident">WRITER_BIT</span>)
-            <span class="op">=</span><span class="op">=</span> <span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">WRITER_BIT</span>
+            <span class="op">==</span> <span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">WRITER_BIT</span>
         {
             <span class="self">self</span>.<span class="ident">bump_shared_slow</span>();
         }
@@ -1308,7 +1308,7 @@
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">bump_exclusive</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="self">self</span>.<span class="ident">bump_exclusive_slow</span>();
         }
     }
@@ -1322,7 +1322,7 @@
             .<span class="ident">fetch_add</span>(<span class="ident">ONE_READER</span> <span class="op">-</span> <span class="ident">WRITER_BIT</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
 
         <span class="comment">// Wake up parked shared and upgradable threads if there are any</span>
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="self">self</span>.<span class="ident">downgrade_slow</span>();
         }
     }
@@ -1333,7 +1333,7 @@
     <span class="kw">type</span> <span class="ident">Instant</span> <span class="op">=</span> <span class="ident">Instant</span>;
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_shared_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="self">Self</span>::<span class="ident">Duration</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_shared_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="self">Self</span>::<span class="ident">Duration</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">try_lock_shared_fast</span>(<span class="bool-val">false</span>) {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -1346,7 +1346,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_shared_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="self">Self</span>::<span class="ident">Instant</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_shared_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="self">Self</span>::<span class="ident">Instant</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">try_lock_shared_fast</span>(<span class="bool-val">false</span>) {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -1359,7 +1359,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_exclusive_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Duration</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_exclusive_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Duration</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>
             .<span class="ident">state</span>
             .<span class="ident">compare_exchange_weak</span>(<span class="number">0</span>, <span class="ident">WRITER_BIT</span>, <span class="ident">Ordering</span>::<span class="ident">Acquire</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>)
@@ -1376,7 +1376,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_exclusive_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Instant</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_exclusive_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Instant</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>
             .<span class="ident">state</span>
             .<span class="ident">compare_exchange_weak</span>(<span class="number">0</span>, <span class="ident">WRITER_BIT</span>, <span class="ident">Ordering</span>::<span class="ident">Acquire</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>)
@@ -1404,7 +1404,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_shared_recursive</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_shared_recursive</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">try_lock_shared_fast</span>(<span class="bool-val">true</span>) {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -1419,7 +1419,7 @@
 
 <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">lock_api</span>::<span class="ident">RawRwLockRecursiveTimed</span> <span class="kw">for</span> <span class="ident">RawRwLock</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_shared_recursive_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="self">Self</span>::<span class="ident">Duration</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_shared_recursive_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="self">Self</span>::<span class="ident">Duration</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">try_lock_shared_fast</span>(<span class="bool-val">true</span>) {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -1432,7 +1432,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_shared_recursive_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="self">Self</span>::<span class="ident">Instant</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_shared_recursive_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="self">Self</span>::<span class="ident">Instant</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">try_lock_shared_fast</span>(<span class="bool-val">true</span>) {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -1456,7 +1456,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_upgradable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_upgradable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">try_lock_upgradable_fast</span>() {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -1472,7 +1472,7 @@
     <span class="kw">fn</span> <span class="ident">unlock_upgradable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">deadlock_release</span>();
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">if</span> <span class="self">self</span>
                 .<span class="ident">state</span>
                 .<span class="ident">compare_exchange_weak</span>(
@@ -1495,14 +1495,14 @@
             (<span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">-</span> <span class="ident">WRITER_BIT</span>,
             <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
         );
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">!</span><span class="op">=</span> <span class="ident">ONE_READER</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">!=</span> <span class="ident">ONE_READER</span> {
             <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">upgrade_slow</span>(<span class="prelude-val">None</span>);
             <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="ident">result</span>);
         }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_upgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_upgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">if</span> <span class="self">self</span>
             .<span class="ident">state</span>
             .<span class="ident">compare_exchange_weak</span>(
@@ -1525,7 +1525,7 @@
     <span class="kw">fn</span> <span class="ident">unlock_upgradable_fair</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">deadlock_release</span>();
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">if</span> <span class="self">self</span>
                 .<span class="ident">state</span>
                 .<span class="ident">compare_exchange_weak</span>(
@@ -1544,7 +1544,7 @@
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">bump_upgradable</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span> <span class="op">|</span> <span class="ident">PARKED_BIT</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">==</span> <span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span> <span class="op">|</span> <span class="ident">PARKED_BIT</span> {
             <span class="self">self</span>.<span class="ident">bump_upgradable_slow</span>();
         }
     }
@@ -1556,7 +1556,7 @@
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">fetch_sub</span>(<span class="ident">UPGRADABLE_BIT</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
 
         <span class="comment">// Wake up parked upgradable threads if there are any</span>
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="self">self</span>.<span class="ident">downgrade_slow</span>();
         }
     }
@@ -1569,7 +1569,7 @@
         );
 
         <span class="comment">// Wake up parked shared threads if there are any</span>
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="self">self</span>.<span class="ident">downgrade_to_upgradable_slow</span>();
         }
     }
@@ -1577,7 +1577,7 @@
 
 <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">lock_api</span>::<span class="ident">RawRwLockUpgradeTimed</span> <span class="kw">for</span> <span class="ident">RawRwLock</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_upgradable_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Instant</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_upgradable_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Instant</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">try_lock_upgradable_fast</span>() {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -1590,7 +1590,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_upgradable_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Duration</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_upgradable_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Duration</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">try_lock_upgradable_fast</span>() {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
@@ -1603,12 +1603,12 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_upgrade_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Instant</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_upgrade_until</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Instant</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">fetch_sub</span>(
             (<span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">-</span> <span class="ident">WRITER_BIT</span>,
             <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
         );
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">=</span><span class="op">=</span> <span class="ident">ONE_READER</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">==</span> <span class="ident">ONE_READER</span> {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
             <span class="self">self</span>.<span class="ident">upgrade_slow</span>(<span class="prelude-val">Some</span>(<span class="ident">timeout</span>))
@@ -1616,12 +1616,12 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_upgrade_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Duration</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_upgrade_for</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="ident">Duration</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">fetch_sub</span>(
             (<span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">-</span> <span class="ident">WRITER_BIT</span>,
             <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
         );
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">=</span><span class="op">=</span> <span class="ident">ONE_READER</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">==</span> <span class="ident">ONE_READER</span> {
             <span class="bool-val">true</span>
         } <span class="kw">else</span> {
             <span class="self">self</span>.<span class="ident">upgrade_slow</span>(<span class="ident">util</span>::<span class="ident">to_deadline</span>(<span class="ident">timeout</span>))
@@ -1631,16 +1631,16 @@
 
 <span class="kw">impl</span> <span class="ident">RawRwLock</span> {
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_shared_fast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">recursive</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_shared_fast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">recursive</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
 
         <span class="comment">// We can&#39;t allow grabbing a shared lock if there is a writer, even if</span>
         <span class="comment">// the writer is still waiting for the remaining readers to exit.</span>
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="comment">// To allow recursive locks, we make an exception and allow readers</span>
             <span class="comment">// to skip ahead of a pending writer to avoid deadlocking, at the</span>
             <span class="comment">// cost of breaking the fairness guarantees.</span>
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">recursive</span> <span class="op">|</span><span class="op">|</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">recursive</span> <span class="op">||</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
         }
@@ -1648,7 +1648,7 @@
         <span class="comment">// Use hardware lock elision to avoid cache conflicts when multiple</span>
         <span class="comment">// readers try to acquire the lock. We only do this if the lock is</span>
         <span class="comment">// completely empty since elision handles conflicts poorly.</span>
-        <span class="kw">if</span> <span class="ident">have_elision</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">state</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">have_elision</span>() <span class="op">&amp;&amp;</span> <span class="ident">state</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="self">self</span>.<span class="ident">state</span>
                 .<span class="ident">elision_compare_exchange_acquire</span>(<span class="number">0</span>, <span class="ident">ONE_READER</span>)
                 .<span class="ident">is_ok</span>()
@@ -1662,19 +1662,19 @@
     }
 
     <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_shared_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">recursive</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_shared_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">recursive</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
         <span class="kw">loop</span> {
             <span class="comment">// This mirrors the condition in try_lock_shared_fast</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                <span class="kw">if</span> <span class="op">!</span><span class="ident">recursive</span> <span class="op">|</span><span class="op">|</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">recursive</span> <span class="op">||</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">==</span> <span class="number">0</span> {
                     <span class="kw">return</span> <span class="bool-val">false</span>;
                 }
             }
-            <span class="kw">if</span> <span class="ident">have_elision</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">state</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">have_elision</span>() <span class="op">&amp;&amp;</span> <span class="ident">state</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">elision_compare_exchange_acquire</span>(<span class="number">0</span>, <span class="ident">ONE_READER</span>) {
-                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
                 }
             } <span class="kw">else</span> {
                 <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">compare_exchange_weak</span>(
@@ -1685,20 +1685,20 @@
                     <span class="ident">Ordering</span>::<span class="ident">Acquire</span>,
                     <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
                 ) {
-                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
                 }
             }
         }
     }
 
     <span class="attribute">#[<span class="ident">inline</span>(<span class="ident">always</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_upgradable_fast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_upgradable_fast</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
 
         <span class="comment">// We can&#39;t grab an upgradable lock if there is already a writer or</span>
         <span class="comment">// upgradable reader.</span>
-        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">WRITER_BIT</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">WRITER_BIT</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
 
@@ -1712,11 +1712,11 @@
     }
 
     <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_lock_upgradable_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_lock_upgradable_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
         <span class="kw">loop</span> {
             <span class="comment">// This mirrors the condition in try_lock_upgradable_fast</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">WRITER_BIT</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">WRITER_BIT</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">!=</span> <span class="number">0</span> {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
 
@@ -1728,17 +1728,17 @@
                 <span class="ident">Ordering</span>::<span class="ident">Acquire</span>,
                 <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
             ) {
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
             }
         }
     }
 
     <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">lock_exclusive_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">lock_exclusive_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">try_lock</span> <span class="op">=</span> <span class="op">|</span><span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span><span class="op">|</span> {
             <span class="kw">loop</span> {
-                <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">WRITER_BIT</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">WRITER_BIT</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">!=</span> <span class="number">0</span> {
                     <span class="kw">return</span> <span class="bool-val">false</span>;
                 }
 
@@ -1749,8 +1749,8 @@
                     <span class="ident">Ordering</span>::<span class="ident">Acquire</span>,
                     <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
                 ) {
-                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
                 }
             }
         };
@@ -1776,9 +1776,9 @@
         <span class="kw">let</span> <span class="ident">callback</span> <span class="op">=</span> <span class="op">|</span><span class="kw-2">mut</span> <span class="ident">new_state</span>, <span class="ident">result</span>: <span class="ident">UnparkResult</span><span class="op">|</span> {
             <span class="comment">// If we are using a fair unlock then we should keep the</span>
             <span class="comment">// rwlock locked and hand it off to the unparked threads.</span>
-            <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">unparked_threads</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> (<span class="ident">force_fair</span> <span class="op">|</span><span class="op">|</span> <span class="ident">result</span>.<span class="ident">be_fair</span>) {
+            <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">unparked_threads</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> (<span class="ident">force_fair</span> <span class="op">||</span> <span class="ident">result</span>.<span class="ident">be_fair</span>) {
                 <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">have_more_threads</span> {
-                    <span class="ident">new_state</span> <span class="op">|</span><span class="op">=</span> <span class="ident">PARKED_BIT</span>;
+                    <span class="ident">new_state</span> <span class="op">|=</span> <span class="ident">PARKED_BIT</span>;
                 }
                 <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">store</span>(<span class="ident">new_state</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
                 <span class="ident">TOKEN_HANDOFF</span>
@@ -1799,23 +1799,23 @@
     }
 
     <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">lock_shared_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">recursive</span>: <span class="ident">bool</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">lock_shared_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">recursive</span>: <span class="ident">bool</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">try_lock</span> <span class="op">=</span> <span class="op">|</span><span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">spinwait_shared</span> <span class="op">=</span> <span class="ident">SpinWait</span>::<span class="ident">new</span>();
             <span class="kw">loop</span> {
                 <span class="comment">// Use hardware lock elision to avoid cache conflicts when multiple</span>
                 <span class="comment">// readers try to acquire the lock. We only do this if the lock is</span>
                 <span class="comment">// completely empty since elision handles conflicts poorly.</span>
-                <span class="kw">if</span> <span class="ident">have_elision</span>() <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="ident">have_elision</span>() <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">==</span> <span class="number">0</span> {
                     <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">elision_compare_exchange_acquire</span>(<span class="number">0</span>, <span class="ident">ONE_READER</span>) {
-                        <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
-                        <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                        <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+                        <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
                     }
                 }
 
                 <span class="comment">// This is the same condition as try_lock_shared_fast</span>
-                <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                    <span class="kw">if</span> <span class="op">!</span><span class="ident">recursive</span> <span class="op">|</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
+                    <span class="kw">if</span> <span class="op">!</span><span class="ident">recursive</span> <span class="op">||</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">==</span> <span class="number">0</span> {
                         <span class="kw">return</span> <span class="bool-val">false</span>;
                     }
                 }
@@ -1866,11 +1866,11 @@
     }
 
     <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">lock_upgradable_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">lock_upgradable_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">try_lock</span> <span class="op">=</span> <span class="op">|</span><span class="ident">state</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span><span class="op">|</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">spinwait_shared</span> <span class="op">=</span> <span class="ident">SpinWait</span>::<span class="ident">new</span>();
             <span class="kw">loop</span> {
-                <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">WRITER_BIT</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">WRITER_BIT</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>) <span class="op">!=</span> <span class="number">0</span> {
                     <span class="kw">return</span> <span class="bool-val">false</span>;
                 }
 
@@ -1908,15 +1908,15 @@
     <span class="kw">fn</span> <span class="ident">unlock_upgradable_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">force_fair</span>: <span class="ident">bool</span>) {
         <span class="comment">// Just release the lock if there are no parked threads.</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-        <span class="kw">while</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">while</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">==</span> <span class="number">0</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">compare_exchange_weak</span>(
                 <span class="ident">state</span>,
                 <span class="ident">state</span> <span class="op">-</span> (<span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>),
                 <span class="ident">Ordering</span>::<span class="ident">Release</span>,
                 <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
             ) {
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
             }
         }
 
@@ -1925,16 +1925,16 @@
             <span class="comment">// If we are using a fair unlock then we should keep the</span>
             <span class="comment">// rwlock locked and hand it off to the unparked threads.</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-            <span class="kw">if</span> <span class="ident">force_fair</span> <span class="op">|</span><span class="op">|</span> <span class="ident">result</span>.<span class="ident">be_fair</span> {
+            <span class="kw">if</span> <span class="ident">force_fair</span> <span class="op">||</span> <span class="ident">result</span>.<span class="ident">be_fair</span> {
                 <span class="comment">// Fall back to normal unpark on overflow. Panicking is</span>
                 <span class="comment">// not allowed in parking_lot callbacks.</span>
                 <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">new_state</span>) <span class="op">=</span>
                     (<span class="ident">state</span> <span class="op">-</span> (<span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>)).<span class="ident">checked_add</span>(<span class="ident">new_state</span>)
                 {
                     <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">have_more_threads</span> {
-                        <span class="ident">new_state</span> <span class="op">|</span><span class="op">=</span> <span class="ident">PARKED_BIT</span>;
+                        <span class="ident">new_state</span> <span class="op">|=</span> <span class="ident">PARKED_BIT</span>;
                     } <span class="kw">else</span> {
-                        <span class="ident">new_state</span> <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span><span class="ident">PARKED_BIT</span>;
+                        <span class="ident">new_state</span> <span class="op">&amp;=</span> <span class="op">!</span><span class="ident">PARKED_BIT</span>;
                     }
                     <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">compare_exchange_weak</span>(
                         <span class="ident">state</span>,
@@ -1942,8 +1942,8 @@
                         <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
                         <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
                     ) {
-                        <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">TOKEN_HANDOFF</span>,
-                        <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                        <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">TOKEN_HANDOFF</span>,
+                        <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
                     }
                 }
             }
@@ -1952,9 +1952,9 @@
             <span class="kw">loop</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_state</span> <span class="op">=</span> <span class="ident">state</span> <span class="op">-</span> (<span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>);
                 <span class="kw">if</span> <span class="ident">result</span>.<span class="ident">have_more_threads</span> {
-                    <span class="ident">new_state</span> <span class="op">|</span><span class="op">=</span> <span class="ident">PARKED_BIT</span>;
+                    <span class="ident">new_state</span> <span class="op">|=</span> <span class="ident">PARKED_BIT</span>;
                 } <span class="kw">else</span> {
-                    <span class="ident">new_state</span> <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span><span class="ident">PARKED_BIT</span>;
+                    <span class="ident">new_state</span> <span class="op">&amp;=</span> <span class="op">!</span><span class="ident">PARKED_BIT</span>;
                 }
                 <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">compare_exchange_weak</span>(
                     <span class="ident">state</span>,
@@ -1962,8 +1962,8 @@
                     <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
                     <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
                 ) {
-                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">TOKEN_NORMAL</span>,
-                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="ident">TOKEN_NORMAL</span>,
+                    <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
                 }
             }
         };
@@ -1974,10 +1974,10 @@
     }
 
     <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">try_upgrade_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">try_upgrade_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
         <span class="kw">loop</span> {
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">!</span><span class="op">=</span> <span class="ident">ONE_READER</span> {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">!=</span> <span class="ident">ONE_READER</span> {
                 <span class="kw">return</span> <span class="bool-val">false</span>;
             }
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">compare_exchange_weak</span>(
@@ -1986,14 +1986,14 @@
                 <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
                 <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
             ) {
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
-                <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+                <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">x</span>,
             }
         }
     }
 
     <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">upgrade_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">upgrade_slow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">wait_for_readers</span>(<span class="ident">timeout</span>, <span class="ident">ONE_READER</span> <span class="op">|</span> <span class="ident">UPGRADABLE_BIT</span>)
     }
 
@@ -2061,7 +2061,7 @@
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">wake_parked_threads</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">new_state</span>: <span class="ident">usize</span>,
-        <span class="ident">callback</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">usize</span>, <span class="ident">UnparkResult</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">UnparkToken</span>,
+        <span class="ident">callback</span>: <span class="kw">impl</span> <span class="ident">FnOnce</span>(<span class="ident">usize</span>, <span class="ident">UnparkResult</span>) <span class="op">-&gt;</span> <span class="ident">UnparkToken</span>,
     ) {
         <span class="comment">// We must wake up at least one upgrader or writer if there is one,</span>
         <span class="comment">// otherwise they may end up parked indefinitely since unlock_shared</span>
@@ -2072,12 +2072,12 @@
             <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">new_state</span>.<span class="ident">get</span>();
 
             <span class="comment">// If we are waking up a writer, don&#39;t wake anything else.</span>
-            <span class="kw">if</span> <span class="ident">s</span> <span class="op">&amp;</span> <span class="ident">WRITER_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">s</span> <span class="op">&amp;</span> <span class="ident">WRITER_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
                 <span class="kw">return</span> <span class="ident">FilterOp</span>::<span class="ident">Stop</span>;
             }
 
             <span class="comment">// Otherwise wake *all* readers and one upgrader/writer.</span>
-            <span class="kw">if</span> <span class="ident">token</span> <span class="op">&amp;</span> (<span class="ident">UPGRADABLE_BIT</span> <span class="op">|</span> <span class="ident">WRITER_BIT</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">s</span> <span class="op">&amp;</span> <span class="ident">UPGRADABLE_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">token</span> <span class="op">&amp;</span> (<span class="ident">UPGRADABLE_BIT</span> <span class="op">|</span> <span class="ident">WRITER_BIT</span>) <span class="op">!=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">s</span> <span class="op">&amp;</span> <span class="ident">UPGRADABLE_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
                 <span class="comment">// Skip writers and upgradable readers if we already have</span>
                 <span class="comment">// a writer/upgradable reader.</span>
                 <span class="ident">FilterOp</span>::<span class="ident">Skip</span>
@@ -2097,12 +2097,12 @@
     <span class="comment">// Common code for waiting for readers to exit the lock after acquiring</span>
     <span class="comment">// WRITER_BIT.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">wait_for_readers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>, <span class="ident">prev_value</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">wait_for_readers</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>, <span class="ident">prev_value</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="comment">// At this point WRITER_BIT is already set, we just need to wait for the</span>
         <span class="comment">// remaining readers to exit the lock.</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">spinwait</span> <span class="op">=</span> <span class="ident">SpinWait</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-        <span class="kw">while</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">while</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="comment">// Spin a few times to wait for readers to exit</span>
             <span class="kw">if</span> <span class="ident">spinwait</span>.<span class="ident">spin</span>() {
                 <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
@@ -2110,7 +2110,7 @@
             }
 
             <span class="comment">// Set the parked bit</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_PARKED_BIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_PARKED_BIT</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">compare_exchange_weak</span>(
                     <span class="ident">state</span>,
                     <span class="ident">state</span> <span class="op">|</span> <span class="ident">WRITER_PARKED_BIT</span>,
@@ -2125,11 +2125,11 @@
             <span class="comment">// Park our thread until we are woken up by an unlock</span>
             <span class="comment">// Using the 2nd key at addr + 1</span>
             <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">+</span> <span class="number">1</span>;
-            <span class="kw">let</span> <span class="ident">validate</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">validate</span> <span class="op">=</span> <span class="op">||</span> {
                 <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-                <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_PARKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
+                <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">READERS_MASK</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">WRITER_PARKED_BIT</span> <span class="op">!=</span> <span class="number">0</span>
             };
-            <span class="kw">let</span> <span class="ident">before_sleep</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> {};
+            <span class="kw">let</span> <span class="ident">before_sleep</span> <span class="op">=</span> <span class="op">||</span> {};
             <span class="kw">let</span> <span class="ident">timed_out</span> <span class="op">=</span> <span class="op">|</span><span class="kw">_</span>, <span class="kw">_</span><span class="op">|</span> {};
             <span class="comment">// SAFETY:</span>
             <span class="comment">//   * `addr` is an address we control.</span>
@@ -2149,13 +2149,13 @@
                 <span class="comment">// We still need to re-check the state if we are unparked</span>
                 <span class="comment">// since a previous writer timing-out could have allowed</span>
                 <span class="comment">// another reader to sneak in before we parked.</span>
-                <span class="ident">ParkResult</span>::<span class="ident">Unparked</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ParkResult</span>::<span class="ident">Invalid</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">ParkResult</span>::<span class="ident">Unparked</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ParkResult</span>::<span class="ident">Invalid</span> <span class="op">=&gt;</span> {
                     <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
                     <span class="kw">continue</span>;
                 }
 
                 <span class="comment">// Timeout expired</span>
-                <span class="ident">ParkResult</span>::<span class="ident">TimedOut</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">ParkResult</span>::<span class="ident">TimedOut</span> <span class="op">=&gt;</span> {
                     <span class="comment">// We need to release WRITER_BIT and revert back to</span>
                     <span class="comment">// our previous value. We also wake up any threads that</span>
                     <span class="comment">// might be waiting on WRITER_BIT.</span>
@@ -2163,7 +2163,7 @@
                         <span class="ident">prev_value</span>.<span class="ident">wrapping_sub</span>(<span class="ident">WRITER_BIT</span> <span class="op">|</span> <span class="ident">WRITER_PARKED_BIT</span>),
                         <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>,
                     );
-                    <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                    <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!=</span> <span class="number">0</span> {
                         <span class="kw">let</span> <span class="ident">callback</span> <span class="op">=</span> <span class="op">|</span><span class="kw">_</span>, <span class="ident">result</span>: <span class="ident">UnparkResult</span><span class="op">|</span> {
                             <span class="comment">// Clear the parked bit if there no more parked threads</span>
                             <span class="kw">if</span> <span class="op">!</span><span class="ident">result</span>.<span class="ident">have_more_threads</span> {
@@ -2189,9 +2189,9 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">timeout</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Instant</span><span class="op">&gt;</span>,
         <span class="ident">token</span>: <span class="ident">ParkToken</span>,
-        <span class="kw-2">mut</span> <span class="ident">try_lock</span>: <span class="kw">impl</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>,
+        <span class="kw-2">mut</span> <span class="ident">try_lock</span>: <span class="kw">impl</span> <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>,
         <span class="ident">validate_flags</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">spinwait</span> <span class="op">=</span> <span class="ident">SpinWait</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
         <span class="kw">loop</span> {
@@ -2201,13 +2201,13 @@
             }
 
             <span class="comment">// If there are no parked threads, try spinning a few times.</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">PARKED_BIT</span> <span class="op">|</span> <span class="ident">WRITER_PARKED_BIT</span>) <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">spinwait</span>.<span class="ident">spin</span>() {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> (<span class="ident">PARKED_BIT</span> <span class="op">|</span> <span class="ident">WRITER_PARKED_BIT</span>) <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">spinwait</span>.<span class="ident">spin</span>() {
                 <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
                 <span class="kw">continue</span>;
             }
 
             <span class="comment">// Set the parked bit</span>
-            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">x</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">compare_exchange_weak</span>(
                     <span class="ident">state</span>,
                     <span class="ident">state</span> <span class="op">|</span> <span class="ident">PARKED_BIT</span>,
@@ -2221,11 +2221,11 @@
 
             <span class="comment">// Park our thread until we are woken up by an unlock</span>
             <span class="kw">let</span> <span class="ident">addr</span> <span class="op">=</span> <span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*</span><span class="kw">const</span> <span class="kw">_</span> <span class="kw">as</span> <span class="ident">usize</span>;
-            <span class="kw">let</span> <span class="ident">validate</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> {
+            <span class="kw">let</span> <span class="ident">validate</span> <span class="op">=</span> <span class="op">||</span> {
                 <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-                <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> (<span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">validate_flags</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>)
+                <span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">PARKED_BIT</span> <span class="op">!=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> (<span class="ident">state</span> <span class="op">&amp;</span> <span class="ident">validate_flags</span> <span class="op">!=</span> <span class="number">0</span>)
             };
-            <span class="kw">let</span> <span class="ident">before_sleep</span> <span class="op">=</span> <span class="op">|</span><span class="op">|</span> {};
+            <span class="kw">let</span> <span class="ident">before_sleep</span> <span class="op">=</span> <span class="op">||</span> {};
             <span class="kw">let</span> <span class="ident">timed_out</span> <span class="op">=</span> <span class="op">|</span><span class="kw">_</span>, <span class="ident">was_last_thread</span><span class="op">|</span> {
                 <span class="comment">// Clear the parked bit if we were the last parked thread</span>
                 <span class="kw">if</span> <span class="ident">was_last_thread</span> {
@@ -2243,16 +2243,16 @@
             <span class="kw">match</span> <span class="ident">park_result</span> {
                 <span class="comment">// The thread that unparked us passed the lock on to us</span>
                 <span class="comment">// directly without unlocking it.</span>
-                <span class="ident">ParkResult</span>::<span class="ident">Unparked</span>(<span class="ident">TOKEN_HANDOFF</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
+                <span class="ident">ParkResult</span>::<span class="ident">Unparked</span>(<span class="ident">TOKEN_HANDOFF</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">true</span>,
 
                 <span class="comment">// We were unparked normally, try acquiring the lock again</span>
-                <span class="ident">ParkResult</span>::<span class="ident">Unparked</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> (),
+                <span class="ident">ParkResult</span>::<span class="ident">Unparked</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> (),
 
                 <span class="comment">// The validation function failed, try locking again</span>
-                <span class="ident">ParkResult</span>::<span class="ident">Invalid</span> <span class="op">=</span><span class="op">&gt;</span> (),
+                <span class="ident">ParkResult</span>::<span class="ident">Invalid</span> <span class="op">=&gt;</span> (),
 
                 <span class="comment">// Timeout expired</span>
-                <span class="ident">ParkResult</span>::<span class="ident">TimedOut</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="bool-val">false</span>,
+                <span class="ident">ParkResult</span>::<span class="ident">TimedOut</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="bool-val">false</span>,
             }
 
             <span class="comment">// Loop back and try locking again</span>

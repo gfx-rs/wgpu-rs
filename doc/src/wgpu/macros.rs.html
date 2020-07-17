@@ -162,11 +162,11 @@
 <span class="doccomment">/// Offsets are calculated automatically.</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">vertex_attr_array</span> {
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">loc</span>:<span class="ident">expr</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>:<span class="ident">ident</span>),<span class="op">*</span> $(,)<span class="question-mark">?</span>) <span class="op">=</span><span class="op">&gt;</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vertex_attr_array</span><span class="op">!</span>([] ; <span class="number">0</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">loc</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span> ,)<span class="kw-2">*</span>)
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">loc</span>:<span class="ident">expr</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span>:<span class="ident">ident</span>),<span class="op">*</span> $(,)<span class="question-mark">?</span>) <span class="op">=&gt;</span> {
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vertex_attr_array</span><span class="op">!</span>([] ; <span class="number">0</span>; $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">loc</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fmt</span> ,)<span class="kw-2">*</span>)
     };
-    ([$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">expr</span>,)<span class="kw-2">*</span>] ; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">off</span>:<span class="ident">expr</span> ;) <span class="op">=</span><span class="op">&gt;</span> { [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>,)<span class="kw-2">*</span>] };
-    ([$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">expr</span>,)<span class="kw-2">*</span>] ; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">off</span>:<span class="ident">expr</span> ; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">loc</span>:<span class="ident">expr</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ll</span>:<span class="ident">expr</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ii</span>:<span class="ident">ident</span> ,)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    ([$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">expr</span>,)<span class="kw-2">*</span>] ; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">off</span>:<span class="ident">expr</span> ;) <span class="op">=&gt;</span> { [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>,)<span class="kw-2">*</span>] };
+    ([$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>:<span class="ident">expr</span>,)<span class="kw-2">*</span>] ; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">off</span>:<span class="ident">expr</span> ; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">loc</span>:<span class="ident">expr</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>:<span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ll</span>:<span class="ident">expr</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ii</span>:<span class="ident">ident</span> ,)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vertex_attr_array</span><span class="op">!</span>(
             [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">t</span>,)<span class="op">*</span>
             <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">VertexAttributeDescriptor</span> {
@@ -175,7 +175,7 @@
                 <span class="ident">shader_location</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">loc</span>,
             },];
             <span class="macro-nonterminal">$</span><span class="macro-nonterminal">off</span> <span class="op">+</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">vertex_format_size</span><span class="op">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">item</span>);
-            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ll</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ii</span> ,)<span class="op">*</span>
+            $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">ll</span> <span class="op">=&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">ii</span> ,)<span class="op">*</span>
         )
     };
 }
@@ -185,101 +185,101 @@
 <span class="doccomment">/// Mainly used as a helper for [`vertex_attr_array`] but might be externally useful.</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">vertex_format_size</span> {
-    (<span class="ident">Uchar2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Uchar2</span>) <span class="op">=&gt;</span> {
         <span class="number">2</span>
     };
-    (<span class="ident">Uchar4</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Uchar4</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Char2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Char2</span>) <span class="op">=&gt;</span> {
         <span class="number">2</span>
     };
-    (<span class="ident">Char4</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Char4</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Uchar2Norm</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Uchar2Norm</span>) <span class="op">=&gt;</span> {
         <span class="number">2</span>
     };
-    (<span class="ident">Uchar4Norm</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Uchar4Norm</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Char2Norm</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Char2Norm</span>) <span class="op">=&gt;</span> {
         <span class="number">2</span>
     };
-    (<span class="ident">Char4Norm</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Char4Norm</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Ushort2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Ushort2</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Ushort4</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Ushort4</span>) <span class="op">=&gt;</span> {
         <span class="number">8</span>
     };
-    (<span class="ident">Short2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Short2</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Short4</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Short4</span>) <span class="op">=&gt;</span> {
         <span class="number">8</span>
     };
-    (<span class="ident">Ushort2Norm</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Ushort2Norm</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Ushort4Norm</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Ushort4Norm</span>) <span class="op">=&gt;</span> {
         <span class="number">8</span>
     };
-    (<span class="ident">Short2Norm</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Short2Norm</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Short4Norm</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Short4Norm</span>) <span class="op">=&gt;</span> {
         <span class="number">8</span>
     };
-    (<span class="ident">Half2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Half2</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Half4</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Half4</span>) <span class="op">=&gt;</span> {
         <span class="number">8</span>
     };
-    (<span class="ident">Float</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Float</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Float2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Float2</span>) <span class="op">=&gt;</span> {
         <span class="number">8</span>
     };
-    (<span class="ident">Float3</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Float3</span>) <span class="op">=&gt;</span> {
         <span class="number">12</span>
     };
-    (<span class="ident">Float4</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Float4</span>) <span class="op">=&gt;</span> {
         <span class="number">16</span>
     };
-    (<span class="ident">Uint</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Uint</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Uint2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Uint2</span>) <span class="op">=&gt;</span> {
         <span class="number">8</span>
     };
-    (<span class="ident">Uint3</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Uint3</span>) <span class="op">=&gt;</span> {
         <span class="number">12</span>
     };
-    (<span class="ident">Uint4</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Uint4</span>) <span class="op">=&gt;</span> {
         <span class="number">16</span>
     };
-    (<span class="ident">Int</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Int</span>) <span class="op">=&gt;</span> {
         <span class="number">4</span>
     };
-    (<span class="ident">Int2</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Int2</span>) <span class="op">=&gt;</span> {
         <span class="number">8</span>
     };
-    (<span class="ident">Int3</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Int3</span>) <span class="op">=&gt;</span> {
         <span class="number">12</span>
     };
-    (<span class="ident">Int4</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="ident">Int4</span>) <span class="op">=&gt;</span> {
         <span class="number">16</span>
     };
 }
 
 <span class="attribute">#[<span class="ident">test</span>]</span>
 <span class="kw">fn</span> <span class="ident">test_vertex_attr_array</span>() {
-    <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="macro">vertex_attr_array</span><span class="macro">!</span>[<span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Float2</span>, <span class="number">3</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Ushort4</span>];
+    <span class="kw">let</span> <span class="ident">attrs</span> <span class="op">=</span> <span class="macro">vertex_attr_array</span><span class="macro">!</span>[<span class="number">0</span> <span class="op">=&gt;</span> <span class="ident">Float2</span>, <span class="number">3</span> <span class="op">=&gt;</span> <span class="ident">Ushort4</span>];
     <span class="comment">// VertexAttributeDescriptor does not support PartialEq, so we cannot test directly</span>
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">attrs</span>.<span class="ident">len</span>(), <span class="number">2</span>);
     <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">attrs</span>[<span class="number">0</span>].<span class="ident">offset</span>, <span class="number">0</span>);
@@ -293,7 +293,7 @@
 <span class="doccomment">/// It ensure the word alignment as well as the magic number.</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">include_spirv</span> {
-    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">token</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">token</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
         <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">util</span>::<span class="ident">make_spirv</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">util</span>::<span class="ident">WordAligned</span>(<span class="kw-2">*</span><span class="macro">include_bytes</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">token</span>)<span class="kw-2">*</span>)).<span class="number">0</span>)
     };
 }

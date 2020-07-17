@@ -52,7 +52,7 @@ a TCP stream.</p>
 <div class="example-wrap"><pre class="rust rust-example-rendered">
 <span class="kw">use</span> <span class="ident">serde_json</span>::{<span class="prelude-ty">Result</span>, <span class="ident">Value</span>};
 
-<span class="kw">fn</span> <span class="ident">untyped_example</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">untyped_example</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Some JSON input data as a &amp;str. Maybe this comes from the user.</span>
     <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="string">r#&quot;
         {
@@ -105,7 +105,7 @@ largely automatically.</p>
     <span class="ident">phones</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">fn</span> <span class="ident">typed_example</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">typed_example</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Some JSON input data as a &amp;str. Maybe this comes from the user.</span>
     <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="string">r#&quot;
         {
@@ -205,7 +205,7 @@ such as a File or a TCP stream.</p>
     <span class="ident">city</span>: <span class="ident">String</span>,
 }
 
-<span class="kw">fn</span> <span class="ident">print_an_address</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">print_an_address</span>() <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="comment">// Some data structure.</span>
     <span class="kw">let</span> <span class="ident">address</span> <span class="op">=</span> <span class="ident">Address</span> {
         <span class="ident">street</span>: <span class="string">&quot;10 Downing Street&quot;</span>.<span class="ident">to_owned</span>(),

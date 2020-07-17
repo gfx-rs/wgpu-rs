@@ -106,7 +106,7 @@
 <span class="kw">use</span> <span class="ident">proc_macro_hack</span>::<span class="ident">proc_macro_hack</span>;
 
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">document_join_macro</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">join</span>:<span class="ident">item</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">try_join</span>:<span class="ident">item</span>) <span class="op">=</span><span class="op">&gt;</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">join</span>:<span class="ident">item</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">try_join</span>:<span class="ident">item</span>) <span class="op">=&gt;</span> {
         <span class="doccomment">/// Polls multiple futures simultaneously, returning a tuple</span>
         <span class="doccomment">/// of all results once complete.</span>
         <span class="doccomment">///</span>
@@ -185,7 +185,7 @@
 <span class="macro">document_join_macro</span><span class="macro">!</span> {
     <span class="attribute">#[<span class="ident">macro_export</span>]</span>
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">join</span> {
-        ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {{
             <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">__reexport</span> <span class="kw">as</span> <span class="ident">__futures_crate</span>;
             <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">join_internal</span><span class="op">!</span> {
                 $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span> )<span class="op">*</span>
@@ -195,7 +195,7 @@
 
     <span class="attribute">#[<span class="ident">macro_export</span>]</span>
     <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">try_join</span> {
-        ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> {{
+        ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {{
             <span class="kw">use</span> <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">__reexport</span> <span class="kw">as</span> <span class="ident">__futures_crate</span>;
             <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">try_join_internal</span><span class="op">!</span> {
                 $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">tokens</span> )<span class="op">*</span>

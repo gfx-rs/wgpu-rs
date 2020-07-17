@@ -408,7 +408,7 @@
 );
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">ColorMask</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">ALL</span>
     }
 }
@@ -617,7 +617,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">StencilFace</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">StencilFace</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="ident">StencilFace</span> {
         <span class="ident">StencilFace</span> {
             <span class="ident">fun</span>: <span class="ident">Comparison</span>::<span class="ident">Never</span>,
             <span class="ident">op_fail</span>: <span class="ident">StencilOp</span>::<span class="ident">Keep</span>,
@@ -640,7 +640,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Copy</span><span class="op">&gt;</span> <span class="ident">Sided</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a new `Sided` structure with both `front` and `back` holding</span>
     <span class="doccomment">/// the same value.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">value</span>: <span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">value</span>: <span class="ident">T</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Sided</span> {
             <span class="ident">front</span>: <span class="ident">value</span>,
             <span class="ident">back</span>: <span class="ident">value</span>,
@@ -650,7 +650,7 @@
 
 <span class="doccomment">/// Pair of stencil values that could be either baked into a graphics pipeline</span>
 <span class="doccomment">/// or provided dynamically.</span>
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">StencilValues</span> <span class="op">=</span> <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Sided</span><span class="op">&lt;</span><span class="ident">StencilValue</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">StencilValues</span> <span class="op">=</span> <span class="ident">State</span><span class="op">&lt;</span><span class="ident">Sided</span><span class="op">&lt;</span><span class="ident">StencilValue</span><span class="op">&gt;&gt;</span>;
 
 <span class="doccomment">/// Defines a stencil test. Stencil testing is an operation</span>
 <span class="doccomment">/// performed to cull fragments;</span>
@@ -672,7 +672,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">StencilTest</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">StencilTest</span> {
             <span class="ident">faces</span>: <span class="ident">Sided</span>::<span class="ident">default</span>(),
             <span class="ident">read_masks</span>: <span class="ident">State</span>::<span class="ident">Static</span>(<span class="ident">Sided</span>::<span class="ident">new</span>(<span class="op">!</span><span class="number">0</span>)),
@@ -696,11 +696,11 @@
 
 <span class="kw">impl</span> <span class="ident">DepthStencilDesc</span> {
     <span class="doccomment">/// Returns true if the descriptor assumes the depth attachment.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">uses_depth</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">depth</span>.<span class="ident">is_some</span>() <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">depth_bounds</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">uses_depth</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="self">self</span>.<span class="ident">depth</span>.<span class="ident">is_some</span>() <span class="op">||</span> <span class="self">self</span>.<span class="ident">depth_bounds</span>
     }
     <span class="doccomment">/// Returns true if the descriptor assumes the stencil attachment.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">uses_stencil</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">uses_stencil</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">stencil</span>.<span class="ident">is_some</span>()
     }
 }

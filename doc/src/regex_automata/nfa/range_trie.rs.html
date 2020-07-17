@@ -1242,9 +1242,9 @@
     <span class="ident">free</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
     <span class="doccomment">/// A stack for traversing this trie to yield sequences of byte ranges in</span>
     <span class="doccomment">/// lexicographic order.</span>
-    <span class="ident">iter_stack</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">NextIter</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">iter_stack</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">NextIter</span><span class="op">&gt;&gt;</span>,
     <span class="doccomment">/// A bufer that stores the current sequence during iteration.</span>
-    <span class="ident">iter_ranges</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Utf8Range</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">iter_ranges</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Utf8Range</span><span class="op">&gt;&gt;</span>,
     <span class="doccomment">/// A stack used for traversing the trie in order to (deeply) duplicate</span>
     <span class="doccomment">/// a state.</span>
     <span class="ident">dupe_stack</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">NextDupe</span><span class="op">&gt;</span>,
@@ -1274,7 +1274,7 @@
 
 <span class="kw">impl</span> <span class="ident">RangeTrie</span> {
     <span class="doccomment">/// Create a new empty range trie.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">RangeTrie</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">RangeTrie</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">trie</span> <span class="op">=</span> <span class="ident">RangeTrie</span> {
             <span class="ident">states</span>: <span class="macro">vec</span><span class="macro">!</span>[],
             <span class="ident">free</span>: <span class="macro">vec</span><span class="macro">!</span>[],
@@ -1315,17 +1315,17 @@
                 <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>(<span class="ident">state_id</span>);
                 <span class="comment">// If we&#39;re visited all transitions in this state, then pop</span>
                 <span class="comment">// back to the parent state.</span>
-                <span class="kw">if</span> <span class="ident">tidx</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">state</span>.<span class="ident">transitions</span>.<span class="ident">len</span>() {
+                <span class="kw">if</span> <span class="ident">tidx</span> <span class="op">&gt;=</span> <span class="ident">state</span>.<span class="ident">transitions</span>.<span class="ident">len</span>() {
                     <span class="ident">ranges</span>.<span class="ident">pop</span>();
                     <span class="kw">break</span>;
                 }
 
                 <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">state</span>.<span class="ident">transitions</span>[<span class="ident">tidx</span>];
                 <span class="ident">ranges</span>.<span class="ident">push</span>(<span class="ident">t</span>.<span class="ident">range</span>);
-                <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">next_id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">FINAL</span> {
+                <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">next_id</span> <span class="op">==</span> <span class="ident">FINAL</span> {
                     <span class="ident">f</span>(<span class="kw-2">&amp;</span><span class="ident">ranges</span>);
                     <span class="ident">ranges</span>.<span class="ident">pop</span>();
-                    <span class="ident">tidx</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                    <span class="ident">tidx</span> <span class="op">+=</span> <span class="number">1</span>;
                 } <span class="kw">else</span> {
                     <span class="comment">// Expand our frontier. Once we come back to this state</span>
                     <span class="comment">// via the stack, start in on the next transition.</span>
@@ -1345,7 +1345,7 @@
     <span class="doccomment">/// exceeding 4.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">insert</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">ranges</span>: <span class="kw-2">&amp;</span>[<span class="ident">Utf8Range</span>]) {
         <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">ranges</span>.<span class="ident">is_empty</span>());
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">ranges</span>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="number">4</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">ranges</span>.<span class="ident">len</span>() <span class="op">&lt;=</span> <span class="number">4</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stack</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">replace</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">insert_stack</span>, <span class="macro">vec</span><span class="macro">!</span>[]);
         <span class="ident">stack</span>.<span class="ident">clear</span>();
@@ -1366,7 +1366,7 @@
 
             <span class="comment">// In this case, there is no overlap *and* the new range is greater</span>
             <span class="comment">// than all existing ranges. So we can just add it to the end.</span>
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>(<span class="ident">state_id</span>).<span class="ident">transitions</span>.<span class="ident">len</span>() {
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">state</span>(<span class="ident">state_id</span>).<span class="ident">transitions</span>.<span class="ident">len</span>() {
                 <span class="kw">let</span> <span class="ident">next_id</span> <span class="op">=</span> <span class="ident">NextInsert</span>::<span class="ident">push</span>(<span class="self">self</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">stack</span>, <span class="ident">rest</span>);
                 <span class="self">self</span>.<span class="ident">add_transition</span>(<span class="ident">state_id</span>, <span class="ident">new</span>, <span class="ident">next_id</span>);
                 <span class="kw">continue</span>;
@@ -1381,8 +1381,8 @@
             <span class="lifetime">&#39;OUTER</span>: <span class="kw">loop</span> {
                 <span class="kw">let</span> <span class="ident">old</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>(<span class="ident">state_id</span>).<span class="ident">transitions</span>[<span class="ident">i</span>].<span class="ident">clone</span>();
                 <span class="kw">let</span> <span class="ident">split</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">Split</span>::<span class="ident">new</span>(<span class="ident">old</span>.<span class="ident">range</span>, <span class="ident">new</span>) {
-                    <span class="prelude-val">Some</span>(<span class="ident">split</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">split</span>,
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="prelude-val">Some</span>(<span class="ident">split</span>) <span class="op">=&gt;</span> <span class="ident">split</span>,
+                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">next_id</span> <span class="op">=</span> <span class="ident">NextInsert</span>::<span class="ident">push</span>(<span class="self">self</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">stack</span>, <span class="ident">rest</span>);
                         <span class="self">self</span>.<span class="ident">add_transition_at</span>(<span class="ident">i</span>, <span class="ident">state_id</span>, <span class="ident">new</span>, <span class="ident">next_id</span>);
                         <span class="kw">continue</span>;
@@ -1392,7 +1392,7 @@
                 <span class="comment">// If we only have one partition, then the ranges must be</span>
                 <span class="comment">// equivalent. There&#39;s nothing to do here for this state, so</span>
                 <span class="comment">// just move on to the next one.</span>
-                <span class="kw">if</span> <span class="ident">splits</span>.<span class="ident">len</span>() <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+                <span class="kw">if</span> <span class="ident">splits</span>.<span class="ident">len</span>() <span class="op">==</span> <span class="number">1</span> {
                     <span class="comment">// ... but only if we have anything left to do.</span>
                     <span class="kw">if</span> <span class="op">!</span><span class="ident">rest</span>.<span class="ident">is_empty</span>() {
                         <span class="ident">stack</span>.<span class="ident">push</span>(<span class="ident">NextInsert</span>::<span class="ident">new</span>(<span class="ident">old</span>.<span class="ident">next_id</span>, <span class="ident">rest</span>));
@@ -1419,7 +1419,7 @@
                     };
                 <span class="kw">for</span> (<span class="ident">j</span>, <span class="kw-2">&amp;</span><span class="ident">srange</span>) <span class="kw">in</span> <span class="ident">splits</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
                     <span class="kw">match</span> <span class="ident">srange</span> {
-                        <span class="ident">SplitRange</span>::<span class="ident">Old</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">SplitRange</span>::<span class="ident">Old</span>(<span class="ident">r</span>) <span class="op">=&gt;</span> {
                             <span class="comment">// Deep clone the state pointed to by the ith</span>
                             <span class="comment">// transition. This is always necessary since &#39;old&#39;</span>
                             <span class="comment">// is always coupled with at least a &#39;both&#39;</span>
@@ -1430,7 +1430,7 @@
                             <span class="kw">let</span> <span class="ident">dup_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">duplicate</span>(<span class="ident">old</span>.<span class="ident">next_id</span>);
                             <span class="ident">add_trans</span>(<span class="self">self</span>, <span class="ident">i</span>, <span class="ident">state_id</span>, <span class="ident">r</span>, <span class="ident">dup_id</span>);
                         }
-                        <span class="ident">SplitRange</span>::<span class="ident">New</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">SplitRange</span>::<span class="ident">New</span>(<span class="ident">r</span>) <span class="op">=&gt;</span> {
                             <span class="comment">// This is a bit subtle, but if this happens to be</span>
                             <span class="comment">// the last partition in our split, it is possible</span>
                             <span class="comment">// that this overlaps with a subsequent transition.</span>
@@ -1439,9 +1439,9 @@
                             <span class="comment">// subsequent transition.</span>
                             {
                                 <span class="kw">let</span> <span class="ident">trans</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>(<span class="ident">state_id</span>).<span class="ident">transitions</span>;
-                                <span class="kw">if</span> <span class="ident">j</span> <span class="op">+</span> <span class="number">1</span> <span class="op">=</span><span class="op">=</span> <span class="ident">splits</span>.<span class="ident">len</span>()
-                                    <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">trans</span>.<span class="ident">len</span>()
-                                    <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">intersects</span>(<span class="ident">r</span>, <span class="ident">trans</span>[<span class="ident">i</span>].<span class="ident">range</span>)
+                                <span class="kw">if</span> <span class="ident">j</span> <span class="op">+</span> <span class="number">1</span> <span class="op">==</span> <span class="ident">splits</span>.<span class="ident">len</span>()
+                                    <span class="op">&amp;&amp;</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">trans</span>.<span class="ident">len</span>()
+                                    <span class="op">&amp;&amp;</span> <span class="ident">intersects</span>(<span class="ident">r</span>, <span class="ident">trans</span>[<span class="ident">i</span>].<span class="ident">range</span>)
                                 {
                                     <span class="ident">new</span> <span class="op">=</span> <span class="ident">r</span>;
                                     <span class="kw">continue</span> <span class="lifetime">&#39;OUTER</span>;
@@ -1455,7 +1455,7 @@
                                 <span class="ident">NextInsert</span>::<span class="ident">push</span>(<span class="self">self</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">stack</span>, <span class="ident">rest</span>);
                             <span class="ident">add_trans</span>(<span class="self">self</span>, <span class="ident">i</span>, <span class="ident">state_id</span>, <span class="ident">r</span>, <span class="ident">next_id</span>);
                         }
-                        <span class="ident">SplitRange</span>::<span class="ident">Both</span>(<span class="ident">r</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">SplitRange</span>::<span class="ident">Both</span>(<span class="ident">r</span>) <span class="op">=&gt;</span> {
                             <span class="comment">// Continue adding the remaining ranges on this</span>
                             <span class="comment">// path and update the transition with the new</span>
                             <span class="comment">// range.</span>
@@ -1465,7 +1465,7 @@
                             <span class="ident">add_trans</span>(<span class="self">self</span>, <span class="ident">i</span>, <span class="ident">state_id</span>, <span class="ident">r</span>, <span class="ident">old</span>.<span class="ident">next_id</span>);
                         }
                     }
-                    <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+                    <span class="ident">i</span> <span class="op">+=</span> <span class="number">1</span>;
                 }
                 <span class="comment">// If we&#39;ve reached this point, then we know that there are</span>
                 <span class="comment">// no subsequent transitions with any overlap. Therefore, we</span>
@@ -1476,7 +1476,7 @@
         <span class="self">self</span>.<span class="ident">insert_stack</span> <span class="op">=</span> <span class="ident">stack</span>;
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_empty</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">StateID</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_empty</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">StateID</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">states</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span> <span class="op">&gt;</span> <span class="ident">u32</span>::<span class="ident">MAX</span> <span class="kw">as</span> <span class="ident">u64</span> {
             <span class="comment">// This generally should not happen since a range trie is only</span>
             <span class="comment">// ever used to compile a single sequence of Unicode scalar values.</span>
@@ -1512,8 +1512,8 @@
     <span class="doccomment">/// There&#39;s one exception: if old_id is the final state, then it is not</span>
     <span class="doccomment">/// duplicated and the same final state is returned. This is because all</span>
     <span class="doccomment">/// final states in this trie are equivalent.</span>
-    <span class="kw">fn</span> <span class="ident">duplicate</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">old_id</span>: <span class="ident">StateID</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">StateID</span> {
-        <span class="kw">if</span> <span class="ident">old_id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">FINAL</span> {
+    <span class="kw">fn</span> <span class="ident">duplicate</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">old_id</span>: <span class="ident">StateID</span>) <span class="op">-&gt;</span> <span class="ident">StateID</span> {
+        <span class="kw">if</span> <span class="ident">old_id</span> <span class="op">==</span> <span class="ident">FINAL</span> {
             <span class="kw">return</span> <span class="ident">FINAL</span>;
         }
 
@@ -1527,7 +1527,7 @@
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">NextDupe</span> { <span class="ident">old_id</span>, <span class="ident">new_id</span> }) <span class="op">=</span> <span class="ident">stack</span>.<span class="ident">pop</span>() {
             <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="self">self</span>.<span class="ident">state</span>(<span class="ident">old_id</span>).<span class="ident">transitions</span>.<span class="ident">len</span>() {
                 <span class="kw">let</span> <span class="ident">t</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>(<span class="ident">old_id</span>).<span class="ident">transitions</span>[<span class="ident">i</span>].<span class="ident">clone</span>();
-                <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">next_id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">FINAL</span> {
+                <span class="kw">if</span> <span class="ident">t</span>.<span class="ident">next_id</span> <span class="op">==</span> <span class="ident">FINAL</span> {
                     <span class="comment">// All final states are the same, so there&#39;s no need to</span>
                     <span class="comment">// duplicate it.</span>
                     <span class="self">self</span>.<span class="ident">add_transition</span>(<span class="ident">new_id</span>, <span class="ident">t</span>.<span class="ident">range</span>, <span class="ident">FINAL</span>);
@@ -1587,12 +1587,12 @@
     }
 
     <span class="doccomment">/// Return an immutable borrow for the state with the given ID.</span>
-    <span class="kw">fn</span> <span class="ident">state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">StateID</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">State</span> {
+    <span class="kw">fn</span> <span class="ident">state</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">StateID</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">State</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">states</span>[<span class="ident">id</span> <span class="kw">as</span> <span class="ident">usize</span>]
     }
 
     <span class="doccomment">/// Return a mutable borrow for the state with the given ID.</span>
-    <span class="kw">fn</span> <span class="ident">state_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">StateID</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">State</span> {
+    <span class="kw">fn</span> <span class="ident">state_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">StateID</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">State</span> {
         <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="ident">states</span>[<span class="ident">id</span> <span class="kw">as</span> <span class="ident">usize</span>]
     }
 }
@@ -1613,7 +1613,7 @@
     <span class="doccomment">/// as a new transition. In the latter case, the range can be inserted as</span>
     <span class="doccomment">/// a new transition at the given position without disrupting any other</span>
     <span class="doccomment">/// transitions.</span>
-    <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">range</span>: <span class="ident">Utf8Range</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">find</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">range</span>: <span class="ident">Utf8Range</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="doccomment">/// Returns the position `i` at which `pred(xs[i])` first returns true</span>
         <span class="doccomment">/// such that for all `j &gt;= i`, `pred(xs[j]) == true`. If `pred` never</span>
         <span class="doccomment">/// returns true, then `xs.len()` is returned.</span>
@@ -1623,9 +1623,9 @@
         <span class="doccomment">/// there is an overlapping range, then we want to find the first such</span>
         <span class="doccomment">/// occurrence, but there may be many. Or at least, it&#39;s not quite</span>
         <span class="doccomment">/// clear to me how to do it.</span>
-        <span class="kw">fn</span> <span class="ident">binary_search</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">xs</span>: <span class="kw-2">&amp;</span>[<span class="ident">T</span>], <span class="kw-2">mut</span> <span class="ident">pred</span>: <span class="ident">F</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span>
+        <span class="kw">fn</span> <span class="ident">binary_search</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span><span class="op">&gt;</span>(<span class="ident">xs</span>: <span class="kw-2">&amp;</span>[<span class="ident">T</span>], <span class="kw-2">mut</span> <span class="ident">pred</span>: <span class="ident">F</span>) <span class="op">-&gt;</span> <span class="ident">usize</span>
         <span class="kw">where</span>
-            <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span>,
+            <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="kw-2">&amp;</span><span class="ident">T</span>) <span class="op">-&gt;</span> <span class="ident">bool</span>,
         {
             <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">left</span>, <span class="kw-2">mut</span> <span class="ident">right</span>) <span class="op">=</span> (<span class="number">0</span>, <span class="ident">xs</span>.<span class="ident">len</span>());
             <span class="kw">while</span> <span class="ident">left</span> <span class="op">&lt;</span> <span class="ident">right</span> {
@@ -1644,7 +1644,7 @@
         <span class="comment">// straight linear search. Specifically when using the debug tool:</span>
         <span class="comment">//</span>
         <span class="comment">//   hyperfine &quot;regex-automata-debug debug -acqr &#39;\w{40} ecurB&#39;&quot;</span>
-        <span class="ident">binary_search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">transitions</span>, <span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="ident">range</span>.<span class="ident">start</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">t</span>.<span class="ident">range</span>.<span class="ident">end</span>)
+        <span class="ident">binary_search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">transitions</span>, <span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="ident">range</span>.<span class="ident">start</span> <span class="op">&lt;=</span> <span class="ident">t</span>.<span class="ident">range</span>.<span class="ident">end</span>)
     }
 
     <span class="doccomment">/// Clear this state such that it has zero transitions.</span>
@@ -1690,10 +1690,10 @@
     <span class="doccomment">/// to the state at which the first range in the given slice should be</span>
     <span class="doccomment">/// inserted. The slice given must not be empty and it must be no longer</span>
     <span class="doccomment">/// than 4.</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">state_id</span>: <span class="ident">StateID</span>, <span class="ident">ranges</span>: <span class="kw-2">&amp;</span>[<span class="ident">Utf8Range</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">NextInsert</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">state_id</span>: <span class="ident">StateID</span>, <span class="ident">ranges</span>: <span class="kw-2">&amp;</span>[<span class="ident">Utf8Range</span>]) <span class="op">-&gt;</span> <span class="ident">NextInsert</span> {
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">ranges</span>.<span class="ident">len</span>();
         <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">len</span> <span class="op">&gt;</span> <span class="number">0</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">len</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">4</span>);
+        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">len</span> <span class="op">&lt;=</span> <span class="number">4</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span> <span class="op">=</span> [<span class="ident">Utf8Range</span> { <span class="ident">start</span>: <span class="number">0</span>, <span class="ident">end</span>: <span class="number">0</span> }; <span class="number">4</span>];
         <span class="ident">tmp</span>[..<span class="ident">len</span>].<span class="ident">copy_from_slice</span>(<span class="ident">ranges</span>);
@@ -1708,7 +1708,7 @@
         <span class="ident">trie</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">RangeTrie</span>,
         <span class="ident">stack</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">NextInsert</span><span class="op">&gt;</span>,
         <span class="ident">ranges</span>: <span class="kw-2">&amp;</span>[<span class="ident">Utf8Range</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">StateID</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">StateID</span> {
         <span class="kw">if</span> <span class="ident">ranges</span>.<span class="ident">is_empty</span>() {
             <span class="ident">FINAL</span>
         } <span class="kw">else</span> {
@@ -1719,12 +1719,12 @@
     }
 
     <span class="doccomment">/// Return the ID of the state to visit.</span>
-    <span class="kw">fn</span> <span class="ident">state_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">StateID</span> {
+    <span class="kw">fn</span> <span class="ident">state_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">StateID</span> {
         <span class="self">self</span>.<span class="ident">state_id</span>
     }
 
     <span class="doccomment">/// Return the remaining ranges to insert.</span>
-    <span class="kw">fn</span> <span class="ident">ranges</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">Utf8Range</span>] {
+    <span class="kw">fn</span> <span class="ident">ranges</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">Utf8Range</span>] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">ranges</span>[..<span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>]
     }
 }
@@ -1834,7 +1834,7 @@
     <span class="doccomment">/// Create a partitioning of the given ranges.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If the given ranges have an empty intersection, then None is returned.</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">o</span>: <span class="ident">Utf8Range</span>, <span class="ident">n</span>: <span class="ident">Utf8Range</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Split</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">o</span>: <span class="ident">Utf8Range</span>, <span class="ident">n</span>: <span class="ident">Utf8Range</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Split</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="op">|</span><span class="ident">r</span>: <span class="ident">RangeInclusive</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">|</span> <span class="ident">Utf8Range</span> {
             <span class="ident">start</span>: <span class="kw-2">*</span><span class="ident">r</span>.<span class="ident">start</span>(),
             <span class="ident">end</span>: <span class="kw-2">*</span><span class="ident">r</span>.<span class="ident">end</span>(),
@@ -1846,40 +1846,40 @@
         <span class="comment">// Use same names as the comment above to make it easier to compare.</span>
         <span class="kw">let</span> (<span class="ident">a</span>, <span class="ident">b</span>, <span class="ident">x</span>, <span class="ident">y</span>) <span class="op">=</span> (<span class="ident">o</span>.<span class="ident">start</span>, <span class="ident">o</span>.<span class="ident">end</span>, <span class="ident">n</span>.<span class="ident">start</span>, <span class="ident">n</span>.<span class="ident">end</span>);
 
-        <span class="kw">if</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="ident">x</span> <span class="op">|</span><span class="op">|</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">a</span> {
+        <span class="kw">if</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="ident">x</span> <span class="op">||</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">a</span> {
             <span class="comment">// case 1, case 2</span>
             <span class="prelude-val">None</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">a</span> <span class="op">=</span><span class="op">=</span> <span class="ident">x</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">b</span> <span class="op">=</span><span class="op">=</span> <span class="ident">y</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">a</span> <span class="op">==</span> <span class="ident">x</span> <span class="op">&amp;&amp;</span> <span class="ident">b</span> <span class="op">==</span> <span class="ident">y</span> {
             <span class="comment">// case 3</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts1</span>(<span class="ident">both</span>(<span class="ident">a</span>..<span class="op">=</span><span class="ident">b</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">a</span> <span class="op">=</span><span class="op">=</span> <span class="ident">x</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="ident">y</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">a</span> <span class="op">==</span> <span class="ident">x</span> <span class="op">&amp;&amp;</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="ident">y</span> {
             <span class="comment">// case 4</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts2</span>(<span class="ident">both</span>(<span class="ident">a</span>..<span class="op">=</span><span class="ident">b</span>), <span class="ident">new</span>(<span class="ident">b</span> <span class="op">+</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">y</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">b</span> <span class="op">=</span><span class="op">=</span> <span class="ident">y</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">a</span> <span class="op">&gt;</span> <span class="ident">x</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">b</span> <span class="op">==</span> <span class="ident">y</span> <span class="op">&amp;&amp;</span> <span class="ident">a</span> <span class="op">&gt;</span> <span class="ident">x</span> {
             <span class="comment">// case 5</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts2</span>(<span class="ident">new</span>(<span class="ident">x</span>..<span class="op">=</span><span class="ident">a</span> <span class="op">-</span> <span class="number">1</span>), <span class="ident">both</span>(<span class="ident">a</span>..<span class="op">=</span><span class="ident">b</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">x</span> <span class="op">=</span><span class="op">=</span> <span class="ident">a</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">b</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">x</span> <span class="op">==</span> <span class="ident">a</span> <span class="op">&amp;&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">b</span> {
             <span class="comment">// case 6</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts2</span>(<span class="ident">both</span>(<span class="ident">x</span>..<span class="op">=</span><span class="ident">y</span>), <span class="ident">old</span>(<span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">b</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">y</span> <span class="op">=</span><span class="op">=</span> <span class="ident">b</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">x</span> <span class="op">&gt;</span> <span class="ident">a</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">y</span> <span class="op">==</span> <span class="ident">b</span> <span class="op">&amp;&amp;</span> <span class="ident">x</span> <span class="op">&gt;</span> <span class="ident">a</span> {
             <span class="comment">// case 7</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts2</span>(<span class="ident">old</span>(<span class="ident">a</span>..<span class="op">=</span><span class="ident">x</span> <span class="op">-</span> <span class="number">1</span>), <span class="ident">both</span>(<span class="ident">x</span>..<span class="op">=</span><span class="ident">y</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">a</span> <span class="op">&gt;</span> <span class="ident">x</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="ident">y</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">a</span> <span class="op">&gt;</span> <span class="ident">x</span> <span class="op">&amp;&amp;</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="ident">y</span> {
             <span class="comment">// case 8</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts3</span>(<span class="ident">new</span>(<span class="ident">x</span>..<span class="op">=</span><span class="ident">a</span> <span class="op">-</span> <span class="number">1</span>), <span class="ident">both</span>(<span class="ident">a</span>..<span class="op">=</span><span class="ident">b</span>), <span class="ident">new</span>(<span class="ident">b</span> <span class="op">+</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">y</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">x</span> <span class="op">&gt;</span> <span class="ident">a</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">b</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">x</span> <span class="op">&gt;</span> <span class="ident">a</span> <span class="op">&amp;&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">b</span> {
             <span class="comment">// case 9</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts3</span>(<span class="ident">old</span>(<span class="ident">a</span>..<span class="op">=</span><span class="ident">x</span> <span class="op">-</span> <span class="number">1</span>), <span class="ident">both</span>(<span class="ident">x</span>..<span class="op">=</span><span class="ident">y</span>), <span class="ident">old</span>(<span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">b</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">b</span> <span class="op">=</span><span class="op">=</span> <span class="ident">x</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">a</span> <span class="op">&lt;</span> <span class="ident">y</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">b</span> <span class="op">==</span> <span class="ident">x</span> <span class="op">&amp;&amp;</span> <span class="ident">a</span> <span class="op">&lt;</span> <span class="ident">y</span> {
             <span class="comment">// case 10</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts3</span>(<span class="ident">old</span>(<span class="ident">a</span>..<span class="op">=</span><span class="ident">b</span> <span class="op">-</span> <span class="number">1</span>), <span class="ident">both</span>(<span class="ident">b</span>..<span class="op">=</span><span class="ident">b</span>), <span class="ident">new</span>(<span class="ident">b</span> <span class="op">+</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">y</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">y</span> <span class="op">=</span><span class="op">=</span> <span class="ident">a</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">x</span> <span class="op">&lt;</span> <span class="ident">b</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">y</span> <span class="op">==</span> <span class="ident">a</span> <span class="op">&amp;&amp;</span> <span class="ident">x</span> <span class="op">&lt;</span> <span class="ident">b</span> {
             <span class="comment">// case 11</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts3</span>(<span class="ident">new</span>(<span class="ident">x</span>..<span class="op">=</span><span class="ident">y</span> <span class="op">-</span> <span class="number">1</span>), <span class="ident">both</span>(<span class="ident">y</span>..<span class="op">=</span><span class="ident">y</span>), <span class="ident">old</span>(<span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">b</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">b</span> <span class="op">&gt;</span> <span class="ident">x</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="ident">y</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">b</span> <span class="op">&gt;</span> <span class="ident">x</span> <span class="op">&amp;&amp;</span> <span class="ident">b</span> <span class="op">&lt;</span> <span class="ident">y</span> {
             <span class="comment">// case 12</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts3</span>(<span class="ident">old</span>(<span class="ident">a</span>..<span class="op">=</span><span class="ident">x</span> <span class="op">-</span> <span class="number">1</span>), <span class="ident">both</span>(<span class="ident">x</span>..<span class="op">=</span><span class="ident">b</span>), <span class="ident">new</span>(<span class="ident">b</span> <span class="op">+</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">y</span>)))
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">y</span> <span class="op">&gt;</span> <span class="ident">a</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">b</span> {
+        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">y</span> <span class="op">&gt;</span> <span class="ident">a</span> <span class="op">&amp;&amp;</span> <span class="ident">y</span> <span class="op">&lt;</span> <span class="ident">b</span> {
             <span class="comment">// case 13</span>
             <span class="prelude-val">Some</span>(<span class="ident">Split</span>::<span class="ident">parts3</span>(<span class="ident">new</span>(<span class="ident">x</span>..<span class="op">=</span><span class="ident">a</span> <span class="op">-</span> <span class="number">1</span>), <span class="ident">both</span>(<span class="ident">a</span>..<span class="op">=</span><span class="ident">y</span>), <span class="ident">old</span>(<span class="ident">y</span> <span class="op">+</span> <span class="number">1</span>..<span class="op">=</span><span class="ident">b</span>)))
         } <span class="kw">else</span> {
@@ -1889,35 +1889,35 @@
 
     <span class="doccomment">/// Create a new split with a single partition. This only occurs when two</span>
     <span class="doccomment">/// ranges are equivalent.</span>
-    <span class="kw">fn</span> <span class="ident">parts1</span>(<span class="ident">r1</span>: <span class="ident">SplitRange</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Split</span> {
+    <span class="kw">fn</span> <span class="ident">parts1</span>(<span class="ident">r1</span>: <span class="ident">SplitRange</span>) <span class="op">-&gt;</span> <span class="ident">Split</span> {
         <span class="comment">// This value doesn&#39;t matter since it is never accessed.</span>
         <span class="kw">let</span> <span class="ident">nada</span> <span class="op">=</span> <span class="ident">SplitRange</span>::<span class="ident">Old</span>(<span class="ident">Utf8Range</span> { <span class="ident">start</span>: <span class="number">0</span>, <span class="ident">end</span>: <span class="number">0</span> });
         <span class="ident">Split</span> { <span class="ident">partitions</span>: [<span class="ident">r1</span>, <span class="ident">nada</span>, <span class="ident">nada</span>], <span class="ident">len</span>: <span class="number">1</span> }
     }
 
     <span class="doccomment">/// Create a new split with two partitions.</span>
-    <span class="kw">fn</span> <span class="ident">parts2</span>(<span class="ident">r1</span>: <span class="ident">SplitRange</span>, <span class="ident">r2</span>: <span class="ident">SplitRange</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Split</span> {
+    <span class="kw">fn</span> <span class="ident">parts2</span>(<span class="ident">r1</span>: <span class="ident">SplitRange</span>, <span class="ident">r2</span>: <span class="ident">SplitRange</span>) <span class="op">-&gt;</span> <span class="ident">Split</span> {
         <span class="comment">// This value doesn&#39;t matter since it is never accessed.</span>
         <span class="kw">let</span> <span class="ident">nada</span> <span class="op">=</span> <span class="ident">SplitRange</span>::<span class="ident">Old</span>(<span class="ident">Utf8Range</span> { <span class="ident">start</span>: <span class="number">0</span>, <span class="ident">end</span>: <span class="number">0</span> });
         <span class="ident">Split</span> { <span class="ident">partitions</span>: [<span class="ident">r1</span>, <span class="ident">r2</span>, <span class="ident">nada</span>], <span class="ident">len</span>: <span class="number">2</span> }
     }
 
     <span class="doccomment">/// Create a new split with three partitions.</span>
-    <span class="kw">fn</span> <span class="ident">parts3</span>(<span class="ident">r1</span>: <span class="ident">SplitRange</span>, <span class="ident">r2</span>: <span class="ident">SplitRange</span>, <span class="ident">r3</span>: <span class="ident">SplitRange</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Split</span> {
+    <span class="kw">fn</span> <span class="ident">parts3</span>(<span class="ident">r1</span>: <span class="ident">SplitRange</span>, <span class="ident">r2</span>: <span class="ident">SplitRange</span>, <span class="ident">r3</span>: <span class="ident">SplitRange</span>) <span class="op">-&gt;</span> <span class="ident">Split</span> {
         <span class="ident">Split</span> { <span class="ident">partitions</span>: [<span class="ident">r1</span>, <span class="ident">r2</span>, <span class="ident">r3</span>], <span class="ident">len</span>: <span class="number">3</span> }
     }
 
     <span class="doccomment">/// Return the partitions in this split as a slice.</span>
-    <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">SplitRange</span>] {
+    <span class="kw">fn</span> <span class="ident">as_slice</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>[<span class="ident">SplitRange</span>] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">partitions</span>[..<span class="self">self</span>.<span class="ident">len</span>]
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">RangeTrie</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;&quot;</span>)<span class="question-mark">?</span>;
         <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">state</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">states</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-            <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">i</span> <span class="op">=</span><span class="op">=</span> <span class="ident">FINAL</span> <span class="kw">as</span> <span class="ident">usize</span> { <span class="string">&#39;*&#39;</span> } <span class="kw">else</span> { <span class="string">&#39; &#39;</span> };
+            <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">FINAL</span> <span class="kw">as</span> <span class="ident">usize</span> { <span class="string">&#39;*&#39;</span> } <span class="kw">else</span> { <span class="string">&#39; &#39;</span> };
             <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}{:06}: {:?}&quot;</span>, <span class="ident">status</span>, <span class="ident">i</span>, <span class="ident">state</span>)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(())
@@ -1925,20 +1925,20 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">State</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">let</span> <span class="ident">rs</span> <span class="op">=</span> <span class="self">self</span>
             .<span class="ident">transitions</span>
             .<span class="ident">iter</span>()
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">t</span><span class="op">|</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">t</span>))
-            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>()
+            .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;&gt;</span>()
             .<span class="ident">join</span>(<span class="string">&quot;, &quot;</span>);
         <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">rs</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Transition</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">range</span>.<span class="ident">start</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">range</span>.<span class="ident">end</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">range</span>.<span class="ident">start</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">range</span>.<span class="ident">end</span> {
             <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:02X} =&gt; {:02X}&quot;</span>, <span class="self">self</span>.<span class="ident">range</span>.<span class="ident">start</span>, <span class="self">self</span>.<span class="ident">next_id</span>)
         } <span class="kw">else</span> {
             <span class="macro">write</span><span class="macro">!</span>(
@@ -1951,8 +1951,8 @@
 }
 
 <span class="doccomment">/// Returns true if and only if the given ranges intersect.</span>
-<span class="kw">fn</span> <span class="ident">intersects</span>(<span class="ident">r1</span>: <span class="ident">Utf8Range</span>, <span class="ident">r2</span>: <span class="ident">Utf8Range</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-    <span class="op">!</span>(<span class="ident">r1</span>.<span class="ident">end</span> <span class="op">&lt;</span> <span class="ident">r2</span>.<span class="ident">start</span> <span class="op">|</span><span class="op">|</span> <span class="ident">r2</span>.<span class="ident">end</span> <span class="op">&lt;</span> <span class="ident">r1</span>.<span class="ident">start</span>)
+<span class="kw">fn</span> <span class="ident">intersects</span>(<span class="ident">r1</span>: <span class="ident">Utf8Range</span>, <span class="ident">r2</span>: <span class="ident">Utf8Range</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+    <span class="op">!</span>(<span class="ident">r1</span>.<span class="ident">end</span> <span class="op">&lt;</span> <span class="ident">r2</span>.<span class="ident">start</span> <span class="op">||</span> <span class="ident">r2</span>.<span class="ident">end</span> <span class="op">&lt;</span> <span class="ident">r1</span>.<span class="ident">start</span>)
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -1963,21 +1963,21 @@
 
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class="kw">fn</span> <span class="ident">r</span>(<span class="ident">range</span>: <span class="ident">RangeInclusive</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Utf8Range</span> {
+    <span class="kw">fn</span> <span class="ident">r</span>(<span class="ident">range</span>: <span class="ident">RangeInclusive</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Utf8Range</span> {
         <span class="ident">Utf8Range</span> { <span class="ident">start</span>: <span class="kw-2">*</span><span class="ident">range</span>.<span class="ident">start</span>(), <span class="ident">end</span>: <span class="kw-2">*</span><span class="ident">range</span>.<span class="ident">end</span>() }
     }
 
     <span class="kw">fn</span> <span class="ident">split_maybe</span>(
         <span class="ident">old</span>: <span class="ident">RangeInclusive</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
         <span class="ident">new</span>: <span class="ident">RangeInclusive</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Split</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Split</span><span class="op">&gt;</span> {
         <span class="ident">Split</span>::<span class="ident">new</span>(<span class="ident">r</span>(<span class="ident">old</span>), <span class="ident">r</span>(<span class="ident">new</span>))
     }
 
     <span class="kw">fn</span> <span class="ident">split</span>(
         <span class="ident">old</span>: <span class="ident">RangeInclusive</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
         <span class="ident">new</span>: <span class="ident">RangeInclusive</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SplitRange</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">SplitRange</span><span class="op">&gt;</span> {
         <span class="ident">split_maybe</span>(<span class="ident">old</span>, <span class="ident">new</span>).<span class="ident">unwrap</span>().<span class="ident">as_slice</span>().<span class="ident">to_vec</span>()
     }
 

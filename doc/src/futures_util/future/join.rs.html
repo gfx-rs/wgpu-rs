@@ -228,7 +228,7 @@
     ($(
         $(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc</span>:<span class="ident">meta</span>]</span>)<span class="op">*</span>
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Join</span>:<span class="ident">ident</span>, <span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>:<span class="ident">ident</span>),<span class="kw-2">*</span><span class="op">&gt;</span>),
-    )<span class="kw-2">*</span>) <span class="op">=</span><span class="op">&gt;</span> ($(
+    )<span class="kw-2">*</span>) <span class="op">=&gt;</span> ($(
         $(<span class="attribute">#[<span class="macro-nonterminal">$</span><span class="macro-nonterminal">doc</span>]</span>)<span class="op">*</span>
         <span class="attribute">#[<span class="ident">pin_project</span>]</span>
         <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;futures do nothing unless you `.await` or poll them&quot;</span>]</span>
@@ -243,7 +243,7 @@
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>::<span class="ident">Output</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
             )<span class="op">*</span>
         {
-            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+            <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
                 <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Join</span>))
                     $(.<span class="ident">field</span>(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>), <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>))<span class="op">*</span>
                     .<span class="ident">finish</span>()
@@ -251,7 +251,7 @@
         }
 
         <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>: <span class="ident">Future</span>),<span class="kw-2">*</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Join</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>),<span class="kw-2">*</span><span class="op">&gt;</span> {
-            <span class="kw">fn</span> <span class="ident">new</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>),<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Join</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>),<span class="kw-2">*</span><span class="op">&gt;</span> {
+            <span class="kw">fn</span> <span class="ident">new</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>),<span class="kw-2">*</span>) <span class="op">-&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Join</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>),<span class="kw-2">*</span><span class="op">&gt;</span> {
                 <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Join</span> {
                     $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>: <span class="ident">maybe_done</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>)),<span class="op">*</span>
                 }
@@ -263,11 +263,11 @@
 
             <span class="kw">fn</span> <span class="ident">poll</span>(
                 <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>
-            ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
+            ) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">all_done</span> <span class="op">=</span> <span class="bool-val">true</span>;
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">futures</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
                 $(
-                    <span class="ident">all_done</span> <span class="kw-2">&amp;</span><span class="op">=</span> <span class="ident">futures</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_ready</span>();
+                    <span class="ident">all_done</span> <span class="op">&amp;=</span> <span class="ident">futures</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_ready</span>();
                 )<span class="op">*</span>
 
                 <span class="kw">if</span> <span class="ident">all_done</span> {
@@ -279,10 +279,10 @@
         }
 
         <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>: <span class="ident">FusedFuture</span>),<span class="kw-2">*</span><span class="op">&gt;</span> <span class="ident">FusedFuture</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">Join</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>),<span class="kw-2">*</span><span class="op">&gt;</span> {
-            <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+            <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
                 $(
                     <span class="self">self</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">Fut</span>.<span class="ident">is_terminated</span>()
-                ) <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="op">*</span>
+                ) <span class="op">&amp;&amp;</span> <span class="op">*</span>
             }
         }
     )<span class="kw-2">*</span>)
@@ -323,7 +323,7 @@
 <span class="doccomment">/// assert_eq!(pair.await, (1, 2));</span>
 <span class="doccomment">/// # });</span>
 <span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">join</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span><span class="op">&gt;</span>(<span class="ident">future1</span>: <span class="ident">Fut1</span>, <span class="ident">future2</span>: <span class="ident">Fut2</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Join</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span><span class="op">&gt;</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">join</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span><span class="op">&gt;</span>(<span class="ident">future1</span>: <span class="ident">Fut1</span>, <span class="ident">future2</span>: <span class="ident">Fut2</span>) <span class="op">-&gt;</span> <span class="ident">Join</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">Fut1</span>: <span class="ident">Future</span>,
     <span class="ident">Fut2</span>: <span class="ident">Future</span>,
@@ -352,7 +352,7 @@
     <span class="ident">future1</span>: <span class="ident">Fut1</span>,
     <span class="ident">future2</span>: <span class="ident">Fut2</span>,
     <span class="ident">future3</span>: <span class="ident">Fut3</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Join3</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span>, <span class="ident">Fut3</span><span class="op">&gt;</span>
+) <span class="op">-&gt;</span> <span class="ident">Join3</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span>, <span class="ident">Fut3</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">Fut1</span>: <span class="ident">Future</span>,
     <span class="ident">Fut2</span>: <span class="ident">Future</span>,
@@ -383,7 +383,7 @@
     <span class="ident">future2</span>: <span class="ident">Fut2</span>,
     <span class="ident">future3</span>: <span class="ident">Fut3</span>,
     <span class="ident">future4</span>: <span class="ident">Fut4</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Join4</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span>, <span class="ident">Fut3</span>, <span class="ident">Fut4</span><span class="op">&gt;</span>
+) <span class="op">-&gt;</span> <span class="ident">Join4</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span>, <span class="ident">Fut3</span>, <span class="ident">Fut4</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">Fut1</span>: <span class="ident">Future</span>,
     <span class="ident">Fut2</span>: <span class="ident">Future</span>,
@@ -417,7 +417,7 @@
     <span class="ident">future3</span>: <span class="ident">Fut3</span>,
     <span class="ident">future4</span>: <span class="ident">Fut4</span>,
     <span class="ident">future5</span>: <span class="ident">Fut5</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Join5</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span>, <span class="ident">Fut3</span>, <span class="ident">Fut4</span>, <span class="ident">Fut5</span><span class="op">&gt;</span>
+) <span class="op">-&gt;</span> <span class="ident">Join5</span><span class="op">&lt;</span><span class="ident">Fut1</span>, <span class="ident">Fut2</span>, <span class="ident">Fut3</span>, <span class="ident">Fut4</span>, <span class="ident">Fut5</span><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">Fut1</span>: <span class="ident">Future</span>,
     <span class="ident">Fut2</span>: <span class="ident">Future</span>,

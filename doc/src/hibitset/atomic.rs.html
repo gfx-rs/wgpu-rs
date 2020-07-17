@@ -455,7 +455,7 @@
 
 <span class="kw">impl</span> <span class="ident">AtomicBitSet</span> {
     <span class="doccomment">/// Creates an empty `AtomicBitSet`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AtomicBitSet</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">AtomicBitSet</span> {
         <span class="ident">Default</span>::<span class="ident">default</span>()
     }
 
@@ -465,7 +465,7 @@
     <span class="doccomment">/// Because we cannot safely extend an AtomicBitSet without unique ownership</span>
     <span class="doccomment">/// this will panic if the Index is out of range.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_atomic</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_atomic</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">p1</span>, <span class="ident">p2</span>) <span class="op">=</span> <span class="ident">offsets</span>(<span class="ident">id</span>);
 
         <span class="comment">// While it is tempting to check of the bit was set and exit here if it</span>
@@ -482,7 +482,7 @@
     <span class="doccomment">/// Adds `id` to the `BitSet`. Returns `true` if the value was</span>
     <span class="doccomment">/// already in the set.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>;
 
         <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">p1</span>, <span class="ident">p2</span>) <span class="op">=</span> <span class="ident">offsets</span>(<span class="ident">id</span>);
@@ -500,7 +500,7 @@
     <span class="doccomment">/// was removed, and `false` if the value was not set</span>
     <span class="doccomment">/// to begin with.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">sync</span>::<span class="ident">atomic</span>::<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>;
         <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">p1</span>, <span class="ident">p2</span>) <span class="op">=</span> <span class="ident">offsets</span>(<span class="ident">id</span>);
 
@@ -514,13 +514,13 @@
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">p1</span>].<span class="ident">remove</span>(<span class="ident">id</span>) {
             <span class="kw">return</span> <span class="bool-val">false</span>;
         }
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">p1</span>].<span class="ident">mask</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">p1</span>].<span class="ident">mask</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="bool-val">true</span>;
         }
 
         <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">p2</span>].<span class="ident">load</span>(<span class="ident">Relaxed</span>) <span class="op">&amp;</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT2</span>);
         <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">p2</span>].<span class="ident">store</span>(<span class="ident">v</span>, <span class="ident">Relaxed</span>);
-        <span class="kw">if</span> <span class="ident">v</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">v</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="bool-val">true</span>;
         }
 
@@ -531,7 +531,7 @@
 
     <span class="doccomment">/// Returns `true` if `id` is in the set.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="ident">id</span>.<span class="ident">offset</span>(<span class="ident">SHIFT2</span>);
         <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">i</span>].<span class="ident">contains</span>(<span class="ident">id</span>)
     }
@@ -547,9 +547,9 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">offset</span> <span class="op">=</span> <span class="number">0</span>;
 
         <span class="kw">loop</span> {
-            <span class="kw">if</span> <span class="ident">m2</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">m2</span> <span class="op">!=</span> <span class="number">0</span> {
                 <span class="kw">let</span> <span class="ident">bit</span> <span class="op">=</span> <span class="ident">m2</span>.<span class="ident">trailing_zeros</span>() <span class="kw">as</span> <span class="ident">usize</span>;
-                <span class="ident">m2</span> <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">bit</span>);
+                <span class="ident">m2</span> <span class="op">&amp;=</span> <span class="op">!</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">bit</span>);
 
                 <span class="comment">// layer 1 &amp; 0 are cleared unconditionally. it&#39;s only 32-64 words</span>
                 <span class="comment">// and the extra logic to select the correct works is slower</span>
@@ -558,10 +558,10 @@
                 <span class="kw">continue</span>;
             }
 
-            <span class="kw">if</span> <span class="ident">m3</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">m3</span> <span class="op">!=</span> <span class="number">0</span> {
                 <span class="kw">let</span> <span class="ident">bit</span> <span class="op">=</span> <span class="ident">m3</span>.<span class="ident">trailing_zeros</span>() <span class="kw">as</span> <span class="ident">usize</span>;
-                <span class="ident">m3</span> <span class="kw-2">&amp;</span><span class="op">=</span> <span class="op">!</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">bit</span>);
-                <span class="ident">offset</span> <span class="op">=</span> <span class="ident">bit</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">BITS</span>;
+                <span class="ident">m3</span> <span class="op">&amp;=</span> <span class="op">!</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">bit</span>);
+                <span class="ident">offset</span> <span class="op">=</span> <span class="ident">bit</span> <span class="op">&lt;&lt;</span> <span class="ident">BITS</span>;
                 <span class="ident">m2</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">bit</span>].<span class="ident">swap</span>(<span class="number">0</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
                 <span class="kw">continue</span>;
             }
@@ -572,20 +572,20 @@
 
 <span class="kw">impl</span> <span class="ident">BitSetLike</span> <span class="kw">for</span> <span class="ident">AtomicBitSet</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer3</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">layer3</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>)
     }
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer2</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">layer2</span>[<span class="ident">i</span>].<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>)
     }
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+    <span class="kw">fn</span> <span class="ident">layer1</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">i</span>].<span class="ident">mask</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>)
     }
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
-        <span class="kw">let</span> (<span class="ident">o1</span>, <span class="ident">o0</span>) <span class="op">=</span> (<span class="ident">i</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">BITS</span>, <span class="ident">i</span> <span class="op">&amp;</span> ((<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">BITS</span>) <span class="op">-</span> <span class="number">1</span>));
+    <span class="kw">fn</span> <span class="ident">layer0</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
+        <span class="kw">let</span> (<span class="ident">o1</span>, <span class="ident">o0</span>) <span class="op">=</span> (<span class="ident">i</span> <span class="op">&gt;&gt;</span> <span class="ident">BITS</span>, <span class="ident">i</span> <span class="op">&amp;</span> ((<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">BITS</span>) <span class="op">-</span> <span class="number">1</span>));
         <span class="self">self</span>.<span class="ident">layer1</span>[<span class="ident">o1</span>]
             .<span class="ident">atom</span>
             .<span class="ident">get</span>()
@@ -593,29 +593,29 @@
             .<span class="ident">unwrap_or</span>(<span class="number">0</span>)
     }
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">contains</span>(<span class="ident">i</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">DrainableBitSet</span> <span class="kw">for</span> <span class="ident">AtomicBitSet</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">i</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">i</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">AtomicBitSet</span> {
-    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">default</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">AtomicBitSet</span> {
             <span class="ident">layer3</span>: <span class="ident">Default</span>::<span class="ident">default</span>(),
             <span class="ident">layer2</span>: <span class="ident">repeat</span>(<span class="number">0</span>)
                 .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="number">0</span>))
-                .<span class="ident">take</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">BITS</span>)
+                .<span class="ident">take</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">BITS</span>)
                 .<span class="ident">collect</span>(),
             <span class="ident">layer1</span>: <span class="ident">repeat</span>(<span class="number">0</span>)
                 .<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">AtomicBlock</span>::<span class="ident">new</span>())
-                .<span class="ident">take</span>(<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="number">2</span> <span class="op">*</span> <span class="ident">BITS</span>))
+                .<span class="ident">take</span>(<span class="number">1</span> <span class="op">&lt;&lt;</span> (<span class="number">2</span> <span class="op">*</span> <span class="ident">BITS</span>))
                 .<span class="ident">collect</span>(),
         }
     }
@@ -623,18 +623,18 @@
 
 <span class="kw">struct</span> <span class="ident">AtomicBlock</span> {
     <span class="ident">mask</span>: <span class="ident">AtomicUsize</span>,
-    <span class="ident">atom</span>: <span class="ident">AtomSetOnce</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span>[<span class="ident">AtomicUsize</span>; <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">BITS</span>]<span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">atom</span>: <span class="ident">AtomSetOnce</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span>[<span class="ident">AtomicUsize</span>; <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="ident">BITS</span>]<span class="op">&gt;&gt;</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">AtomicBlock</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">AtomicBlock</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="ident">AtomicBlock</span> {
         <span class="ident">AtomicBlock</span> {
             <span class="ident">mask</span>: <span class="ident">AtomicUsize</span>::<span class="ident">new</span>(<span class="number">0</span>),
             <span class="ident">atom</span>: <span class="ident">AtomSetOnce</span>::<span class="ident">empty</span>(),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">atom</span>.<span class="ident">is_none</span>() {
             <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">new</span>(<span class="kw">unsafe</span> { ::<span class="ident">std</span>::<span class="ident">mem</span>::<span class="ident">zeroed</span>() });
             <span class="self">self</span>.<span class="ident">atom</span>.<span class="ident">set_if_none</span>(<span class="ident">v</span>);
@@ -643,26 +643,26 @@
         <span class="kw">let</span> (<span class="ident">i</span>, <span class="ident">m</span>) <span class="op">=</span> (<span class="ident">id</span>.<span class="ident">row</span>(<span class="ident">SHIFT1</span>), <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>));
         <span class="kw">let</span> <span class="ident">old</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">atom</span>.<span class="ident">get</span>().<span class="ident">unwrap</span>()[<span class="ident">i</span>].<span class="ident">fetch_or</span>(<span class="ident">m</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
         <span class="self">self</span>.<span class="ident">mask</span>.<span class="ident">fetch_or</span>(<span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT1</span>), <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-        <span class="ident">old</span> <span class="op">&amp;</span> <span class="ident">m</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
+        <span class="ident">old</span> <span class="op">&amp;</span> <span class="ident">m</span> <span class="op">!=</span> <span class="number">0</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">atom</span>
             .<span class="ident">get</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">l0</span><span class="op">|</span> <span class="ident">l0</span>[<span class="ident">id</span>.<span class="ident">row</span>(<span class="ident">SHIFT1</span>)].<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">&amp;</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>)
+            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">l0</span><span class="op">|</span> <span class="ident">l0</span>[<span class="ident">id</span>.<span class="ident">row</span>(<span class="ident">SHIFT1</span>)].<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">&amp;</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>) <span class="op">!=</span> <span class="number">0</span>)
             .<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">id</span>: <span class="ident">Index</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">l0</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">atom</span>.<span class="ident">get_mut</span>() {
             <span class="kw">let</span> (<span class="ident">i</span>, <span class="ident">m</span>) <span class="op">=</span> (<span class="ident">id</span>.<span class="ident">row</span>(<span class="ident">SHIFT1</span>), <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>));
             <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">l0</span>[<span class="ident">i</span>].<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
             <span class="ident">l0</span>[<span class="ident">i</span>].<span class="ident">store</span>(<span class="ident">v</span> <span class="op">&amp;</span> <span class="ident">m</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
-            <span class="kw">if</span> <span class="ident">v</span> <span class="op">&amp;</span> <span class="ident">m</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">v</span> <span class="op">&amp;</span> <span class="ident">m</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">mask</span>.<span class="ident">load</span>(<span class="ident">Ordering</span>::<span class="ident">Relaxed</span>) <span class="op">&amp;</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT1</span>);
                 <span class="self">self</span>.<span class="ident">mask</span>.<span class="ident">store</span>(<span class="ident">v</span>, <span class="ident">Ordering</span>::<span class="ident">Relaxed</span>);
             }
-            <span class="ident">v</span> <span class="op">&amp;</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>)
+            <span class="ident">v</span> <span class="op">&amp;</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>) <span class="op">==</span> <span class="ident">id</span>.<span class="ident">mask</span>(<span class="ident">SHIFT0</span>)
         } <span class="kw">else</span> {
             <span class="bool-val">false</span>
         }
@@ -679,7 +679,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">AtomicBlock</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">FormatError</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">FormatError</span><span class="op">&gt;</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;AtomicBlock&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;mask&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">mask</span>)
             .<span class="ident">field</span>(<span class="string">&quot;atom&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">atom</span>.<span class="ident">get</span>().<span class="ident">unwrap</span>().<span class="ident">iter</span>())
@@ -767,7 +767,7 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">count</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">i</span>) <span class="kw">in</span> <span class="ident">c</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-            <span class="ident">count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="ident">count</span> <span class="op">+=</span> <span class="number">1</span>;
             <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">idx</span>, <span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>);
         }
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">count</span>, <span class="number">100_000</span>);
@@ -778,7 +778,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">odd</span> <span class="op">=</span> <span class="ident">AtomicBitSet</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">even</span> <span class="op">=</span> <span class="ident">AtomicBitSet</span>::<span class="ident">new</span>();
         <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">100_000</span> {
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">=</span><span class="op">=</span> <span class="number">1</span> {
+            <span class="kw">if</span> <span class="ident">i</span> <span class="op">%</span> <span class="number">2</span> <span class="op">==</span> <span class="number">1</span> {
                 <span class="ident">odd</span>.<span class="ident">add</span>(<span class="ident">i</span>);
             } <span class="kw">else</span> {
                 <span class="ident">even</span>.<span class="ident">add</span>(<span class="ident">i</span>);

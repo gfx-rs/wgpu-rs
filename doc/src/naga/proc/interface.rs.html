@@ -159,58 +159,58 @@
     <span class="kw">fn</span> <span class="ident">add_inputs</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">handle</span>: <span class="ident">Handle</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Expression</span><span class="op">&gt;</span>) {
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Expression</span> <span class="kw">as</span> <span class="ident">E</span>;
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">expressions</span>[<span class="ident">handle</span>] {
-            <span class="ident">E</span>::<span class="ident">Access</span> { <span class="ident">base</span>, <span class="ident">index</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">Access</span> { <span class="ident">base</span>, <span class="ident">index</span> } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">base</span>);
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">index</span>);
             }
-            <span class="ident">E</span>::<span class="ident">AccessIndex</span> { <span class="ident">base</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">AccessIndex</span> { <span class="ident">base</span>, .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">base</span>);
             }
-            <span class="ident">E</span>::<span class="ident">Constant</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {}
-            <span class="ident">E</span>::<span class="ident">Compose</span> { <span class="kw-2">ref</span> <span class="ident">components</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">Constant</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {}
+            <span class="ident">E</span>::<span class="ident">Compose</span> { <span class="kw-2">ref</span> <span class="ident">components</span>, .. } <span class="op">=&gt;</span> {
                 <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">comp</span> <span class="kw">in</span> <span class="ident">components</span> {
                     <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">comp</span>);
                 }
             }
-            <span class="ident">E</span>::<span class="ident">FunctionParameter</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {}
-            <span class="ident">E</span>::<span class="ident">GlobalVariable</span>(<span class="ident">handle</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="self">self</span>.<span class="ident">uses</span>[<span class="ident">handle</span>.<span class="ident">index</span>()] <span class="op">|</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">GlobalUse</span>::<span class="ident">LOAD</span>;
+            <span class="ident">E</span>::<span class="ident">FunctionParameter</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {}
+            <span class="ident">E</span>::<span class="ident">GlobalVariable</span>(<span class="ident">handle</span>) <span class="op">=&gt;</span> {
+                <span class="self">self</span>.<span class="ident">uses</span>[<span class="ident">handle</span>.<span class="ident">index</span>()] <span class="op">|=</span> <span class="kw">crate</span>::<span class="ident">GlobalUse</span>::<span class="ident">LOAD</span>;
             }
-            <span class="ident">E</span>::<span class="ident">LocalVariable</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {}
-            <span class="ident">E</span>::<span class="ident">Load</span> { <span class="ident">pointer</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">LocalVariable</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {}
+            <span class="ident">E</span>::<span class="ident">Load</span> { <span class="ident">pointer</span> } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">pointer</span>);
             }
             <span class="ident">E</span>::<span class="ident">ImageSample</span> {
                 <span class="ident">image</span>,
                 <span class="ident">sampler</span>,
                 <span class="ident">coordinate</span>,
-            } <span class="op">=</span><span class="op">&gt;</span> {
+            } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">image</span>);
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">sampler</span>);
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">coordinate</span>);
             }
-            <span class="ident">E</span>::<span class="ident">Unary</span> { <span class="ident">expr</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">Unary</span> { <span class="ident">expr</span>, .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">expr</span>);
             }
-            <span class="ident">E</span>::<span class="ident">Binary</span> { <span class="ident">left</span>, <span class="ident">right</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">Binary</span> { <span class="ident">left</span>, <span class="ident">right</span>, .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">left</span>);
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">right</span>);
             }
-            <span class="ident">E</span>::<span class="ident">Intrinsic</span> { <span class="ident">argument</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">Intrinsic</span> { <span class="ident">argument</span>, .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">argument</span>);
             }
-            <span class="ident">E</span>::<span class="ident">DotProduct</span>(<span class="ident">left</span>, <span class="ident">right</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">DotProduct</span>(<span class="ident">left</span>, <span class="ident">right</span>) <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">left</span>);
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">right</span>);
             }
-            <span class="ident">E</span>::<span class="ident">CrossProduct</span>(<span class="ident">left</span>, <span class="ident">right</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">CrossProduct</span>(<span class="ident">left</span>, <span class="ident">right</span>) <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">left</span>);
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">right</span>);
             }
-            <span class="ident">E</span>::<span class="ident">Derivative</span> { <span class="ident">expr</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">Derivative</span> { <span class="ident">expr</span>, .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">expr</span>);
             }
-            <span class="ident">E</span>::<span class="ident">Call</span> { <span class="kw-2">ref</span> <span class="ident">arguments</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">E</span>::<span class="ident">Call</span> { <span class="kw-2">ref</span> <span class="ident">arguments</span>, .. } <span class="op">=&gt;</span> {
                 <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">argument</span> <span class="kw">in</span> <span class="ident">arguments</span> {
                     <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">argument</span>);
                 }
@@ -222,15 +222,15 @@
         <span class="kw">for</span> <span class="ident">statement</span> <span class="kw">in</span> <span class="ident">block</span> {
             <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Statement</span> <span class="kw">as</span> <span class="ident">S</span>;
             <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">statement</span> {
-                <span class="ident">S</span>::<span class="ident">Empty</span> <span class="op">|</span> <span class="ident">S</span>::<span class="ident">Break</span> <span class="op">|</span> <span class="ident">S</span>::<span class="ident">Continue</span> <span class="op">|</span> <span class="ident">S</span>::<span class="ident">Kill</span> <span class="op">=</span><span class="op">&gt;</span> (),
-                <span class="ident">S</span>::<span class="ident">Block</span>(<span class="kw-2">ref</span> <span class="ident">b</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">S</span>::<span class="ident">Empty</span> <span class="op">|</span> <span class="ident">S</span>::<span class="ident">Break</span> <span class="op">|</span> <span class="ident">S</span>::<span class="ident">Continue</span> <span class="op">|</span> <span class="ident">S</span>::<span class="ident">Kill</span> <span class="op">=&gt;</span> (),
+                <span class="ident">S</span>::<span class="ident">Block</span>(<span class="kw-2">ref</span> <span class="ident">b</span>) <span class="op">=&gt;</span> {
                     <span class="self">self</span>.<span class="ident">collect</span>(<span class="ident">b</span>);
                 }
                 <span class="ident">S</span>::<span class="ident">If</span> {
                     <span class="ident">condition</span>,
                     <span class="kw-2">ref</span> <span class="ident">accept</span>,
                     <span class="kw-2">ref</span> <span class="ident">reject</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">condition</span>);
                     <span class="self">self</span>.<span class="ident">collect</span>(<span class="ident">accept</span>);
                     <span class="self">self</span>.<span class="ident">collect</span>(<span class="ident">reject</span>);
@@ -239,7 +239,7 @@
                     <span class="ident">selector</span>,
                     <span class="kw-2">ref</span> <span class="ident">cases</span>,
                     <span class="kw-2">ref</span> <span class="ident">default</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">selector</span>);
                     <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="kw-2">ref</span> <span class="ident">case</span>, <span class="kw">_</span>) <span class="kw">in</span> <span class="ident">cases</span>.<span class="ident">values</span>() {
                         <span class="self">self</span>.<span class="ident">collect</span>(<span class="ident">case</span>);
@@ -249,31 +249,31 @@
                 <span class="ident">S</span>::<span class="ident">Loop</span> {
                     <span class="kw-2">ref</span> <span class="ident">body</span>,
                     <span class="kw-2">ref</span> <span class="ident">continuing</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="self">self</span>.<span class="ident">collect</span>(<span class="ident">body</span>);
                     <span class="self">self</span>.<span class="ident">collect</span>(<span class="ident">continuing</span>);
                 }
-                <span class="ident">S</span>::<span class="ident">Return</span> { <span class="ident">value</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">S</span>::<span class="ident">Return</span> { <span class="ident">value</span> } <span class="op">=&gt;</span> {
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">expr</span>) <span class="op">=</span> <span class="ident">value</span> {
                         <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">expr</span>);
                     }
                 }
-                <span class="ident">S</span>::<span class="ident">Store</span> { <span class="ident">pointer</span>, <span class="ident">value</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">S</span>::<span class="ident">Store</span> { <span class="ident">pointer</span>, <span class="ident">value</span> } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">left</span> <span class="op">=</span> <span class="ident">pointer</span>;
                     <span class="kw">loop</span> {
                         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">expressions</span>[<span class="ident">left</span>] {
-                            <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Access</span> { <span class="ident">base</span>, <span class="ident">index</span> } <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">Access</span> { <span class="ident">base</span>, <span class="ident">index</span> } <span class="op">=&gt;</span> {
                                 <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">index</span>);
                                 <span class="ident">left</span> <span class="op">=</span> <span class="ident">base</span>;
                             }
-                            <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">AccessIndex</span> { <span class="ident">base</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">AccessIndex</span> { <span class="ident">base</span>, .. } <span class="op">=&gt;</span> {
                                 <span class="ident">left</span> <span class="op">=</span> <span class="ident">base</span>;
                             }
-                            <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">GlobalVariable</span>(<span class="ident">handle</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                                <span class="self">self</span>.<span class="ident">uses</span>[<span class="ident">handle</span>.<span class="ident">index</span>()] <span class="op">|</span><span class="op">=</span> <span class="kw">crate</span>::<span class="ident">GlobalUse</span>::<span class="ident">STORE</span>;
+                            <span class="kw">crate</span>::<span class="ident">Expression</span>::<span class="ident">GlobalVariable</span>(<span class="ident">handle</span>) <span class="op">=&gt;</span> {
+                                <span class="self">self</span>.<span class="ident">uses</span>[<span class="ident">handle</span>.<span class="ident">index</span>()] <span class="op">|=</span> <span class="kw">crate</span>::<span class="ident">GlobalUse</span>::<span class="ident">STORE</span>;
                                 <span class="kw">break</span>;
                             }
-                            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
+                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">break</span>,
                         }
                     }
                     <span class="self">self</span>.<span class="ident">add_inputs</span>(<span class="ident">value</span>);
@@ -288,7 +288,7 @@
         <span class="ident">expressions</span>: <span class="kw-2">&amp;</span><span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">Expression</span><span class="op">&gt;</span>,
         <span class="ident">body</span>: <span class="kw-2">&amp;</span>[<span class="kw">crate</span>::<span class="ident">Statement</span>],
         <span class="ident">globals</span>: <span class="kw-2">&amp;</span><span class="ident">Arena</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">GlobalVariable</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">io</span> <span class="op">=</span> <span class="ident">Interface</span> {
             <span class="ident">expressions</span>,
             <span class="ident">uses</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="kw">crate</span>::<span class="ident">GlobalUse</span>::<span class="ident">empty</span>(); <span class="ident">globals</span>.<span class="ident">len</span>()],

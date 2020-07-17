@@ -185,7 +185,7 @@
         <span class="ident">range</span>: <span class="ident">buffer</span>::<span class="ident">SubRange</span>,
         <span class="doccomment">/// The source and destination Queue family IDs, for a [queue family ownership transfer](https://www.khronos.org/registry/vulkan/specs/1.0/html/vkspec.html#synchronization-queue-transfers)</span>
         <span class="doccomment">/// Can be `None` to indicate no ownership transfer.</span>
-        <span class="ident">families</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Range</span><span class="op">&lt;</span><span class="ident">queue</span>::<span class="ident">QueueFamilyId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">families</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Range</span><span class="op">&lt;</span><span class="ident">queue</span>::<span class="ident">QueueFamilyId</span><span class="op">&gt;&gt;</span>,
     },
     <span class="doccomment">/// A memory barrier that defines access to (a subset of) an image.</span>
     <span class="ident">Image</span> {
@@ -197,13 +197,13 @@
         <span class="ident">range</span>: <span class="ident">image</span>::<span class="ident">SubresourceRange</span>,
         <span class="doccomment">/// The source and destination Queue family IDs, for a [queue family ownership transfer](https://www.khronos.org/registry/vulkan/specs/1.0/html/vkspec.html#synchronization-queue-transfers)</span>
         <span class="doccomment">/// Can be `None` to indicate no ownership transfer.</span>
-        <span class="ident">families</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Range</span><span class="op">&lt;</span><span class="ident">queue</span>::<span class="ident">QueueFamilyId</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">families</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Range</span><span class="op">&lt;</span><span class="ident">queue</span>::<span class="ident">QueueFamilyId</span><span class="op">&gt;&gt;</span>,
     },
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span>: <span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Barrier</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">B</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a barrier for the whole buffer between the given states.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">whole_buffer</span>(<span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">B</span>::<span class="ident">Buffer</span>, <span class="ident">states</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">buffer</span>::<span class="ident">State</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">whole_buffer</span>(<span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">B</span>::<span class="ident">Buffer</span>, <span class="ident">states</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">buffer</span>::<span class="ident">State</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Barrier</span>::<span class="ident">Buffer</span> {
             <span class="ident">states</span>,
             <span class="ident">target</span>,

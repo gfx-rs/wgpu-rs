@@ -64,14 +64,14 @@
 <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;sinks do nothing unless polled&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SinkErrInto</span><span class="op">&lt;</span><span class="ident">Si</span>: <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span>, <span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">pin</span>]</span>
-    <span class="ident">sink</span>: <span class="ident">SinkMapErr</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="kw">fn</span>(<span class="ident">Si</span>::<span class="ident">Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">E</span><span class="op">&gt;</span>,
+    <span class="ident">sink</span>: <span class="ident">SinkMapErr</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="kw">fn</span>(<span class="ident">Si</span>::<span class="ident">Error</span>) <span class="op">-&gt;</span> <span class="ident">E</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">E</span>, <span class="ident">Item</span><span class="op">&gt;</span> <span class="ident">SinkErrInto</span><span class="op">&lt;</span><span class="ident">Si</span>, <span class="ident">Item</span>, <span class="ident">E</span><span class="op">&gt;</span>
     <span class="kw">where</span> <span class="ident">Si</span>: <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span>,
           <span class="ident">Si</span>::<span class="ident">Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>,
 {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">sink</span>: <span class="ident">Si</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">sink</span>: <span class="ident">Si</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">SinkErrInto</span> {
             <span class="ident">sink</span>: <span class="ident">SinkExt</span>::<span class="ident">sink_map_err</span>(<span class="ident">sink</span>, <span class="ident">Into</span>::<span class="ident">into</span>),
         }
@@ -103,7 +103,7 @@
     <span class="kw">where</span> <span class="ident">S</span>: <span class="ident">Sink</span><span class="op">&lt;</span><span class="ident">Item</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">FusedStream</span>,
           <span class="ident">S</span>::<span class="ident">Error</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span>
 {
-    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">sink</span>.<span class="ident">is_terminated</span>()
     }
 }

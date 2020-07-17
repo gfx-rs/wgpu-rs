@@ -118,25 +118,25 @@
 <span class="doccomment">/// number. Calling this function from a different thread will return a</span>
 <span class="doccomment">/// different number.</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
     <span class="ident">get_internal</span>()
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_internal</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">fn</span> <span class="ident">get_internal</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
     <span class="kw">unsafe</span> { <span class="ident">libc</span>::<span class="ident">pthread_self</span>() <span class="kw">as</span> <span class="ident">usize</span> }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_internal</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">fn</span> <span class="ident">get_internal</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
     <span class="kw">unsafe</span> { <span class="ident">winapi</span>::<span class="ident">um</span>::<span class="ident">processthreadsapi</span>::<span class="ident">GetCurrentThreadId</span>() <span class="kw">as</span> <span class="ident">usize</span> }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;redox&quot;</span>)]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">get_internal</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">usize</span> {
+<span class="kw">fn</span> <span class="ident">get_internal</span>() <span class="op">-&gt;</span> <span class="ident">usize</span> {
     <span class="comment">// Each thread has a separate pid on Redox.</span>
     <span class="ident">syscall</span>::<span class="ident">getpid</span>().<span class="ident">unwrap</span>()
 }
@@ -147,11 +147,11 @@
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">thread</span>;
 
     <span class="kw">let</span> (<span class="ident">tx</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">mpsc</span>::<span class="ident">channel</span>();
-    <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">|</span><span class="op">|</span> <span class="ident">tx</span>.<span class="ident">send</span>(::<span class="ident">get</span>()).<span class="ident">unwrap</span>()).<span class="ident">join</span>().<span class="ident">unwrap</span>();
+    <span class="ident">thread</span>::<span class="ident">spawn</span>(<span class="kw">move</span> <span class="op">||</span> <span class="ident">tx</span>.<span class="ident">send</span>(::<span class="ident">get</span>()).<span class="ident">unwrap</span>()).<span class="ident">join</span>().<span class="ident">unwrap</span>();
 
     <span class="kw">let</span> <span class="ident">main_tid</span> <span class="op">=</span> ::<span class="ident">get</span>();
     <span class="kw">let</span> <span class="ident">other_tid</span> <span class="op">=</span> <span class="ident">rx</span>.<span class="ident">recv</span>().<span class="ident">unwrap</span>();
-    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">main_tid</span> <span class="op">!</span><span class="op">=</span> <span class="ident">other_tid</span>);
+    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">main_tid</span> <span class="op">!=</span> <span class="ident">other_tid</span>);
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "thread_id";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -605,27 +605,27 @@
 <span class="kw">impl</span> <span class="ident">PerStageBindingTypeCounter</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">stage</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>, <span class="ident">count</span>: <span class="ident">u32</span>) {
         <span class="kw">if</span> <span class="ident">stage</span>.<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">VERTEX</span>) {
-            <span class="self">self</span>.<span class="ident">vertex</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count</span>;
+            <span class="self">self</span>.<span class="ident">vertex</span> <span class="op">+=</span> <span class="ident">count</span>;
         }
         <span class="kw">if</span> <span class="ident">stage</span>.<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">FRAGMENT</span>) {
-            <span class="self">self</span>.<span class="ident">fragment</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count</span>;
+            <span class="self">self</span>.<span class="ident">fragment</span> <span class="op">+=</span> <span class="ident">count</span>;
         }
         <span class="kw">if</span> <span class="ident">stage</span>.<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">COMPUTE</span>) {
-            <span class="self">self</span>.<span class="ident">compute</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count</span>;
+            <span class="self">self</span>.<span class="ident">compute</span> <span class="op">+=</span> <span class="ident">count</span>;
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">max</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">wgt</span>::<span class="ident">ShaderStage</span>, <span class="ident">u32</span>) {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">max</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">wgt</span>::<span class="ident">ShaderStage</span>, <span class="ident">u32</span>) {
         <span class="kw">let</span> <span class="ident">max_value</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">vertex</span>.<span class="ident">max</span>(<span class="self">self</span>.<span class="ident">fragment</span>.<span class="ident">max</span>(<span class="self">self</span>.<span class="ident">compute</span>));
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stage</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">NONE</span>;
-        <span class="kw">if</span> <span class="ident">max_value</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">vertex</span> {
-            <span class="ident">stage</span> <span class="op">|</span><span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">VERTEX</span>
+        <span class="kw">if</span> <span class="ident">max_value</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">vertex</span> {
+            <span class="ident">stage</span> <span class="op">|=</span> <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">VERTEX</span>
         }
-        <span class="kw">if</span> <span class="ident">max_value</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">fragment</span> {
-            <span class="ident">stage</span> <span class="op">|</span><span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">FRAGMENT</span>
+        <span class="kw">if</span> <span class="ident">max_value</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">fragment</span> {
+            <span class="ident">stage</span> <span class="op">|=</span> <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">FRAGMENT</span>
         }
-        <span class="kw">if</span> <span class="ident">max_value</span> <span class="op">=</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">compute</span> {
-            <span class="ident">stage</span> <span class="op">|</span><span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">COMPUTE</span>
+        <span class="kw">if</span> <span class="ident">max_value</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">compute</span> {
+            <span class="ident">stage</span> <span class="op">|=</span> <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">COMPUTE</span>
         }
         (<span class="ident">stage</span>, <span class="ident">max_value</span>)
     }
@@ -640,7 +640,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">limit</span>: <span class="ident">u32</span>,
         <span class="ident">kind</span>: <span class="ident">BindingTypeMaxCountErrorKind</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BindingTypeMaxCountError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BindingTypeMaxCountError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">stage</span>, <span class="ident">count</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">max</span>();
         <span class="kw">if</span> <span class="ident">limit</span> <span class="op">&lt;</span> <span class="ident">count</span> {
             <span class="prelude-val">Err</span>(<span class="ident">BindingTypeMaxCountError</span> { <span class="ident">kind</span>, <span class="ident">stage</span>, <span class="ident">count</span> })
@@ -665,33 +665,33 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">add_binding</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">binding</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">BindGroupLayoutEntry</span>) {
         <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">binding</span>.<span class="ident">count</span>.<span class="ident">unwrap_or</span>(<span class="number">1</span>);
         <span class="kw">match</span> <span class="ident">binding</span>.<span class="ident">ty</span> {
-            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">UniformBuffer</span> { <span class="ident">dynamic</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">UniformBuffer</span> { <span class="ident">dynamic</span>, .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">uniform_buffers</span>.<span class="ident">add</span>(<span class="ident">binding</span>.<span class="ident">visibility</span>, <span class="ident">count</span>);
                 <span class="kw">if</span> <span class="ident">dynamic</span> {
-                    <span class="self">self</span>.<span class="ident">dynamic_uniform_buffers</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count</span>;
+                    <span class="self">self</span>.<span class="ident">dynamic_uniform_buffers</span> <span class="op">+=</span> <span class="ident">count</span>;
                 }
             }
-            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">StorageBuffer</span> { <span class="ident">dynamic</span>, .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">StorageBuffer</span> { <span class="ident">dynamic</span>, .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">storage_textures</span>.<span class="ident">add</span>(<span class="ident">binding</span>.<span class="ident">visibility</span>, <span class="ident">count</span>);
                 <span class="kw">if</span> <span class="ident">dynamic</span> {
-                    <span class="self">self</span>.<span class="ident">dynamic_storage_buffers</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count</span>;
+                    <span class="self">self</span>.<span class="ident">dynamic_storage_buffers</span> <span class="op">+=</span> <span class="ident">count</span>;
                 }
             }
-            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">Sampler</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">Sampler</span> { .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">samplers</span>.<span class="ident">add</span>(<span class="ident">binding</span>.<span class="ident">visibility</span>, <span class="ident">count</span>);
             }
-            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">SampledTexture</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">SampledTexture</span> { .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">sampled_textures</span>.<span class="ident">add</span>(<span class="ident">binding</span>.<span class="ident">visibility</span>, <span class="ident">count</span>);
             }
-            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">StorageTexture</span> { .. } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">StorageTexture</span> { .. } <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">storage_textures</span>.<span class="ident">add</span>(<span class="ident">binding</span>.<span class="ident">visibility</span>, <span class="ident">count</span>);
             }
         }
     }
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) {
-        <span class="self">self</span>.<span class="ident">dynamic_uniform_buffers</span> <span class="op">+</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">dynamic_uniform_buffers</span>;
-        <span class="self">self</span>.<span class="ident">dynamic_storage_buffers</span> <span class="op">+</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">dynamic_storage_buffers</span>;
+        <span class="self">self</span>.<span class="ident">dynamic_uniform_buffers</span> <span class="op">+=</span> <span class="ident">other</span>.<span class="ident">dynamic_uniform_buffers</span>;
+        <span class="self">self</span>.<span class="ident">dynamic_storage_buffers</span> <span class="op">+=</span> <span class="ident">other</span>.<span class="ident">dynamic_storage_buffers</span>;
         <span class="self">self</span>.<span class="ident">sampled_textures</span>.<span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">sampled_textures</span>);
         <span class="self">self</span>.<span class="ident">samplers</span>.<span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">samplers</span>);
         <span class="self">self</span>.<span class="ident">storage_buffers</span>.<span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">storage_buffers</span>);
@@ -699,7 +699,7 @@
         <span class="self">self</span>.<span class="ident">uniform_buffers</span>.<span class="ident">merge</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">uniform_buffers</span>);
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">validate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">limits</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">Limits</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BindingTypeMaxCountError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">validate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">limits</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">Limits</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BindingTypeMaxCountError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="ident">limits</span>.<span class="ident">max_dynamic_uniform_buffers_per_pipeline_layout</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">dynamic_uniform_buffers</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindingTypeMaxCountError</span> {
                 <span class="ident">kind</span>: <span class="ident">BindingTypeMaxCountErrorKind</span>::<span class="ident">DynamicUniformBuffers</span>,
@@ -791,9 +791,9 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">PushConstantUploadError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">TooLarge</span> { <span class="ident">offset</span>, <span class="ident">end_offset</span>, <span class="ident">idx</span>, <span class="ident">range</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">TooLarge</span> { <span class="ident">offset</span>, <span class="ident">end_offset</span>, <span class="ident">idx</span>, <span class="ident">range</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;provided push constant with indices {}..{} overruns matching push constant range (index {}) with stage(s) {:?} and indices {}..{}&quot;</span>,
                 <span class="ident">offset</span>,
@@ -803,27 +803,27 @@
                 <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span>,
                 <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">PartialRangeMatch</span> { <span class="ident">actual</span>, <span class="ident">idx</span>, <span class="ident">matched</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">PartialRangeMatch</span> { <span class="ident">actual</span>, <span class="ident">idx</span>, <span class="ident">matched</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;provided push constant is for stage(s) {:?}, stage with a partial match found at index {} with stage(s) {:?}, however push constants must be complete matches&quot;</span>,
                 <span class="ident">actual</span>,
                 <span class="ident">idx</span>,
                 <span class="ident">matched</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">MissingStages</span> { <span class="ident">actual</span>, <span class="ident">idx</span>, <span class="ident">missing</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">MissingStages</span> { <span class="ident">actual</span>, <span class="ident">idx</span>, <span class="ident">missing</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;provided push constant is for stage(s) {:?}, but intersects a push constant range (at index {}) with stage(s) {:?}. Push constants must provide the stages for all ranges they intersect&quot;</span>,
                 <span class="ident">actual</span>,
                 <span class="ident">idx</span>,
                 <span class="ident">missing</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">UnmatchedStages</span> { <span class="ident">actual</span>, <span class="ident">unmatched</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">UnmatchedStages</span> { <span class="ident">actual</span>, <span class="ident">unmatched</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;provided push constant is for stage(s) {:?}, however the pipeline layout has no push constant range for the stage(s) {:?}&quot;</span>,
                 <span class="ident">actual</span>,
                 <span class="ident">unmatched</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">Unaligned</span>(<span class="ident">offset</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">Unaligned</span>(<span class="ident">offset</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;provided push constant offset {} must be aligned to {}&quot;</span>,
                 <span class="ident">offset</span>,
@@ -849,12 +849,12 @@
         <span class="ident">stages</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
         <span class="ident">offset</span>: <span class="ident">u32</span>,
         <span class="ident">end_offset</span>: <span class="ident">u32</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">PushConstantUploadError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">PushConstantUploadError</span><span class="op">&gt;</span> {
         <span class="comment">// Don&#39;t need to validate size against the push constant size limit here,</span>
         <span class="comment">// as push constant ranges are already validated to be within bounds,</span>
         <span class="comment">// and we validate that they are within the ranges.</span>
 
-        <span class="kw">if</span> <span class="ident">offset</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+        <span class="kw">if</span> <span class="ident">offset</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span> <span class="op">!=</span> <span class="number">0</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PushConstantUploadError</span>::<span class="ident">Unaligned</span>(<span class="ident">offset</span>));
         }
 
@@ -881,7 +881,7 @@
         <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">range</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">push_constant_ranges</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="comment">// contains not intersects due to 2</span>
             <span class="kw">if</span> <span class="ident">stages</span>.<span class="ident">contains</span>(<span class="ident">range</span>.<span class="ident">stages</span>) {
-                <span class="kw">if</span> <span class="op">!</span>(<span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">offset</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">end_offset</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span>) {
+                <span class="kw">if</span> <span class="op">!</span>(<span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span> <span class="op">&lt;=</span> <span class="ident">offset</span> <span class="op">&amp;&amp;</span> <span class="ident">end_offset</span> <span class="op">&lt;=</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span>) {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PushConstantUploadError</span>::<span class="ident">TooLarge</span> {
                         <span class="ident">offset</span>,
                         <span class="ident">end_offset</span>,
@@ -889,7 +889,7 @@
                         <span class="ident">range</span>: <span class="ident">range</span>.<span class="ident">clone</span>(),
                     });
                 }
-                <span class="ident">used_stages</span> <span class="op">|</span><span class="op">=</span> <span class="ident">range</span>.<span class="ident">stages</span>;
+                <span class="ident">used_stages</span> <span class="op">|=</span> <span class="ident">range</span>.<span class="ident">stages</span>;
             } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">stages</span>.<span class="ident">intersects</span>(<span class="ident">range</span>.<span class="ident">stages</span>) {
                 <span class="comment">// Will be caught by used stages check below, but we can do this because of 1</span>
                 <span class="comment">// and is more helpful to the user.</span>
@@ -901,7 +901,7 @@
             }
 
             <span class="comment">// The push constant range intersects range we are uploading</span>
-            <span class="kw">if</span> <span class="ident">offset</span> <span class="op">&lt;</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span> <span class="op">&lt;</span> <span class="ident">end_offset</span> {
+            <span class="kw">if</span> <span class="ident">offset</span> <span class="op">&lt;</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span> <span class="op">&amp;&amp;</span> <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span> <span class="op">&lt;</span> <span class="ident">end_offset</span> {
                 <span class="comment">// But requires stages we don&#39;t provide</span>
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">stages</span>.<span class="ident">contains</span>(<span class="ident">range</span>.<span class="ident">stages</span>) {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PushConstantUploadError</span>::<span class="ident">MissingStages</span> {
@@ -912,7 +912,7 @@
                 }
             }
         }
-        <span class="kw">if</span> <span class="ident">used_stages</span> <span class="op">!</span><span class="op">=</span> <span class="ident">stages</span> {
+        <span class="kw">if</span> <span class="ident">used_stages</span> <span class="op">!=</span> <span class="ident">stages</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PushConstantUploadError</span>::<span class="ident">UnmatchedStages</span> {
                 <span class="ident">actual</span>: <span class="ident">stages</span>,
                 <span class="ident">unmatched</span>: <span class="ident">stages</span> <span class="op">-</span> <span class="ident">used_stages</span>,
@@ -942,10 +942,10 @@
     <span class="ident">TextureViewArray</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">TextureViewId</span>]),
 }
 
-<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="ident">BindingResource</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="ident">BindingResource</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span>;
 
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BindGroupDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span>
-    <span class="ident">wgt</span>::<span class="ident">BindGroupDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">BindGroupLayoutId</span>, <span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="ident">wgt</span>::<span class="ident">BindGroupDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">BindGroupLayoutId</span>, <span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BindError</span> {
@@ -955,17 +955,17 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">BindError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">MismatchedDynamicOffsetCount</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=</span><span class="op">&gt;</span>
+            <span class="self">Self</span>::<span class="ident">MismatchedDynamicOffsetCount</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=&gt;</span>
                 <span class="macro">write</span><span class="macro">!</span>(
                     <span class="ident">f</span>,
                     <span class="string">&quot;number of dynamic offsets ({}) doesn&#39;t match the number of dynamic bindings in the bind group layout ({})&quot;</span>,
                     <span class="ident">actual</span>,
                     <span class="ident">expected</span>,
                 ),
-            <span class="self">Self</span>::<span class="ident">UnalignedDynamicBinding</span> { <span class="ident">idx</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;dynamic binding at index {} is not properly aligned&quot;</span>, <span class="ident">idx</span>),
-            <span class="self">Self</span>::<span class="ident">DynamicBindingOutOfBounds</span> { <span class="ident">idx</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;dynamic binding at index {} would overrun the buffer&quot;</span>, <span class="ident">idx</span>),
+            <span class="self">Self</span>::<span class="ident">UnalignedDynamicBinding</span> { <span class="ident">idx</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;dynamic binding at index {} is not properly aligned&quot;</span>, <span class="ident">idx</span>),
+            <span class="self">Self</span>::<span class="ident">DynamicBindingOutOfBounds</span> { <span class="ident">idx</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;dynamic binding at index {} would overrun the buffer&quot;</span>, <span class="ident">idx</span>),
         }
     }
 }
@@ -990,8 +990,8 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">validate_dynamic_bindings</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">offsets</span>: <span class="kw-2">&amp;</span>[<span class="ident">wgt</span>::<span class="ident">DynamicOffset</span>],
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BindError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">dynamic_binding_info</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">offsets</span>.<span class="ident">len</span>() {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BindError</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">dynamic_binding_info</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">offsets</span>.<span class="ident">len</span>() {
             <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
                 <span class="string">&quot;BindGroup has {} dynamic bindings, but {} dynamic offsets were provided&quot;</span>,
                 <span class="self">self</span>.<span class="ident">dynamic_binding_info</span>.<span class="ident">len</span>(),
@@ -1009,7 +1009,7 @@
             .<span class="ident">zip</span>(<span class="ident">offsets</span>.<span class="ident">iter</span>())
             .<span class="ident">enumerate</span>()
         {
-            <span class="kw">if</span> <span class="ident">offset</span> <span class="kw">as</span> <span class="ident">wgt</span>::<span class="ident">BufferAddress</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">BIND_BUFFER_ALIGNMENT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">offset</span> <span class="kw">as</span> <span class="ident">wgt</span>::<span class="ident">BufferAddress</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">BIND_BUFFER_ALIGNMENT</span> <span class="op">!=</span> <span class="number">0</span> {
                 <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
                     <span class="string">&quot;Dynamic buffer offset index {}: {} needs to be aligned as a multiple of {}&quot;</span>,
                     <span class="ident">idx</span>,
@@ -1035,13 +1035,13 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">RefCount</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BindGroup</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">borrow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">RefCount</span> {
+    <span class="kw">fn</span> <span class="ident">borrow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">RefCount</span> {
         <span class="self">self</span>.<span class="ident">life_guard</span>.<span class="ident">ref_count</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>()
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span> <span class="ident">Borrow</span><span class="op">&lt;</span>()<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BindGroup</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">borrow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span>() {
+    <span class="kw">fn</span> <span class="ident">borrow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span>() {
         <span class="kw-2">&amp;</span><span class="ident">DUMMY_SELECTOR</span>
     }
 }

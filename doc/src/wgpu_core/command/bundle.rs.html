@@ -1278,8 +1278,8 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">RenderBundleEncoderDescriptor</span>,
         <span class="ident">parent_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>,
-        <span class="ident">base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BasePass</span><span class="op">&lt;</span><span class="ident">RenderCommand</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateRenderBundleError</span><span class="op">&gt;</span> {
+        <span class="ident">base</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BasePass</span><span class="op">&lt;</span><span class="ident">RenderCommand</span><span class="op">&gt;&gt;</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">CreateRenderBundleError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;RenderBundleEncoder::new&quot;</span>);
         <span class="prelude-val">Ok</span>(<span class="ident">RenderBundleEncoder</span> {
             <span class="ident">base</span>: <span class="ident">base</span>.<span class="ident">unwrap_or_else</span>(<span class="ident">BasePass</span>::<span class="ident">new</span>),
@@ -1292,7 +1292,7 @@
                 },
                 <span class="ident">sample_count</span>: {
                     <span class="kw">let</span> <span class="ident">sc</span> <span class="op">=</span> <span class="ident">desc</span>.<span class="ident">sample_count</span>;
-                    <span class="kw">if</span> <span class="ident">sc</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">sc</span> <span class="op">&gt;</span> <span class="number">32</span> <span class="op">|</span><span class="op">|</span> <span class="op">!</span><span class="ident">conv</span>::<span class="ident">is_power_of_two</span>(<span class="ident">sc</span>) {
+                    <span class="kw">if</span> <span class="ident">sc</span> <span class="op">==</span> <span class="number">0</span> <span class="op">||</span> <span class="ident">sc</span> <span class="op">&gt;</span> <span class="number">32</span> <span class="op">||</span> <span class="op">!</span><span class="ident">conv</span>::<span class="ident">is_power_of_two</span>(<span class="ident">sc</span>) {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateRenderBundleError</span>::<span class="ident">InvalidSampleCount</span>(<span class="ident">sc</span>));
                     }
                     <span class="ident">sc</span> <span class="kw">as</span> <span class="ident">u8</span>
@@ -1301,7 +1301,7 @@
         })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">id</span>::<span class="ident">DeviceId</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parent</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">id</span>::<span class="ident">DeviceId</span> {
         <span class="self">self</span>.<span class="ident">parent_id</span>
     }
 }
@@ -1313,9 +1313,9 @@
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">CreateRenderBundleError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">InvalidSampleCount</span>(<span class="ident">count</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;invalid number of samples {}&quot;</span>, <span class="ident">count</span>),
+            <span class="self">Self</span>::<span class="ident">InvalidSampleCount</span>(<span class="ident">count</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;invalid number of samples {}&quot;</span>, <span class="ident">count</span>),
         }
     }
 }
@@ -1353,7 +1353,7 @@
         <span class="ident">bind_group_guard</span>: <span class="kw-2">&amp;</span><span class="ident">Storage</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">binding_model</span>::<span class="ident">BindGroup</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">id</span>::<span class="ident">BindGroupId</span><span class="op">&gt;</span>,
         <span class="ident">pipeline_guard</span>: <span class="kw-2">&amp;</span><span class="ident">Storage</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">pipeline</span>::<span class="ident">RenderPipeline</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">id</span>::<span class="ident">RenderPipelineId</span><span class="op">&gt;</span>,
         <span class="ident">buffer_guard</span>: <span class="kw-2">&amp;</span><span class="ident">Storage</span><span class="op">&lt;</span><span class="kw">crate</span>::<span class="ident">resource</span>::<span class="ident">Buffer</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">id</span>::<span class="ident">BufferId</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderCommandError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderCommandError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">CommandBuffer</span> <span class="kw">as</span> <span class="kw">_</span>;
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">offsets</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">base</span>.<span class="ident">dynamic_offsets</span>.<span class="ident">as_slice</span>();
@@ -1366,7 +1366,7 @@
                     <span class="ident">index</span>,
                     <span class="ident">num_dynamic_offsets</span>,
                     <span class="ident">bind_group_id</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">bind_group</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">bind_group_guard</span>[<span class="ident">bind_group_id</span>];
                     <span class="ident">comb</span>.<span class="ident">bind_graphics_descriptor_sets</span>(
                         <span class="kw-2">&amp;</span><span class="ident">pipeline_layout_guard</span>[<span class="ident">pipeline_layout_id</span>.<span class="ident">unwrap</span>()].<span class="ident">raw</span>,
@@ -1376,7 +1376,7 @@
                     );
                     <span class="ident">offsets</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">offsets</span>[<span class="ident">num_dynamic_offsets</span> <span class="kw">as</span> <span class="ident">usize</span>..];
                 }
-                <span class="ident">RenderCommand</span>::<span class="ident">SetPipeline</span>(<span class="ident">pipeline_id</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">RenderCommand</span>::<span class="ident">SetPipeline</span>(<span class="ident">pipeline_id</span>) <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">pipeline</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pipeline_guard</span>[<span class="ident">pipeline_id</span>];
                     <span class="ident">comb</span>.<span class="ident">bind_graphics_pipeline</span>(<span class="kw-2">&amp;</span><span class="ident">pipeline</span>.<span class="ident">raw</span>);
                     <span class="ident">index_type</span> <span class="op">=</span> <span class="ident">conv</span>::<span class="ident">map_index_format</span>(<span class="ident">pipeline</span>.<span class="ident">index_format</span>);
@@ -1386,7 +1386,7 @@
                     <span class="ident">buffer_id</span>,
                     <span class="ident">offset</span>,
                     <span class="ident">size</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">buffer_guard</span>[<span class="ident">buffer_id</span>];
                     <span class="kw">let</span> <span class="ident">view</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">IndexBufferView</span> {
                         <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="ident">buffer</span>.<span class="ident">raw</span>,
@@ -1404,7 +1404,7 @@
                     <span class="ident">buffer_id</span>,
                     <span class="ident">offset</span>,
                     <span class="ident">size</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">buffer_guard</span>[<span class="ident">buffer_id</span>];
                     <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span> {
                         <span class="ident">offset</span>,
@@ -1417,7 +1417,7 @@
                     <span class="ident">offset</span>,
                     <span class="ident">size_bytes</span>,
                     <span class="ident">values_offset</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">pipeline_layout_id</span> <span class="op">=</span>
                         <span class="ident">pipeline_layout_id</span>.<span class="ident">ok_or</span>(<span class="ident">RenderCommandError</span>::<span class="ident">UnboundPipeline</span>)<span class="question-mark">?</span>;
                     <span class="kw">let</span> <span class="ident">pipeline_layout</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pipeline_layout_guard</span>[<span class="ident">pipeline_layout_id</span>];
@@ -1453,7 +1453,7 @@
                     <span class="ident">instance_count</span>,
                     <span class="ident">first_vertex</span>,
                     <span class="ident">first_instance</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="ident">comb</span>.<span class="ident">draw</span>(
                         <span class="ident">first_vertex</span>..<span class="ident">first_vertex</span> <span class="op">+</span> <span class="ident">vertex_count</span>,
                         <span class="ident">first_instance</span>..<span class="ident">first_instance</span> <span class="op">+</span> <span class="ident">instance_count</span>,
@@ -1465,7 +1465,7 @@
                     <span class="ident">first_index</span>,
                     <span class="ident">base_vertex</span>,
                     <span class="ident">first_instance</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="ident">comb</span>.<span class="ident">draw_indexed</span>(
                         <span class="ident">first_index</span>..<span class="ident">first_index</span> <span class="op">+</span> <span class="ident">index_count</span>,
                         <span class="ident">base_vertex</span>,
@@ -1477,7 +1477,7 @@
                     <span class="ident">offset</span>,
                     <span class="ident">count</span>: <span class="prelude-val">None</span>,
                     <span class="ident">indexed</span>: <span class="bool-val">false</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">buffer_guard</span>[<span class="ident">buffer_id</span>];
                     <span class="ident">comb</span>.<span class="ident">draw_indirect</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>.<span class="ident">raw</span>, <span class="ident">offset</span>, <span class="number">1</span>, <span class="number">0</span>);
                 }
@@ -1486,20 +1486,20 @@
                     <span class="ident">offset</span>,
                     <span class="ident">count</span>: <span class="prelude-val">None</span>,
                     <span class="ident">indexed</span>: <span class="bool-val">true</span>,
-                } <span class="op">=</span><span class="op">&gt;</span> {
+                } <span class="op">=&gt;</span> {
                     <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">buffer_guard</span>[<span class="ident">buffer_id</span>];
                     <span class="ident">comb</span>.<span class="ident">draw_indexed_indirect</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>.<span class="ident">raw</span>, <span class="ident">offset</span>, <span class="number">1</span>, <span class="number">0</span>);
                 }
                 <span class="ident">RenderCommand</span>::<span class="ident">MultiDrawIndirect</span> { .. }
-                <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">MultiDrawIndirectCount</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                <span class="ident">RenderCommand</span>::<span class="ident">PushDebugGroup</span> { <span class="ident">color</span>: <span class="kw">_</span>, <span class="ident">len</span>: <span class="kw">_</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                <span class="ident">RenderCommand</span>::<span class="ident">InsertDebugMarker</span> { <span class="ident">color</span>: <span class="kw">_</span>, <span class="ident">len</span>: <span class="kw">_</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                <span class="ident">RenderCommand</span>::<span class="ident">PopDebugGroup</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">MultiDrawIndirectCount</span> { .. } <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                <span class="ident">RenderCommand</span>::<span class="ident">PushDebugGroup</span> { <span class="ident">color</span>: <span class="kw">_</span>, <span class="ident">len</span>: <span class="kw">_</span> } <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                <span class="ident">RenderCommand</span>::<span class="ident">InsertDebugMarker</span> { <span class="ident">color</span>: <span class="kw">_</span>, <span class="ident">len</span>: <span class="kw">_</span> } <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                <span class="ident">RenderCommand</span>::<span class="ident">PopDebugGroup</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
                 <span class="ident">RenderCommand</span>::<span class="ident">ExecuteBundle</span>(<span class="kw">_</span>)
                 <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetBlendColor</span>(<span class="kw">_</span>)
                 <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetStencilReference</span>(<span class="kw">_</span>)
                 <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetViewport</span> { .. }
-                <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetScissor</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetScissor</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
             }
         }
         <span class="prelude-val">Ok</span>(())
@@ -1507,7 +1507,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">Borrow</span><span class="op">&lt;</span><span class="ident">RefCount</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RenderBundle</span> {
-    <span class="kw">fn</span> <span class="ident">borrow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">RefCount</span> {
+    <span class="kw">fn</span> <span class="ident">borrow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">RefCount</span> {
         <span class="self">self</span>.<span class="ident">life_guard</span>.<span class="ident">ref_count</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>()
     }
 }
@@ -1521,7 +1521,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">IndexState</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">IndexState</span> {
             <span class="ident">buffer</span>: <span class="prelude-val">None</span>,
             <span class="ident">format</span>: <span class="ident">wgt</span>::<span class="ident">IndexFormat</span>::<span class="ident">default</span>(),
@@ -1530,16 +1530,16 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">u32</span> {
+    <span class="kw">fn</span> <span class="ident">limit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u32</span> {
         <span class="macro">assert</span><span class="macro">!</span>(<span class="self">self</span>.<span class="ident">buffer</span>.<span class="ident">is_some</span>());
         <span class="kw">let</span> <span class="ident">bytes_per_index</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">format</span> {
-            <span class="ident">wgt</span>::<span class="ident">IndexFormat</span>::<span class="ident">Uint16</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">2</span>,
-            <span class="ident">wgt</span>::<span class="ident">IndexFormat</span>::<span class="ident">Uint32</span> <span class="op">=</span><span class="op">&gt;</span> <span class="number">4</span>,
+            <span class="ident">wgt</span>::<span class="ident">IndexFormat</span>::<span class="ident">Uint16</span> <span class="op">=&gt;</span> <span class="number">2</span>,
+            <span class="ident">wgt</span>::<span class="ident">IndexFormat</span>::<span class="ident">Uint32</span> <span class="op">=&gt;</span> <span class="number">4</span>,
         };
         ((<span class="self">self</span>.<span class="ident">range</span>.<span class="ident">end</span> <span class="op">-</span> <span class="self">self</span>.<span class="ident">range</span>.<span class="ident">start</span>) <span class="op">/</span> <span class="ident">bytes_per_index</span>) <span class="kw">as</span> <span class="ident">u32</span>
     }
 
-    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RenderCommand</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RenderCommand</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_dirty</span> {
             <span class="self">self</span>.<span class="ident">is_dirty</span> <span class="op">=</span> <span class="bool-val">false</span>;
             <span class="prelude-val">Some</span>(<span class="ident">RenderCommand</span>::<span class="ident">SetIndexBuffer</span> {
@@ -1553,7 +1553,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">set_format</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">format</span>: <span class="ident">wgt</span>::<span class="ident">IndexFormat</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">format</span> <span class="op">!</span><span class="op">=</span> <span class="ident">format</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">format</span> <span class="op">!=</span> <span class="ident">format</span> {
             <span class="self">self</span>.<span class="ident">format</span> <span class="op">=</span> <span class="ident">format</span>;
             <span class="self">self</span>.<span class="ident">is_dirty</span> <span class="op">=</span> <span class="bool-val">true</span>;
         }
@@ -1576,7 +1576,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">VertexState</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">VertexState</span> {
             <span class="ident">buffer</span>: <span class="prelude-val">None</span>,
             <span class="ident">range</span>: <span class="number">0</span>..<span class="number">0</span>,
@@ -1592,7 +1592,7 @@
         <span class="self">self</span>.<span class="ident">is_dirty</span> <span class="op">=</span> <span class="bool-val">true</span>;
     }
 
-    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">slot</span>: <span class="ident">u32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RenderCommand</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">slot</span>: <span class="ident">u32</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">RenderCommand</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_dirty</span> {
             <span class="self">self</span>.<span class="ident">is_dirty</span> <span class="op">=</span> <span class="bool-val">false</span>;
             <span class="prelude-val">Some</span>(<span class="ident">RenderCommand</span>::<span class="ident">SetVertexBuffer</span> {
@@ -1615,7 +1615,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">BindState</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">BindState</span> {
             <span class="ident">bind_group</span>: <span class="prelude-val">None</span>,
             <span class="ident">dynamic_offsets</span>: <span class="number">0</span>..<span class="number">0</span>,
@@ -1629,10 +1629,10 @@
         <span class="ident">layout_id</span>: <span class="ident">id</span>::<span class="ident">BindGroupLayoutId</span>,
         <span class="ident">dyn_offset</span>: <span class="ident">usize</span>,
         <span class="ident">dyn_count</span>: <span class="ident">usize</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">bind_group</span> {
-            <span class="prelude-val">Some</span>((<span class="ident">bg_id</span>, <span class="kw">_</span>)) <span class="kw">if</span> <span class="ident">bg_id</span> <span class="op">=</span><span class="op">=</span> <span class="ident">bind_group_id</span> <span class="kw-2">&amp;</span><span class="op">&amp;</span> <span class="ident">dyn_count</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>((<span class="ident">bg_id</span>, <span class="kw">_</span>)) <span class="kw">if</span> <span class="ident">bg_id</span> <span class="op">==</span> <span class="ident">bind_group_id</span> <span class="op">&amp;&amp;</span> <span class="ident">dyn_count</span> <span class="op">==</span> <span class="number">0</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
+            <span class="kw">_</span> <span class="op">=&gt;</span> {
                 <span class="self">self</span>.<span class="ident">bind_group</span> <span class="op">=</span> <span class="prelude-val">Some</span>((<span class="ident">bind_group_id</span>, <span class="ident">layout_id</span>));
                 <span class="self">self</span>.<span class="ident">dynamic_offsets</span> <span class="op">=</span> <span class="ident">dyn_offset</span>..<span class="ident">dyn_offset</span> <span class="op">+</span> <span class="ident">dyn_count</span>;
                 <span class="self">self</span>.<span class="ident">is_dirty</span> <span class="op">=</span> <span class="bool-val">true</span>;
@@ -1648,15 +1648,15 @@
     <span class="ident">is_dirty</span>: <span class="ident">bool</span>,
 }
 <span class="kw">impl</span> <span class="ident">PushConstantState</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">ranges</span>: <span class="ident">ArrayVec</span>::<span class="ident">new</span>(),
             <span class="ident">is_dirty</span>: <span class="bool-val">false</span>,
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">set_push_constants</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">new_ranges</span>: <span class="kw-2">&amp;</span>[<span class="ident">wgt</span>::<span class="ident">PushConstantRange</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="kw">if</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">ranges</span> <span class="op">!</span><span class="op">=</span> <span class="ident">new_ranges</span> {
+    <span class="kw">fn</span> <span class="ident">set_push_constants</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">new_ranges</span>: <span class="kw-2">&amp;</span>[<span class="ident">wgt</span>::<span class="ident">PushConstantRange</span>]) <span class="op">-&gt;</span> <span class="ident">bool</span> {
+        <span class="kw">if</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">ranges</span> <span class="op">!=</span> <span class="ident">new_ranges</span> {
             <span class="self">self</span>.<span class="ident">ranges</span> <span class="op">=</span> <span class="ident">new_ranges</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>().<span class="ident">collect</span>();
             <span class="self">self</span>.<span class="ident">is_dirty</span> <span class="op">=</span> <span class="bool-val">true</span>;
             <span class="bool-val">true</span>
@@ -1679,17 +1679,17 @@
 }
 
 <span class="kw">impl</span> <span class="ident">State</span> {
-    <span class="kw">fn</span> <span class="ident">vertex_limits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
+    <span class="kw">fn</span> <span class="ident">vertex_limits</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> (<span class="ident">u32</span>, <span class="ident">u32</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vertex_limit</span> <span class="op">=</span> <span class="op">!</span><span class="number">0</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">instance_limit</span> <span class="op">=</span> <span class="op">!</span><span class="number">0</span>;
         <span class="kw">for</span> <span class="ident">vbs</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">vertex</span> {
-            <span class="kw">if</span> <span class="ident">vbs</span>.<span class="ident">stride</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="ident">vbs</span>.<span class="ident">stride</span> <span class="op">==</span> <span class="number">0</span> {
                 <span class="kw">continue</span>;
             }
             <span class="kw">let</span> <span class="ident">limit</span> <span class="op">=</span> ((<span class="ident">vbs</span>.<span class="ident">range</span>.<span class="ident">end</span> <span class="op">-</span> <span class="ident">vbs</span>.<span class="ident">range</span>.<span class="ident">start</span>) <span class="op">/</span> <span class="ident">vbs</span>.<span class="ident">stride</span>) <span class="kw">as</span> <span class="ident">u32</span>;
             <span class="kw">match</span> <span class="ident">vbs</span>.<span class="ident">rate</span> {
-                <span class="ident">wgt</span>::<span class="ident">InputStepMode</span>::<span class="ident">Vertex</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">vertex_limit</span> <span class="op">=</span> <span class="ident">vertex_limit</span>.<span class="ident">min</span>(<span class="ident">limit</span>),
-                <span class="ident">wgt</span>::<span class="ident">InputStepMode</span>::<span class="ident">Instance</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">instance_limit</span> <span class="op">=</span> <span class="ident">instance_limit</span>.<span class="ident">min</span>(<span class="ident">limit</span>),
+                <span class="ident">wgt</span>::<span class="ident">InputStepMode</span>::<span class="ident">Vertex</span> <span class="op">=&gt;</span> <span class="ident">vertex_limit</span> <span class="op">=</span> <span class="ident">vertex_limit</span>.<span class="ident">min</span>(<span class="ident">limit</span>),
+                <span class="ident">wgt</span>::<span class="ident">InputStepMode</span>::<span class="ident">Instance</span> <span class="op">=&gt;</span> <span class="ident">instance_limit</span> <span class="op">=</span> <span class="ident">instance_limit</span>.<span class="ident">min</span>(<span class="ident">limit</span>),
             }
         }
         (<span class="ident">vertex_limit</span>, <span class="ident">instance_limit</span>)
@@ -1730,7 +1730,7 @@
     ) {
         <span class="self">self</span>.<span class="ident">index</span>.<span class="ident">set_format</span>(<span class="ident">index_format</span>);
         <span class="kw">for</span> (<span class="ident">vs</span>, <span class="kw-2">&amp;</span>(<span class="ident">stride</span>, <span class="ident">step_mode</span>)) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">vertex</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="ident">vertex_strides</span>) {
-            <span class="kw">if</span> <span class="ident">vs</span>.<span class="ident">stride</span> <span class="op">!</span><span class="op">=</span> <span class="ident">stride</span> <span class="op">|</span><span class="op">|</span> <span class="ident">vs</span>.<span class="ident">rate</span> <span class="op">!</span><span class="op">=</span> <span class="ident">step_mode</span> {
+            <span class="kw">if</span> <span class="ident">vs</span>.<span class="ident">stride</span> <span class="op">!=</span> <span class="ident">stride</span> <span class="op">||</span> <span class="ident">vs</span>.<span class="ident">rate</span> <span class="op">!=</span> <span class="ident">step_mode</span> {
                 <span class="ident">vs</span>.<span class="ident">stride</span> <span class="op">=</span> <span class="ident">stride</span>;
                 <span class="ident">vs</span>.<span class="ident">rate</span> <span class="op">=</span> <span class="ident">step_mode</span>;
                 <span class="ident">vs</span>.<span class="ident">is_dirty</span> <span class="op">=</span> <span class="bool-val">true</span>;
@@ -1749,8 +1749,8 @@
                 .<span class="ident">iter</span>()
                 .<span class="ident">zip</span>(<span class="ident">layout_ids</span>)
                 .<span class="ident">position</span>(<span class="op">|</span>(<span class="ident">bs</span>, <span class="ident">layout_id</span>)<span class="op">|</span> <span class="kw">match</span> <span class="ident">bs</span>.<span class="ident">bind_group</span> {
-                    <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="ident">bgl_id</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">bgl_id</span> <span class="op">!</span><span class="op">=</span> <span class="ident">layout_id</span>.<span class="ident">value</span>,
-                    <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="bool-val">false</span>,
+                    <span class="prelude-val">Some</span>((<span class="kw">_</span>, <span class="ident">bgl_id</span>)) <span class="op">=&gt;</span> <span class="ident">bgl_id</span> <span class="op">!=</span> <span class="ident">layout_id</span>.<span class="ident">value</span>,
+                    <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="bool-val">false</span>,
                 })
         };
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">slot</span>) <span class="op">=</span> <span class="ident">invalid_from</span> {
@@ -1758,7 +1758,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">flush_push_constants</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">RenderCommand</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">flush_push_constants</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">RenderCommand</span><span class="op">&gt;&gt;</span> {
         <span class="kw">let</span> <span class="ident">is_dirty</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">push_constant_ranges</span>.<span class="ident">is_dirty</span>;
 
         <span class="kw">if</span> <span class="ident">is_dirty</span> {
@@ -1780,14 +1780,14 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">flush_vertices</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">RenderCommand</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;_</span> {
+    <span class="kw">fn</span> <span class="ident">flush_vertices</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">RenderCommand</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;_</span> {
         <span class="self">self</span>.<span class="ident">vertex</span>
             .<span class="ident">iter_mut</span>()
             .<span class="ident">enumerate</span>()
             .<span class="ident">flat_map</span>(<span class="op">|</span>(<span class="ident">i</span>, <span class="ident">vs</span>)<span class="op">|</span> <span class="ident">vs</span>.<span class="ident">flush</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">u32</span>))
     }
 
-    <span class="kw">fn</span> <span class="ident">flush_binds</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">RenderCommand</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;_</span> {
+    <span class="kw">fn</span> <span class="ident">flush_binds</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw">impl</span> <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">RenderCommand</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;_</span> {
         <span class="kw">for</span> <span class="ident">bs</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">bind</span>[..<span class="self">self</span>.<span class="ident">used_bind_groups</span>].<span class="ident">iter</span>() {
             <span class="kw">if</span> <span class="ident">bs</span>.<span class="ident">is_dirty</span> {
                 <span class="self">self</span>.<span class="ident">flat_dynamic_offsets</span>
@@ -1853,61 +1853,61 @@
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">PushConstantUploadError</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">RenderCommandError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">PushConstantUploadError</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">error</span>: <span class="ident">PushConstantUploadError</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">PushConstants</span>(<span class="ident">error</span>)
     }
 }
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">RenderCommandError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">BindGroupIndexOutOfRange</span> { <span class="ident">index</span>, <span class="ident">max</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">BindGroupIndexOutOfRange</span> { <span class="ident">index</span>, <span class="ident">max</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;bind group index {} is greater than the device&#39;s requested `max_bind_group` limit {}&quot;</span>,
                 <span class="ident">index</span>,
                 <span class="ident">max</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">UnalignedBufferOffset</span>(<span class="ident">offset</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">UnalignedBufferOffset</span>(<span class="ident">offset</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;dynamic buffer offset {} is not a multiple of the required buffer alignment {}&quot;</span>,
                 <span class="ident">offset</span>,
                 <span class="ident">wgt</span>::<span class="ident">BIND_BUFFER_ALIGNMENT</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">InvalidDynamicOffsetCount</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">InvalidDynamicOffsetCount</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;number of buffer offsets ({}) does not match the number of dynamic bindings ({})&quot;</span>,
                 <span class="ident">actual</span>,
                 <span class="ident">expected</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">IncompatiblePipeline</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;render pipeline output formats and sample counts do not match render pass attachment formats&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">IncompatibleReadOnlyDepthStencil</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;pipeline is not compatible with the depth-stencil read-only render pass&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">MissingBufferUsage</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">IncompatiblePipeline</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;render pipeline output formats and sample counts do not match render pass attachment formats&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">IncompatibleReadOnlyDepthStencil</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;pipeline is not compatible with the depth-stencil read-only render pass&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">MissingBufferUsage</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;buffer usage is {:?} which does not contain required usage {:?}&quot;</span>,
                 <span class="ident">actual</span>,
                 <span class="ident">expected</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">InvalidTextureUsage</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">InvalidTextureUsage</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;texture usage is {:?} which does not contain required usage {:?}&quot;</span>,
                 <span class="ident">actual</span>,
                 <span class="ident">expected</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">UnboundPipeline</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;a render pipeline must be bound&quot;</span>),
-            <span class="self">Self</span>::<span class="ident">PushConstants</span>(<span class="ident">error</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
-            <span class="self">Self</span>::<span class="ident">VertexBeyondLimit</span> { <span class="ident">last_vertex</span>, <span class="ident">vertex_limit</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">UnboundPipeline</span> <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;a render pipeline must be bound&quot;</span>),
+            <span class="self">Self</span>::<span class="ident">PushConstants</span>(<span class="ident">error</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">error</span>),
+            <span class="self">Self</span>::<span class="ident">VertexBeyondLimit</span> { <span class="ident">last_vertex</span>, <span class="ident">vertex_limit</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;vertex {} extends beyond limit {}&quot;</span>,
                 <span class="ident">last_vertex</span>,
                 <span class="ident">vertex_limit</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">InstanceBeyondLimit</span> { <span class="ident">last_instance</span>, <span class="ident">instance_limit</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">InstanceBeyondLimit</span> { <span class="ident">last_instance</span>, <span class="ident">instance_limit</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;instance {} extends beyond limit {}&quot;</span>,
                 <span class="ident">last_instance</span>,
                 <span class="ident">instance_limit</span>,
             ),
-            <span class="self">Self</span>::<span class="ident">IndexBeyondLimit</span> { <span class="ident">last_index</span>, <span class="ident">index_limit</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
+            <span class="self">Self</span>::<span class="ident">IndexBeyondLimit</span> { <span class="ident">last_index</span>, <span class="ident">index_limit</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
                 <span class="ident">f</span>,
                 <span class="string">&quot;index {} extends beyond limit {}&quot;</span>,
                 <span class="ident">last_index</span>,
@@ -1922,7 +1922,7 @@
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_buffer_usage</span>(
     <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>,
     <span class="ident">expected</span>: <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>,
-) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderCommandError</span><span class="op">&gt;</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">RenderCommandError</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="op">!</span><span class="ident">actual</span>.<span class="ident">contains</span>(<span class="ident">expected</span>) {
         <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">MissingBufferUsage</span> { <span class="ident">actual</span>, <span class="ident">expected</span> })
     } <span class="kw">else</span> {
@@ -1936,7 +1936,7 @@
         <span class="ident">bundle_encoder</span>: <span class="ident">RenderBundleEncoder</span>,
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">RenderBundleDescriptor</span><span class="op">&lt;</span><span class="ident">Label</span><span class="op">&gt;</span>,
         <span class="ident">id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">id</span>::<span class="ident">RenderBundleId</span><span class="op">&gt;</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">RenderBundleId</span>, <span class="ident">RenderCommandError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">RenderBundleId</span>, <span class="ident">RenderCommandError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;RenderBundleEncoder::finish&quot;</span>);
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
@@ -1971,9 +1971,9 @@
                         <span class="ident">index</span>,
                         <span class="ident">num_dynamic_offsets</span>,
                         <span class="ident">bind_group_id</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> {
+                    } <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">max_bind_groups</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>;
-                        <span class="kw">if</span> (<span class="ident">index</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&gt;</span><span class="op">=</span> <span class="ident">max_bind_groups</span> {
+                        <span class="kw">if</span> (<span class="ident">index</span> <span class="kw">as</span> <span class="ident">u32</span>) <span class="op">&gt;=</span> <span class="ident">max_bind_groups</span> {
                             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">BindGroupIndexOutOfRange</span> {
                                 <span class="ident">index</span>,
                                 <span class="ident">max</span>: <span class="ident">max_bind_groups</span>,
@@ -1987,7 +1987,7 @@
                         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">offset</span>) <span class="op">=</span> <span class="ident">offsets</span>
                             .<span class="ident">iter</span>()
                             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">offset</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">offset</span> <span class="kw">as</span> <span class="ident">wgt</span>::<span class="ident">BufferAddress</span>)
-                            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">offset</span><span class="op">|</span> <span class="ident">offset</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">BIND_BUFFER_ALIGNMENT</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>)
+                            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">offset</span><span class="op">|</span> <span class="ident">offset</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">BIND_BUFFER_ALIGNMENT</span> <span class="op">!=</span> <span class="number">0</span>)
                         {
                             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">UnalignedBufferOffset</span>(<span class="ident">offset</span>));
                         }
@@ -1997,7 +1997,7 @@
                             .<span class="ident">bind_groups</span>
                             .<span class="ident">use_extend</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">bind_group_guard</span>, <span class="ident">bind_group_id</span>, (), ())
                             .<span class="ident">unwrap</span>();
-                        <span class="kw">if</span> <span class="ident">bind_group</span>.<span class="ident">dynamic_binding_info</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">offsets</span>.<span class="ident">len</span>() {
+                        <span class="kw">if</span> <span class="ident">bind_group</span>.<span class="ident">dynamic_binding_info</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">offsets</span>.<span class="ident">len</span>() {
                             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">RenderCommandError</span>::<span class="ident">InvalidDynamicOffsetCount</span> {
                                 <span class="ident">actual</span>: <span class="ident">offsets</span>.<span class="ident">len</span>(),
                                 <span class="ident">expected</span>: <span class="ident">bind_group</span>.<span class="ident">dynamic_binding_info</span>.<span class="ident">len</span>(),
@@ -2007,7 +2007,7 @@
                         <span class="ident">state</span>.<span class="ident">set_bind_group</span>(<span class="ident">index</span>, <span class="ident">bind_group_id</span>, <span class="ident">bind_group</span>.<span class="ident">layout_id</span>, <span class="ident">offsets</span>);
                         <span class="ident">state</span>.<span class="ident">trackers</span>.<span class="ident">merge_extend</span>(<span class="kw-2">&amp;</span><span class="ident">bind_group</span>.<span class="ident">used</span>);
                     }
-                    <span class="ident">RenderCommand</span>::<span class="ident">SetPipeline</span>(<span class="ident">pipeline_id</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="ident">RenderCommand</span>::<span class="ident">SetPipeline</span>(<span class="ident">pipeline_id</span>) <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">pipeline</span> <span class="op">=</span> <span class="ident">state</span>
                             .<span class="ident">trackers</span>
                             .<span class="ident">render_pipes</span>
@@ -2037,7 +2037,7 @@
                         <span class="ident">buffer_id</span>,
                         <span class="ident">offset</span>,
                         <span class="ident">size</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> {
+                    } <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">state</span>
                             .<span class="ident">trackers</span>
                             .<span class="ident">buffers</span>
@@ -2046,8 +2046,8 @@
                         <span class="ident">check_buffer_usage</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>, <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>::<span class="ident">INDEX</span>)<span class="question-mark">?</span>;
 
                         <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">size</span> {
-                            <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">s</span>.<span class="ident">get</span>(),
-                            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span>,
+                            <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">s</span>.<span class="ident">get</span>(),
+                            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span>,
                         };
                         <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">set_buffer</span>(<span class="ident">buffer_id</span>, <span class="ident">offset</span>..<span class="ident">end</span>);
                     }
@@ -2056,7 +2056,7 @@
                         <span class="ident">buffer_id</span>,
                         <span class="ident">offset</span>,
                         <span class="ident">size</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> {
+                    } <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">state</span>
                             .<span class="ident">trackers</span>
                             .<span class="ident">buffers</span>
@@ -2065,8 +2065,8 @@
                         <span class="ident">check_buffer_usage</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>, <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>::<span class="ident">VERTEX</span>)<span class="question-mark">?</span>;
 
                         <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">size</span> {
-                            <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">s</span>.<span class="ident">get</span>(),
-                            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span>,
+                            <span class="prelude-val">Some</span>(<span class="ident">s</span>) <span class="op">=&gt;</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">s</span>.<span class="ident">get</span>(),
+                            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="ident">buffer</span>.<span class="ident">size</span>,
                         };
                         <span class="ident">state</span>.<span class="ident">vertex</span>[<span class="ident">slot</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">set_buffer</span>(<span class="ident">buffer_id</span>, <span class="ident">offset</span>..<span class="ident">end</span>);
                     }
@@ -2075,7 +2075,7 @@
                         <span class="ident">offset</span>,
                         <span class="ident">size_bytes</span>,
                         <span class="ident">values_offset</span>: <span class="kw">_</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> {
+                    } <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">end_offset</span> <span class="op">=</span> <span class="ident">offset</span> <span class="op">+</span> <span class="ident">size_bytes</span>;
 
                         <span class="kw">let</span> <span class="ident">pipeline_layout_id</span> <span class="op">=</span>
@@ -2092,7 +2092,7 @@
                         <span class="ident">instance_count</span>,
                         <span class="ident">first_vertex</span>,
                         <span class="ident">first_instance</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> {
+                    } <span class="op">=&gt;</span> {
                         <span class="kw">let</span> (<span class="ident">vertex_limit</span>, <span class="ident">instance_limit</span>) <span class="op">=</span> <span class="ident">state</span>.<span class="ident">vertex_limits</span>();
                         <span class="kw">let</span> <span class="ident">last_vertex</span> <span class="op">=</span> <span class="ident">first_vertex</span> <span class="op">+</span> <span class="ident">vertex_count</span>;
                         <span class="kw">if</span> <span class="ident">last_vertex</span> <span class="op">&gt;</span> <span class="ident">vertex_limit</span> {
@@ -2118,7 +2118,7 @@
                         <span class="ident">first_index</span>,
                         <span class="ident">base_vertex</span>: <span class="kw">_</span>,
                         <span class="ident">first_instance</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> {
+                    } <span class="op">=&gt;</span> {
                         <span class="comment">//TODO: validate that base_vertex + max_index() is within the provided range</span>
                         <span class="kw">let</span> (<span class="kw">_</span>, <span class="ident">instance_limit</span>) <span class="op">=</span> <span class="ident">state</span>.<span class="ident">vertex_limits</span>();
                         <span class="kw">let</span> <span class="ident">index_limit</span> <span class="op">=</span> <span class="ident">state</span>.<span class="ident">index</span>.<span class="ident">limit</span>();
@@ -2146,7 +2146,7 @@
                         <span class="ident">offset</span>: <span class="kw">_</span>,
                         <span class="ident">count</span>: <span class="prelude-val">None</span>,
                         <span class="ident">indexed</span>: <span class="bool-val">false</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> {
+                    } <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">state</span>
                             .<span class="ident">trackers</span>
                             .<span class="ident">buffers</span>
@@ -2163,7 +2163,7 @@
                         <span class="ident">offset</span>: <span class="kw">_</span>,
                         <span class="ident">count</span>: <span class="prelude-val">None</span>,
                         <span class="ident">indexed</span>: <span class="bool-val">true</span>,
-                    } <span class="op">=</span><span class="op">&gt;</span> {
+                    } <span class="op">=&gt;</span> {
                         <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">state</span>
                             .<span class="ident">trackers</span>
                             .<span class="ident">buffers</span>
@@ -2177,15 +2177,15 @@
                         <span class="ident">commands</span>.<span class="ident">push</span>(<span class="ident">command</span>);
                     }
                     <span class="ident">RenderCommand</span>::<span class="ident">MultiDrawIndirect</span> { .. }
-                    <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">MultiDrawIndirectCount</span> { .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                    <span class="ident">RenderCommand</span>::<span class="ident">PushDebugGroup</span> { <span class="ident">color</span>: <span class="kw">_</span>, <span class="ident">len</span>: <span class="kw">_</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                    <span class="ident">RenderCommand</span>::<span class="ident">InsertDebugMarker</span> { <span class="ident">color</span>: <span class="kw">_</span>, <span class="ident">len</span>: <span class="kw">_</span> } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
-                    <span class="ident">RenderCommand</span>::<span class="ident">PopDebugGroup</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">MultiDrawIndirectCount</span> { .. } <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="ident">RenderCommand</span>::<span class="ident">PushDebugGroup</span> { <span class="ident">color</span>: <span class="kw">_</span>, <span class="ident">len</span>: <span class="kw">_</span> } <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="ident">RenderCommand</span>::<span class="ident">InsertDebugMarker</span> { <span class="ident">color</span>: <span class="kw">_</span>, <span class="ident">len</span>: <span class="kw">_</span> } <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
+                    <span class="ident">RenderCommand</span>::<span class="ident">PopDebugGroup</span> <span class="op">=&gt;</span> <span class="macro">unimplemented</span><span class="macro">!</span>(),
                     <span class="ident">RenderCommand</span>::<span class="ident">ExecuteBundle</span>(<span class="kw">_</span>)
                     <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetBlendColor</span>(<span class="kw">_</span>)
                     <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetStencilReference</span>(<span class="kw">_</span>)
                     <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetViewport</span> { .. }
-                    <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetScissor</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="op">|</span> <span class="ident">RenderCommand</span>::<span class="ident">SetScissor</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                         <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;not supported by a render bundle&quot;</span>)
                     }
                 }
@@ -2218,7 +2218,7 @@
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
         <span class="kw">match</span> <span class="ident">device</span>.<span class="ident">trace</span> {
-            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">trace</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">trace</span>) <span class="op">=&gt;</span> {
                 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">device</span>::<span class="ident">trace</span>;
                 <span class="kw">let</span> (<span class="ident">bundle_guard</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">render_bundles</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
                 <span class="kw">let</span> <span class="ident">bundle</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">bundle_guard</span>[<span class="ident">id</span>];
@@ -2228,7 +2228,7 @@
                     <span class="ident">base</span>: <span class="ident">BasePass</span>::<span class="ident">from_ref</span>(<span class="ident">bundle</span>.<span class="ident">base</span>.<span class="ident">as_ref</span>()),
                 });
             }
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> {}
         }
 
         <span class="ident">device</span>

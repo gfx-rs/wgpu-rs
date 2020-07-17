@@ -9,8 +9,8 @@ the field.</li>
 <p>And the following methods are implemented on the original type:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">fn</span> <span class="ident">project</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Projection</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>;
-<span class="kw">fn</span> <span class="ident">project_ref</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ProjectionRef</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>;</pre></div>
+<span class="kw">fn</span> <span class="ident">project</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Projection</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>;
+<span class="kw">fn</span> <span class="ident">project_ref</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">ProjectionRef</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>;</pre></div>
 <p>By passing an argument with the same name as the method to the attribute,
 you can name the projection type returned from the method:</p>
 
@@ -155,13 +155,13 @@ returned from the method.</p>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="ident">Enum</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">U</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">method</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>) {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">project</span>() {
-            <span class="ident">EnumProj</span>::<span class="ident">Tuple</span>(<span class="ident">x</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">EnumProj</span>::<span class="ident">Tuple</span>(<span class="ident">x</span>) <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="kw">_</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">T</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">x</span>;
             }
-            <span class="ident">EnumProj</span>::<span class="ident">Struct</span> { <span class="ident">field</span> } <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">EnumProj</span>::<span class="ident">Struct</span> { <span class="ident">field</span> } <span class="op">=&gt;</span> {
                 <span class="kw">let</span> <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">U</span> <span class="op">=</span> <span class="ident">field</span>;
             }
-            <span class="ident">EnumProj</span>::<span class="ident">Unit</span> <span class="op">=</span><span class="op">&gt;</span> {}
+            <span class="ident">EnumProj</span>::<span class="ident">Unit</span> <span class="op">=&gt;</span> {}
         }
     }
 }</pre></div>
@@ -290,7 +290,7 @@ equivalent to <a href="https://doc.rust-lang.org/nightly/core/pin/struct.Pin.htm
 returned, instead of being dropped in-place.</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered">
-<span class="kw">fn</span> <span class="ident">project_replace</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">other</span>: <span class="self">Self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">ProjectionOwned</span>;</pre></div>
+<span class="kw">fn</span> <span class="ident">project_replace</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">other</span>: <span class="self">Self</span>) <span class="op">-&gt;</span> <span class="ident">ProjectionOwned</span>;</pre></div>
 <p>The <code>ProjectionOwned</code> type is identical to the <code>Self</code> type, except that
 all pinned fields have been replaced by equivalent <a href="https://doc.rust-lang.org/nightly/core/marker/struct.PhantomData.html"><code>PhantomData</code></a> types.</p>
 <p>This method is opt-in, because it is only supported for <a href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="`Sized`"><code>Sized</code></a> types, and
@@ -338,7 +338,7 @@ the same way as the <code>project</code> and <code>project_ref</code> arguments.
 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="ident">Enum</span>::<span class="ident">A</span> { <span class="ident">pinned_field</span>: <span class="number">42</span>, <span class="ident">unpinned_field</span>: <span class="string">&quot;hello&quot;</span> });
 
 <span class="kw">match</span> <span class="ident">x</span>.<span class="ident">as_mut</span>().<span class="ident">project_replace</span>(<span class="ident">Enum</span>::<span class="ident">B</span>) {
-    <span class="ident">EnumProjOwn</span>::<span class="ident">A</span> { <span class="ident">unpinned_field</span>, .. } <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">unpinned_field</span>, <span class="string">&quot;hello&quot;</span>),
-    <span class="ident">EnumProjOwn</span>::<span class="ident">B</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+    <span class="ident">EnumProjOwn</span>::<span class="ident">A</span> { <span class="ident">unpinned_field</span>, .. } <span class="op">=&gt;</span> <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">unpinned_field</span>, <span class="string">&quot;hello&quot;</span>),
+    <span class="ident">EnumProjOwn</span>::<span class="ident">B</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
 }</pre></div>
 </div></section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../";window.currentCrate = "pin_project";</script><script src="../main.js"></script><script defer src="../search-index.js"></script></body></html>

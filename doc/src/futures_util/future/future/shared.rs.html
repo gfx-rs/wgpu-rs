@@ -329,18 +329,18 @@
 <span class="doccomment">/// Future for the [`shared`](super::FutureExt::shared) method.</span>
 <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;futures do nothing unless you `.await` or poll them&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Shared</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span> {
-    <span class="ident">inner</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Inner</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">inner</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Inner</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;&gt;</span><span class="op">&gt;</span>,
     <span class="ident">waker_key</span>: <span class="ident">usize</span>,
 }
 
 <span class="kw">struct</span> <span class="ident">Inner</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span> {
-    <span class="ident">future_or_output</span>: <span class="ident">UnsafeCell</span><span class="op">&lt;</span><span class="ident">FutureOrOutput</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">future_or_output</span>: <span class="ident">UnsafeCell</span><span class="op">&lt;</span><span class="ident">FutureOrOutput</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;&gt;</span>,
     <span class="ident">notifier</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Notifier</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">struct</span> <span class="ident">Notifier</span> {
     <span class="ident">state</span>: <span class="ident">AtomicUsize</span>,
-    <span class="ident">wakers</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Slab</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Waker</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">wakers</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Slab</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Waker</span><span class="op">&gt;&gt;</span><span class="op">&gt;&gt;</span>,
 }
 
 <span class="comment">// The future itself is polled behind the `Arc`, so it won&#39;t be moved</span>
@@ -348,7 +348,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span> <span class="ident">Unpin</span> <span class="kw">for</span> <span class="ident">Shared</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Shared</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Shared&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;inner&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>)
             .<span class="ident">field</span>(<span class="string">&quot;waker_key&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">waker_key</span>)
@@ -357,7 +357,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Inner</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Inner&quot;</span>).<span class="ident">finish</span>()
     }
 }
@@ -389,7 +389,7 @@
 <span class="kw">const</span> <span class="ident">NULL_WAKER_KEY</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="ident">usize</span>::<span class="ident">max_value</span>();
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Fut</span>: <span class="ident">Future</span><span class="op">&gt;</span> <span class="ident">Shared</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">future</span>: <span class="ident">Fut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Shared</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">future</span>: <span class="ident">Fut</span>) <span class="op">-&gt;</span> <span class="ident">Shared</span><span class="op">&lt;</span><span class="ident">Fut</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">Inner</span> {
             <span class="ident">future_or_output</span>: <span class="ident">UnsafeCell</span>::<span class="ident">new</span>(<span class="ident">FutureOrOutput</span>::<span class="ident">Future</span>(<span class="ident">future</span>)),
             <span class="ident">notifier</span>: <span class="ident">Arc</span>::<span class="ident">new</span>(<span class="ident">Notifier</span> {
@@ -414,12 +414,12 @@
     <span class="doccomment">/// it has already been computed by a clone or [`None`] if it hasn&#39;t been</span>
     <span class="doccomment">/// computed yet or this [`Shared`] already returned its output from</span>
     <span class="doccomment">/// [`poll`](Future::poll).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">peek</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Fut</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">peek</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Fut</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">as_ref</span>() {
             <span class="kw">match</span> <span class="ident">inner</span>.<span class="ident">notifier</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">SeqCst</span>) {
-                <span class="ident">COMPLETE</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">unsafe</span> { <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>.<span class="ident">output</span>()) },
-                <span class="ident">POISONED</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;inner future panicked during poll&quot;</span>),
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
+                <span class="ident">COMPLETE</span> <span class="op">=&gt;</span> <span class="kw">unsafe</span> { <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>.<span class="ident">output</span>()) },
+                <span class="ident">POISONED</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;inner future panicked during poll&quot;</span>),
+                <span class="kw">_</span> <span class="op">=&gt;</span> {}
             }
         }
         <span class="prelude-val">None</span>
@@ -433,10 +433,10 @@
 {
     <span class="doccomment">/// Safety: callers must first ensure that `self.inner.state`</span>
     <span class="doccomment">/// is `COMPLETE`</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">output</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Fut</span>::<span class="ident">Output</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">output</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">Fut</span>::<span class="ident">Output</span> {
         <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">future_or_output</span>.<span class="ident">get</span>() {
-            <span class="ident">FutureOrOutput</span>::<span class="ident">Output</span>(<span class="kw-2">ref</span> <span class="ident">item</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">item</span>,
-            <span class="ident">FutureOrOutput</span>::<span class="ident">Future</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="ident">FutureOrOutput</span>::<span class="ident">Output</span>(<span class="kw-2">ref</span> <span class="ident">item</span>) <span class="op">=&gt;</span> <span class="kw-2">&amp;</span><span class="ident">item</span>,
+            <span class="ident">FutureOrOutput</span>::<span class="ident">Future</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }
     }
     <span class="doccomment">/// Registers the current task to receive a wakeup when we are awoken.</span>
@@ -444,33 +444,33 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wakers_guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">notifier</span>.<span class="ident">wakers</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="ident">wakers</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">wakers_guard</span>.<span class="ident">as_mut</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">wakers</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">wakers</span>,
-            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span>,
+            <span class="prelude-val">Some</span>(<span class="ident">wakers</span>) <span class="op">=&gt;</span> <span class="ident">wakers</span>,
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="kw">return</span>,
         };
 
         <span class="kw">let</span> <span class="ident">new_waker</span> <span class="op">=</span> <span class="ident">cx</span>.<span class="ident">waker</span>();
 
-        <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">waker_key</span> <span class="op">=</span><span class="op">=</span> <span class="ident">NULL_WAKER_KEY</span> {
+        <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">waker_key</span> <span class="op">==</span> <span class="ident">NULL_WAKER_KEY</span> {
             <span class="kw-2">*</span><span class="ident">waker_key</span> <span class="op">=</span> <span class="ident">wakers</span>.<span class="ident">insert</span>(<span class="prelude-val">Some</span>(<span class="ident">new_waker</span>.<span class="ident">clone</span>()));
         } <span class="kw">else</span> {
             <span class="kw">match</span> <span class="ident">wakers</span>[<span class="kw-2">*</span><span class="ident">waker_key</span>] {
-                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">old_waker</span>) <span class="kw">if</span> <span class="ident">new_waker</span>.<span class="ident">will_wake</span>(<span class="ident">old_waker</span>) <span class="op">=</span><span class="op">&gt;</span> {}
+                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">old_waker</span>) <span class="kw">if</span> <span class="ident">new_waker</span>.<span class="ident">will_wake</span>(<span class="ident">old_waker</span>) <span class="op">=&gt;</span> {}
                 <span class="comment">// Could use clone_from here, but Waker doesn&#39;t specialize it.</span>
-                <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">slot</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw-2">*</span><span class="ident">slot</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">new_waker</span>.<span class="ident">clone</span>()),
+                <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">slot</span> <span class="op">=&gt;</span> <span class="kw-2">*</span><span class="ident">slot</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">new_waker</span>.<span class="ident">clone</span>()),
             }
         }
-        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">waker_key</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NULL_WAKER_KEY</span>);
+        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">waker_key</span> <span class="op">!=</span> <span class="ident">NULL_WAKER_KEY</span>);
     }
 
     <span class="doccomment">/// Safety: callers must first ensure that `inner.state`</span>
     <span class="doccomment">/// is `COMPLETE`</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">take_or_clone_output</span>(<span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Fut</span>::<span class="ident">Output</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">take_or_clone_output</span>(<span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Fut</span>::<span class="ident">Output</span> {
         <span class="kw">match</span> <span class="ident">Arc</span>::<span class="ident">try_unwrap</span>(<span class="self">self</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">inner</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">inner</span>.<span class="ident">future_or_output</span>.<span class="ident">into_inner</span>() {
-                <span class="ident">FutureOrOutput</span>::<span class="ident">Output</span>(<span class="ident">item</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">item</span>,
-                <span class="ident">FutureOrOutput</span>::<span class="ident">Future</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="prelude-val">Ok</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">inner</span>.<span class="ident">future_or_output</span>.<span class="ident">into_inner</span>() {
+                <span class="ident">FutureOrOutput</span>::<span class="ident">Output</span>(<span class="ident">item</span>) <span class="op">=&gt;</span> <span class="ident">item</span>,
+                <span class="ident">FutureOrOutput</span>::<span class="ident">Future</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
             },
-            <span class="prelude-val">Err</span>(<span class="ident">inner</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">inner</span>.<span class="ident">output</span>().<span class="ident">clone</span>(),
+            <span class="prelude-val">Err</span>(<span class="ident">inner</span>) <span class="op">=&gt;</span> <span class="ident">inner</span>.<span class="ident">output</span>().<span class="ident">clone</span>(),
         }
     }
 }
@@ -480,7 +480,7 @@
     <span class="ident">Fut</span>: <span class="ident">Future</span>,
     <span class="ident">Fut</span>::<span class="ident">Output</span>: <span class="ident">Clone</span>,
 {
-    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
+    <span class="kw">fn</span> <span class="ident">is_terminated</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">is_none</span>()
     }
 }
@@ -492,7 +492,7 @@
 {
     <span class="kw">type</span> <span class="ident">Output</span> <span class="op">=</span> <span class="ident">Fut</span>::<span class="ident">Output</span>;
 
-    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">poll</span>(<span class="kw-2">mut</span> <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>;
 
         <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">this</span>
@@ -501,7 +501,7 @@
             .<span class="ident">expect</span>(<span class="string">&quot;Shared future polled again after completion&quot;</span>);
 
         <span class="comment">// Fast path for when the wrapped future has already completed</span>
-        <span class="kw">if</span> <span class="ident">inner</span>.<span class="ident">notifier</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Acquire</span>) <span class="op">=</span><span class="op">=</span> <span class="ident">COMPLETE</span> {
+        <span class="kw">if</span> <span class="ident">inner</span>.<span class="ident">notifier</span>.<span class="ident">state</span>.<span class="ident">load</span>(<span class="ident">Acquire</span>) <span class="op">==</span> <span class="ident">COMPLETE</span> {
             <span class="comment">// Safety: We&#39;re in the COMPLETE state</span>
             <span class="kw">return</span> <span class="kw">unsafe</span> { <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">inner</span>.<span class="ident">take_or_clone_output</span>()) };
         }
@@ -509,21 +509,21 @@
         <span class="ident">inner</span>.<span class="ident">record_waker</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">this</span>.<span class="ident">waker_key</span>, <span class="ident">cx</span>);
 
         <span class="kw">match</span> <span class="ident">inner</span>.<span class="ident">notifier</span>.<span class="ident">state</span>.<span class="ident">compare_and_swap</span>(<span class="ident">IDLE</span>, <span class="ident">POLLING</span>, <span class="ident">SeqCst</span>) {
-            <span class="ident">IDLE</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">IDLE</span> <span class="op">=&gt;</span> {
                 <span class="comment">// Lock acquired, fall through</span>
             }
-            <span class="ident">POLLING</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">POLLING</span> <span class="op">=&gt;</span> {
                 <span class="comment">// Another task is currently polling, at this point we just want</span>
                 <span class="comment">// to ensure that the waker for this task is registered</span>
                 <span class="ident">this</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>);
                 <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Pending</span>;
             }
-            <span class="ident">COMPLETE</span> <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">COMPLETE</span> <span class="op">=&gt;</span> {
                 <span class="comment">// Safety: We&#39;re in the COMPLETE state</span>
                 <span class="kw">return</span> <span class="kw">unsafe</span> { <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">inner</span>.<span class="ident">take_or_clone_output</span>()) };
             }
-            <span class="ident">POISONED</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;inner future panicked during poll&quot;</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+            <span class="ident">POISONED</span> <span class="op">=&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;inner future panicked during poll&quot;</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
         }
 
         <span class="kw">let</span> <span class="ident">waker</span> <span class="op">=</span> <span class="ident">waker_ref</span>(<span class="kw-2">&amp;</span><span class="ident">inner</span>.<span class="ident">notifier</span>);
@@ -546,24 +546,24 @@
         <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> {
             <span class="kw">let</span> <span class="ident">future</span> <span class="op">=</span> <span class="kw">unsafe</span> {
                 <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="ident">inner</span>.<span class="ident">future_or_output</span>.<span class="ident">get</span>() {
-                    <span class="ident">FutureOrOutput</span>::<span class="ident">Future</span>(<span class="ident">fut</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Pin</span>::<span class="ident">new_unchecked</span>(<span class="ident">fut</span>),
-                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                    <span class="ident">FutureOrOutput</span>::<span class="ident">Future</span>(<span class="ident">fut</span>) <span class="op">=&gt;</span> <span class="ident">Pin</span>::<span class="ident">new_unchecked</span>(<span class="ident">fut</span>),
+                    <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
                 }
             };
 
             <span class="kw">match</span> <span class="ident">future</span>.<span class="ident">poll</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">cx</span>) {
-                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=&gt;</span> {
                     <span class="kw">match</span> <span class="ident">inner</span>.<span class="ident">notifier</span>.<span class="ident">state</span>.<span class="ident">compare_and_swap</span>(<span class="ident">POLLING</span>, <span class="ident">IDLE</span>, <span class="ident">SeqCst</span>) {
-                        <span class="ident">POLLING</span> <span class="op">=</span><span class="op">&gt;</span> {
+                        <span class="ident">POLLING</span> <span class="op">=&gt;</span> {
                             <span class="comment">// Success</span>
                             <span class="ident">drop</span>(<span class="ident">_reset</span>);
                             <span class="ident">this</span>.<span class="ident">inner</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">inner</span>);
                             <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Pending</span>;
                         }
-                        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
+                        <span class="kw">_</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
                     }
                 }
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">output</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">output</span>,
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">output</span>) <span class="op">=&gt;</span> <span class="ident">output</span>,
             }
         };
 
@@ -594,7 +594,7 @@
 <span class="kw">where</span>
     <span class="ident">Fut</span>: <span class="ident">Future</span>,
 {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Shared</span> {
             <span class="ident">inner</span>: <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">clone</span>(),
             <span class="ident">waker_key</span>: <span class="ident">NULL_WAKER_KEY</span>,
@@ -607,7 +607,7 @@
     <span class="ident">Fut</span>: <span class="ident">Future</span>,
 {
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">waker_key</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NULL_WAKER_KEY</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">waker_key</span> <span class="op">!=</span> <span class="ident">NULL_WAKER_KEY</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">inner</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span> {
                 <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="kw-2">mut</span> <span class="ident">wakers</span>) <span class="op">=</span> <span class="ident">inner</span>.<span class="ident">notifier</span>.<span class="ident">wakers</span>.<span class="ident">lock</span>() {
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">wakers</span>) <span class="op">=</span> <span class="ident">wakers</span>.<span class="ident">as_mut</span>() {

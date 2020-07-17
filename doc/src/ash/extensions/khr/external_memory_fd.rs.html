@@ -78,7 +78,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">ExternalMemoryFd</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">InstanceV1_0</span>, <span class="ident">D</span>: <span class="ident">DeviceV1_0</span><span class="op">&gt;</span>(<span class="ident">instance</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">D</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">InstanceV1_0</span>, <span class="ident">D</span>: <span class="ident">DeviceV1_0</span><span class="op">&gt;</span>(<span class="ident">instance</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><span class="ident">D</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">external_memory_fd_fn</span> <span class="op">=</span> <span class="ident">vk</span>::<span class="ident">KhrExternalMemoryFdFn</span>::<span class="ident">load</span>(<span class="op">|</span><span class="ident">name</span><span class="op">|</span> <span class="kw">unsafe</span> {
             <span class="ident">mem</span>::<span class="ident">transmute</span>(<span class="ident">instance</span>.<span class="ident">get_device_proc_addr</span>(<span class="ident">device</span>.<span class="ident">handle</span>(), <span class="ident">name</span>.<span class="ident">as_ptr</span>()))
         });
@@ -88,19 +88,19 @@
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">CStr</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>() <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">CStr</span> {
         <span class="ident">vk</span>::<span class="ident">KhrExternalMemoryFdFn</span>::<span class="ident">name</span>()
     }
 
     <span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> <span class="string">&quot;&lt;https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/vkGetMemoryFdKHR.html&gt;&quot;</span>]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_memory_fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">MemoryGetFdInfoKHR</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_memory_fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">create_info</span>: <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">MemoryGetFdInfoKHR</span>) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fd</span> <span class="op">=</span> <span class="op">-</span><span class="number">1</span>;
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span>
             <span class="self">self</span>.<span class="ident">external_memory_fd_fn</span>
                 .<span class="ident">get_memory_fd_khr</span>(<span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">create_info</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fd</span>);
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">fd</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">fd</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
@@ -109,7 +109,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">handle_type</span>: <span class="ident">vk</span>::<span class="ident">ExternalMemoryHandleTypeFlags</span>,
         <span class="ident">fd</span>: <span class="ident">i32</span>,
-    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">MemoryFdPropertiesKHR</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="ident">VkResult</span><span class="op">&lt;</span><span class="ident">vk</span>::<span class="ident">MemoryFdPropertiesKHR</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">memory_fd_properties</span> <span class="op">=</span> <span class="ident">mem</span>::<span class="ident">zeroed</span>();
         <span class="kw">let</span> <span class="ident">err_code</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">external_memory_fd_fn</span>.<span class="ident">get_memory_fd_properties_khr</span>(
             <span class="self">self</span>.<span class="ident">handle</span>,
@@ -118,16 +118,16 @@
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">memory_fd_properties</span>,
         );
         <span class="kw">match</span> <span class="ident">err_code</span> {
-            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">memory_fd_properties</span>),
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
+            <span class="ident">vk</span>::<span class="prelude-ty">Result</span>::<span class="ident">SUCCESS</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">memory_fd_properties</span>),
+            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">err_code</span>),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">KhrExternalMemoryFdFn</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fp</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="ident">vk</span>::<span class="ident">KhrExternalMemoryFdFn</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">external_memory_fd_fn</span>
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">vk</span>::<span class="ident">Device</span> {
         <span class="self">self</span>.<span class="ident">handle</span>
     }
 }

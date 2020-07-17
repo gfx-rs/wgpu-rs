@@ -37,7 +37,7 @@
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">GENERATOR</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">0</span>;
 
 <span class="kw">impl</span> <span class="kw">crate</span>::<span class="ident">Module</span> {
-    <span class="kw">fn</span> <span class="ident">from_header</span>(<span class="ident">header</span>: <span class="kw">crate</span>::<span class="ident">Header</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from_header</span>(<span class="ident">header</span>: <span class="kw">crate</span>::<span class="ident">Header</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">crate</span>::<span class="ident">Module</span> {
             <span class="ident">header</span>,
             <span class="ident">types</span>: <span class="ident">Arena</span>::<span class="ident">new</span>(),
@@ -48,7 +48,7 @@
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">generate_empty</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">generate_empty</span>() <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span>::<span class="ident">from_header</span>(<span class="kw">crate</span>::<span class="ident">Header</span> {
             <span class="ident">version</span>: (<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>),
             <span class="ident">generator</span>: <span class="ident">GENERATOR</span>,
