@@ -1659,7 +1659,7 @@ impl<'a> RenderPass<'a> {
 
     /// Sets the active index buffer.
     ///
-    /// Subsequent calls to [`draw_indexed`](RenderPass::draw_indexed) on this [`RenderPass`] will
+    /// Subsequent calls to [`draw_indexed`](RenderPass::draw_indexed) on this [`RenderPass`](struct.RenderPass.html) will
     /// use `buffer` as the source index buffer.
     pub fn set_index_buffer(&mut self, buffer_slice: BufferSlice<'a>) {
         RenderInner::set_index_buffer(
@@ -1673,7 +1673,7 @@ impl<'a> RenderPass<'a> {
     /// Assign a vertex buffer to a slot.
     ///
     /// Subsequent calls to [`draw`] and [`draw_indexed`] on this
-    /// [`RenderPass`] will use `buffer` as one of the source vertex buffers.
+    /// [`RenderPass`](struct.RenderPass.html) will use `buffer` as one of the source vertex buffers.
     ///
     /// The `slot` refers to the index of the matching descriptor in
     /// [`VertexStateDescriptor::vertex_buffers`].
@@ -1713,7 +1713,7 @@ impl<'a> RenderPass<'a> {
 
     /// Draws primitives from the active vertex buffer(s).
     ///
-    /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffer`].
+    /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffer`](struct.RenderPass.html#method.set_vertex_buffer).
     pub fn draw(&mut self, vertices: Range<u32>, instances: Range<u32>) {
         RenderInner::draw(&mut self.id, vertices, instances)
     }
@@ -1735,15 +1735,15 @@ impl<'a> RenderPass<'a> {
 
     /// Draws indexed primitives using the active index buffer and the active vertex buffers.
     ///
-    /// The active index buffer can be set with [`RenderPass::set_index_buffer`], while the active
-    /// vertex buffers can be set with [`RenderPass::set_vertex_buffer`].
+    /// The active index buffer can be set with [`RenderPass::set_index_buffer`](struct.RenderPass.html#method.set_index_buffer), while the active
+    /// vertex buffers can be set with [`RenderPass::set_vertex_buffer`](struct.RenderPass.html#method.set_vertex_buffer).
     pub fn draw_indexed(&mut self, indices: Range<u32>, base_vertex: i32, instances: Range<u32>) {
         RenderInner::draw_indexed(&mut self.id, indices, base_vertex, instances);
     }
 
     /// Draws primitives from the active vertex buffer(s) based on the contents of the `indirect_buffer`.
     ///
-    /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffer`].
+    /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffer`](struct.RenderPass.html#method.set_vertex_buffer).
     ///
     /// The structure expected in `indirect_buffer` is the following:
     ///
@@ -1763,8 +1763,8 @@ impl<'a> RenderPass<'a> {
     /// Draws indexed primitives using the active index buffer and the active vertex buffers,
     /// based on the contents of the `indirect_buffer`.
     ///
-    /// The active index buffer can be set with [`RenderPass::set_index_buffer`], while the active
-    /// vertex buffers can be set with [`RenderPass::set_vertex_buffer`].
+    /// The active index buffer can be set with [`RenderPass::set_index_buffer`](struct.RenderPass.html#method.set_index_buffer), while the active
+    /// vertex buffers can be set with [`RenderPass::set_vertex_buffer`](struct.RenderPass.html#method.set_vertex_buffer).
     ///
     /// The structure expected in `indirect_buffer` is the following:
     ///
@@ -1800,7 +1800,7 @@ impl<'a> RenderPass<'a> {
     /// Disptaches multiple draw calls from the active vertex buffer(s) based on the contents of the `indirect_buffer`.
     /// `count` draw calls are issued.
     ///
-    /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffer`].
+    /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffer`](struct.RenderPass.html#method.set_vertex_buffer).
     ///
     /// The structure expected in `indirect_buffer` is the following:
     ///
@@ -1828,8 +1828,8 @@ impl<'a> RenderPass<'a> {
     /// Disptaches multiple draw calls from the active index buffer and the active vertex buffers,
     /// based on the contents of the `indirect_buffer`. `count` draw calls are issued.
     ///
-    /// The active index buffer can be set with [`RenderPass::set_index_buffer`], while the active
-    /// vertex buffers can be set with [`RenderPass::set_vertex_buffer`].
+    /// The active index buffer can be set with [`RenderPass::set_index_buffer`](struct.RenderPass.html#method.set_index_buffer), while the active
+    /// vertex buffers can be set with [`RenderPass::set_vertex_buffer`](struct.RenderPass.html#method.set_vertex_buffer).
     ///
     /// The structure expected in `indirect_buffer` is the following:
     ///
@@ -1864,7 +1864,7 @@ impl<'a> RenderPass<'a> {
     /// The indirect buffer must be long enough to account for `max_count` draws, however only `count` will
     /// draws will be read. If `count` is greater than `max_count`, `max_count` will be used.
     ///
-    /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffer`].
+    /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffer`](struct.RenderPass.html#method.set_vertex_buffer).
     ///
     /// The structure expected in `indirect_buffer` is the following:
     ///
@@ -1911,8 +1911,8 @@ impl<'a> RenderPass<'a> {
     /// The indirect buffer must be long enough to account for `max_count` draws, however only `count` will
     /// draws will be read. If `count` is greater than `max_count`, `max_count` will be used.
     ///
-    /// The active index buffer can be set with [`RenderPass::set_index_buffer`], while the active
-    /// vertex buffers can be set with [`RenderPass::set_vertex_buffer`].
+    /// The active index buffer can be set with [`RenderPass::set_index_buffer`](struct.RenderPass.html#method.set_index_buffer), while the active
+    /// vertex buffers can be set with [`RenderPass::set_vertex_buffer`](struct.RenderPass.html#method.set_vertex_buffer).
     ///
     /// The structure expected in `indirect_buffer` is the following:
     ///
