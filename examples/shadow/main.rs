@@ -1,9 +1,10 @@
-use std::{iter, mem, ops::Range, rc::Rc};
+use std::{iter, mem, ops::Range, rc::Rc, sync::Arc};
 
 #[path = "../framework.rs"]
 mod framework;
 
 use bytemuck::{Pod, Zeroable};
+use typed_arena::Arena;
 
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -82,15 +83,82 @@ fn create_plane(size: i8) -> (Vec<Vertex>, Vec<u16>) {
     (vertex_data.to_vec(), index_data.to_vec())
 }
 
+pub struct ArcRenderPass<'a> {
+    buffer_arena: &'a Arena<Arc<wgpu::Buffer>>,
+    bind_group_arena: &'a Arena<Arc<wgpu::BindGroup>>,
+    render_pass: wgpu::RenderPass<'a>,
+}
+
+impl<'a> ArcRenderPass<'a> {
+    pub fn new(
+        buffer_arena: &'a Arena<Arc<wgpu::Buffer>>,
+        bind_group_arena: &'a Arena<Arc<wgpu::BindGroup>>,
+        render_pass: wgpu::RenderPass<'a>,
+    ) -> Self {
+        Self {
+            buffer_arena,
+            bind_group_arena,
+            render_pass,
+        }
+    }
+
+    pub fn set_bind_group_arc(
+        &mut self,
+        slot: u32,
+        bind_group: Arc<wgpu::BindGroup>,
+        offset: &[wgpu::DynamicOffset],
+    ) {
+        let bind_group = self.bind_group_arena.alloc(bind_group);
+        self.render_pass.set_bind_group(slot, bind_group, offset);
+    }
+
+    pub fn set_bind_group(
+        &mut self,
+        slot: u32,
+        bind_group: &'a wgpu::BindGroup,
+        offset: &[wgpu::DynamicOffset],
+    ) {
+        self.render_pass.set_bind_group(slot, bind_group, offset);
+    }
+
+    pub fn set_vertex_buffer(&mut self, slot: u32, buffer: Arc<wgpu::Buffer>) {
+        let buffer = self.buffer_arena.alloc(buffer);
+        self.render_pass.set_vertex_buffer(slot, buffer.slice(..));
+    }
+
+    pub fn set_index_buffer(&mut self, buffer: Arc<wgpu::Buffer>) {
+        let buffer = self.buffer_arena.alloc(buffer);
+        self.render_pass.set_index_buffer(buffer.slice(..));
+    }
+
+    pub fn set_pipeline(&mut self, pipeline: &'a wgpu::RenderPipeline) {
+        self.render_pass.set_pipeline(&pipeline);
+    }
+
+    pub fn draw_indexed(&mut self, indices: Range<u32>, base_vertex: i32, instances: Range<u32>) {
+        self.render_pass
+            .draw_indexed(indices, base_vertex, instances);
+    }
+}
+
 struct Entity {
     mx_world: cgmath::Matrix4<f32>,
     rotation_speed: f32,
     color: wgpu::Color,
-    vertex_buf: Rc<wgpu::Buffer>,
-    index_buf: Rc<wgpu::Buffer>,
+    vertex_buf: Arc<wgpu::Buffer>,
+    index_buf: Arc<wgpu::Buffer>,
     index_count: usize,
-    bind_group: wgpu::BindGroup,
-    uniform_buf: wgpu::Buffer,
+    bind_group: Arc<wgpu::BindGroup>,
+    uniform_buf: Arc<wgpu::Buffer>,
+}
+
+impl Entity {
+    fn draw<'a>(&'a self, pass: &mut ArcRenderPass<'a>) {
+        pass.set_bind_group_arc(1, self.bind_group.clone(), &[]);
+        pass.set_index_buffer(self.index_buf.clone());
+        pass.set_vertex_buffer(0, self.vertex_buf.clone());
+        pass.draw_indexed(0..self.index_count as u32, 0, 0..1);
+    }
 }
 
 struct Light {
@@ -211,12 +279,12 @@ impl framework::Example for Example {
         // Create the vertex and index buffers
         let vertex_size = mem::size_of::<Vertex>();
         let (cube_vertex_data, cube_index_data) = create_cube();
-        let cube_vertex_buf = Rc::new(device.create_buffer_with_data(
+        let cube_vertex_buf = Arc::new(device.create_buffer_with_data(
             bytemuck::cast_slice(&cube_vertex_data),
             wgpu::BufferUsage::VERTEX,
         ));
 
-        let cube_index_buf = Rc::new(device.create_buffer_with_data(
+        let cube_index_buf = Arc::new(device.create_buffer_with_data(
             bytemuck::cast_slice(&cube_index_data),
             wgpu::BufferUsage::INDEX,
         ));
@@ -270,11 +338,11 @@ impl framework::Example for Example {
                 mx_world: cgmath::Matrix4::identity(),
                 rotation_speed: 0.0,
                 color: wgpu::Color::WHITE,
-                vertex_buf: Rc::new(plane_vertex_buf),
-                index_buf: Rc::new(plane_index_buf),
+                vertex_buf: Arc::new(plane_vertex_buf),
+                index_buf: Arc::new(plane_index_buf),
                 index_count: plane_index_data.len(),
-                bind_group,
-                uniform_buf: plane_uniform_buf,
+                bind_group: Arc::new(bind_group),
+                uniform_buf: Arc::new(plane_uniform_buf),
             }
         }];
 
@@ -329,18 +397,18 @@ impl framework::Example for Example {
                 mx_world: cgmath::Matrix4::from(transform),
                 rotation_speed: cube.rotation,
                 color: wgpu::Color::GREEN,
-                vertex_buf: Rc::clone(&cube_vertex_buf),
-                index_buf: Rc::clone(&cube_index_buf),
+                vertex_buf: cube_vertex_buf.clone(),
+                index_buf: cube_index_buf.clone(),
                 index_count: cube_index_data.len(),
-                bind_group: device.create_bind_group(&wgpu::BindGroupDescriptor {
+                bind_group: Arc::new(device.create_bind_group(&wgpu::BindGroupDescriptor {
                     layout: &local_bind_group_layout,
                     entries: &[wgpu::BindGroupEntry {
                         binding: 0,
                         resource: wgpu::BindingResource::Buffer(uniform_buf.slice(..)),
                     }],
                     label: None,
-                }),
-                uniform_buf,
+                })),
+                uniform_buf: Arc::new(uniform_buf),
             });
         }
 
@@ -754,61 +822,71 @@ impl framework::Example for Example {
                 64,
             );
 
-            let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
-                color_attachments: &[],
-                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachmentDescriptor {
-                    attachment: &light.target_view,
-                    depth_ops: Some(wgpu::Operations {
-                        load: wgpu::LoadOp::Clear(1.0),
-                        store: true,
+            let buffer_arena = Arena::new();
+            let bind_group_arena = Arena::new();
+
+            let mut pass = ArcRenderPass::new(
+                &buffer_arena,
+                &bind_group_arena,
+                encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
+                    color_attachments: &[],
+                    depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachmentDescriptor {
+                        attachment: &light.target_view,
+                        depth_ops: Some(wgpu::Operations {
+                            load: wgpu::LoadOp::Clear(1.0),
+                            store: true,
+                        }),
+                        stencil_ops: None,
                     }),
-                    stencil_ops: None,
-                }),
-            });
+                })
+            );
+
             pass.set_pipeline(&self.shadow_pass.pipeline);
             pass.set_bind_group(0, &self.shadow_pass.bind_group, &[]);
 
             for entity in &self.entities {
-                pass.set_bind_group(1, &entity.bind_group, &[]);
-                pass.set_index_buffer(entity.index_buf.slice(..));
-                pass.set_vertex_buffer(0, entity.vertex_buf.slice(..));
-                pass.draw_indexed(0..entity.index_count as u32, 0, 0..1);
+                entity.draw(&mut pass);
             }
         }
 
         // forward pass
         {
-            let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
-                color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
-                    attachment: &frame.view,
-                    resolve_target: None,
-                    ops: wgpu::Operations {
-                        load: wgpu::LoadOp::Clear(wgpu::Color {
-                            r: 0.1,
-                            g: 0.2,
-                            b: 0.3,
-                            a: 1.0,
+            let buffer_arena = Arena::new();
+            let bind_group_arena = Arena::new();
+
+            let mut pass = ArcRenderPass::new(
+                &buffer_arena,
+                &bind_group_arena,
+                encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
+                    color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
+                        attachment: &frame.view,
+                        resolve_target: None,
+                        ops: wgpu::Operations {
+                            load: wgpu::LoadOp::Clear(wgpu::Color {
+                                r: 0.1,
+                                g: 0.2,
+                                b: 0.3,
+                                a: 1.0,
+                            }),
+                            store: true,
+                        },
+                    }],
+                    depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachmentDescriptor {
+                        attachment: &self.forward_depth,
+                        depth_ops: Some(wgpu::Operations {
+                            load: wgpu::LoadOp::Clear(1.0),
+                            store: false,
                         }),
-                        store: true,
-                    },
-                }],
-                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachmentDescriptor {
-                    attachment: &self.forward_depth,
-                    depth_ops: Some(wgpu::Operations {
-                        load: wgpu::LoadOp::Clear(1.0),
-                        store: false,
+                        stencil_ops: None,
                     }),
-                    stencil_ops: None,
-                }),
-            });
+                })
+            );
+
             pass.set_pipeline(&self.forward_pass.pipeline);
             pass.set_bind_group(0, &self.forward_pass.bind_group, &[]);
 
             for entity in &self.entities {
-                pass.set_bind_group(1, &entity.bind_group, &[]);
-                pass.set_index_buffer(entity.index_buf.slice(..));
-                pass.set_vertex_buffer(0, entity.vertex_buf.slice(..));
-                pass.draw_indexed(0..entity.index_count as u32, 0, 0..1);
+                entity.draw(&mut pass);
             }
         }
 
