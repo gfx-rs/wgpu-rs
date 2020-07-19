@@ -22,8 +22,10 @@ use std::{
 
 use futures::FutureExt as _;
 use parking_lot::Mutex;
-#[cfg(feature = "serde")]
-use serde::{Deserialize, Serialize};
+#[cfg(feature = "trace")]
+use serde::Serialize;
+#[cfg(feature = "replay")]
+use serde::Deserialize;
 
 #[cfg(not(target_arch = "wasm32"))]
 pub use wgc::instance::{AdapterInfo, DeviceType};
@@ -800,7 +802,8 @@ pub enum BindingResource<'a> {
 
 /// Operation to perform to the output attachment at the start of a renderpass.
 #[derive(Copy, Clone, Debug, Hash, Eq, PartialEq)]
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "trace", derive(Serialize))]
+#[cfg_attr(feature = "replay", derive(Deserialize))]
 pub enum LoadOp<V> {
     /// Clear with a specified value.
     Clear(V),
@@ -816,7 +819,8 @@ impl<V: Default> Default for LoadOp<V> {
 
 /// Pair of load and store operations for an attachment aspect.
 #[derive(Copy, Clone, Debug, Default, Hash, Eq, PartialEq)]
-#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
+#[cfg_attr(feature = "trace", derive(Serialize))]
+#[cfg_attr(feature = "replay", derive(Deserialize))]
 pub struct Operations<V> {
     /// How data should be read through this attachment.
     pub load: LoadOp<V>,
