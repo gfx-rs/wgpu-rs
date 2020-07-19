@@ -44,6 +44,7 @@ raw-window-handle = "0.3"
 smallvec = "1"
 tracing = { version = "0.1", default-features = false, features = ["std"] }
 typed-arena = "2.0.1"
+serde = { version = "1", features = ["derive"], optional = true }
 
 #Note: we may consider switching this to "dev-dependencies" if users
 # want to opt into X11 explicitly.
