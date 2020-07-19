@@ -818,7 +818,7 @@ impl<V: Default> Default for LoadOp<V> {
 }
 
 /// Pair of load and store operations for an attachment aspect.
-#[derive(Copy, Clone, Debug, Default, Hash, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Hash, Eq, PartialEq)]
 #[cfg_attr(feature = "trace", derive(Serialize))]
 #[cfg_attr(feature = "replay", derive(Deserialize))]
 pub struct Operations<V> {
@@ -826,6 +826,15 @@ pub struct Operations<V> {
     pub load: LoadOp<V>,
     /// Whether data will be written to through this attachment.
     pub store: bool,
+}
+
+impl<V: Default> Default for Operations<V> {
+    fn default() -> Self {
+        Self {
+            load: Default::default(),
+            store: true,
+        }
+    }
 }
 
 /// Describes a color attachment to a [`RenderPass`].
