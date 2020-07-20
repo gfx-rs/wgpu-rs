@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["DESIRED_NUM_FRAMES",""]],"struct":[["SwapChain",""],["SwapChainOutput",""]]});
+initSidebarItems({"constant":[["DESIRED_NUM_FRAMES",""]],"enum":[["SwapChainError",""]],"struct":[["SwapChain",""],["SwapChainOutput",""]]});

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/a0ed09a/wgpu-core/src/swap_chain.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>swap_chain.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/3c6ee87/wgpu-core/src/swap_chain.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>swap_chain.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -229,6 +229,42 @@
 <span id="229">229</span>
 <span id="230">230</span>
 <span id="231">231</span>
+<span id="232">232</span>
+<span id="233">233</span>
+<span id="234">234</span>
+<span id="235">235</span>
+<span id="236">236</span>
+<span id="237">237</span>
+<span id="238">238</span>
+<span id="239">239</span>
+<span id="240">240</span>
+<span id="241">241</span>
+<span id="242">242</span>
+<span id="243">243</span>
+<span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
+<span id="247">247</span>
+<span id="248">248</span>
+<span id="249">249</span>
+<span id="250">250</span>
+<span id="251">251</span>
+<span id="252">252</span>
+<span id="253">253</span>
+<span id="254">254</span>
+<span id="255">255</span>
+<span id="256">256</span>
+<span id="257">257</span>
+<span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
+<span id="261">261</span>
+<span id="262">262</span>
+<span id="263">263</span>
+<span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -273,7 +309,11 @@
     <span class="ident">resource</span>, <span class="ident">span</span>, <span class="ident">LifeGuard</span>, <span class="ident">PrivateFeatures</span>, <span class="ident">Stored</span>, <span class="ident">SubmissionIndex</span>,
 };
 
-<span class="kw">use</span> <span class="ident">hal</span>::{<span class="self">self</span>, <span class="ident">device</span>::<span class="ident">Device</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">queue</span>::<span class="ident">CommandQueue</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">window</span>::<span class="ident">PresentationSurface</span> <span class="kw">as</span> <span class="kw">_</span>};
+<span class="kw">use</span> <span class="ident">hal</span>::{
+    <span class="self">self</span>, <span class="ident">device</span>::<span class="ident">Device</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">queue</span>::<span class="ident">CommandQueue</span> <span class="kw">as</span> <span class="kw">_</span>,
+    <span class="ident">window</span>::<span class="ident">PresentationSurface</span> <span class="kw">as</span> <span class="kw">_</span>,
+};
+<span class="kw">use</span> <span class="ident">thiserror</span>::<span class="ident">Error</span>;
 <span class="kw">use</span> <span class="ident">wgt</span>::{<span class="ident">SwapChainDescriptor</span>, <span class="ident">SwapChainStatus</span>};
 
 <span class="kw">const</span> <span class="ident">FRAME_TIMEOUT_MS</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">1000</span>;
@@ -321,11 +361,22 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">G</span>: <span class="ident">GlobalIdentityHandlerFactory</span><span class="op">&gt;</span> <span class="ident">Global</span><span class="op">&lt;</span><span class="ident">G</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">swap_chain_get_next_texture</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">swap_chain_get_preferred_format</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">_swap_chain_id</span>: <span class="ident">SwapChainId</span>,
+    ) <span class="op">-&gt;</span> <span class="ident">wgt</span>::<span class="ident">TextureFormat</span> {
+        <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;SwapChain::get_next_texture&quot;</span>);
+        <span class="comment">//TODO: we can query the formats like done in `device_create_swapchain`,</span>
+        <span class="comment">// but its not clear which format in the list to return.</span>
+        <span class="comment">// For now, return `Bgra8UnormSrgb` that we know is supported everywhere.</span>
+        <span class="ident">wgt</span>::<span class="ident">TextureFormat</span>::<span class="ident">Bgra8UnormSrgb</span>
+    }
+
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">swap_chain_get_current_texture_view</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">swap_chain_id</span>: <span class="ident">SwapChainId</span>,
         <span class="ident">view_id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">TextureViewId</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">SwapChainOutput</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SwapChainOutput</span>, <span class="ident">SwapChainError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;SwapChain::get_next_texture&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -346,57 +397,59 @@
             <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> (
                 <span class="prelude-val">None</span>,
                 <span class="kw">match</span> <span class="ident">err</span> {
-                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">OutOfMemory</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">OutOfMemory</span>,
+                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">OutOfMemory</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">SwapChainError</span>::<span class="ident">OutOfMemory</span>),
                     <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">NotReady</span> <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(), <span class="comment">// we always set a timeout</span>
                     <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">Timeout</span> <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Timeout</span>,
                     <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">OutOfDate</span> <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Outdated</span>,
                     <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">SurfaceLost</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Lost</span>,
-                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">DeviceLost</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="ident">SwapChainStatus</span>::<span class="ident">Lost</span>,
+                    <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">AcquireError</span>::<span class="ident">DeviceLost</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">SwapChainError</span>::<span class="ident">DeviceLost</span>),
                 },
             ),
         };
 
-        <span class="kw">let</span> <span class="ident">view_id</span> <span class="op">=</span> <span class="ident">image</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">image</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">view</span> <span class="op">=</span> <span class="ident">resource</span>::<span class="ident">TextureView</span> {
-                <span class="ident">inner</span>: <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> {
-                    <span class="ident">image</span>,
-                    <span class="ident">source_id</span>: <span class="ident">Stored</span> {
-                        <span class="ident">value</span>: <span class="ident">swap_chain_id</span>,
-                        <span class="ident">ref_count</span>: <span class="ident">sc</span>.<span class="ident">life_guard</span>.<span class="ident">add_ref</span>(),
+        <span class="kw">let</span> <span class="ident">view_id</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">image</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">image</span>) <span class="op">=&gt;</span> {
+                <span class="kw">let</span> <span class="ident">view</span> <span class="op">=</span> <span class="ident">resource</span>::<span class="ident">TextureView</span> {
+                    <span class="ident">inner</span>: <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> {
+                        <span class="ident">image</span>,
+                        <span class="ident">source_id</span>: <span class="ident">Stored</span> {
+                            <span class="ident">value</span>: <span class="ident">swap_chain_id</span>,
+                            <span class="ident">ref_count</span>: <span class="ident">sc</span>.<span class="ident">life_guard</span>.<span class="ident">add_ref</span>(),
+                        },
                     },
-                },
-                <span class="ident">format</span>: <span class="ident">sc</span>.<span class="ident">desc</span>.<span class="ident">format</span>,
-                <span class="ident">extent</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Extent</span> {
-                    <span class="ident">width</span>: <span class="ident">sc</span>.<span class="ident">desc</span>.<span class="ident">width</span>,
-                    <span class="ident">height</span>: <span class="ident">sc</span>.<span class="ident">desc</span>.<span class="ident">height</span>,
-                    <span class="ident">depth</span>: <span class="number">1</span>,
-                },
-                <span class="ident">samples</span>: <span class="number">1</span>,
-                <span class="ident">range</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">SubresourceRange</span> {
-                    <span class="ident">aspects</span>: <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">COLOR</span>,
-                    <span class="ident">layers</span>: <span class="number">0</span>..<span class="number">1</span>,
-                    <span class="ident">levels</span>: <span class="number">0</span>..<span class="number">1</span>,
-                },
-                <span class="ident">life_guard</span>: <span class="ident">LifeGuard</span>::<span class="ident">new</span>(),
-            };
+                    <span class="ident">format</span>: <span class="ident">sc</span>.<span class="ident">desc</span>.<span class="ident">format</span>,
+                    <span class="ident">extent</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">Extent</span> {
+                        <span class="ident">width</span>: <span class="ident">sc</span>.<span class="ident">desc</span>.<span class="ident">width</span>,
+                        <span class="ident">height</span>: <span class="ident">sc</span>.<span class="ident">desc</span>.<span class="ident">height</span>,
+                        <span class="ident">depth</span>: <span class="number">1</span>,
+                    },
+                    <span class="ident">samples</span>: <span class="number">1</span>,
+                    <span class="ident">range</span>: <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">SubresourceRange</span> {
+                        <span class="ident">aspects</span>: <span class="ident">hal</span>::<span class="ident">format</span>::<span class="ident">Aspects</span>::<span class="ident">COLOR</span>,
+                        <span class="ident">layers</span>: <span class="number">0</span>..<span class="number">1</span>,
+                        <span class="ident">levels</span>: <span class="number">0</span>..<span class="number">1</span>,
+                    },
+                    <span class="ident">life_guard</span>: <span class="ident">LifeGuard</span>::<span class="ident">new</span>(),
+                };
 
-            <span class="kw">let</span> <span class="ident">ref_count</span> <span class="op">=</span> <span class="ident">view</span>.<span class="ident">life_guard</span>.<span class="ident">add_ref</span>();
-            <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">hub</span>
-                .<span class="ident">texture_views</span>
-                .<span class="ident">register_identity</span>(<span class="ident">view_id_in</span>, <span class="ident">view</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
+                <span class="kw">let</span> <span class="ident">ref_count</span> <span class="op">=</span> <span class="ident">view</span>.<span class="ident">life_guard</span>.<span class="ident">add_ref</span>();
+                <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">hub</span>
+                    .<span class="ident">texture_views</span>
+                    .<span class="ident">register_identity</span>(<span class="ident">view_id_in</span>, <span class="ident">view</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
 
-            <span class="macro">assert</span><span class="macro">!</span>(
-                <span class="ident">sc</span>.<span class="ident">acquired_view_id</span>.<span class="ident">is_none</span>(),
-                <span class="string">&quot;Swap chain image is already acquired&quot;</span>
-            );
+                <span class="kw">if</span> <span class="ident">sc</span>.<span class="ident">acquired_view_id</span>.<span class="ident">is_some</span>() {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">SwapChainError</span>::<span class="ident">AlreadyAcquired</span>);
+                }
 
-            <span class="ident">sc</span>.<span class="ident">acquired_view_id</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Stored</span> {
-                <span class="ident">value</span>: <span class="ident">id</span>,
-                <span class="ident">ref_count</span>,
-            });
+                <span class="ident">sc</span>.<span class="ident">acquired_view_id</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">Stored</span> {
+                    <span class="ident">value</span>: <span class="ident">id</span>,
+                    <span class="ident">ref_count</span>,
+                });
 
-            <span class="ident">id</span>
-        });
+                <span class="prelude-val">Some</span>(<span class="ident">id</span>)
+            }
+            <span class="prelude-val">None</span> <span class="op">=&gt;</span> <span class="prelude-val">None</span>,
+        };
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
         <span class="kw">match</span> <span class="ident">device</span>.<span class="ident">trace</span> {
@@ -407,10 +460,13 @@
             <span class="prelude-val">None</span> <span class="op">=&gt;</span> (),
         };
 
-        <span class="ident">SwapChainOutput</span> { <span class="ident">status</span>, <span class="ident">view_id</span> }
+        <span class="prelude-val">Ok</span>(<span class="ident">SwapChainOutput</span> { <span class="ident">status</span>, <span class="ident">view_id</span> })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">swap_chain_present</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">swap_chain_id</span>: <span class="ident">SwapChainId</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">swap_chain_present</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">swap_chain_id</span>: <span class="ident">SwapChainId</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SwapChainStatus</span>, <span class="ident">SwapChainError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;SwapChain::present&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -432,25 +488,20 @@
         <span class="kw">let</span> <span class="ident">view_id</span> <span class="op">=</span> <span class="ident">sc</span>
             .<span class="ident">acquired_view_id</span>
             .<span class="ident">take</span>()
-            .<span class="ident">expect</span>(<span class="string">&quot;Swap chain image is not acquired&quot;</span>);
+            .<span class="ident">ok_or</span>(<span class="ident">SwapChainError</span>::<span class="ident">AlreadyAcquired</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> (<span class="ident">view</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">texture_views</span>.<span class="ident">unregister</span>(<span class="ident">view_id</span>.<span class="ident">value</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
         <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">view</span>.<span class="ident">inner</span> {
             <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">Native</span> { .. } <span class="op">=&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(),
             <span class="ident">resource</span>::<span class="ident">TextureViewInner</span>::<span class="ident">SwapChain</span> { <span class="ident">image</span>, .. } <span class="op">=&gt;</span> <span class="ident">image</span>,
         };
 
-        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> {
-            <span class="kw">let</span> <span class="ident">sem</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">sc</span>.<span class="ident">active_submission_index</span> <span class="op">&gt;</span> <span class="ident">device</span>.<span class="ident">last_completed_submission_index</span>() {
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">sc</span>.<span class="ident">semaphore</span>)
-            } <span class="kw">else</span> {
-                <span class="prelude-val">None</span>
-            };
-            <span class="kw">let</span> <span class="ident">queue</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">device</span>.<span class="ident">queue_group</span>.<span class="ident">queues</span>[<span class="number">0</span>];
-            <span class="kw">unsafe</span> { <span class="ident">queue</span>.<span class="ident">present_surface</span>(<span class="ident">B</span>::<span class="ident">get_surface_mut</span>(<span class="ident">surface</span>), <span class="ident">image</span>, <span class="ident">sem</span>) }
+        <span class="kw">let</span> <span class="ident">sem</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">sc</span>.<span class="ident">active_submission_index</span> <span class="op">&gt;</span> <span class="ident">device</span>.<span class="ident">last_completed_submission_index</span>() {
+            <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">sc</span>.<span class="ident">semaphore</span>)
+        } <span class="kw">else</span> {
+            <span class="prelude-val">None</span>
         };
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">err</span> {
-            <span class="ident">log</span>::<span class="macro">warn</span><span class="macro">!</span>(<span class="string">&quot;present failed: {:?}&quot;</span>, <span class="ident">e</span>);
-        }
+        <span class="kw">let</span> <span class="ident">queue</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">device</span>.<span class="ident">queue_group</span>.<span class="ident">queues</span>[<span class="number">0</span>];
+        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">queue</span>.<span class="ident">present_surface</span>(<span class="ident">B</span>::<span class="ident">get_surface_mut</span>(<span class="ident">surface</span>), <span class="ident">image</span>, <span class="ident">sem</span>) };
 
         <span class="ident">tracing</span>::<span class="macro">debug</span><span class="macro">!</span>(<span class="ident">trace</span> <span class="op">=</span> <span class="bool-val">true</span>, <span class="string">&quot;Presented. End of Frame&quot;</span>);
 
@@ -459,7 +510,28 @@
                 <span class="ident">device</span>.<span class="ident">raw</span>.<span class="ident">destroy_framebuffer</span>(<span class="ident">fbo</span>);
             }
         }
+
+        <span class="kw">match</span> <span class="ident">result</span> {
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">SwapChainStatus</span>::<span class="ident">Good</span>),
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="kw">_</span>)) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">SwapChainStatus</span>::<span class="ident">Suboptimal</span>),
+            <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=&gt;</span> <span class="kw">match</span> <span class="ident">err</span> {
+                <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentError</span>::<span class="ident">OutOfMemory</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">SwapChainError</span>::<span class="ident">OutOfMemory</span>),
+                <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentError</span>::<span class="ident">OutOfDate</span> <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">SwapChainStatus</span>::<span class="ident">Outdated</span>),
+                <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentError</span>::<span class="ident">SurfaceLost</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">SwapChainStatus</span>::<span class="ident">Lost</span>),
+                <span class="ident">hal</span>::<span class="ident">window</span>::<span class="ident">PresentError</span>::<span class="ident">DeviceLost</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">SwapChainError</span>::<span class="ident">DeviceLost</span>),
+            },
+        }
     }
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">SwapChainError</span> {
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;swap chain image is already acquired&quot;</span>)]</span>
+    <span class="ident">AlreadyAcquired</span>,
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Graphics backend is out of memory&quot;</span>)]</span>
+    <span class="ident">OutOfMemory</span>,
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;graphics backend device lost&quot;</span>)]</span>
+    <span class="ident">DeviceLost</span>,
 }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../";window.currentCrate = "wgpu_core";</script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

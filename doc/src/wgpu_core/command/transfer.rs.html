@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/a0ed09a/wgpu-core/src/command/transfer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>transfer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/3c6ee87/wgpu-core/src/command/transfer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>transfer.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -595,8 +595,6 @@
 <span id="595">595</span>
 <span id="596">596</span>
 <span id="597">597</span>
-<span id="598">598</span>
-<span id="599">599</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -614,6 +612,7 @@
 };
 
 <span class="kw">use</span> <span class="ident">hal</span>::<span class="ident">command</span>::<span class="ident">CommandBuffer</span> <span class="kw">as</span> <span class="kw">_</span>;
+<span class="kw">use</span> <span class="ident">thiserror</span>::<span class="ident">Error</span>;
 <span class="kw">use</span> <span class="ident">wgt</span>::{<span class="ident">BufferAddress</span>, <span class="ident">BufferUsage</span>, <span class="ident">Extent3d</span>, <span class="ident">TextureDataLayout</span>, <span class="ident">TextureUsage</span>};
 
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">iter</span>;
@@ -627,36 +626,33 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">TextureCopyView</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">TextureCopyView</span><span class="op">&lt;</span><span class="ident">TextureId</span><span class="op">&gt;</span>;
 
 <span class="doccomment">/// Error encountered while attempting a data transfer.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">TransferError</span> {
-    <span class="doccomment">/// The source buffer/texture is missing the `COPY_SRC` usage flag.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;source buffer/texture is missing the `COPY_SRC` usage flag&quot;</span>)]</span>
     <span class="ident">MissingCopySrcUsageFlag</span>,
-    <span class="doccomment">/// The destination buffer/texture is missing the `COPY_DST` usage flag.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;destination buffer/texture is missing the `COPY_DST` usage flag&quot;</span>)]</span>
     <span class="ident">MissingCopyDstUsageFlag</span>,
-    <span class="doccomment">/// Copy would end up overruning the bounds of the destination buffer/texture.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;copy would end up overruning the bounds of the destination buffer/texture&quot;</span>)]</span>
     <span class="ident">BufferOverrun</span>,
-    <span class="doccomment">/// Buffer offset is not aligned to block size.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;buffer offset is not aligned to block size&quot;</span>)]</span>
     <span class="ident">UnalignedBufferOffset</span>,
-    <span class="doccomment">/// Copy size is not a multiple of block size.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;copy size is not a multiple of block size&quot;</span>)]</span>
     <span class="ident">UnalignedCopySize</span>,
-    <span class="doccomment">/// Copy width is not a multiple of block size.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;copy width is not a multiple of block size&quot;</span>)]</span>
     <span class="ident">UnalignedCopyWidth</span>,
-    <span class="doccomment">/// Copy height is not a multiple of block size.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;copy height is not a multiple of block size&quot;</span>)]</span>
     <span class="ident">UnalignedCopyHeight</span>,
-    <span class="doccomment">/// Bytes per row is not a multiple of the required alignment.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;bytes per row is not a multiple of the required alignment&quot;</span>)]</span>
     <span class="ident">UnalignedBytesPerRow</span>,
-    <span class="doccomment">/// Number of rows per image is not a multiple of the required alignment.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;number of rows per image is not a multiple of the required alignment&quot;</span>)]</span>
     <span class="ident">UnalignedRowsPerImage</span>,
-    <span class="doccomment">/// Number of bytes per row is less than the number of bytes in a complete row.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;number of bytes per row is less than the number of bytes in a complete row&quot;</span>)]</span>
     <span class="ident">InvalidBytesPerRow</span>,
-    <span class="doccomment">/// Copy size is invalid.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This can happen if the image is 1D and the copy height and depth</span>
-    <span class="doccomment">/// are not both set to 1.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;image is 1D and the copy height and depth are not both set to 1&quot;</span>)]</span>
     <span class="ident">InvalidCopySize</span>,
-    <span class="doccomment">/// Number of rows per image is invalid.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;number of rows per image is invalid&quot;</span>)]</span>
     <span class="ident">InvalidRowsPerImage</span>,
-    <span class="doccomment">/// The source and destination layers have different aspects.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;source and destination layers have different aspects&quot;</span>)]</span>
     <span class="ident">MismatchedAspects</span>,
 }
 

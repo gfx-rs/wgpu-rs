@@ -2314,7 +2314,6 @@
 <span id="2314">2314</span>
 <span id="2315">2315</span>
 <span id="2316">2316</span>
-<span id="2317">2317</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! A cross-platform graphics and compute library based on [WebGPU](https://gpuweb.github.io/gpuweb/).</span>
 <span class="doccomment">//!</span>
@@ -2340,10 +2339,10 @@
 
 <span class="kw">use</span> <span class="ident">futures</span>::<span class="ident">FutureExt</span> <span class="kw">as</span> <span class="kw">_</span>;
 <span class="kw">use</span> <span class="ident">parking_lot</span>::<span class="ident">Mutex</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Serialize</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Deserialize</span>;
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Serialize</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">target_arch</span> <span class="op">=</span> <span class="string">&quot;wasm32&quot;</span>))]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wgc</span>::<span class="ident">instance</span>::{<span class="ident">AdapterInfo</span>, <span class="ident">DeviceType</span>};
@@ -2596,7 +2595,7 @@
         <span class="ident">sub_range</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">BufferAddress</span><span class="op">&gt;</span>,
     ) <span class="op">-&gt;</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> [<span class="ident">u8</span>];
     <span class="kw">fn</span> <span class="ident">buffer_unmap</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">BufferId</span>);
-    <span class="kw">fn</span> <span class="ident">swap_chain_get_next_texture</span>(
+    <span class="kw">fn</span> <span class="ident">swap_chain_get_current_texture_view</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">swap_chain</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>::<span class="ident">SwapChainId</span>,
     ) <span class="op">-&gt;</span> (
@@ -4605,9 +4604,9 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// If a SwapChainFrame referencing this surface is alive when the swapchain is recreated,</span>
     <span class="doccomment">/// recreating the swapchain will panic.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_next_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SwapChainFrame</span>, <span class="ident">SwapChainError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_current_frame</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">SwapChainFrame</span>, <span class="ident">SwapChainError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> (<span class="ident">view_id</span>, <span class="ident">status</span>, <span class="ident">detail</span>) <span class="op">=</span>
-            <span class="ident">Context</span>::<span class="ident">swap_chain_get_next_texture</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">id</span>);
+            <span class="ident">Context</span>::<span class="ident">swap_chain_get_current_texture_view</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">context</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">id</span>);
         <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="ident">view_id</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">id</span><span class="op">|</span> <span class="ident">SwapChainTexture</span> {
             <span class="ident">view</span>: <span class="ident">TextureView</span> {
                 <span class="ident">context</span>: <span class="ident">Arc</span>::<span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">context</span>),
@@ -4629,7 +4628,6 @@
             <span class="ident">SwapChainStatus</span>::<span class="ident">Timeout</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">SwapChainError</span>::<span class="ident">Timeout</span>),
             <span class="ident">SwapChainStatus</span>::<span class="ident">Outdated</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">SwapChainError</span>::<span class="ident">Outdated</span>),
             <span class="ident">SwapChainStatus</span>::<span class="ident">Lost</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">SwapChainError</span>::<span class="ident">Lost</span>),
-            <span class="ident">SwapChainStatus</span>::<span class="ident">OutOfMemory</span> <span class="op">=&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">SwapChainError</span>::<span class="ident">OutOfMemory</span>),
         }
     }
 }

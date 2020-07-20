@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/a0ed09a/wgpu-core/src/validation.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>validation.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/3c6ee87/wgpu-core/src/validation.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>validation.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -694,6 +694,48 @@
 <span id="694">694</span>
 <span id="695">695</span>
 <span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -701,53 +743,95 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">binding_model</span>::<span class="ident">BindEntryMap</span>, <span class="ident">FastHashMap</span>};
 <span class="kw">use</span> <span class="ident">spirv_headers</span> <span class="kw">as</span> <span class="ident">spirv</span>;
+<span class="kw">use</span> <span class="ident">thiserror</span>::<span class="ident">Error</span>;
 <span class="kw">use</span> <span class="ident">wgt</span>::{<span class="ident">BindGroupLayoutEntry</span>, <span class="ident">BindingType</span>};
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
+<span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;buffer usage is {actual:?} which does not contain required usage {expected:?}&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MissingBufferUsageError</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">expected</span>: <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>,
+}
+
+<span class="doccomment">/// Checks that the given buffer usage contains the required buffer usage,</span>
+<span class="doccomment">/// returns an error otherwise.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_buffer_usage</span>(
+    <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>,
+    <span class="ident">expected</span>: <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">MissingBufferUsageError</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">actual</span>.<span class="ident">contains</span>(<span class="ident">expected</span>) {
+        <span class="prelude-val">Err</span>(<span class="ident">MissingBufferUsageError</span> { <span class="ident">actual</span>, <span class="ident">expected</span> })
+    } <span class="kw">else</span> {
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
+<span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;texture usage is {actual:?} which does not contain required usage {expected:?}&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MissingTextureUsageError</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">TextureUsage</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">expected</span>: <span class="ident">wgt</span>::<span class="ident">TextureUsage</span>,
+}
+
+<span class="doccomment">/// Checks that the given texture usage contains the required texture usage,</span>
+<span class="doccomment">/// returns an error otherwise.</span>
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">check_texture_usage</span>(
+    <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">TextureUsage</span>,
+    <span class="ident">expected</span>: <span class="ident">wgt</span>::<span class="ident">TextureUsage</span>,
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">MissingTextureUsageError</span><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="op">!</span><span class="ident">actual</span>.<span class="ident">contains</span>(<span class="ident">expected</span>) {
+        <span class="prelude-val">Err</span>(<span class="ident">MissingTextureUsageError</span> { <span class="ident">actual</span>, <span class="ident">expected</span> })
+    } <span class="kw">else</span> {
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BindingError</span> {
-    <span class="doccomment">/// The binding is missing from the pipeline layout.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;binding is missing from the pipeline layout&quot;</span>)]</span>
     <span class="ident">Missing</span>,
-    <span class="doccomment">/// The visibility flags don&#39;t include the shader stage.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;visibility flags don&#39;t include the shader stage&quot;</span>)]</span>
     <span class="ident">Invisible</span>,
-    <span class="doccomment">/// The load/store access flags don&#39;t match the shader.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;load/store access flags {0:?} don&#39;t match the shader&quot;</span>)]</span>
     <span class="ident">WrongUsage</span>(<span class="ident">naga</span>::<span class="ident">GlobalUse</span>),
-    <span class="doccomment">/// The type on the shader side does not match the pipeline binding.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;type on the shader side does not match the pipeline binding&quot;</span>)]</span>
     <span class="ident">WrongType</span>,
-    <span class="doccomment">/// The size of a buffer structure, added to one element of an unbound array,</span>
-    <span class="doccomment">/// if it&#39;s the last field, ended up greater than the given `min_binding_size`.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;buffer structure size {0}, added to one element of an unbound array, if it&#39;s the last field, ended up greater than the given `min_binding_size`&quot;</span>)]</span>
     <span class="ident">WrongBufferSize</span>(<span class="ident">wgt</span>::<span class="ident">BufferAddress</span>),
-    <span class="doccomment">/// The view dimension doesn&#39;t match the shader.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;view dimension {dim:?} (is array: {is_array}) doesn&#39;t match the shader&quot;</span>)]</span>
     <span class="ident">WrongTextureViewDimension</span> { <span class="ident">dim</span>: <span class="ident">spirv</span>::<span class="ident">Dim</span>, <span class="ident">is_array</span>: <span class="ident">bool</span> },
-    <span class="doccomment">/// The component type of a sampled texture doesn&#39;t match the shader.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;component type {0:?} of a sampled texture doesn&#39;t match the shader&quot;</span>)]</span>
     <span class="ident">WrongTextureComponentType</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">naga</span>::<span class="ident">ScalarKind</span><span class="op">&gt;</span>),
-    <span class="doccomment">/// Texture sampling capability doesn&#39;t match the shader.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;texture sampling capability doesn&#39;t match the shader&quot;</span>)]</span>
     <span class="ident">WrongTextureSampled</span>,
-    <span class="doccomment">/// The multisampled flag doesn&#39;t match the shader.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;multisampled flag doesn&#39;t match the shader&quot;</span>)]</span>
     <span class="ident">WrongTextureMultisampled</span>,
-    <span class="doccomment">/// The comparison flag doesn&#39;t match the shader.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;comparison flag doesn&#39;t match the shader&quot;</span>)]</span>
     <span class="ident">WrongSamplerComparison</span>,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InputError</span> {
-    <span class="doccomment">/// The input is not provided by the earlier stage in the pipeline.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;input is not provided by the earlier stage in the pipeline&quot;</span>)]</span>
     <span class="ident">Missing</span>,
-    <span class="doccomment">/// The input type is not compatible with the provided.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;input type is not compatible with the provided&quot;</span>)]</span>
     <span class="ident">WrongType</span>,
 }
 
 <span class="doccomment">/// Errors produced when validating a programmable stage of a pipeline.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">StageError</span> {
-    <span class="doccomment">/// Unable to find an entry point matching the specified execution model.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unable to find an entry point matching the {0:?} execution model&quot;</span>)]</span>
     <span class="ident">MissingEntryPoint</span>(<span class="ident">spirv</span>::<span class="ident">ExecutionModel</span>),
-    <span class="doccomment">/// Error matching a global binding against the pipeline layout.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;error matching global binding at index {binding} in set {set} against the pipeline layout: {error}&quot;</span>)]</span>
     <span class="ident">Binding</span> {
         <span class="ident">set</span>: <span class="ident">u32</span>,
         <span class="ident">binding</span>: <span class="ident">u32</span>,
         <span class="ident">error</span>: <span class="ident">BindingError</span>,
     },
-    <span class="doccomment">/// Error matching the stage input against the previous stage outputs.</span>
+    <span class="attribute">#[<span class="ident">error</span>(
+        <span class="string">&quot;error matching the stage input at {location} against the previous stage outputs: {error}&quot;</span>
+    )]</span>
     <span class="ident">Input</span> {
         <span class="ident">location</span>: <span class="ident">wgt</span>::<span class="ident">ShaderLocation</span>,
         <span class="ident">error</span>: <span class="ident">InputError</span>,

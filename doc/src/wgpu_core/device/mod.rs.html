@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/a0ed09a/wgpu-core/src/device/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/3c6ee87/wgpu-core/src/device/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script src="../../../storage.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="shortcut icon" href="../../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../../wgpu_core/index.html'><div class='logo-container'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../../settings.html"><img src="../../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -3057,18 +3057,33 @@
 <span id="3057">3057</span>
 <span id="3058">3058</span>
 <span id="3059">3059</span>
+<span id="3060">3060</span>
+<span id="3061">3061</span>
+<span id="3062">3062</span>
+<span id="3063">3063</span>
+<span id="3064">3064</span>
+<span id="3065">3065</span>
+<span id="3066">3066</span>
+<span id="3067">3067</span>
+<span id="3068">3068</span>
+<span id="3069">3069</span>
+<span id="3070">3070</span>
+<span id="3071">3071</span>
+<span id="3072">3072</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */</span>
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">binding_model</span>::{<span class="self">self</span>, <span class="ident">BindGroupError</span>},
+    <span class="ident">binding_model</span>::{<span class="self">self</span>, <span class="ident">CreateBindGroupError</span>, <span class="ident">PipelineLayoutError</span>},
     <span class="ident">command</span>, <span class="ident">conv</span>,
+    <span class="ident">device</span>::<span class="ident">life</span>::<span class="ident">WaitIdleError</span>,
     <span class="ident">hub</span>::{<span class="ident">GfxBackend</span>, <span class="ident">Global</span>, <span class="ident">GlobalIdentityHandlerFactory</span>, <span class="ident">Hub</span>, <span class="ident">Input</span>, <span class="ident">Token</span>},
     <span class="ident">id</span>, <span class="ident">pipeline</span>, <span class="ident">resource</span>, <span class="ident">span</span>, <span class="ident">swap_chain</span>,
     <span class="ident">track</span>::{<span class="ident">BufferState</span>, <span class="ident">TextureState</span>, <span class="ident">TrackerSet</span>},
-    <span class="ident">validation</span>, <span class="ident">FastHashMap</span>, <span class="ident">LifeGuard</span>, <span class="ident">MultiRefCount</span>, <span class="ident">PrivateFeatures</span>, <span class="ident">Stored</span>, <span class="ident">SubmissionIndex</span>,
+    <span class="ident">validation</span>::{<span class="self">self</span>, <span class="ident">check_buffer_usage</span>, <span class="ident">MissingBufferUsageError</span>},
+    <span class="ident">FastHashMap</span>, <span class="ident">LifeGuard</span>, <span class="ident">MultiRefCount</span>, <span class="ident">PrivateFeatures</span>, <span class="ident">Stored</span>, <span class="ident">SubmissionIndex</span>,
     <span class="ident">MAX_BIND_GROUPS</span>,
 };
 
@@ -3082,6 +3097,7 @@
     <span class="ident">window</span>::{<span class="ident">PresentationSurface</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">Surface</span> <span class="kw">as</span> <span class="kw">_</span>},
 };
 <span class="kw">use</span> <span class="ident">parking_lot</span>::{<span class="ident">Mutex</span>, <span class="ident">MutexGuard</span>};
+<span class="kw">use</span> <span class="ident">thiserror</span>::<span class="ident">Error</span>;
 <span class="kw">use</span> <span class="ident">wgt</span>::{<span class="ident">BufferAddress</span>, <span class="ident">BufferSize</span>, <span class="ident">InputStepMode</span>, <span class="ident">TextureDimension</span>, <span class="ident">TextureFormat</span>};
 
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -3113,7 +3129,7 @@
 }
 
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX_COLOR_TARGETS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX_MIP_LEVELS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">16</span>;
+<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX_MIP_LEVELS</span>: <span class="ident">u32</span> <span class="op">=</span> <span class="number">16</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX_VERTEX_BUFFERS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">16</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">MAX_ANISOTROPY</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">16</span>;
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SHADER_STAGE_COUNT</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">3</span>;
@@ -3183,7 +3199,6 @@
     }
 }
 
-<span class="kw">type</span> <span class="ident">BufferMapResult</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ptr</span>::<span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">MapError</span><span class="op">&gt;</span>;
 <span class="kw">type</span> <span class="ident">BufferMapPendingCallback</span> <span class="op">=</span> (<span class="ident">resource</span>::<span class="ident">BufferMapOperation</span>, <span class="ident">resource</span>::<span class="ident">BufferMapAsyncStatus</span>);
 
 <span class="kw">fn</span> <span class="ident">map_buffer</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">hal</span>::<span class="ident">Backend</span><span class="op">&gt;</span>(
@@ -3191,7 +3206,7 @@
     <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">resource</span>::<span class="ident">Buffer</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>,
     <span class="ident">sub_range</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span>,
     <span class="ident">kind</span>: <span class="ident">HostMap</span>,
-) <span class="op">-&gt;</span> <span class="ident">BufferMapResult</span> {
+) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ptr</span>::<span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">BufferMapError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> (<span class="ident">ptr</span>, <span class="ident">segment</span>, <span class="ident">needs_sync</span>) <span class="op">=</span> {
         <span class="kw">let</span> <span class="ident">segment</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span> {
             <span class="ident">offset</span>: <span class="ident">sub_range</span>.<span class="ident">offset</span>,
@@ -3355,7 +3370,7 @@
         <span class="ident">hub</span>: <span class="kw-2">&amp;</span><span class="ident">Hub</span><span class="op">&lt;</span><span class="ident">B</span>, <span class="ident">G</span><span class="op">&gt;</span>,
         <span class="ident">force_wait</span>: <span class="ident">bool</span>,
         <span class="ident">token</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="lifetime">&#39;token</span>, <span class="self">Self</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">BufferMapPendingCallback</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">BufferMapPendingCallback</span><span class="op">&gt;</span>, <span class="ident">WaitIdleError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">life_tracker</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lock_life</span>(<span class="ident">token</span>);
 
         <span class="ident">life_tracker</span>.<span class="ident">triage_suspected</span>(
@@ -3367,7 +3382,7 @@
         );
         <span class="ident">life_tracker</span>.<span class="ident">triage_mapped</span>(<span class="ident">hub</span>, <span class="ident">token</span>);
         <span class="ident">life_tracker</span>.<span class="ident">triage_framebuffers</span>(<span class="ident">hub</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">framebuffers</span>.<span class="ident">lock</span>(), <span class="ident">token</span>);
-        <span class="kw">let</span> <span class="ident">last_done</span> <span class="op">=</span> <span class="ident">life_tracker</span>.<span class="ident">triage_submissions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">raw</span>, <span class="ident">force_wait</span>);
+        <span class="kw">let</span> <span class="ident">last_done</span> <span class="op">=</span> <span class="ident">life_tracker</span>.<span class="ident">triage_submissions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">raw</span>, <span class="ident">force_wait</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">callbacks</span> <span class="op">=</span> <span class="ident">life_tracker</span>.<span class="ident">handle_mapping</span>(<span class="ident">hub</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">raw</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">trackers</span>, <span class="ident">token</span>);
         <span class="ident">life_tracker</span>.<span class="ident">cleanup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">raw</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">mem_allocator</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">desc_allocator</span>);
 
@@ -3375,7 +3390,7 @@
             .<span class="ident">submission_index</span>
             .<span class="ident">store</span>(<span class="ident">last_done</span>, <span class="ident">Ordering</span>::<span class="ident">Release</span>);
         <span class="self">self</span>.<span class="ident">com_allocator</span>.<span class="ident">maintain</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">raw</span>, <span class="ident">last_done</span>);
-        <span class="ident">callbacks</span>
+        <span class="prelude-val">Ok</span>(<span class="ident">callbacks</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">untrack</span><span class="op">&lt;</span><span class="lifetime">&#39;this</span>, <span class="lifetime">&#39;token</span>: <span class="lifetime">&#39;this</span>, <span class="ident">G</span>: <span class="ident">GlobalIdentityHandlerFactory</span><span class="op">&gt;</span>(
@@ -3443,7 +3458,7 @@
         <span class="ident">self_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>,
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">BufferDescriptor</span><span class="op">&lt;</span><span class="ident">Label</span><span class="op">&gt;</span>,
         <span class="ident">memory_kind</span>: <span class="ident">gfx_memory</span>::<span class="ident">Kind</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">resource</span>::<span class="ident">Buffer</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">resource</span>::<span class="ident">Buffer</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">CreateBufferError</span><span class="op">&gt;</span> {
         <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">self_id</span>.<span class="ident">backend</span>(), <span class="ident">B</span>::<span class="ident">VARIANT</span>);
         <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">usage</span>, <span class="ident">_memory_properties</span>) <span class="op">=</span> <span class="ident">conv</span>::<span class="ident">map_buffer_usage</span>(<span class="ident">desc</span>.<span class="ident">usage</span>);
         <span class="kw">if</span> <span class="ident">desc</span>.<span class="ident">mapped_at_creation</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">desc</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">BufferUsage</span>::<span class="ident">MAP_WRITE</span>) {
@@ -3466,11 +3481,9 @@
                 <span class="kw">let</span> <span class="ident">is_native_only</span> <span class="op">=</span> <span class="self">self</span>
                     .<span class="ident">features</span>
                     .<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">MAPPABLE_PRIMARY_BUFFERS</span>);
-                <span class="macro">assert</span><span class="macro">!</span>(
-                    <span class="ident">is_native_only</span>,
-                    <span class="string">&quot;MAP usage can only be combined with the opposite COPY, requested {:?}&quot;</span>,
-                    <span class="ident">desc</span>.<span class="ident">usage</span>
-                );
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">is_native_only</span> {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBufferError</span>::<span class="ident">UsageMismatch</span>(<span class="ident">desc</span>.<span class="ident">usage</span>));
+                }
                 <span class="ident">MemoryUsage</span>::<span class="ident">Dynamic</span> {
                     <span class="ident">sparse_updates</span>: <span class="bool-val">false</span>,
                 }
@@ -3497,7 +3510,7 @@
                 .<span class="ident">unwrap</span>()
         };
 
-        <span class="ident">resource</span>::<span class="ident">Buffer</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">resource</span>::<span class="ident">Buffer</span> {
             <span class="ident">raw</span>: <span class="ident">buffer</span>,
             <span class="ident">device_id</span>: <span class="ident">Stored</span> {
                 <span class="ident">value</span>: <span class="ident">self_id</span>,
@@ -3510,25 +3523,25 @@
             <span class="ident">sync_mapped_writes</span>: <span class="prelude-val">None</span>,
             <span class="ident">map_state</span>: <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Idle</span>,
             <span class="ident">life_guard</span>: <span class="ident">LifeGuard</span>::<span class="ident">new</span>(),
-        }
+        })
     }
 
     <span class="kw">fn</span> <span class="ident">create_texture</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">self_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>,
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">TextureDescriptor</span><span class="op">&lt;</span><span class="ident">Label</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">resource</span>::<span class="ident">Texture</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">resource</span>::<span class="ident">Texture</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span>, <span class="ident">CreateTextureError</span><span class="op">&gt;</span> {
         <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">self_id</span>.<span class="ident">backend</span>(), <span class="ident">B</span>::<span class="ident">VARIANT</span>);
 
         <span class="comment">// Ensure `D24Plus` textures cannot be copied</span>
         <span class="kw">match</span> <span class="ident">desc</span>.<span class="ident">format</span> {
             <span class="ident">TextureFormat</span>::<span class="ident">Depth24Plus</span> <span class="op">|</span> <span class="ident">TextureFormat</span>::<span class="ident">Depth24PlusStencil8</span> <span class="op">=&gt;</span> {
-                <span class="macro">assert</span><span class="macro">!</span>(
-                    <span class="op">!</span><span class="ident">desc</span>
-                        .<span class="ident">usage</span>
-                        .<span class="ident">intersects</span>(<span class="ident">wgt</span>::<span class="ident">TextureUsage</span>::<span class="ident">COPY_SRC</span> <span class="op">|</span> <span class="ident">wgt</span>::<span class="ident">TextureUsage</span>::<span class="ident">COPY_DST</span>),
-                    <span class="string">&quot;D24Plus textures cannot be copied&quot;</span>
-                );
+                <span class="kw">if</span> <span class="ident">desc</span>
+                    .<span class="ident">usage</span>
+                    .<span class="ident">intersects</span>(<span class="ident">wgt</span>::<span class="ident">TextureUsage</span>::<span class="ident">COPY_SRC</span> <span class="op">|</span> <span class="ident">wgt</span>::<span class="ident">TextureUsage</span>::<span class="ident">COPY_DST</span>)
+                {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateTextureError</span>::<span class="ident">CannotCopyD24Plus</span>);
+                }
             }
             <span class="kw">_</span> <span class="op">=&gt;</span> {}
         }
@@ -3538,12 +3551,10 @@
         <span class="kw">let</span> <span class="ident">aspects</span> <span class="op">=</span> <span class="ident">format</span>.<span class="ident">surface_desc</span>().<span class="ident">aspects</span>;
         <span class="kw">let</span> <span class="ident">usage</span> <span class="op">=</span> <span class="ident">conv</span>::<span class="ident">map_texture_usage</span>(<span class="ident">desc</span>.<span class="ident">usage</span>, <span class="ident">aspects</span>);
 
-        <span class="macro">assert</span><span class="macro">!</span>(
-            (<span class="ident">desc</span>.<span class="ident">mip_level_count</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&lt;</span> <span class="ident">MAX_MIP_LEVELS</span>,
-            <span class="string">&quot;Texture descriptor mip level count ({}) must be less than device max mip levels ({})&quot;</span>,
-            <span class="ident">desc</span>.<span class="ident">mip_level_count</span>,
-            <span class="ident">MAX_MIP_LEVELS</span>
-        );
+        <span class="kw">let</span> <span class="ident">mip_level_count</span> <span class="op">=</span> <span class="ident">desc</span>.<span class="ident">mip_level_count</span>;
+        <span class="kw">if</span> <span class="ident">mip_level_count</span> <span class="op">&gt;=</span> <span class="ident">MAX_MIP_LEVELS</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateTextureError</span>::<span class="ident">InvalidMipLevelCount</span>(<span class="ident">mip_level_count</span>));
+        }
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">view_capabilities</span> <span class="op">=</span> <span class="ident">hal</span>::<span class="ident">image</span>::<span class="ident">ViewCapabilities</span>::<span class="ident">empty</span>();
 
         <span class="comment">// 2D textures with array layer counts that are multiples of 6 could be cubemaps</span>
@@ -3591,7 +3602,7 @@
                 .<span class="ident">unwrap</span>()
         };
 
-        <span class="ident">resource</span>::<span class="ident">Texture</span> {
+        <span class="prelude-val">Ok</span>(<span class="ident">resource</span>::<span class="ident">Texture</span> {
             <span class="ident">raw</span>: <span class="ident">image</span>,
             <span class="ident">device_id</span>: <span class="ident">Stored</span> {
                 <span class="ident">value</span>: <span class="ident">self_id</span>,
@@ -3608,7 +3619,7 @@
             },
             <span class="ident">memory</span>,
             <span class="ident">life_guard</span>: <span class="ident">LifeGuard</span>::<span class="ident">new</span>(),
-        }
+        })
     }
 
     <span class="doccomment">/// Create a compatible render pass with a given key.</span>
@@ -3669,7 +3680,9 @@
     <span class="doccomment">/// Wait for idle and remove resources that we can, before we die.</span>
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">prepare_to_die</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">life_tracker</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">life_tracker</span>.<span class="ident">lock</span>();
-        <span class="ident">life_tracker</span>.<span class="ident">triage_submissions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">raw</span>, <span class="bool-val">true</span>);
+        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">error</span>) <span class="op">=</span> <span class="ident">life_tracker</span>.<span class="ident">triage_submissions</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">raw</span>, <span class="bool-val">true</span>) {
+            <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;failed to triage submissions: {}&quot;</span>, <span class="ident">error</span>);
+        }
         <span class="ident">life_tracker</span>.<span class="ident">cleanup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">raw</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">mem_allocator</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">desc_allocator</span>);
     }
 
@@ -3720,7 +3733,7 @@
         <span class="ident">device_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>,
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">BufferDescriptor</span><span class="op">&lt;</span><span class="ident">Label</span><span class="op">&gt;</span>,
         <span class="ident">id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">id</span>::<span class="ident">BufferId</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">id</span>::<span class="ident">BufferId</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BufferId</span>, <span class="ident">CreateBufferError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::create_buffer&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -3728,40 +3741,33 @@
 
         <span class="ident">log</span>::<span class="macro">info</span><span class="macro">!</span>(<span class="string">&quot;Create buffer {:?} with ID {:?}&quot;</span>, <span class="ident">desc</span>, <span class="ident">id_in</span>);
 
-        <span class="kw">if</span> <span class="ident">desc</span>.<span class="ident">mapped_at_creation</span> {
-            <span class="macro">assert_eq</span><span class="macro">!</span>(
-                <span class="ident">desc</span>.<span class="ident">size</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span>,
-                <span class="number">0</span>,
-                <span class="string">&quot;Buffers that are mapped at creation have to be aligned to COPY_BUFFER_ALIGNMENT&quot;</span>
-            );
+        <span class="kw">if</span> <span class="ident">desc</span>.<span class="ident">mapped_at_creation</span> <span class="op">&amp;&amp;</span> <span class="ident">desc</span>.<span class="ident">size</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span> <span class="op">!=</span> <span class="number">0</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBufferError</span>::<span class="ident">UnalignedSize</span>);
         }
 
         <span class="kw">let</span> (<span class="ident">device_guard</span>, <span class="kw-2">mut</span> <span class="ident">token</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">devices</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
         <span class="kw">let</span> <span class="ident">device</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">device_guard</span>[<span class="ident">device_id</span>];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">create_buffer</span>(<span class="ident">device_id</span>, <span class="ident">desc</span>, <span class="ident">gfx_memory</span>::<span class="ident">Kind</span>::<span class="ident">General</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">create_buffer</span>(<span class="ident">device_id</span>, <span class="ident">desc</span>, <span class="ident">gfx_memory</span>::<span class="ident">Kind</span>::<span class="ident">General</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">ref_count</span> <span class="op">=</span> <span class="ident">buffer</span>.<span class="ident">life_guard</span>.<span class="ident">add_ref</span>();
 
         <span class="kw">let</span> <span class="ident">buffer_use</span> <span class="op">=</span> <span class="kw">if</span> <span class="op">!</span><span class="ident">desc</span>.<span class="ident">mapped_at_creation</span> {
             <span class="ident">resource</span>::<span class="ident">BufferUse</span>::<span class="ident">EMPTY</span>
         } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">desc</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">BufferUsage</span>::<span class="ident">MAP_WRITE</span>) {
             <span class="comment">// buffer is mappable, so we are just doing that at start</span>
-            <span class="kw">match</span> <span class="ident">map_buffer</span>(
+            <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">map_buffer</span>(
                 <span class="kw-2">&amp;</span><span class="ident">device</span>.<span class="ident">raw</span>,
                 <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>,
                 <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span>::<span class="ident">WHOLE</span>,
                 <span class="ident">HostMap</span>::<span class="ident">Write</span>,
-            ) {
-                <span class="prelude-val">Ok</span>(<span class="ident">ptr</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">buffer</span>.<span class="ident">map_state</span> <span class="op">=</span> <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Active</span> {
-                        <span class="ident">ptr</span>,
-                        <span class="ident">sub_range</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span>::<span class="ident">WHOLE</span>,
-                        <span class="ident">host</span>: <span class="ident">HostMap</span>::<span class="ident">Write</span>,
-                    };
-                }
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;failed to create buffer in a mapped state: {:?}&quot;</span>, <span class="ident">e</span>);
-                }
+            )
+            .<span class="ident">expect</span>(<span class="string">&quot;failed to map buffer on creation&quot;</span>);
+
+            <span class="ident">buffer</span>.<span class="ident">map_state</span> <span class="op">=</span> <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Active</span> {
+                <span class="ident">ptr</span>,
+                <span class="ident">sub_range</span>: <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span>::<span class="ident">WHOLE</span>,
+                <span class="ident">host</span>: <span class="ident">HostMap</span>::<span class="ident">Write</span>,
             };
+
             <span class="ident">resource</span>::<span class="ident">BufferUse</span>::<span class="ident">MAP_WRITE</span>
         } <span class="kw">else</span> {
             <span class="comment">// buffer needs staging area for initialization only</span>
@@ -3774,7 +3780,7 @@
                     <span class="ident">mapped_at_creation</span>: <span class="bool-val">false</span>,
                 },
                 <span class="ident">gfx_memory</span>::<span class="ident">Kind</span>::<span class="ident">Linear</span>,
-            );
+            )<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">stage</span>
                 .<span class="ident">memory</span>
                 .<span class="ident">map</span>(<span class="kw-2">&amp;</span><span class="ident">device</span>.<span class="ident">raw</span>, <span class="ident">hal</span>::<span class="ident">memory</span>::<span class="ident">Segment</span>::<span class="ident">ALL</span>)
@@ -3809,7 +3815,7 @@
             .<span class="ident">buffers</span>
             .<span class="ident">init</span>(<span class="ident">id</span>, <span class="ident">ref_count</span>, <span class="ident">BufferState</span>::<span class="ident">with_usage</span>(<span class="ident">buffer_use</span>))
             .<span class="ident">unwrap</span>();
-        <span class="ident">id</span>
+        <span class="prelude-val">Ok</span>(<span class="ident">id</span>)
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>)]</span>
@@ -3817,7 +3823,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">device_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>,
         <span class="ident">buffer_id</span>: <span class="ident">id</span>::<span class="ident">BufferId</span>,
-    ) {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaitIdleError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> (<span class="ident">device_guard</span>, <span class="kw-2">mut</span> <span class="ident">token</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">devices</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
@@ -3838,8 +3844,10 @@
             );
             <span class="ident">device</span>
                 .<span class="ident">lock_life</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>)
-                .<span class="ident">triage_submissions</span>(<span class="kw-2">&amp;</span><span class="ident">device</span>.<span class="ident">raw</span>, <span class="bool-val">true</span>);
+                .<span class="ident">triage_submissions</span>(<span class="kw-2">&amp;</span><span class="ident">device</span>.<span class="ident">raw</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
         }
+
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_set_buffer_sub_data</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
@@ -3848,7 +3856,7 @@
         <span class="ident">buffer_id</span>: <span class="ident">id</span>::<span class="ident">BufferId</span>,
         <span class="ident">offset</span>: <span class="ident">BufferAddress</span>,
         <span class="ident">data</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>],
-    ) {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BufferMapError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::set_buffer_sub_data&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -3858,11 +3866,7 @@
         <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">buffer_guard</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">buffers</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
         <span class="kw">let</span> <span class="ident">device</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">device_guard</span>[<span class="ident">device_id</span>];
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer_guard</span>[<span class="ident">buffer_id</span>];
-        <span class="macro">assert</span><span class="macro">!</span>(
-            <span class="ident">buffer</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">BufferUsage</span>::<span class="ident">MAP_WRITE</span>),
-            <span class="string">&quot;Buffer usage {:?} must contain usage flag MAP_WRITE&quot;</span>,
-            <span class="ident">buffer</span>.<span class="ident">usage</span>
-        );
+        <span class="ident">check_buffer_usage</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>, <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>::<span class="ident">MAP_WRITE</span>)<span class="question-mark">?</span>;
         <span class="comment">//assert!(buffer isn&#39;t used by the GPU);</span>
 
         <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
@@ -3880,7 +3884,7 @@
             <span class="prelude-val">None</span> <span class="op">=&gt;</span> (),
         };
 
-        <span class="kw">match</span> <span class="ident">map_buffer</span>(
+        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">map_buffer</span>(
             <span class="kw-2">&amp;</span><span class="ident">device</span>.<span class="ident">raw</span>,
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer</span>,
             <span class="ident">hal</span>::<span class="ident">buffer</span>::<span class="ident">SubRange</span> {
@@ -3888,17 +3892,15 @@
                 <span class="ident">size</span>: <span class="prelude-val">Some</span>(<span class="ident">data</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">BufferAddress</span>),
             },
             <span class="ident">HostMap</span>::<span class="ident">Write</span>,
-        ) {
-            <span class="prelude-val">Ok</span>(<span class="ident">ptr</span>) <span class="op">=&gt;</span> <span class="kw">unsafe</span> {
-                <span class="ident">ptr</span>::<span class="ident">copy_nonoverlapping</span>(<span class="ident">data</span>.<span class="ident">as_ptr</span>(), <span class="ident">ptr</span>.<span class="ident">as_ptr</span>(), <span class="ident">data</span>.<span class="ident">len</span>());
-            },
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=&gt;</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;failed to map a buffer: {:?}&quot;</span>, <span class="ident">e</span>);
-                <span class="kw">return</span>;
-            }
+        )<span class="question-mark">?</span>;
+
+        <span class="kw">unsafe</span> {
+            <span class="ident">ptr</span>::<span class="ident">copy_nonoverlapping</span>(<span class="ident">data</span>.<span class="ident">as_ptr</span>(), <span class="ident">ptr</span>.<span class="ident">as_ptr</span>(), <span class="ident">data</span>.<span class="ident">len</span>());
         }
 
         <span class="ident">unmap_buffer</span>(<span class="kw-2">&amp;</span><span class="ident">device</span>.<span class="ident">raw</span>, <span class="ident">buffer</span>);
+
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_get_buffer_sub_data</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
@@ -3971,7 +3973,7 @@
         <span class="ident">device_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>,
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">TextureDescriptor</span><span class="op">&lt;</span><span class="ident">Label</span><span class="op">&gt;</span>,
         <span class="ident">id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">id</span>::<span class="ident">TextureId</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="ident">id</span>::<span class="ident">TextureId</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">TextureId</span>, <span class="ident">CreateTextureError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::create_texture&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -3979,7 +3981,7 @@
 
         <span class="kw">let</span> (<span class="ident">device_guard</span>, <span class="kw-2">mut</span> <span class="ident">token</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">devices</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
         <span class="kw">let</span> <span class="ident">device</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">device_guard</span>[<span class="ident">device_id</span>];
-        <span class="kw">let</span> <span class="ident">texture</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">create_texture</span>(<span class="ident">device_id</span>, <span class="ident">desc</span>);
+        <span class="kw">let</span> <span class="ident">texture</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">create_texture</span>(<span class="ident">device_id</span>, <span class="ident">desc</span>)<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">texture</span>.<span class="ident">full_range</span>.<span class="ident">clone</span>();
         <span class="kw">let</span> <span class="ident">ref_count</span> <span class="op">=</span> <span class="ident">texture</span>.<span class="ident">life_guard</span>.<span class="ident">add_ref</span>();
 
@@ -3999,7 +4001,7 @@
             .<span class="ident">textures</span>
             .<span class="ident">init</span>(<span class="ident">id</span>, <span class="ident">ref_count</span>, <span class="ident">TextureState</span>::<span class="ident">with_range</span>(<span class="kw-2">&amp;</span><span class="ident">range</span>))
             .<span class="ident">unwrap</span>();
-        <span class="ident">id</span>
+        <span class="prelude-val">Ok</span>(<span class="ident">id</span>)
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">texture_destroy</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">texture_id</span>: <span class="ident">id</span>::<span class="ident">TextureId</span>) {
@@ -4410,7 +4412,7 @@
         <span class="ident">device_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>,
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">wgt</span>::<span class="ident">PipelineLayoutDescriptor</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BindGroupLayoutId</span><span class="op">&gt;</span>,
         <span class="ident">id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">id</span>::<span class="ident">PipelineLayoutId</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">PipelineLayoutId</span>, <span class="ident">binding_model</span>::<span class="ident">PipelineLayoutError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">PipelineLayoutId</span>, <span class="ident">PipelineLayoutError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::create_pipeline_layout&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -4418,75 +4420,53 @@
 
         <span class="kw">let</span> (<span class="ident">device_guard</span>, <span class="kw-2">mut</span> <span class="ident">token</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">devices</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
         <span class="kw">let</span> <span class="ident">device</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">device_guard</span>[<span class="ident">device_id</span>];
-        <span class="kw">if</span> <span class="ident">desc</span>.<span class="ident">bind_group_layouts</span>.<span class="ident">len</span>() <span class="op">&gt;</span> (<span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-            <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
-                <span class="string">&quot;Bind group layout count {} exceeds device bind group limit {}&quot;</span>,
-                <span class="ident">desc</span>.<span class="ident">bind_group_layouts</span>.<span class="ident">len</span>(),
-                <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span>
-            );
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">binding_model</span>::<span class="ident">PipelineLayoutError</span>::<span class="ident">TooManyGroups</span>(
-                <span class="ident">desc</span>.<span class="ident">bind_group_layouts</span>.<span class="ident">len</span>(),
-            ));
+        <span class="kw">let</span> <span class="ident">bind_group_layouts_count</span> <span class="op">=</span> <span class="ident">desc</span>.<span class="ident">bind_group_layouts</span>.<span class="ident">len</span>();
+        <span class="kw">let</span> <span class="ident">device_max_bind_groups</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_bind_groups</span> <span class="kw">as</span> <span class="ident">usize</span>;
+        <span class="kw">if</span> <span class="ident">bind_group_layouts_count</span> <span class="op">&gt;</span> <span class="ident">device_max_bind_groups</span> {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PipelineLayoutError</span>::<span class="ident">TooManyGroups</span> {
+                <span class="ident">actual</span>: <span class="ident">bind_group_layouts_count</span>,
+                <span class="ident">max</span>: <span class="ident">device_max_bind_groups</span>,
+            });
         }
 
         <span class="kw">if</span> <span class="op">!</span><span class="ident">desc</span>.<span class="ident">push_constant_ranges</span>.<span class="ident">is_empty</span>()
             <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">device</span>.<span class="ident">features</span>.<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">PUSH_CONSTANTS</span>)
         {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">binding_model</span>::<span class="ident">PipelineLayoutError</span>::<span class="ident">MissingFeature</span>(
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PipelineLayoutError</span>::<span class="ident">MissingFeature</span>(
                 <span class="ident">wgt</span>::<span class="ident">Features</span>::<span class="ident">PUSH_CONSTANTS</span>,
             ));
         }
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">used_stages</span> <span class="op">=</span> <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">empty</span>();
         <span class="kw">for</span> (<span class="ident">index</span>, <span class="ident">pc</span>) <span class="kw">in</span> <span class="ident">desc</span>.<span class="ident">push_constant_ranges</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="kw">if</span> <span class="ident">pc</span>.<span class="ident">stages</span>.<span class="ident">intersects</span>(<span class="ident">used_stages</span>) {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
-                    <span class="string">&quot;Push constant range (index {}) provides for stage(s) {:?} but there exists another range that provides stage(s) {:?}. Each stage may only be provided by one range.&quot;</span>,
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PipelineLayoutError</span>::<span class="ident">MoreThanOnePushConstantRangePerStage</span> {
                     <span class="ident">index</span>,
-                    <span class="ident">pc</span>.<span class="ident">stages</span>,
-                    <span class="ident">pc</span>.<span class="ident">stages</span> <span class="op">&amp;</span> <span class="ident">used_stages</span>,
-                );
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(
-                    <span class="ident">binding_model</span>::<span class="ident">PipelineLayoutError</span>::<span class="ident">MoreThanOnePushConstantRangePerStage</span> {
-                        <span class="ident">index</span>,
-                    },
-                );
+                    <span class="ident">provided</span>: <span class="ident">pc</span>.<span class="ident">stages</span>,
+                    <span class="ident">intersected</span>: <span class="ident">pc</span>.<span class="ident">stages</span> <span class="op">&amp;</span> <span class="ident">used_stages</span>,
+                });
             }
             <span class="ident">used_stages</span> <span class="op">|=</span> <span class="ident">pc</span>.<span class="ident">stages</span>;
 
-            <span class="kw">if</span> <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_push_constant_size</span> <span class="op">&lt;</span> <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">end</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
-                    <span class="string">&quot;Push constant range (index {}) has range {}..{} which exceeds device push constant size limit 0..{}&quot;</span>,
+            <span class="kw">let</span> <span class="ident">device_max_pc_size</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_push_constant_size</span>;
+            <span class="kw">if</span> <span class="ident">device_max_pc_size</span> <span class="op">&lt;</span> <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">end</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PipelineLayoutError</span>::<span class="ident">PushConstantRangeTooLarge</span> {
                     <span class="ident">index</span>,
-                    <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">start</span>,
-                    <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">end</span>,
-                    <span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_push_constant_size</span>
-                );
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(
-                    <span class="ident">binding_model</span>::<span class="ident">PipelineLayoutError</span>::<span class="ident">PushConstantRangeTooLarge</span> { <span class="ident">index</span> },
-                );
+                    <span class="ident">range</span>: <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">clone</span>(),
+                    <span class="ident">max</span>: <span class="ident">device_max_pc_size</span>,
+                });
             }
 
             <span class="kw">if</span> <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">start</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span> <span class="op">!=</span> <span class="number">0</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
-                    <span class="string">&quot;Push constant range (index {}) start {} must be aligned to {}&quot;</span>,
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PipelineLayoutError</span>::<span class="ident">MisalignedPushConstantRange</span> {
                     <span class="ident">index</span>,
-                    <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">start</span>,
-                    <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span>
-                );
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(
-                    <span class="ident">binding_model</span>::<span class="ident">PipelineLayoutError</span>::<span class="ident">MisalignedPushConstantRange</span> { <span class="ident">index</span> },
-                );
+                    <span class="ident">bound</span>: <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">start</span>,
+                });
             }
             <span class="kw">if</span> <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">end</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span> <span class="op">!=</span> <span class="number">0</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
-                    <span class="string">&quot;Push constant range (index {}) end {} must be aligned to {}&quot;</span>,
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">PipelineLayoutError</span>::<span class="ident">MisalignedPushConstantRange</span> {
                     <span class="ident">index</span>,
-                    <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">end</span>,
-                    <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span>
-                );
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(
-                    <span class="ident">binding_model</span>::<span class="ident">PipelineLayoutError</span>::<span class="ident">MisalignedPushConstantRange</span> { <span class="ident">index</span> },
-                );
+                    <span class="ident">bound</span>: <span class="ident">pc</span>.<span class="ident">range</span>.<span class="ident">end</span>,
+                });
             }
         }
 
@@ -4514,7 +4494,7 @@
         };
         <span class="ident">count_validator</span>
             .<span class="ident">validate</span>(<span class="kw-2">&amp;</span><span class="ident">device</span>.<span class="ident">limits</span>)
-            .<span class="ident">map_err</span>(<span class="ident">binding_model</span>::<span class="ident">PipelineLayoutError</span>::<span class="ident">TooManyBindings</span>)<span class="question-mark">?</span>;
+            .<span class="ident">map_err</span>(<span class="ident">PipelineLayoutError</span>::<span class="ident">TooManyBindings</span>)<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="ident">layout</span> <span class="op">=</span> <span class="ident">binding_model</span>::<span class="ident">PipelineLayout</span> {
             <span class="ident">raw</span>: <span class="ident">pipeline_layout</span>,
@@ -4581,7 +4561,7 @@
         <span class="ident">device_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>,
         <span class="ident">desc</span>: <span class="kw-2">&amp;</span><span class="ident">binding_model</span>::<span class="ident">BindGroupDescriptor</span>,
         <span class="ident">id_in</span>: <span class="ident">Input</span><span class="op">&lt;</span><span class="ident">G</span>, <span class="ident">id</span>::<span class="ident">BindGroupId</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BindGroupId</span>, <span class="ident">BindGroupError</span><span class="op">&gt;</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">id</span>::<span class="ident">BindGroupId</span>, <span class="ident">CreateBindGroupError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">binding_model</span>::<span class="ident">BindingResource</span> <span class="kw">as</span> <span class="ident">Br</span>;
 
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::create_bind_group&quot;</span>);
@@ -4599,7 +4579,7 @@
         <span class="kw">let</span> <span class="ident">actual</span> <span class="op">=</span> <span class="ident">desc</span>.<span class="ident">entries</span>.<span class="ident">len</span>();
         <span class="kw">let</span> <span class="ident">expected</span> <span class="op">=</span> <span class="ident">bind_group_layout</span>.<span class="ident">entries</span>.<span class="ident">len</span>();
         <span class="kw">if</span> <span class="ident">actual</span> <span class="op">!=</span> <span class="ident">expected</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindGroupError</span>::<span class="ident">BindingsNumMismatch</span> { <span class="ident">expected</span>, <span class="ident">actual</span> });
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBindGroupError</span>::<span class="ident">BindingsNumMismatch</span> { <span class="ident">expected</span>, <span class="ident">actual</span> });
         }
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">desc_set</span> <span class="op">=</span> {
@@ -4650,7 +4630,7 @@
                 <span class="kw">let</span> <span class="ident">decl</span> <span class="op">=</span> <span class="ident">bind_group_layout</span>
                     .<span class="ident">entries</span>
                     .<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">binding</span>)
-                    .<span class="ident">ok_or</span>(<span class="ident">BindGroupError</span>::<span class="ident">MissingBindingDeclaration</span>(<span class="ident">binding</span>))<span class="question-mark">?</span>;
+                    .<span class="ident">ok_or</span>(<span class="ident">CreateBindGroupError</span>::<span class="ident">MissingBindingDeclaration</span>(<span class="ident">binding</span>))<span class="question-mark">?</span>;
                 <span class="kw">let</span> <span class="ident">descriptors</span>: <span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="kw">_</span>; <span class="number">1</span>]<span class="op">&gt;</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">entry</span>.<span class="ident">resource</span> {
                     <span class="ident">Br</span>::<span class="ident">Buffer</span>(<span class="kw-2">ref</span> <span class="ident">bb</span>) <span class="op">=&gt;</span> {
                         <span class="kw">let</span> (<span class="ident">pub_usage</span>, <span class="ident">internal_use</span>, <span class="ident">min_size</span>, <span class="ident">dynamic</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">decl</span>.<span class="ident">ty</span> {
@@ -4678,7 +4658,7 @@
                                 <span class="ident">dynamic</span>,
                             ),
                             <span class="kw">_</span> <span class="op">=&gt;</span> {
-                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindGroupError</span>::<span class="ident">WrongBindingType</span> {
+                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBindGroupError</span>::<span class="ident">WrongBindingType</span> {
                                     <span class="ident">binding</span>,
                                     <span class="ident">actual</span>: <span class="ident">decl</span>.<span class="ident">ty</span>.<span class="ident">clone</span>(),
                                     <span class="ident">expected</span>:
@@ -4721,7 +4701,7 @@
                         <span class="kw">if</span> <span class="ident">pub_usage</span> <span class="op">==</span> <span class="ident">wgt</span>::<span class="ident">BufferUsage</span>::<span class="ident">UNIFORM</span>
                             <span class="op">&amp;&amp;</span> (<span class="ident">device</span>.<span class="ident">limits</span>.<span class="ident">max_uniform_buffer_binding_size</span> <span class="kw">as</span> <span class="ident">u64</span>) <span class="op">&lt;</span> <span class="ident">bind_size</span>
                         {
-                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindGroupError</span>::<span class="ident">UniformBufferRangeTooLarge</span>);
+                            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBindGroupError</span>::<span class="ident">UniformBufferRangeTooLarge</span>);
                         }
 
                         <span class="comment">// Record binding info for validating dynamic offsets</span>
@@ -4756,13 +4736,13 @@
 
                                 <span class="comment">// Check the actual sampler to also (not) be a comparison sampler</span>
                                 <span class="kw">if</span> <span class="ident">sampler</span>.<span class="ident">comparison</span> <span class="op">!=</span> <span class="ident">comparison</span> {
-                                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindGroupError</span>::<span class="ident">WrongSamplerComparison</span>);
+                                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBindGroupError</span>::<span class="ident">WrongSamplerComparison</span>);
                                 }
 
                                 <span class="ident">SmallVec</span>::<span class="ident">from</span>([<span class="ident">hal</span>::<span class="ident">pso</span>::<span class="ident">Descriptor</span>::<span class="ident">Sampler</span>(<span class="kw-2">&amp;</span><span class="ident">sampler</span>.<span class="ident">raw</span>)])
                             }
                             <span class="kw">_</span> <span class="op">=&gt;</span> {
-                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindGroupError</span>::<span class="ident">WrongBindingType</span> {
+                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBindGroupError</span>::<span class="ident">WrongBindingType</span> {
                                     <span class="ident">binding</span>,
                                     <span class="ident">actual</span>: <span class="ident">decl</span>.<span class="ident">ty</span>.<span class="ident">clone</span>(),
                                     <span class="ident">expected</span>: <span class="string">&quot;Sampler&quot;</span>,
@@ -4788,7 +4768,7 @@
                                     <span class="ident">resource</span>::<span class="ident">TextureUse</span>::<span class="ident">STORAGE_STORE</span>
                                 },
                             ),
-                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindGroupError</span>::<span class="ident">WrongBindingType</span> {
+                            <span class="kw">_</span> <span class="op">=&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBindGroupError</span>::<span class="ident">WrongBindingType</span> {
                                 <span class="ident">binding</span>,
                                 <span class="ident">actual</span>: <span class="ident">decl</span>.<span class="ident">ty</span>.<span class="ident">clone</span>(),
                                 <span class="ident">expected</span>: <span class="string">&quot;SampledTexture, ReadonlyStorageTexture or WriteonlyStorageTexture&quot;</span>
@@ -4850,7 +4830,7 @@
                                 (<span class="ident">wgt</span>::<span class="ident">TextureUsage</span>::<span class="ident">SAMPLED</span>, <span class="ident">resource</span>::<span class="ident">TextureUse</span>::<span class="ident">SAMPLED</span>)
                             }
                             <span class="kw">_</span> <span class="op">=&gt;</span> {
-                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindGroupError</span>::<span class="ident">WrongBindingType</span> {
+                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">CreateBindGroupError</span>::<span class="ident">WrongBindingType</span> {
                                     <span class="ident">binding</span>,
                                     <span class="ident">actual</span>: <span class="ident">decl</span>.<span class="ident">ty</span>.<span class="ident">clone</span>(),
                                     <span class="ident">expected</span>: <span class="string">&quot;SampledTextureArray&quot;</span>,
@@ -5856,54 +5836,62 @@
         );
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_poll</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>, <span class="ident">force_wait</span>: <span class="ident">bool</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_poll</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">device_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>,
+        <span class="ident">force_wait</span>: <span class="ident">bool</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaitIdleError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::poll&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> <span class="ident">callbacks</span> <span class="op">=</span> {
             <span class="kw">let</span> (<span class="ident">device_guard</span>, <span class="kw-2">mut</span> <span class="ident">token</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">devices</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
-            <span class="ident">device_guard</span>[<span class="ident">device_id</span>].<span class="ident">maintain</span>(<span class="kw-2">&amp;</span><span class="ident">hub</span>, <span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>)
+            <span class="ident">device_guard</span>[<span class="ident">device_id</span>].<span class="ident">maintain</span>(<span class="kw-2">&amp;</span><span class="ident">hub</span>, <span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>)<span class="question-mark">?</span>
         };
         <span class="ident">fire_map_callbacks</span>(<span class="ident">callbacks</span>);
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">fn</span> <span class="ident">poll_devices</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">force_wait</span>: <span class="ident">bool</span>,
         <span class="ident">callbacks</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">BufferMapPendingCallback</span><span class="op">&gt;</span>,
-    ) {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaitIdleError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::poll_devices&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">token</span> <span class="op">=</span> <span class="ident">Token</span>::<span class="ident">root</span>();
         <span class="kw">let</span> (<span class="ident">device_guard</span>, <span class="kw-2">mut</span> <span class="ident">token</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">devices</span>.<span class="ident">read</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
         <span class="kw">for</span> (<span class="kw">_</span>, <span class="ident">device</span>) <span class="kw">in</span> <span class="ident">device_guard</span>.<span class="ident">iter</span>(<span class="ident">B</span>::<span class="ident">VARIANT</span>) {
-            <span class="kw">let</span> <span class="ident">cbs</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">maintain</span>(<span class="kw-2">&amp;</span><span class="ident">hub</span>, <span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
+            <span class="kw">let</span> <span class="ident">cbs</span> <span class="op">=</span> <span class="ident">device</span>.<span class="ident">maintain</span>(<span class="kw-2">&amp;</span><span class="ident">hub</span>, <span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>)<span class="question-mark">?</span>;
             <span class="ident">callbacks</span>.<span class="ident">extend</span>(<span class="ident">cbs</span>);
         }
+        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">poll_all_devices</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">force_wait</span>: <span class="ident">bool</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">poll_all_devices</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">force_wait</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaitIdleError</span><span class="op">&gt;</span> {
         <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">backend</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">callbacks</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
 
         <span class="macro">backends</span><span class="macro">!</span> {
             <span class="attribute">#[<span class="ident">vulkan</span>]</span> {
-                <span class="self">self</span>.<span class="ident">poll_devices</span>::<span class="op">&lt;</span><span class="ident">backend</span>::<span class="ident">Vulkan</span><span class="op">&gt;</span>(<span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">callbacks</span>);
+                <span class="self">self</span>.<span class="ident">poll_devices</span>::<span class="op">&lt;</span><span class="ident">backend</span>::<span class="ident">Vulkan</span><span class="op">&gt;</span>(<span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">callbacks</span>)<span class="question-mark">?</span>;
             }
             <span class="attribute">#[<span class="ident">metal</span>]</span> {
-                <span class="self">self</span>.<span class="ident">poll_devices</span>::<span class="op">&lt;</span><span class="ident">backend</span>::<span class="ident">Metal</span><span class="op">&gt;</span>(<span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">callbacks</span>);
+                <span class="self">self</span>.<span class="ident">poll_devices</span>::<span class="op">&lt;</span><span class="ident">backend</span>::<span class="ident">Metal</span><span class="op">&gt;</span>(<span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">callbacks</span>)<span class="question-mark">?</span>;
             }
             <span class="attribute">#[<span class="ident">dx12</span>]</span> {
-                <span class="self">self</span>.<span class="ident">poll_devices</span>::<span class="op">&lt;</span><span class="ident">backend</span>::<span class="ident">Dx12</span><span class="op">&gt;</span>(<span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">callbacks</span>);
+                <span class="self">self</span>.<span class="ident">poll_devices</span>::<span class="op">&lt;</span><span class="ident">backend</span>::<span class="ident">Dx12</span><span class="op">&gt;</span>(<span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">callbacks</span>)<span class="question-mark">?</span>;
             }
             <span class="attribute">#[<span class="ident">dx11</span>]</span> {
-                <span class="self">self</span>.<span class="ident">poll_devices</span>::<span class="op">&lt;</span><span class="ident">backend</span>::<span class="ident">Dx11</span><span class="op">&gt;</span>(<span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">callbacks</span>);
+                <span class="self">self</span>.<span class="ident">poll_devices</span>::<span class="op">&lt;</span><span class="ident">backend</span>::<span class="ident">Dx11</span><span class="op">&gt;</span>(<span class="ident">force_wait</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">callbacks</span>)<span class="question-mark">?</span>;
             }
         }
 
         <span class="ident">fire_map_callbacks</span>(<span class="ident">callbacks</span>);
+
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">device_destroy</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device_id</span>: <span class="ident">id</span>::<span class="ident">DeviceId</span>) {
@@ -5931,7 +5919,7 @@
         <span class="ident">buffer_id</span>: <span class="ident">id</span>::<span class="ident">BufferId</span>,
         <span class="ident">range</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">BufferAddress</span><span class="op">&gt;</span>,
         <span class="ident">op</span>: <span class="ident">resource</span>::<span class="ident">BufferMapOperation</span>,
-    ) {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BufferMapError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::buffer_map_async&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -5942,26 +5930,24 @@
             <span class="ident">HostMap</span>::<span class="ident">Write</span> <span class="op">=&gt;</span> (<span class="ident">wgt</span>::<span class="ident">BufferUsage</span>::<span class="ident">MAP_WRITE</span>, <span class="ident">resource</span>::<span class="ident">BufferUse</span>::<span class="ident">MAP_WRITE</span>),
         };
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">range</span>.<span class="ident">start</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span>, <span class="number">0</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">range</span>.<span class="ident">end</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span>, <span class="number">0</span>);
+        <span class="kw">if</span> <span class="ident">range</span>.<span class="ident">start</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span> <span class="op">!=</span> <span class="number">0</span>
+            <span class="op">||</span> <span class="ident">range</span>.<span class="ident">end</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span> <span class="op">!=</span> <span class="number">0</span>
+        {
+            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BufferMapError</span>::<span class="ident">UnalignedRange</span>);
+        }
 
         <span class="kw">let</span> (<span class="ident">device_id</span>, <span class="ident">ref_count</span>) <span class="op">=</span> {
             <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">buffer_guard</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">hub</span>.<span class="ident">buffers</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>);
             <span class="kw">let</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buffer_guard</span>[<span class="ident">buffer_id</span>];
 
-            <span class="macro">assert</span><span class="macro">!</span>(
-                <span class="ident">buffer</span>.<span class="ident">usage</span>.<span class="ident">contains</span>(<span class="ident">pub_usage</span>),
-                <span class="string">&quot;Buffer usage {:?} must contain usage flag(s) {:?}&quot;</span>,
-                <span class="ident">buffer</span>.<span class="ident">usage</span>,
-                <span class="ident">pub_usage</span>
-            );
+            <span class="ident">check_buffer_usage</span>(<span class="ident">buffer</span>.<span class="ident">usage</span>, <span class="ident">pub_usage</span>)<span class="question-mark">?</span>;
             <span class="ident">buffer</span>.<span class="ident">map_state</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">buffer</span>.<span class="ident">map_state</span> {
                 <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Init</span> { .. } <span class="op">|</span> <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Active</span> { .. } <span class="op">=&gt;</span> {
-                    <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Buffer already mapped&quot;</span>)
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BufferMapError</span>::<span class="ident">AlreadyMapped</span>);
                 }
                 <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Waiting</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
                     <span class="ident">op</span>.<span class="ident">call_error</span>();
-                    <span class="kw">return</span>;
+                    <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
                 }
                 <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Idle</span> <span class="op">=&gt;</span> {
                     <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Waiting</span>(<span class="ident">resource</span>::<span class="ident">BufferPendingMapping</span> {
@@ -5987,6 +5973,8 @@
             .<span class="ident">change_replace</span>(<span class="ident">buffer_id</span>, <span class="kw-2">&amp;</span><span class="ident">ref_count</span>, (), <span class="ident">internal_use</span>);
 
         <span class="ident">device</span>.<span class="ident">lock_life</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">token</span>).<span class="ident">map</span>(<span class="ident">buffer_id</span>, <span class="ident">ref_count</span>);
+
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_get_mapped_range</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
@@ -5994,7 +5982,7 @@
         <span class="ident">buffer_id</span>: <span class="ident">id</span>::<span class="ident">BufferId</span>,
         <span class="ident">offset</span>: <span class="ident">BufferAddress</span>,
         <span class="ident">_size</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">BufferSize</span><span class="op">&gt;</span>,
-    ) <span class="op">-&gt;</span> <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span> {
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>, <span class="ident">BufferNotMappedError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::buffer_get_mapped_range&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -6005,16 +5993,18 @@
         <span class="kw">match</span> <span class="ident">buffer</span>.<span class="ident">map_state</span> {
             <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Init</span> { <span class="ident">ptr</span>, .. }
             <span class="op">|</span> <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Active</span> { <span class="ident">ptr</span>, .. } <span class="op">=&gt;</span> <span class="kw">unsafe</span> {
-                <span class="ident">ptr</span>.<span class="ident">as_ptr</span>().<span class="ident">offset</span>(<span class="ident">offset</span> <span class="kw">as</span> <span class="ident">isize</span>)
+                <span class="prelude-val">Ok</span>(<span class="ident">ptr</span>.<span class="ident">as_ptr</span>().<span class="ident">offset</span>(<span class="ident">offset</span> <span class="kw">as</span> <span class="ident">isize</span>))
             },
             <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Idle</span> <span class="op">|</span> <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Waiting</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Buffer is not mapped&quot;</span>);
-                <span class="ident">ptr</span>::<span class="ident">null_mut</span>()
+                <span class="prelude-val">Err</span>(<span class="ident">BufferNotMappedError</span>)
             }
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_unmap</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buffer_id</span>: <span class="ident">id</span>::<span class="ident">BufferId</span>) {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">buffer_unmap</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">GfxBackend</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">buffer_id</span>: <span class="ident">id</span>::<span class="ident">BufferId</span>,
+    ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BufferNotMappedError</span><span class="op">&gt;</span> {
         <span class="macro">span</span><span class="macro">!</span>(<span class="ident">_guard</span>, <span class="ident">INFO</span>, <span class="string">&quot;Device::buffer_unmap&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">hub</span> <span class="op">=</span> <span class="ident">B</span>::<span class="ident">hub</span>(<span class="self">self</span>);
@@ -6084,7 +6074,7 @@
                     .<span class="ident">consume_temp</span>(<span class="ident">stage_buffer</span>, <span class="ident">stage_memory</span>);
             }
             <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Idle</span> <span class="op">=&gt;</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Buffer is not mapped&quot;</span>);
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BufferNotMappedError</span>);
             }
             <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Waiting</span>(<span class="kw">_</span>) <span class="op">=&gt;</span> {}
             <span class="ident">resource</span>::<span class="ident">BufferMapState</span>::<span class="ident">Active</span> {
@@ -6115,7 +6105,43 @@
                 <span class="ident">unmap_buffer</span>(<span class="kw-2">&amp;</span><span class="ident">device</span>.<span class="ident">raw</span>, <span class="ident">buffer</span>);
             }
         }
+        <span class="prelude-val">Ok</span>(())
     }
 }
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CreateBufferError</span> {
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;`MAP` usage can only be combined with the opposite `COPY`, requested {0:?}&quot;</span>)]</span>
+    <span class="ident">UsageMismatch</span>(<span class="ident">wgt</span>::<span class="ident">BufferUsage</span>),
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;buffers that are mapped at creation have to be aligned to `COPY_BUFFER_ALIGNMENT`&quot;</span>)]</span>
+    <span class="ident">UnalignedSize</span>,
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CreateTextureError</span> {
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;D24Plus textures cannot be copied&quot;</span>)]</span>
+    <span class="ident">CannotCopyD24Plus</span>,
+    <span class="attribute">#[<span class="ident">error</span>(
+        <span class="string">&quot;texture descriptor mip level count ({0}) must be less than device max mip levels ({})&quot;</span>,
+        <span class="ident">MAX_MIP_LEVELS</span>
+    )]</span>
+    <span class="ident">InvalidMipLevelCount</span>(<span class="ident">u32</span>),
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BufferMapError</span> {
+    <span class="attribute">#[<span class="ident">error</span>(<span class="ident">transparent</span>)]</span>
+    <span class="ident">MissingBufferUsage</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <span class="ident">MissingBufferUsageError</span>),
+    <span class="attribute">#[<span class="ident">error</span>(<span class="ident">transparent</span>)]</span>
+    <span class="ident">MapError</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <span class="ident">hal</span>::<span class="ident">device</span>::<span class="ident">MapError</span>),
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;buffer map range is not aligned to {}&quot;</span>, <span class="ident">wgt</span>::<span class="ident">COPY_BUFFER_ALIGNMENT</span>)]</span>
+    <span class="ident">UnalignedRange</span>,
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;buffer is already mapped&quot;</span>)]</span>
+    <span class="ident">AlreadyMapped</span>,
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
+<span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;buffer is not mapped&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BufferNotMappedError</span>;
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><script>window.rootPath = "../../../";window.currentCrate = "wgpu_core";</script><script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script><script defer src="../../../search-index.js"></script></body></html>

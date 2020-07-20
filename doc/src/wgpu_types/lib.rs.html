@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/a0ed09a/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/3c6ee87/wgpu-types/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_types/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">   1</span>
 <span id="2">   2</span>
 <span id="3">   3</span>
 <span id="4">   4</span>
@@ -1840,6 +1840,38 @@
 <span id="1840">1840</span>
 <span id="1841">1841</span>
 <span id="1842">1842</span>
+<span id="1843">1843</span>
+<span id="1844">1844</span>
+<span id="1845">1845</span>
+<span id="1846">1846</span>
+<span id="1847">1847</span>
+<span id="1848">1848</span>
+<span id="1849">1849</span>
+<span id="1850">1850</span>
+<span id="1851">1851</span>
+<span id="1852">1852</span>
+<span id="1853">1853</span>
+<span id="1854">1854</span>
+<span id="1855">1855</span>
+<span id="1856">1856</span>
+<span id="1857">1857</span>
+<span id="1858">1858</span>
+<span id="1859">1859</span>
+<span id="1860">1860</span>
+<span id="1861">1861</span>
+<span id="1862">1862</span>
+<span id="1863">1863</span>
+<span id="1864">1864</span>
+<span id="1865">1865</span>
+<span id="1866">1866</span>
+<span id="1867">1867</span>
+<span id="1868">1868</span>
+<span id="1869">1869</span>
+<span id="1870">1870</span>
+<span id="1871">1871</span>
+<span id="1872">1872</span>
+<span id="1873">1873</span>
+<span id="1874">1874</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -2784,6 +2816,39 @@
     <span class="ident">Int4</span> <span class="op">=</span> <span class="number">29</span>,
 }
 
+<span class="kw">impl</span> <span class="ident">VertexFormat</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">size</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">u64</span> {
+        <span class="kw">match</span> <span class="self">self</span> {
+            <span class="ident">VertexFormat</span>::<span class="ident">Uchar2</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Char2</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Uchar2Norm</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Char2Norm</span> <span class="op">=&gt;</span> <span class="number">2</span>,
+            <span class="ident">VertexFormat</span>::<span class="ident">Uchar4</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Char4</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Uchar4Norm</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Char4Norm</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Ushort2</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Short2</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Ushort2Norm</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Short2Norm</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Half2</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Float</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Uint</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Int</span> <span class="op">=&gt;</span> <span class="number">4</span>,
+            <span class="ident">VertexFormat</span>::<span class="ident">Ushort4</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Short4</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Ushort4Norm</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Short4Norm</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Half4</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Float2</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Uint2</span>
+            <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Int2</span> <span class="op">=&gt;</span> <span class="number">8</span>,
+            <span class="ident">VertexFormat</span>::<span class="ident">Float3</span> <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Uint3</span> <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Int3</span> <span class="op">=&gt;</span> <span class="number">12</span>,
+            <span class="ident">VertexFormat</span>::<span class="ident">Float4</span> <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Uint4</span> <span class="op">|</span> <span class="ident">VertexFormat</span>::<span class="ident">Int4</span> <span class="op">=&gt;</span> <span class="number">16</span>,
+        }
+    }
+}
+
 <span class="ident">bitflags</span>::<span class="macro">bitflags</span><span class="macro">!</span> {
     <span class="doccomment">/// Different ways that you can use a buffer.</span>
     <span class="doccomment">///</span>
@@ -2947,7 +3012,6 @@
     <span class="ident">Timeout</span>,
     <span class="ident">Outdated</span>,
     <span class="ident">Lost</span>,
-    <span class="ident">OutOfMemory</span>,
 }
 
 <span class="doccomment">/// Describes the attachments of a render pass.</span>
@@ -3507,7 +3571,7 @@
 <span class="doccomment">/// Specific type of a binding.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// WebGPU spec: https://gpuweb.github.io/gpuweb/#dictdef-gpubindgrouplayoutentry</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>, <span class="ident">Hash</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BindingType</span> {
@@ -3612,7 +3676,7 @@
 }
 
 <span class="doccomment">/// Describes a single binding inside a bind group.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>, <span class="ident">derive</span>(<span class="ident">Serialize</span>))]</span>
 <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;replay&quot;</span>, <span class="ident">derive</span>(<span class="ident">Deserialize</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BindGroupLayoutEntry</span> {

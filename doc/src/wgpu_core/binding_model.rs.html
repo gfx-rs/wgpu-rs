@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/a0ed09a/wgpu-core/src/binding_model.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>binding_model.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source to the Rust file `/home/runner/.cargo/git/checkouts/wgpu-53e70f8674b08dd4/3c6ee87/wgpu-core/src/binding_model.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>binding_model.rs.html -- source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script src="../../storage.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="shortcut icon" href="../../favicon.ico"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu">&#9776;</div><a href='../../wgpu_core/index.html'><div class='logo-container'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!"><img src="../../brush.svg" width="18" alt="Pick another theme!"></button><div id="theme-choices"></div></div><script src="../../theme.js"></script><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><a id="settings-menu" href="../../settings.html"><img src="../../wheel.svg" width="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><pre class="line-numbers"><span id="1">  1</span>
 <span id="2">  2</span>
 <span id="3">  3</span>
 <span id="4">  4</span>
@@ -484,43 +484,6 @@
 <span id="484">484</span>
 <span id="485">485</span>
 <span id="486">486</span>
-<span id="487">487</span>
-<span id="488">488</span>
-<span id="489">489</span>
-<span id="490">490</span>
-<span id="491">491</span>
-<span id="492">492</span>
-<span id="493">493</span>
-<span id="494">494</span>
-<span id="495">495</span>
-<span id="496">496</span>
-<span id="497">497</span>
-<span id="498">498</span>
-<span id="499">499</span>
-<span id="500">500</span>
-<span id="501">501</span>
-<span id="502">502</span>
-<span id="503">503</span>
-<span id="504">504</span>
-<span id="505">505</span>
-<span id="506">506</span>
-<span id="507">507</span>
-<span id="508">508</span>
-<span id="509">509</span>
-<span id="510">510</span>
-<span id="511">511</span>
-<span id="512">512</span>
-<span id="513">513</span>
-<span id="514">514</span>
-<span id="515">515</span>
-<span id="516">516</span>
-<span id="517">517</span>
-<span id="518">518</span>
-<span id="519">519</span>
-<span id="520">520</span>
-<span id="521">521</span>
-<span id="522">522</span>
-<span id="523">523</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="comment">/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -541,28 +504,31 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;trace&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">Serialize</span>;
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow</span>::<span class="ident">Borrow</span>, <span class="ident">fmt</span>};
+<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow</span>::<span class="ident">Borrow</span>, <span class="ident">ops</span>::<span class="ident">Range</span>};
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="kw">use</span> <span class="ident">thiserror</span>::<span class="ident">Error</span>;
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BindGroupLayoutError</span> {
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;conflicting binding at index {0}&quot;</span>)]</span>
     <span class="ident">ConflictBinding</span>(<span class="ident">u32</span>),
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;required device feature is missing: {0:?}&quot;</span>)]</span>
     <span class="ident">MissingFeature</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>),
-    <span class="doccomment">/// Arrays of bindings can&#39;t be 0 elements long</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;arrays of bindings can&#39;t be 0 elements long&quot;</span>)]</span>
     <span class="ident">ZeroCount</span>,
-    <span class="doccomment">/// Arrays of bindings unsupported for this type of binding</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;arrays of bindings unsupported for this type of binding&quot;</span>)]</span>
     <span class="ident">ArrayUnsupported</span>,
-    <span class="doccomment">/// Bindings go over binding count limits</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="ident">transparent</span>)]</span>
     <span class="ident">TooManyBindings</span>(<span class="ident">BindingTypeMaxCountError</span>),
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BindGroupError</span> {
-    <span class="doccomment">/// Number of bindings in bind group descriptor does not match</span>
-    <span class="doccomment">/// the number of bindings defined in the bind group layout.</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CreateBindGroupError</span> {
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;number of bindings in bind group descriptor ({actual}) does not match the number of bindings defined in the bind group layout ({expected})&quot;</span>)]</span>
     <span class="ident">BindingsNumMismatch</span> { <span class="ident">actual</span>: <span class="ident">usize</span>, <span class="ident">expected</span>: <span class="ident">usize</span> },
-    <span class="doccomment">/// Unable to find a corresponding declaration for the given binding,</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unable to find a corresponding declaration for the given binding {0}&quot;</span>)]</span>
     <span class="ident">MissingBindingDeclaration</span>(<span class="ident">u32</span>),
-    <span class="doccomment">/// The given binding has a different type than the one in the layout.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;binding {binding} has a different type ({actual:?}) than the one in the layout ({expected:?})&quot;</span>)]</span>
     <span class="ident">WrongBindingType</span> {
         <span class="comment">// Index of the binding</span>
         <span class="ident">binding</span>: <span class="ident">u32</span>,
@@ -571,14 +537,14 @@
         <span class="comment">// Human-readable description of expected types</span>
         <span class="ident">expected</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
     },
-    <span class="doccomment">/// The given sampler is/is not a comparison sampler,</span>
-    <span class="doccomment">/// while the layout type indicates otherwise.</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;the given sampler is/is not a comparison sampler, while the layout type indicates otherwise&quot;</span>)]</span>
     <span class="ident">WrongSamplerComparison</span>,
-    <span class="doccomment">/// Uniform buffer binding range exceeds [`wgt::Limits::max_uniform_buffer_binding_size`] limit</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;uniform buffer binding range exceeds `max_uniform_buffer_binding_size` limit&quot;</span>)]</span>
     <span class="ident">UniformBufferRangeTooLarge</span>,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
+<span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;too many bindings of type {kind:?} in stage {stage:?}, limit is {count}&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BindingTypeMaxCountError</span> {
     <span class="kw">pub</span> <span class="ident">kind</span>: <span class="ident">BindingTypeMaxCountErrorKind</span>,
     <span class="kw">pub</span> <span class="ident">stage</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
@@ -602,6 +568,7 @@
     <span class="ident">fragment</span>: <span class="ident">u32</span>,
     <span class="ident">compute</span>: <span class="ident">u32</span>,
 }
+
 <span class="kw">impl</span> <span class="ident">PerStageBindingTypeCounter</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">add</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">stage</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>, <span class="ident">count</span>: <span class="ident">u32</span>) {
         <span class="kw">if</span> <span class="ident">stage</span>.<span class="ident">contains</span>(<span class="ident">wgt</span>::<span class="ident">ShaderStage</span>::<span class="ident">VERTEX</span>) {
@@ -672,7 +639,7 @@
                 }
             }
             <span class="ident">wgt</span>::<span class="ident">BindingType</span>::<span class="ident">StorageBuffer</span> { <span class="ident">dynamic</span>, .. } <span class="op">=&gt;</span> {
-                <span class="self">self</span>.<span class="ident">storage_textures</span>.<span class="ident">add</span>(<span class="ident">binding</span>.<span class="ident">visibility</span>, <span class="ident">count</span>);
+                <span class="self">self</span>.<span class="ident">storage_buffers</span>.<span class="ident">add</span>(<span class="ident">binding</span>.<span class="ident">visibility</span>, <span class="ident">count</span>);
                 <span class="kw">if</span> <span class="ident">dynamic</span> {
                     <span class="self">self</span>.<span class="ident">dynamic_storage_buffers</span> <span class="op">+=</span> <span class="ident">count</span>;
                 }
@@ -755,82 +722,64 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">count_validator</span>: <span class="ident">BindingTypeMaxCountValidator</span>,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PipelineLayoutError</span> {
-    <span class="ident">TooManyGroups</span>(<span class="ident">usize</span>),
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;bind group layout count {actual} exceeds device bind group limit {max}&quot;</span>)]</span>
+    <span class="ident">TooManyGroups</span> { <span class="ident">actual</span>: <span class="ident">usize</span>, <span class="ident">max</span>: <span class="ident">usize</span> },
+    <span class="attribute">#[<span class="ident">error</span>(<span class="ident">transparent</span>)]</span>
     <span class="ident">TooManyBindings</span>(<span class="ident">BindingTypeMaxCountError</span>),
-    <span class="ident">PushConstantRangeTooLarge</span> { <span class="ident">index</span>: <span class="ident">usize</span> },
-    <span class="ident">MoreThanOnePushConstantRangePerStage</span> { <span class="ident">index</span>: <span class="ident">usize</span> },
-    <span class="ident">MisalignedPushConstantRange</span> { <span class="ident">index</span>: <span class="ident">usize</span> },
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;push constant at index {index} has range {}..{} which exceeds device push constant size limit 0..{max}&quot;</span>, <span class="ident">range</span>.<span class="ident">start</span>, <span class="ident">range</span>.<span class="ident">end</span>)]</span>
+    <span class="ident">PushConstantRangeTooLarge</span> {
+        <span class="ident">index</span>: <span class="ident">usize</span>,
+        <span class="ident">range</span>: <span class="ident">Range</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+        <span class="ident">max</span>: <span class="ident">u32</span>,
+    },
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;push constant range (index {index}) provides for stage(s) {provided:?} but there exists another range that provides stage(s) {intersected:?}. Each stage may only be provided by one range&quot;</span>)]</span>
+    <span class="ident">MoreThanOnePushConstantRangePerStage</span> {
+        <span class="ident">index</span>: <span class="ident">usize</span>,
+        <span class="ident">provided</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
+        <span class="ident">intersected</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
+    },
+    <span class="attribute">#[<span class="ident">error</span>(
+        <span class="string">&quot;push constant at index {index} has range bound {bound} not aligned to {}&quot;</span>,
+        <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span>
+    )]</span>
+    <span class="ident">MisalignedPushConstantRange</span> { <span class="ident">index</span>: <span class="ident">usize</span>, <span class="ident">bound</span>: <span class="ident">u32</span> },
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;device does not have required feature: {0:?}&quot;</span>)]</span>
     <span class="ident">MissingFeature</span>(<span class="ident">wgt</span>::<span class="ident">Features</span>),
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PushConstantUploadError</span> {
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;provided push constant with indices {offset}..{end_offset} overruns matching push constant range at index {idx}, with stage(s) {:?} and indices {:?}&quot;</span>, <span class="ident">range</span>.<span class="ident">stages</span>, <span class="ident">range</span>.<span class="ident">range</span>)]</span>
     <span class="ident">TooLarge</span> {
         <span class="ident">offset</span>: <span class="ident">u32</span>,
         <span class="ident">end_offset</span>: <span class="ident">u32</span>,
         <span class="ident">idx</span>: <span class="ident">usize</span>,
         <span class="ident">range</span>: <span class="ident">wgt</span>::<span class="ident">PushConstantRange</span>,
     },
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;provided push constant is for stage(s) {actual:?}, stage with a partial match found at index {idx} with stage(s) {matched:?}, however push constants must be complete matches&quot;</span>)]</span>
     <span class="ident">PartialRangeMatch</span> {
         <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
         <span class="ident">idx</span>: <span class="ident">usize</span>,
         <span class="ident">matched</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
     },
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;provided push constant is for stage(s) {actual:?}, but intersects a push constant range (at index {idx}) with stage(s) {missing:?}. Push constants must provide the stages for all ranges they intersect&quot;</span>)]</span>
     <span class="ident">MissingStages</span> {
         <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
         <span class="ident">idx</span>: <span class="ident">usize</span>,
         <span class="ident">missing</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
     },
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;provided push constant is for stage(s) {actual:?}, however the pipeline layout has no push constant range for the stage(s) {unmatched:?}&quot;</span>)]</span>
     <span class="ident">UnmatchedStages</span> {
         <span class="ident">actual</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
         <span class="ident">unmatched</span>: <span class="ident">wgt</span>::<span class="ident">ShaderStage</span>,
     },
+    <span class="attribute">#[<span class="ident">error</span>(
+        <span class="string">&quot;provided push constant offset {0} must be aligned to {}&quot;</span>,
+        <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span>
+    )]</span>
     <span class="ident">Unaligned</span>(<span class="ident">u32</span>),
-}
-
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">PushConstantUploadError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">TooLarge</span> { <span class="ident">offset</span>, <span class="ident">end_offset</span>, <span class="ident">idx</span>, <span class="ident">range</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;provided push constant with indices {}..{} overruns matching push constant range (index {}) with stage(s) {:?} and indices {}..{}&quot;</span>,
-                <span class="ident">offset</span>,
-                <span class="ident">end_offset</span>,
-                <span class="ident">idx</span>,
-                <span class="ident">range</span>.<span class="ident">stages</span>,
-                <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">start</span>,
-                <span class="ident">range</span>.<span class="ident">range</span>.<span class="ident">end</span>,
-            ),
-            <span class="self">Self</span>::<span class="ident">PartialRangeMatch</span> { <span class="ident">actual</span>, <span class="ident">idx</span>, <span class="ident">matched</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;provided push constant is for stage(s) {:?}, stage with a partial match found at index {} with stage(s) {:?}, however push constants must be complete matches&quot;</span>,
-                <span class="ident">actual</span>,
-                <span class="ident">idx</span>,
-                <span class="ident">matched</span>,
-            ),
-            <span class="self">Self</span>::<span class="ident">MissingStages</span> { <span class="ident">actual</span>, <span class="ident">idx</span>, <span class="ident">missing</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;provided push constant is for stage(s) {:?}, but intersects a push constant range (at index {}) with stage(s) {:?}. Push constants must provide the stages for all ranges they intersect&quot;</span>,
-                <span class="ident">actual</span>,
-                <span class="ident">idx</span>,
-                <span class="ident">missing</span>,
-            ),
-            <span class="self">Self</span>::<span class="ident">UnmatchedStages</span> { <span class="ident">actual</span>, <span class="ident">unmatched</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;provided push constant is for stage(s) {:?}, however the pipeline layout has no push constant range for the stage(s) {:?}&quot;</span>,
-                <span class="ident">actual</span>,
-                <span class="ident">unmatched</span>,
-            ),
-            <span class="self">Self</span>::<span class="ident">Unaligned</span>(<span class="ident">offset</span>) <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(
-                <span class="ident">f</span>,
-                <span class="string">&quot;provided push constant offset {} must be aligned to {}&quot;</span>,
-                <span class="ident">offset</span>,
-                <span class="ident">wgt</span>::<span class="ident">PUSH_CONSTANT_ALIGNMENT</span>,
-            )
-        }
-    }
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -947,27 +896,17 @@
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">BindGroupDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="op">=</span>
     <span class="ident">wgt</span>::<span class="ident">BindGroupDescriptor</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">BindGroupLayoutId</span>, <span class="ident">BindGroupEntry</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;&gt;</span>;
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>, <span class="ident">Error</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BindError</span> {
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;number of dynamic offsets ({actual}) doesn&#39;t match the number of dynamic bindings in the bind group layout ({expected})&quot;</span>)]</span>
     <span class="ident">MismatchedDynamicOffsetCount</span> { <span class="ident">actual</span>: <span class="ident">usize</span>, <span class="ident">expected</span>: <span class="ident">usize</span> },
-    <span class="ident">UnalignedDynamicBinding</span> { <span class="ident">idx</span>: <span class="ident">usize</span> },
-    <span class="ident">DynamicBindingOutOfBounds</span> { <span class="ident">idx</span>: <span class="ident">usize</span> },
-}
-
-<span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">BindError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span>) <span class="op">-&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="self">Self</span>::<span class="ident">MismatchedDynamicOffsetCount</span> { <span class="ident">actual</span>, <span class="ident">expected</span> } <span class="op">=&gt;</span>
-                <span class="macro">write</span><span class="macro">!</span>(
-                    <span class="ident">f</span>,
-                    <span class="string">&quot;number of dynamic offsets ({}) doesn&#39;t match the number of dynamic bindings in the bind group layout ({})&quot;</span>,
-                    <span class="ident">actual</span>,
-                    <span class="ident">expected</span>,
-                ),
-            <span class="self">Self</span>::<span class="ident">UnalignedDynamicBinding</span> { <span class="ident">idx</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;dynamic binding at index {} is not properly aligned&quot;</span>, <span class="ident">idx</span>),
-            <span class="self">Self</span>::<span class="ident">DynamicBindingOutOfBounds</span> { <span class="ident">idx</span> } <span class="op">=&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;dynamic binding at index {} would overrun the buffer&quot;</span>, <span class="ident">idx</span>),
-        }
-    }
+    <span class="attribute">#[<span class="ident">error</span>(
+        <span class="string">&quot;dynamic binding at index {idx}: offset {offset} must be aligned to {}&quot;</span>,
+        <span class="ident">wgt</span>::<span class="ident">BIND_BUFFER_ALIGNMENT</span>
+    )]</span>
+    <span class="ident">UnalignedDynamicBinding</span> { <span class="ident">idx</span>: <span class="ident">usize</span>, <span class="ident">offset</span>: <span class="ident">u32</span> },
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;dynamic binding at index {idx} with offset {offset} would overrun the buffer (limit: {max})&quot;</span>)]</span>
+    <span class="ident">DynamicBindingOutOfBounds</span> { <span class="ident">idx</span>: <span class="ident">usize</span>, <span class="ident">offset</span>: <span class="ident">u32</span>, <span class="ident">max</span>: <span class="ident">u64</span> },
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
@@ -992,11 +931,6 @@
         <span class="ident">offsets</span>: <span class="kw-2">&amp;</span>[<span class="ident">wgt</span>::<span class="ident">DynamicOffset</span>],
     ) <span class="op">-&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">BindError</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">dynamic_binding_info</span>.<span class="ident">len</span>() <span class="op">!=</span> <span class="ident">offsets</span>.<span class="ident">len</span>() {
-            <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
-                <span class="string">&quot;BindGroup has {} dynamic bindings, but {} dynamic offsets were provided&quot;</span>,
-                <span class="self">self</span>.<span class="ident">dynamic_binding_info</span>.<span class="ident">len</span>(),
-                <span class="ident">offsets</span>.<span class="ident">len</span>()
-            );
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError</span>::<span class="ident">MismatchedDynamicOffsetCount</span> {
                 <span class="ident">expected</span>: <span class="self">self</span>.<span class="ident">dynamic_binding_info</span>.<span class="ident">len</span>(),
                 <span class="ident">actual</span>: <span class="ident">offsets</span>.<span class="ident">len</span>(),
@@ -1010,23 +944,15 @@
             .<span class="ident">enumerate</span>()
         {
             <span class="kw">if</span> <span class="ident">offset</span> <span class="kw">as</span> <span class="ident">wgt</span>::<span class="ident">BufferAddress</span> <span class="op">%</span> <span class="ident">wgt</span>::<span class="ident">BIND_BUFFER_ALIGNMENT</span> <span class="op">!=</span> <span class="number">0</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
-                    <span class="string">&quot;Dynamic buffer offset index {}: {} needs to be aligned as a multiple of {}&quot;</span>,
-                    <span class="ident">idx</span>,
-                    <span class="ident">offset</span>,
-                    <span class="ident">wgt</span>::<span class="ident">BIND_BUFFER_ALIGNMENT</span>
-                );
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError</span>::<span class="ident">UnalignedDynamicBinding</span> { <span class="ident">idx</span> });
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError</span>::<span class="ident">UnalignedDynamicBinding</span> { <span class="ident">idx</span>, <span class="ident">offset</span> });
             }
 
             <span class="kw">if</span> <span class="ident">offset</span> <span class="kw">as</span> <span class="ident">wgt</span>::<span class="ident">BufferAddress</span> <span class="op">&gt;</span> <span class="ident">info</span>.<span class="ident">maximum_dynamic_offset</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(
-                    <span class="string">&quot;Dynamic offset index {} with value {} overruns underlying buffer. Dynamic offset must be no more than {}&quot;</span>,
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError</span>::<span class="ident">DynamicBindingOutOfBounds</span> {
                     <span class="ident">idx</span>,
                     <span class="ident">offset</span>,
-                    <span class="ident">info</span>.<span class="ident">maximum_dynamic_offset</span>,
-                );
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError</span>::<span class="ident">DynamicBindingOutOfBounds</span> { <span class="ident">idx</span> });
+                    <span class="ident">max</span>: <span class="ident">info</span>.<span class="ident">maximum_dynamic_offset</span>,
+                });
             }
         }
 
