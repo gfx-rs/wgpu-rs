@@ -294,7 +294,7 @@
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">include_spirv</span> {
     ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">token</span>:<span class="ident">tt</span>)<span class="kw-2">*</span>) <span class="op">=&gt;</span> {
-        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">util</span>::<span class="ident">make_spirv</span>(<span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">util</span>::<span class="ident">WordAligned</span>(<span class="kw-2">*</span><span class="macro">include_bytes</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">token</span>)<span class="kw-2">*</span>)).<span class="number">0</span>)
+        <span class="macro-nonterminal">$</span><span class="kw">crate</span>::<span class="macro-nonterminal">util</span>::<span class="ident">make_spirv</span>(<span class="macro">include_bytes</span><span class="macro">!</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">token</span>)<span class="kw-2">*</span>))
     };
 }
 </pre></div>

@@ -2314,6 +2314,7 @@
 <span id="2314">2314</span>
 <span id="2315">2315</span>
 <span id="2316">2316</span>
+<span id="2317">2317</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! A cross-platform graphics and compute library based on [WebGPU](https://gpuweb.github.io/gpuweb/).</span>
 <span class="doccomment">//!</span>
@@ -2328,6 +2329,7 @@
 <span class="kw">mod</span> <span class="ident">macros</span>;
 
 <span class="kw">use</span> <span class="ident">std</span>::{
+    <span class="ident">borrow</span>::<span class="ident">Cow</span>,
     <span class="ident">error</span>::<span class="ident">Error</span>,
     <span class="ident">fmt</span>::{<span class="ident">Debug</span>, <span class="ident">Display</span>},
     <span class="ident">future</span>::<span class="ident">Future</span>,
@@ -2941,14 +2943,14 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// wgpu will attempt to parse and validate it, but the original binary</span>
     <span class="doccomment">/// is passed to `gfx-rs` and `spirv_cross` for translation.</span>
-    <span class="ident">SpirV</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u32</span>]),
+    <span class="ident">SpirV</span>(<span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, [<span class="ident">u32</span>]<span class="op">&gt;</span>),
     <span class="doccomment">/// WGSL module as a string slice.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// wgpu-rs will parse it and use for validation. It will attempt</span>
     <span class="doccomment">/// to build a SPIR-V module internally and panic otherwise.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Note: WGSL is not yet supported on the Web.</span>
-    <span class="ident">Wgsl</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>),
+    <span class="ident">Wgsl</span>(<span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span>),
 }
 
 <span class="doccomment">/// Handle to a pipeline layout.</span>
