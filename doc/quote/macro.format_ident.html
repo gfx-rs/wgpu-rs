@@ -11,7 +11,7 @@ named arguments.</p>
 <p>Only a limited set of formatting traits are supported. The current mapping
 of format types to traits is:</p>
 <ul>
-<li><code>{}</code> ⇒ <a href="../quote/trait.IdentFragment.html" title="`IdentFragment`"><code>IdentFragment</code></a></li>
+<li><code>{}</code> ⇒ [<code>IdentFragment</code>]</li>
 <li><code>{:o}</code> ⇒ <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Octal.html"><code>Octal</code></a></li>
 <li><code>{:x}</code> ⇒ <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.LowerHex.html"><code>LowerHex</code></a></li>
 <li><code>{:X}</code> ⇒ <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.UpperHex.html"><code>UpperHex</code></a></li>
@@ -20,7 +20,7 @@ of format types to traits is:</p>
 <p>See <a href="https://doc.rust-lang.org/nightly/alloc/fmt/index.html" title="`std::fmt`"><code>std::fmt</code></a> for more information.</p>
 <br>
 <h1 id="identfragment" class="section-header"><a href="#identfragment">IdentFragment</a></h1>
-<p>Unlike <code>format!</code>, this macro uses the <a href="../quote/trait.IdentFragment.html" title="`IdentFragment`"><code>IdentFragment</code></a> formatting trait by
+<p>Unlike <code>format!</code>, this macro uses the [<code>IdentFragment</code>] formatting trait by
 default. This trait is like <code>Display</code>, with a few differences:</p>
 <ul>
 <li><code>IdentFragment</code> is only implemented for a limited set of types, such as

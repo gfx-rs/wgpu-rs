@@ -34,7 +34,7 @@ uniform Globals {
 };
 </code></pre>
 </div><div class='autohide sub-variant' id='variant.UniformBuffer.fields'><h3>Fields of <b>UniformBuffer</b></h3><div><span id="variant.UniformBuffer.field.dynamic" class="variant small-section-header"><a href="#variant.UniformBuffer.field.dynamic" class="anchor field"></a><code>dynamic:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><div class='docblock'><p>Indicates that the binding has a dynamic offset.
-One offset must be passed to <a href="../wgpu/struct.RenderPass.html#method.set_bind_group" title="`RenderPass::set_bind_group`"><code>RenderPass::set_bind_group</code></a> for each dynamic binding in increasing order of binding number.</p>
+One offset must be passed to [<code>RenderPass::set_bind_group</code>] for each dynamic binding in increasing order of binding number.</p>
 </div><span id="variant.UniformBuffer.field.min_binding_size" class="variant small-section-header"><a href="#variant.UniformBuffer.field.min_binding_size" class="anchor field"></a><code>min_binding_size:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/core/num/struct.NonZeroU64.html" title="struct core::num::NonZeroU64">NonZeroU64</a>&gt;</code></span><div class='docblock'><p>Minimum size of the corresponding <code>BufferBinding</code> required to match this entry.
 When pipeline is created, the size has to cover at least the corresponding structure in the shader
 plus one element of the unbound array, which can only be last in the structure.
@@ -46,7 +46,7 @@ If <code>None</code>, the check is performed at draw call time instead of pipeli
 };
 </code></pre>
 </div><div class='autohide sub-variant' id='variant.StorageBuffer.fields'><h3>Fields of <b>StorageBuffer</b></h3><div><span id="variant.StorageBuffer.field.dynamic" class="variant small-section-header"><a href="#variant.StorageBuffer.field.dynamic" class="anchor field"></a><code>dynamic:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a></code></span><div class='docblock'><p>Indicates that the binding has a dynamic offset.
-One offset must be passed to <a href="../wgpu/struct.RenderPass.html#method.set_bind_group" title="`RenderPass::set_bind_group`"><code>RenderPass::set_bind_group</code></a> for each dynamic binding in increasing order of binding number.</p>
+One offset must be passed to [<code>RenderPass::set_bind_group</code>] for each dynamic binding in increasing order of binding number.</p>
 </div><span id="variant.StorageBuffer.field.min_binding_size" class="variant small-section-header"><a href="#variant.StorageBuffer.field.min_binding_size" class="anchor field"></a><code>min_binding_size:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/core/num/struct.NonZeroU64.html" title="struct core::num::NonZeroU64">NonZeroU64</a>&gt;</code></span><div class='docblock'><p>Minimum size of the corresponding <code>BufferBinding</code> required to match this entry.
 When pipeline is created, the size has to cover at least the corresponding structure in the shader
 plus one element of the unbound array, which can only be last in the structure.

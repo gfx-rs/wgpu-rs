@@ -9,8 +9,8 @@ Those Wakers can be used to signal executors that a task it owns
 is ready to be <code>poll</code>ed again.</p>
 <p>Currently, there are two ways to convert <code>ArcWake</code> into <a href="../../futures/task/struct.Waker.html"><code>Waker</code></a>:</p>
 <ul>
-<li><a href="super::waker()"><code>waker</code></a> converts <code>Arc&lt;impl ArcWake&gt;</code> into <a href="../../futures/task/struct.Waker.html"><code>Waker</code></a>.</li>
-<li><a href="super::waker_ref()"><code>waker_ref</code></a> converts <code>&amp;Arc&lt;impl ArcWake&gt;</code> into <a href="super::WakerRef"><code>WakerRef</code></a> that
+<li><a href="../../futures/task/fn.waker.html"><code>waker</code></a> converts <code>Arc&lt;impl ArcWake&gt;</code> into <a href="../../futures/task/struct.Waker.html"><code>Waker</code></a>.</li>
+<li><a href="../../futures/task/fn.waker_ref.html"><code>waker_ref</code></a> converts <code>&amp;Arc&lt;impl ArcWake&gt;</code> into <a href="../../futures/task/struct.WakerRef.html"><code>WakerRef</code></a> that
 provides access to a <a href="../../futures/task/struct.Waker.html"><code>&amp;Waker</code></a>.</li>
 </ul>
 </div>

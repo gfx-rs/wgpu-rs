@@ -8,8 +8,8 @@
 For non-compressed textures, this is 1.</p>
 </div><span id="structfield.bytes_per_row" class="structfield small-section-header"><a href="#structfield.bytes_per_row" class="anchor field"></a><code>bytes_per_row: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span><div class='docblock'><p>Bytes per &quot;row&quot; of the image. This represents one row of pixels in the x direction. Compressed
 textures include multiple rows of pixels in each &quot;row&quot;. May be 0 for 1D texture copies.</p>
-<p>Must be a multiple of 256 for <a href="../wgpu/struct.CommandEncoder.html#method.copy_buffer_to_texture" title="`CommandEncoder::copy_buffer_to_texture`"><code>CommandEncoder::copy_buffer_to_texture</code></a> and <a href="../wgpu/struct.CommandEncoder.html#method.copy_texture_to_buffer" title="`CommandEncoder::copy_texture_to_buffer`"><code>CommandEncoder::copy_texture_to_buffer</code></a>.
-<a href="../wgpu/struct.Queue.html#method.write_texture" title="`Queue::write_texture`"><code>Queue::write_texture</code></a> does not have this requirement.</p>
+<p>Must be a multiple of 256 for [<code>CommandEncoder::copy_buffer_to_texture</code>] and [<code>CommandEncoder::copy_texture_to_buffer</code>].
+[<code>Queue::write_texture</code>] does not have this requirement.</p>
 <p>Must be a multiple of the texture block size. For non-compressed textures, this is 1.</p>
 </div><span id="structfield.rows_per_image" class="structfield small-section-header"><a href="#structfield.rows_per_image" class="anchor field"></a><code>rows_per_image: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a></code></span><div class='docblock'><p>Rows that make up a single &quot;image&quot;. Each &quot;image&quot; is one layer in the z direction of a 3D image. May be larger
 than <code>copy_size.y</code>.</p>
