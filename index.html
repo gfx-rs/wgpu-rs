@@ -1,112 +1,321 @@
-<html language="en">
-  <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
-    <style type="text/css">
-    body {
-        margin: 0 auto;
-        padding: 0;
-        text-align: center;
-        background: #fff;
-        font-family: "Calibri", "Arial", sans-serif;
-        font-size: 1.5em;
-    }
-      
-    a {
-        text-decoration: none;
-    }
-      
-    a:hover {
-        text-decoration: underline;
-    }
-      
-    #links {
-        text-align: left;
-        margin: auto;
-        font-weight: bold;
-        display: inline-block;
-    }
-      
-    #screenshots img {
-        height: 300;
-    }
-    </style>
-  </head>
-  <body>
-    <img src="./logo.png" height="200" />
-    <h1> wgpu-rs </h1>
-    <h2> Rust bindings to wgpu native library </h2>
-    <div id="links">
-        <ul>
-            <li> 
-                <a href="https://github.com/gfx-rs/wgpu-rs"> Github </a> 
-            </li>
-            <li> 
-                <a href="https://crates.io/crates/wgpu"> Crates.io </a>
-            </li>
-            <li> 
-                <a href="https://docs.rs/wgpu/"> Documentation (released versions)</a>
-            </li>
-            <li> 
-                <a href="https://wgpu.rs/doc/wgpu/"> Documentation (latest GitHub master)</a>
-            </li>
-            <li> 
-                <a href="./examples/index.html" title="Requires Firefox Nightly or Chrome Canary"> Live Examples </a> 
-            </li>
-        </ul>
-    </div>
-    <div id="screenshots">
-        <h2> Screenshots </h2>
-        <p> Click on the images to check out the code ! </p>
-        <p>
-            <a href="https://github.com/gfx-rs/wgpu-rs/tree/master/examples/cube">
-                <img src="./screenshots/example-cube.png" />
-            </a>
-        </p>
-        <p>
-            <a href="https://github.com/gfx-rs/wgpu-rs/tree/master/examples/mipmap">
-                <img src="./screenshots/example-mipmap.png" />
-            </a>
-        </p>
-        <p>
-            <a href="https://github.com/gfx-rs/wgpu-rs/tree/master/examples/shadow">
-                <img src="./screenshots/example-shadow.png" />
-            </a>
-        </p>
-        <p>
-            <a href="https://github.com/gfx-rs/wgpu-rs/tree/master/examples/skybox">
-                <img src="./screenshots/example-skybox.gif" />
-            </a>
-        </p>
-        <p>
-            <a href="https://github.com/kvark/vange-rs">
-                <img src="./screenshots/vange-rs.png" />
-            </a>
-        </p>
-        <p>
-            <a href="https://github.com/StarArawn/harmony">
-                <img src="./screenshots/harmony-rs.jpg" />
-            </a>
-        </p>
-        <p>            
-            <img src="./screenshots/brawl-attack.gif" title="No code available for this screenshot" />
-        </p>
-        <p>            
-            <img src="./screenshots/glx-map.png" title="No code available for this screenshot" />
-        </p>
-        <p>
-            <video autoplay loop muted title="No code available for this screenshot">
-                <source src="./screenshots/rotating_cube_of_spheres.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </p>
-        <p>
-            <a href="https://github.com/wumpf/blub">
-                <video autoplay loop muted title="blub - APIC fluid simulation">
-                    <source src="./screenshots/blub-fluid.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </a>
-        </p>
-    </div>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>wgpu-rs | Rust bindings to wgpu native library</title>
+
+    <!-- BULMA CSS Framework -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css"
+        integrity="sha512-ADrqa2PY1TZtb/MoLZIZu/Z/LlPaWQeDMBV73EMwjGam43/JJ5fqW38Rq8LJOVGCDfrJeOMS3Q/wRUVzW5DkjQ=="
+        crossorigin="anonymous" />
+
+    <!-- Font Awesome Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"
+        integrity="sha512-YSdqvJoZr83hj76AIVdOcvLWYMWzy6sJyIMic2aQz5kh2bPTd9dzY3NtdeEAzPp/PhgZqr4aJObB3ym/vsItMg=="
+        crossorigin="anonymous"></script>
+
+    <!-- Handlebars Templating System -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"
+        integrity="sha512-zT3zHcFYbQwjHdKjCu6OMmETx8fJA9S7E6W7kBeFxultf75OPTYUJigEKX58qgyQMi1m1EgenfjMXlRZG8BXaw=="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+
+            <!-- Navigation Bar -->
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" href="https://wgpu.rs/">
+                        <img src="https://wgpu.rs/logo.png">
+                    </a>
+
+                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                        data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+
+                <div id="navbarBasicExample" class="navbar-menu">
+                    <div class="navbar-start">
+                        <a class="navbar-item" href="https://wgpu.rs/">
+                            <span class="icon">
+                                <i class="fas fa-home"></i>
+                            </span>
+                            <span>Home</span>
+                        </a>
+
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                <span class="icon">
+                                    <i class="fas fa-book"></i>
+                                </span>
+                                <span>Documentation</span>
+                            </a>
+
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item" href="https://docs.rs/wgpu/">
+                                    <span class="icon">
+                                        <i class="fas fa-cube"></i>
+                                    </span>
+                                    <span>Latest Release</span>
+                                </a>
+                                <a class="navbar-item" href="https://wgpu.rs/doc/wgpu/">
+                                    <span class="icon">
+                                        <i class="fas fa-code-branch"></i>
+                                    </span>
+                                    <span>Development Branch</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link">
+                                <span class="icon">
+                                    <i class="fas fa-download"></i>
+                                </span>
+                                <span>Download</span>
+                            </a>
+
+                            <div class="navbar-dropdown">
+                                <a class="navbar-item" href="https://crates.io/crates/wgpu">
+                                    <span class="icon">
+                                        <i class="fas fa-cubes"></i>
+                                    </span>
+                                    <span>Crates.io</span>
+                                </a>
+                                <a class="navbar-item" href="https://github.com/gfx-rs/wgpu-rs">
+                                    <span class="icon">
+                                        <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>GitHub.com</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <a class="navbar-item" href="http://wgpu.rs/examples/">
+                            <span class="icon">
+                                <i class="fas fa-flask"></i>
+                            </span>
+                            <span>Try Live Demos</span>
+                        </a>
+                    </div>
+
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a class="button is-light" href="https://github.com/gfx-rs/wgpu-rs">
+                                    <span class="icon">
+                                        <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>GitHub Repo</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Hero -->
+    <section class="hero is-medium is-primary is-bold">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-4 px-6">
+                        <img src="https://wgpu.rs/logo.png">
+                    </div>
+                    <div class="column px-6">
+                        <h1 class="title is-1 pb-6">
+                            wgpu-rs
+                        </h1>
+                        <p class="subtitle is-3">
+                            <b>wgpu-rs</b> is an idiomatic <a href="https://www.rust-lang.org/">Rust</a> wrapper
+                            over <a href="https://github.com/gfx-rs/wgpu">wgpu-core</a>. It's designed to be
+                            suitable for general purpose graphics and computation needs of Rust community.
+                        </p>
+                        <p class="subtitle is-3">
+                            <b>wgpu-rs</b> can target both the natively supported backends and <a
+                                href="https://webassembly.org/">WebAssembly</a> directly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Projects -->
+    <section class="section is-medium">
+        <div class="container">
+            <h1 class="title is-1">Showcase</h1>
+            <br>
+            <p class="subtitle is-4">Made something cool with <b>wgpu-rs</b>? Contact us of you want it to be listed here!</p>
+            <br>
+
+            <div id="showcase_container"></div>
+        </div>
+    </section>
+
+    <!-- Helper script for toggling the navigation-bar burger menu on small screens -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Check if there are any navbar burgers
+            if ($navbarBurgers.length > 0) {
+
+                // Add a click event on each of them
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+
+                        // Get the target from the "data-target" attribute
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+
+                        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+
+                    });
+                });
+            }
+        });
+    </script>
+
+    <script>
+        // List of showcase projects; Edit this list to add or remove projects
+        var showcase_list = {
+            "list": [
+                {
+                    "name": "wgpu-rs",
+                    "description": "Cube example",
+                    "website": "https://github.com/gfx-rs/wgpu-rs/tree/master/examples/cube",
+                    "thumbnail": "http://wgpu.rs/screenshots/example-cube.png"
+                },
+                {
+                    "name": "wgpu-rs",
+                    "description": "Mipmap example",
+                    "website": "https://github.com/gfx-rs/wgpu-rs/tree/master/examples/mipmap",
+                    "thumbnail": "http://wgpu.rs/screenshots/example-mipmap.png"
+                },
+                {
+                    "name": "wgpu-rs",
+                    "description": "Shadow example",
+                    "website": "https://github.com/gfx-rs/wgpu-rs/tree/master/examples/shadow",
+                    "thumbnail": "http://wgpu.rs/screenshots/example-shadow.png"
+                },
+                {
+                    "name": "wgpu-rs",
+                    "description": "Skybox example",
+                    "website": "https://github.com/gfx-rs/wgpu-rs/tree/master/examples/skybox",
+                    "thumbnail": "http://wgpu.rs/screenshots/example-skybox.gif"
+                },
+                {
+                    "name": "Vange-rs",
+                    "description": "Rusty Vangers clone",
+                    "website": "https://github.com/kvark/vange-rs",
+                    "thumbnail": "http://wgpu.rs/screenshots/vange-rs.png"
+                },
+                {
+                    "name": "Harmony",
+                    "description": "A modern 3D/2D game engine that uses wgpu",
+                    "website": "https://github.com/StarArawn/harmony",
+                    "thumbnail": "http://wgpu.rs/screenshots/harmony-rs.jpg"
+                }
+            ]
+        }
+
+        // compile the template
+        var showcase_template = Handlebars.compile(`
+            <div class="column">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img src="{{thumbnail}}">
+                        </figure>
+                    </div>
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">{{name}}</p>
+                                <p class="subtitle is-6">{{description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="{{website}}" class="card-footer-item">
+                        <span class="icon">
+                        <i class="fas fa-external-link-alt"></i>
+                        </span>
+                        <span>Visit Project Website</span></a>
+                    </footer>
+                </div>
+            </div>
+            `);
+
+        var showcase_container = document.getElementById("showcase_container");
+
+        // Create multiple rows, with a maximum of 3 columns (cards) per row
+        for (i = 0; i < Math.floor(showcase_list.list.length / 3); i++) {
+            var columns_parent = document.createElement("div");
+            columns_parent.setAttribute("class", "columns");
+
+            for (j = 0; j < 3; j++) {
+                var column_child = document.createElement("div");
+                column_child.setAttribute("class", "column is-4");
+
+                var showcase_item = showcase_list.list[i * 3 + j];
+
+                var new_card = showcase_template({
+                    name: showcase_item.name,
+                    description: showcase_item.description,
+                    website: showcase_item.website,
+                    thumbnail: showcase_item.thumbnail
+                });
+
+                column_child.insertAdjacentHTML("beforeend", new_card);
+
+                columns_parent.appendChild(column_child);
+            }
+
+            showcase_container.appendChild(columns_parent);
+        }
+
+        // Handle the rest
+        {
+            var columns_parent = document.createElement("div");
+            columns_parent.setAttribute("class", "columns");
+
+            for (i = 0; i < showcase_list.list.length % 3; i++) {
+                var column_child = document.createElement("div");
+                column_child.setAttribute("class", "column is-4");
+
+                var index_offset = 3 * Math.floor(showcase_list.list.length / 3)
+                var showcase_item = showcase_list.list[index_offset + i];
+
+                var new_card = showcase_template({
+                    name: showcase_item.name,
+                    description: showcase_item.description,
+                    website: showcase_item.website,
+                    thumbnail: showcase_item.thumbnail
+                });
+
+                column_child.insertAdjacentHTML("beforeend", new_card);
+
+                columns_parent.appendChild(column_child);
+            }
+
+            showcase_container.appendChild(columns_parent);
+        }
+    </script>
+</body>
+
 </html>
