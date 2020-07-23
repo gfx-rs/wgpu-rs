@@ -1438,6 +1438,11 @@ impl Buffer {
         self.map_context.lock().reset();
         Context::buffer_unmap(&*self.context, &self.id);
     }
+    
+    /// Returns the BufferUsage supplied to the BufferDescriptor upon creating this Buffer.
+    pub fn usage(&self) -> BufferUsage {
+        self.usage
+    }
 }
 
 impl<'a> BufferSlice<'a> {
