@@ -23,8 +23,8 @@ pub use wgt::{
     DeviceDescriptor, DynamicOffset, Extensions, Extent3d, FilterMode, FrontFace, IndexFormat,
     InputStepMode, Limits, LoadOp, Origin3d, PowerPreference, PresentMode, PrimitiveTopology,
     RasterizationStateDescriptor, ShaderLocation, ShaderStage, StencilOperation,
-    StencilStateFaceDescriptor, StoreOp, SwapChainDescriptor, SwapChainStatus, TextureAspect, 
-    TextureComponentType, TextureDataLayout, TextureDimension, TextureFormat, TextureUsage, 
+    StencilStateFaceDescriptor, StoreOp, SwapChainDescriptor, SwapChainStatus, TextureAspect,
+    TextureComponentType, TextureDataLayout, TextureDimension, TextureFormat, TextureUsage,
     TextureViewDimension, VertexAttributeDescriptor, VertexFormat, BIND_BUFFER_ALIGNMENT,
 };
 
