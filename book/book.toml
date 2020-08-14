@@ -1,0 +1,6 @@
+[book]
+authors = ["The wgpu-rs developers", "Mac O'Brien"]
+language = "en"
+multilingual = false
+src = "src"
+title = "The wgpu-rs Book"
