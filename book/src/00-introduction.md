@@ -19,6 +19,11 @@ The best place to start learning Rust is [The Rust Programming Language].
 If you're just getting started with graphics programming, this book will not provide the fundamental knowledge you need to be comfortable programming with `wgpu`.
 There are a variety of graphics programming tutorials available for free on the web; [Learn OpenGL] is one popular choice.
 
+## Structure of this book
+
+This book teaches `wgpu` by guiding the reader through a set of example programs.
+You'll use a single Cargo project with multiple binaries in order to share functionality between the examples.
+
 [WebGPU API]: https://gpuweb.github.io/gpuweb/
 [The Rust Programming Language]: https://doc.rust-lang.org/book/
 [Learn OpenGL]: https://learnopengl.com/

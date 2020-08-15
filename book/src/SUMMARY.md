@@ -1,9 +1,9 @@
 # Summary
 
 - [Introduction](./00-introduction.md)
-- [Getting Started](./01-getting-started.md)
-  - [Project Setup]()
-  - [Instances, Adapters, and Devices]()
+- [Getting Started](./01-00-getting-started.md)
+  - [Project Setup](./01-01-project-setup.md)
+  - [Instances, Adapters, and Devices](./01-02-instances-etc.md)
   - [Windows and Surfaces]()
   - [Clearing the Screen]()
   - [Hello, Triangle!]()

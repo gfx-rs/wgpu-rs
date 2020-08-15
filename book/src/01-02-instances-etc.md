@@ -1,29 +1,4 @@
-# Getting started
-
-This book teaches `wgpu` by guiding the reader through a set of example programs.
-You'll use a single Cargo project with multiple binaries in order to share functionality between the examples.
-
-## Project setup
-
-Start by creating a new Cargo library project:
-
-```
-$ cargo new --lib wgpu-book
-$ cd wgpu-book
-```
-
-Add the following to your `Cargo.toml`:
-
-```toml
-[dependencies]
-futures = "0.3"
-wgpu = "0.6"
-```
-
-> #### Why `futures`?
->
-> `wgpu` makes use of Rust's `async`/`.await` syntax to allow asynchronous execution of potentially blocking operations.
-> Mapping buffers for reading and writing is one example.
+# Instances, Adapters, and Devices
 
 ## Initialization
 
@@ -61,6 +36,12 @@ fn main() {
         println!("{:#06?}", adapter.get_info());
     }
 }
+```
+
+Run the new code with
+
+```
+cargo run --bin hello
 ```
 
 Here's an example of what the program output might look like:
@@ -104,7 +85,7 @@ From this particular list, you'll notice a few things:
 - Adapters have both human- and machine-readable identifiers, in the form of strings and PCI IDs, respectively.
   This makes it easy to both display available devices to end users as well as choose devices programmatically.
 - Adapters don't necessarily correspond to physical devices.
-  An operating system may provide a software implementation of a particular backend; this is also considered an adapter.
+  An operating system may provide a software implementation of a particular backend, such as the *Microsoft Basic Render Driver* seen here; this is also considered an adapter.
   
 ### Automatic adapter selection
 
