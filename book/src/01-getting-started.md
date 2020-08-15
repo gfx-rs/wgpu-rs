@@ -116,13 +116,15 @@ fn main() {
     // let instance = ...
 
     let adapter = futures::executor::block_on(
-      instance.request_adapter(&wgpu::RequestAdapterOptions {
+        instance.request_adapter(&wgpu::RequestAdapterOptions {
             power_preference: wgpu::PowerPreference::Default,
             compatible_surface: None,
         })
     )
     .expect("No suitable adapter found.");
 
+    // this format specifier pretty-prints the adapter info, rendering the PCI
+    // IDs as 4-digit hex numbers
     println!("{:#06x?}", adapter.get_info());
 }
 ```
@@ -131,4 +133,77 @@ When `power_preference` is set to `Default`, the OS is allowed to use its own po
 To override this, specify either `LowPower` or `HighPerformance`.
 `compatible_surface` is left as `None` for now, since there's no surface to render to yet.
 
+## Creating a device
+
+Now that you've selected an adapter to use, you can initialize a logical `Device` which represents a connection to that adapter.
+When creating a `Device`, you may specify API [`Features`] that are required for your application, and indicate the minimum necessary [`Limits`] of various resources.
+These will be discussed in more depth in later chapters; for now, the defaults are acceptable.
+
+```rust,no_run,no_playground
+fn main() {
+    // let adapter = ...
+    
+    let (device, queue) = futures::executor::block_on(adapter.request_device(
+        &wgpu::DeviceDescriptor {
+            features: wgpu::Features::empty(),
+            limits: wgpu::Limits::default(),
+            shader_validation: true,
+        },
+        None,
+    ))
+    .expect("Failed to create device.");
+}
+```
+
+A few notes about this code:
+- You'll notice that `Adapter::request_device` returns a `(Device, Queue)` rather than just a `Device`.
+  In general, the `Device` is used to create resources and record commands; the `Queue` is then responsible for executing those commands.
+- `shader_validation` is a feature of `wgpu` which uses runtime reflection to ensure that shaders in a particular pipeline are being used properly.
+- `None` is passed as the second argument here to `Adapter::request_device`.
+  If this argument is `Some(path)`, then `path` is used as a directory in which to store API traces.
+  This functionality requires the `trace` feature to be enabled in your `Cargo.toml`.
+  
+## Cleaning up
+
+As a last bit of housekeeping, it's a good idea to factor out the two `async` calls into an `async fn` so that, as the code grows, it doesn't have calls to `block_on` littered all over it.
+This is a trivial change: just replace the existing calls to `block_on` with `.await`s, and then `block_on` a call to the new function in `main`.
+
+```rust,no_run,no_playground
+async fn run() {
+    let instance = wgpu::Instance::new(wgpu::BackendBit::PRIMARY);
+
+    let adapter = instance
+        .request_adapter(&wgpu::RequestAdapterOptions {
+            power_preference: wgpu::PowerPreference::HighPerformance,
+            compatible_surface: None,
+        })
+        .await
+        .expect("No suitable adapter found.");
+
+    println!("{:#06x?}", adapter.get_info());
+
+    let (device, queue) = adapter
+        .request_device(
+            &wgpu::DeviceDescriptor {
+                features: wgpu::Features::empty(),
+                limits: wgpu::Limits::default(),
+                shader_validation: true,
+            },
+            None,
+        )
+        .await
+        .expect("Failed to create device.");
+}
+
+fn main() {
+    futures::executor::block_on(run());
+}
+```
+
+Now you're all set up and ready to start issuing commands to the GPU!
+First, though, you'll need to be able to see the results of those commands.
+In the next section, you'll learn how to create a window with `winit` and a surface that `wgpu` can render to.
+
 [`BackendBit`]: https://docs.rs/wgpu/0.6/wgpu/struct.BackendBit.html
+[`Features`]: https://docs.rs/wgpu/0.6/wgpu/struct.Features.html
+[`Limits`]: https://docs.rs/wgpu/0.6/wgpu/struct.Limits.html
