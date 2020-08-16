@@ -3,7 +3,7 @@ use futures::task::LocalSpawn;
 use std::time::{Duration, Instant};
 use winit::{
     event::{self, WindowEvent},
-    event_loop::{ControlFlow, EventLoop},
+    event_loop::{ControlFlow, EventLoop, EventLoopProxy},
 };
 
 #[cfg_attr(rustfmt, rustfmt_skip)]
@@ -60,18 +60,21 @@ pub trait Example: 'static + Sized {
     );
 }
 
-struct Setup {
+struct WindowSetup {
     window: winit::window::Window,
-    event_loop: EventLoop<()>,
-    instance: wgpu::Instance,
+    event_loop: EventLoop<WgpuSetup>,
+    event_loop_proxy: EventLoopProxy<WgpuSetup>,
     size: winit::dpi::PhysicalSize<u32>,
+}
+
+struct WgpuSetup {
+    window: winit::window::Window,
     surface: wgpu::Surface,
-    adapter: wgpu::Adapter,
     device: wgpu::Device,
     queue: wgpu::Queue,
 }
 
-async fn setup<E: Example>(title: &str) -> Setup {
+fn window_setup(title: &str) -> WindowSetup {
     #[cfg(not(target_arch = "wasm32"))]
     {
         let chrome_tracing_dir = std::env::var("WGPU_CHROME_TRACE");
@@ -83,7 +86,8 @@ async fn setup<E: Example>(title: &str) -> Setup {
     #[cfg(target_arch = "wasm32")]
     console_log::init().expect("could not initialize logger");
 
-    let event_loop = EventLoop::new();
+    let event_loop = EventLoop::<WgpuSetup>::with_user_event();
+    let event_loop_proxy = event_loop.create_proxy();
     let mut builder = winit::window::WindowBuilder::new();
     builder = builder.with_title(title);
     #[cfg(windows_OFF)] // TODO
@@ -92,14 +96,40 @@ async fn setup<E: Example>(title: &str) -> Setup {
         builder = builder.with_no_redirection_bitmap(true);
     }
     let window = builder.build(&event_loop).unwrap();
+    let size = window.inner_size();
 
+    #[cfg(target_arch = "wasm32")]
+    {
+        use winit::platform::web::WindowExtWebSys;
+        // On wasm, append the canvas to the document body
+        web_sys::window()
+            .and_then(|win| win.document())
+            .and_then(|doc| doc.body())
+            .and_then(|body| {
+                body.append_child(&web_sys::Element::from(window.canvas()))
+                    .ok()
+            })
+            .expect("couldn't append canvas to document body");
+    }
+
+    WindowSetup {
+        event_loop,
+        event_loop_proxy,
+        window,
+        size,
+    }
+}
+
+async fn wgpu_setup<E: Example>(
+    window: winit::window::Window,
+    event_loop_proxy: winit::event_loop::EventLoopProxy<WgpuSetup>,
+) {
     log::info!("Initializing the surface...");
 
     let instance = wgpu::Instance::new(wgpu::BackendBit::PRIMARY);
-    let (size, surface) = unsafe {
-        let size = window.inner_size();
+    let surface = unsafe {
         let surface = instance.create_surface(&window);
-        (size, surface)
+        surface
     };
 
     let adapter = instance
@@ -134,30 +164,28 @@ async fn setup<E: Example>(title: &str) -> Setup {
         .await
         .unwrap();
 
-    Setup {
+    let send_event_result = event_loop_proxy.send_event(WgpuSetup {
         window,
-        event_loop,
-        instance,
-        size,
         surface,
-        adapter,
         device,
         queue,
+    });
+
+    match send_event_result {
+        Ok(_) => {}
+        Err(_) => {
+            log::warn!("Could not send event that wgpu has been initialized. Was the event loop destroyed right away?");
+        }
     }
 }
 
-fn start<E: Example>(
-    Setup {
-        window,
-        event_loop,
-        instance,
-        size,
-        surface,
-        adapter,
-        device,
-        queue,
-    }: Setup,
-) {
+struct Application<E> {
+    wgpu_setup: WgpuSetup,
+    example: E,
+    swap_chain: wgpu::SwapChain,
+}
+
+fn start<E: Example>(event_loop: EventLoop<WgpuSetup>, size: winit::dpi::PhysicalSize<u32>) {
     #[cfg(not(target_arch = "wasm32"))]
     let (mut pool, spawner) = {
         let local_pool = futures::executor::LocalPool::new();
@@ -168,7 +196,6 @@ fn start<E: Example>(
     #[cfg(target_arch = "wasm32")]
     let spawner = {
         use futures::{future::LocalFutureObj, task::SpawnError};
-        use winit::platform::web::WindowExtWebSys;
 
         struct WebSpawner {}
         impl LocalSpawn for WebSpawner {
@@ -181,16 +208,6 @@ fn start<E: Example>(
         }
 
         std::panic::set_hook(Box::new(console_error_panic_hook::hook));
-
-        // On wasm, append the canvas to the document body
-        web_sys::window()
-            .and_then(|win| win.document())
-            .and_then(|doc| doc.body())
-            .and_then(|body| {
-                body.append_child(&web_sys::Element::from(window.canvas()))
-                    .ok()
-            })
-            .expect("couldn't append canvas to document body");
 
         WebSpawner {}
     };
@@ -207,17 +224,12 @@ fn start<E: Example>(
         height: size.height,
         present_mode: wgpu::PresentMode::Mailbox,
     };
-    let mut swap_chain = device.create_swap_chain(&surface, &sc_desc);
-
-    log::info!("Initializing the example...");
-    let mut example = E::init(&sc_desc, &device, &queue);
-
     #[cfg(not(target_arch = "wasm32"))]
     let mut last_update_inst = Instant::now();
+    let mut application: Option<Application<E>> = None;
 
     log::info!("Entering render loop...");
     event_loop.run(move |event, _, control_flow| {
-        let _ = (&instance, &adapter); // force ownership by the closure
         *control_flow = if cfg!(feature = "metal-auto-capture") {
             ControlFlow::Exit
         } else {
@@ -230,79 +242,127 @@ fn start<E: Example>(
                 ControlFlow::Poll
             }
         };
-        match event {
-            event::Event::MainEventsCleared => {
-                #[cfg(not(target_arch = "wasm32"))]
-                {
-                    if last_update_inst.elapsed() > Duration::from_millis(20) {
-                        window.request_redraw();
-                        last_update_inst = Instant::now();
-                    }
+        match &mut application {
+            None => match event {
+                event::Event::UserEvent(wgpu_setup) => {
+                    let WgpuSetup {
+                        device,
+                        queue,
+                        surface,
+                        ..
+                    } = &wgpu_setup;
 
-                    pool.run_until_stalled();
-                }
+                    let swap_chain = device.create_swap_chain(&surface, &sc_desc);
 
-                #[cfg(target_arch = "wasm32")]
-                window.request_redraw();
-            }
-            event::Event::WindowEvent {
-                event: WindowEvent::Resized(size),
-                ..
-            } => {
-                log::info!("Resizing to {:?}", size);
-                sc_desc.width = size.width;
-                sc_desc.height = size.height;
-                example.resize(&sc_desc, &device, &queue);
-                swap_chain = device.create_swap_chain(&surface, &sc_desc);
-            }
-            event::Event::WindowEvent { event, .. } => match event {
-                WindowEvent::KeyboardInput {
-                    input:
-                        event::KeyboardInput {
-                            virtual_keycode: Some(event::VirtualKeyCode::Escape),
-                            state: event::ElementState::Pressed,
-                            ..
-                        },
-                    ..
+                    log::info!("Initializing the example...");
+                    let example = E::init(&sc_desc, &device, &queue);
+                    application = Some(Application {
+                        example,
+                        wgpu_setup,
+                        swap_chain,
+                    });
                 }
-                | WindowEvent::CloseRequested => {
-                    *control_flow = ControlFlow::Exit;
-                }
-                _ => {
-                    example.update(event);
-                }
+                _ => {}
             },
-            event::Event::RedrawRequested(_) => {
-                let frame = match swap_chain.get_current_frame() {
-                    Ok(frame) => frame,
-                    Err(_) => {
-                        swap_chain = device.create_swap_chain(&surface, &sc_desc);
-                        swap_chain
-                            .get_current_frame()
-                            .expect("Failed to acquire next swap chain texture!")
-                    }
-                };
+            Some(Application {
+                wgpu_setup:
+                    WgpuSetup {
+                        window,
+                        device,
+                        surface,
+                        queue,
+                        ..
+                    },
+                example,
+                swap_chain,
+            }) => match event {
+                event::Event::MainEventsCleared => {
+                    #[cfg(not(target_arch = "wasm32"))]
+                    {
+                        if last_update_inst.elapsed() > Duration::from_millis(20) {
+                            window.request_redraw();
+                            last_update_inst = Instant::now();
+                        }
 
-                example.render(&frame.output, &device, &queue, &spawner);
-            }
-            _ => {}
+                        pool.run_until_stalled();
+                    }
+
+                    #[cfg(target_arch = "wasm32")]
+                    window.request_redraw();
+                }
+                event::Event::WindowEvent {
+                    event: WindowEvent::Resized(size),
+                    ..
+                } => {
+                    log::info!("Resizing to {:?}", size);
+                    sc_desc.width = size.width;
+                    sc_desc.height = size.height;
+                    example.resize(&sc_desc, &device, &queue);
+                    *swap_chain = device.create_swap_chain(&surface, &sc_desc);
+                }
+                event::Event::WindowEvent { event, .. } => match event {
+                    WindowEvent::KeyboardInput {
+                        input:
+                            event::KeyboardInput {
+                                virtual_keycode: Some(event::VirtualKeyCode::Escape),
+                                state: event::ElementState::Pressed,
+                                ..
+                            },
+                        ..
+                    }
+                    | WindowEvent::CloseRequested => {
+                        *control_flow = ControlFlow::Exit;
+                    }
+                    _ => {
+                        example.update(event);
+                    }
+                },
+                event::Event::RedrawRequested(_) => {
+                    let frame = match swap_chain.get_current_frame() {
+                        Ok(frame) => frame,
+                        Err(_) => {
+                            *swap_chain = device.create_swap_chain(&surface, &sc_desc);
+                            swap_chain
+                                .get_current_frame()
+                                .expect("Failed to acquire next swap chain texture!")
+                        }
+                    };
+
+                    example.render(&frame.output, &device, &queue, &spawner);
+                }
+                _ => {}
+            },
         }
     });
 }
 
 #[cfg(not(target_arch = "wasm32"))]
 pub fn run<E: Example>(title: &str) {
-    let setup = futures::executor::block_on(setup::<E>(title));
-    start::<E>(setup);
+    let WindowSetup {
+        window,
+        event_loop,
+        event_loop_proxy,
+        size,
+        ..
+    } = window_setup(title);
+    futures::executor::block_on(wgpu_setup::<E>(window, event_loop_proxy));
+    start::<E>(event_loop, size);
 }
 
 #[cfg(target_arch = "wasm32")]
 pub fn run<E: Example>(title: &str) {
     let title = title.to_owned();
+    let WindowSetup {
+        window,
+        event_loop,
+        event_loop_proxy,
+        size,
+        ..
+    } = window_setup(&title);
     wasm_bindgen_futures::spawn_local(async move {
-        let setup = setup::<E>(&title).await;
-        start::<E>(setup);
+        wgpu_setup::<E>(window, event_loop_proxy).await;
     });
+    start::<E>(event_loop, size);
 }
 
 // This allows treating the framework as a standalone example,
