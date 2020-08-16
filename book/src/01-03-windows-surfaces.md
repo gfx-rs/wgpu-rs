@@ -5,6 +5,13 @@ In this section, you'll create a window with an event loop, handle some events, 
 ## `winit` crash course
 
 `winit` is the de facto standard for windowing and input handling in Rust.
+Add it to your `Cargo.toml`:
+
+```toml
+[dependencies]
+winit = "0.22"
+```
+
 Programming with `winit` centers around the `EventLoop` type, which delivers window and input events to your application.
 Creating an event loop is straightforward:
 
