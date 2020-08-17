@@ -35,8 +35,10 @@ The general project structure will look like this:
 cargo-book/
   ├ src/
   │ ├ bin/
-  │ │ ├ example-01.rs
-  │ │ └ example-02.rs
+  │ │ ├ example-01/
+  │ │ │ ├ main.rs
+  │ │ │ ├ shader.vert
+  │ │ │ └ shader.frag
   │ └ lib.rs
   └ Cargo.toml
 ```

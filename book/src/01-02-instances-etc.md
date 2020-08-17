@@ -4,7 +4,7 @@
 
 The first example will simply initialize the library and print some information about the available graphics devices on the system.
 Initialization is performed by constructing an `Instance` and specifying the desired backend(s).
-Create a new Rust file, `hello.rs`, in the `src/bin` directory, and add the following:
+Create a new subdirectory `src/bin/hello/`, and in `src/bin/hello/main.rs`, add the following:
 
 ```rust,no_run,noplayground
 fn main() {

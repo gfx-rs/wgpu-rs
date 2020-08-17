@@ -14,10 +14,12 @@ A `SwapChain` is created using `Device::create_swap_chain`:
 async fn run(event_loop: EventLoop<()>, window: Window) {
     // let (device, queue) = ...
     
+    let swapchain_format = wgpu::TextureFormat::Bgra8UnormSrgb;
+
     let size = window.inner_size();
     let sc_desc = wgpu::SwapChainDescriptor {
         usage: wgpu::TextureUsage::OUTPUT_ATTACHMENT,
-        format: wgpu::TextureFormat::Bgra8UnormSrgb,
+        format: swapchain_format,
         width: size.width,
         height: size.height,
         present_mode: wgpu::PresentMode::Mailbox,

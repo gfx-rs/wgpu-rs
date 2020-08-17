@@ -6,4 +6,4 @@
   - [Instances, Adapters, and Devices](./01-02-instances-etc.md)
   - [Windows and Surfaces](./01-03-windows-surfaces.md)
   - [Clearing the Screen](./01-04-clearing-the-screen.md)
-  - [Hello, Triangle!]()
+  - [Hello, Triangle!](./01-05-hello-triangle.md)
