@@ -329,9 +329,9 @@ impl framework::Example for Example {
         rpass.set_vertex_buffer(0, self.vertex_buffer.slice(..));
         rpass.set_index_buffer(self.index_buffer.slice(..));
         if self.uniform_workaround {
-            rpass.set_push_constants(wgpu::ShaderStage::FRAGMENT, 0, bytemuck::cast_slice(&[0]));
+            rpass.set_push_constants(wgpu::ShaderStage::FRAGMENT, 0, bytemuck::cast_slice(&[0u32]));
             rpass.draw_indexed(0..6, 0, 0..1);
-            rpass.set_push_constants(wgpu::ShaderStage::FRAGMENT, 0, bytemuck::cast_slice(&[1]));
+            rpass.set_push_constants(wgpu::ShaderStage::FRAGMENT, 0, bytemuck::cast_slice(&[1u32]));
             rpass.draw_indexed(6..12, 0, 0..1);
         } else {
             rpass.draw_indexed(0..12, 0, 0..1);
