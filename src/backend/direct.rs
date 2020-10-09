@@ -1212,9 +1212,21 @@ impl crate::Context for Context {
         )
     }
 
+    fn buffer_destroy(&self, buffer: &Self::BufferId) {
+        let global = &self.0;
+        wgc::gfx_select!(buffer.id => global.buffer_destroy(buffer.id)).unwrap_pretty()
+    }
+    fn buffer_drop(&self, buffer: &Self::BufferId) {
+        let global = &self.0;
+        wgc::gfx_select!(buffer.id => global.buffer_drop(buffer.id, false))
+    }
+    fn texture_destroy(&self, texture: &Self::TextureId) {
+        let global = &self.0;
+        wgc::gfx_select!(texture.id => global.texture_destroy(texture.id)).unwrap_pretty()
+    }
     fn texture_drop(&self, texture: &Self::TextureId) {
         let global = &self.0;
-        wgc::gfx_select!(texture.id => global.texture_drop(texture.id))
+        wgc::gfx_select!(texture.id => global.texture_drop(texture.id, false))
     }
     fn texture_view_drop(&self, texture_view: &Self::TextureViewId) {
         let global = &self.0;
@@ -1223,10 +1235,6 @@ impl crate::Context for Context {
     fn sampler_drop(&self, sampler: &Self::SamplerId) {
         let global = &self.0;
         wgc::gfx_select!(*sampler => global.sampler_drop(*sampler))
-    }
-    fn buffer_drop(&self, buffer: &Self::BufferId) {
-        let global = &self.0;
-        wgc::gfx_select!(buffer.id => global.buffer_drop(buffer.id, false))
     }
     fn bind_group_drop(&self, bind_group: &Self::BindGroupId) {
         let global = &self.0;
