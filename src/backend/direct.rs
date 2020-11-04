@@ -1375,10 +1375,10 @@ impl crate::Context for Context {
         .unwrap_error_sink(&encoder.error_sink, || ())
     }
 
-    fn command_encoder_begin_render_pass<'a>(
+    fn command_encoder_begin_render_pass(
         &self,
         encoder: &Self::CommandEncoderId,
-        desc: &crate::RenderPassDescriptor<'a, '_>,
+        desc: &crate::RenderPassDescriptor,
     ) -> Self::RenderPassId {
         wgc::span!(_guard, TRACE, "CommandEncoder::begin_render_pass wrapper");
         let colors = desc

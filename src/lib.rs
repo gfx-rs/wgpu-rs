@@ -368,10 +368,10 @@ trait Context: Debug + Send + Sized + Sync {
         encoder: &Self::CommandEncoderId,
         pass: &mut Self::ComputePassId,
     );
-    fn command_encoder_begin_render_pass<'a>(
+    fn command_encoder_begin_render_pass(
         &self,
         encoder: &Self::CommandEncoderId,
-        desc: &RenderPassDescriptor<'a, '_>,
+        desc: &RenderPassDescriptor,
     ) -> Self::RenderPassId;
     fn command_encoder_end_render_pass(
         &self,
@@ -1845,10 +1845,11 @@ impl CommandEncoder {
     /// Begins recording of a render pass.
     ///
     /// This function returns a [`RenderPass`] object which records a single render pass.
-    pub fn begin_render_pass<'a>(
-        &'a mut self,
-        desc: &RenderPassDescriptor<'a, '_>,
-    ) -> RenderPass<'a> {
+    /// It's mutably borrowing the parent `CommandEncoder` until dropped.
+    ///
+    /// All the resources used when recording a pass are expected to be alive by the time
+    /// recording finishes. Otherwise, an error will occur.
+    pub fn begin_render_pass(&mut self, desc: &RenderPassDescriptor) -> RenderPass {
         RenderPass {
             id: Context::command_encoder_begin_render_pass(&*self.context, &self.id, desc),
             parent: self,
@@ -1858,6 +1859,10 @@ impl CommandEncoder {
     /// Begins recording of a compute pass.
     ///
     /// This function returns a [`ComputePass`] object which records a single compute pass.
+    /// It's mutably borrowing the parent `CommandEncoder` until dropped.
+    ///
+    /// All the resources used when recording a pass are expected to be alive by the time
+    /// recording finishes. Otherwise, an error will occur.
     pub fn begin_compute_pass(&mut self) -> ComputePass {
         ComputePass {
             id: Context::command_encoder_begin_compute_pass(&*self.context, &self.id),
@@ -1972,7 +1977,7 @@ impl CommandEncoder {
     }
 }
 
-impl<'a> RenderPass<'a> {
+impl RenderPass<'_> {
     /// Sets the active bind group for a given bind group index. The bind group layout
     /// in the active pipeline when any `draw()` function is called must match the layout of this bind group.
     ///
@@ -1981,7 +1986,7 @@ impl<'a> RenderPass<'a> {
     pub fn set_bind_group(
         &mut self,
         index: u32,
-        bind_group: &'a BindGroup,
+        bind_group: &BindGroup,
         offsets: &[DynamicOffset],
     ) {
         RenderInner::set_bind_group(&mut self.id, index, &bind_group.id, offsets)
@@ -1990,7 +1995,7 @@ impl<'a> RenderPass<'a> {
     /// Sets the active render pipeline.
     ///
     /// Subsequent draw calls will exhibit the behavior defined by `pipeline`.
-    pub fn set_pipeline(&mut self, pipeline: &'a RenderPipeline) {
+    pub fn set_pipeline(&mut self, pipeline: &RenderPipeline) {
         RenderInner::set_pipeline(&mut self.id, &pipeline.id)
     }
 
@@ -2005,7 +2010,7 @@ impl<'a> RenderPass<'a> {
     ///
     /// Subsequent calls to [`draw_indexed`](RenderPass::draw_indexed) on this [`RenderPass`] will
     /// use `buffer` as the source index buffer.
-    pub fn set_index_buffer(&mut self, buffer_slice: BufferSlice<'a>) {
+    pub fn set_index_buffer(&mut self, buffer_slice: BufferSlice) {
         RenderInner::set_index_buffer(
             &mut self.id,
             &buffer_slice.buffer.id,
@@ -2024,7 +2029,7 @@ impl<'a> RenderPass<'a> {
     ///
     /// [`draw`]: RenderPass::draw
     /// [`draw_indexed`]: RenderPass::draw_indexed
-    pub fn set_vertex_buffer(&mut self, slot: u32, buffer_slice: BufferSlice<'a>) {
+    pub fn set_vertex_buffer(&mut self, slot: u32, buffer_slice: BufferSlice) {
         RenderInner::set_vertex_buffer(
             &mut self.id,
             slot,
@@ -2100,7 +2105,7 @@ impl<'a> RenderPass<'a> {
     ///     base_instance: u32, // The instance ID of the first instance to draw.
     /// }
     /// ```
-    pub fn draw_indirect(&mut self, indirect_buffer: &'a Buffer, indirect_offset: BufferAddress) {
+    pub fn draw_indirect(&mut self, indirect_buffer: &Buffer, indirect_offset: BufferAddress) {
         self.id.draw_indirect(&indirect_buffer.id, indirect_offset);
     }
 
@@ -2124,7 +2129,7 @@ impl<'a> RenderPass<'a> {
     /// ```
     pub fn draw_indexed_indirect(
         &mut self,
-        indirect_buffer: &'a Buffer,
+        indirect_buffer: &Buffer,
         indirect_offset: BufferAddress,
     ) {
         self.id
@@ -2133,14 +2138,14 @@ impl<'a> RenderPass<'a> {
 
     /// Execute a [render bundle][RenderBundle], which is a set of pre-recorded commands
     /// that can be run together.
-    pub fn execute_bundles<I: Iterator<Item = &'a RenderBundle>>(&mut self, render_bundles: I) {
+    pub fn execute_bundles<'a, I: Iterator<Item = &'a RenderBundle>>(&mut self, render_bundles: I) {
         self.id
             .execute_bundles(render_bundles.into_iter().map(|rb| &rb.id))
     }
 }
 
 /// [`Features::MULTI_DRAW_INDIRECT`] must be enabled on the device in order to call these functions.
-impl<'a> RenderPass<'a> {
+impl RenderPass<'_> {
     /// Disptaches multiple draw calls from the active vertex buffer(s) based on the contents of the `indirect_buffer`.
     /// `count` draw calls are issued.
     ///
@@ -2161,7 +2166,7 @@ impl<'a> RenderPass<'a> {
     /// These draw structures are expected to be tightly packed.
     pub fn multi_draw_indirect(
         &mut self,
-        indirect_buffer: &'a Buffer,
+        indirect_buffer: &Buffer,
         indirect_offset: BufferAddress,
         count: u32,
     ) {
@@ -2191,7 +2196,7 @@ impl<'a> RenderPass<'a> {
     /// These draw structures are expected to be tightly packed.
     pub fn multi_draw_indexed_indirect(
         &mut self,
-        indirect_buffer: &'a Buffer,
+        indirect_buffer: &Buffer,
         indirect_offset: BufferAddress,
         count: u32,
     ) {
@@ -2234,9 +2239,9 @@ impl<'a> RenderPass<'a> {
     /// ```
     pub fn multi_draw_indirect_count(
         &mut self,
-        indirect_buffer: &'a Buffer,
+        indirect_buffer: &Buffer,
         indirect_offset: BufferAddress,
-        count_buffer: &'a Buffer,
+        count_buffer: &Buffer,
         count_offset: BufferAddress,
         max_count: u32,
     ) {
@@ -2283,9 +2288,9 @@ impl<'a> RenderPass<'a> {
     /// ```
     pub fn multi_draw_indexed_indirect_count(
         &mut self,
-        indirect_buffer: &'a Buffer,
+        indirect_buffer: &Buffer,
         indirect_offset: BufferAddress,
-        count_buffer: &'a Buffer,
+        count_buffer: &Buffer,
         count_offset: BufferAddress,
         max_count: u32,
     ) {
@@ -2300,7 +2305,7 @@ impl<'a> RenderPass<'a> {
 }
 
 /// [`Features::PUSH_CONSTANTS`] must be enabled on the device in order to call these functions.
-impl<'a> RenderPass<'a> {
+impl RenderPass<'_> {
     /// Set push constant data.
     ///
     /// Offset is measured in bytes, but must be a multiple of [`PUSH_CONSTANT_ALIGNMENT`].
@@ -2334,7 +2339,7 @@ impl<'a> RenderPass<'a> {
     }
 }
 
-impl<'a> Drop for RenderPass<'a> {
+impl Drop for RenderPass<'_> {
     fn drop(&mut self) {
         if !thread::panicking() {
             self.parent
@@ -2344,7 +2349,7 @@ impl<'a> Drop for RenderPass<'a> {
     }
 }
 
-impl<'a> ComputePass<'a> {
+impl ComputePass<'_> {
     /// Sets the active bind group for a given bind group index. The bind group layout
     /// in the active pipeline when the `dispatch()` function is called must match the layout of this bind group.
     ///
@@ -2353,14 +2358,14 @@ impl<'a> ComputePass<'a> {
     pub fn set_bind_group(
         &mut self,
         index: u32,
-        bind_group: &'a BindGroup,
+        bind_group: &BindGroup,
         offsets: &[DynamicOffset],
     ) {
         ComputePassInner::set_bind_group(&mut self.id, index, &bind_group.id, offsets);
     }
 
     /// Sets the active compute pipeline.
-    pub fn set_pipeline(&mut self, pipeline: &'a ComputePipeline) {
+    pub fn set_pipeline(&mut self, pipeline: &ComputePipeline) {
         ComputePassInner::set_pipeline(&mut self.id, &pipeline.id);
     }
 
@@ -2387,17 +2392,13 @@ impl<'a> ComputePass<'a> {
     }
 
     /// Dispatches compute work operations, based on the contents of the `indirect_buffer`.
-    pub fn dispatch_indirect(
-        &mut self,
-        indirect_buffer: &'a Buffer,
-        indirect_offset: BufferAddress,
-    ) {
+    pub fn dispatch_indirect(&mut self, indirect_buffer: &Buffer, indirect_offset: BufferAddress) {
         ComputePassInner::dispatch_indirect(&mut self.id, &indirect_buffer.id, indirect_offset);
     }
 }
 
 /// [`Features::PUSH_CONSTANTS`] must be enabled on the device in order to call these functions.
-impl<'a> ComputePass<'a> {
+impl ComputePass<'_> {
     /// Set push constant data.
     ///
     /// Offset is measured in bytes, but must be a multiple of [`PUSH_CONSTANT_ALIGNMENT`].
@@ -2410,7 +2411,7 @@ impl<'a> ComputePass<'a> {
     }
 }
 
-impl<'a> Drop for ComputePass<'a> {
+impl Drop for ComputePass<'_> {
     fn drop(&mut self) {
         if !thread::panicking() {
             self.parent
@@ -2420,7 +2421,7 @@ impl<'a> Drop for ComputePass<'a> {
     }
 }
 
-impl<'a> RenderBundleEncoder<'a> {
+impl RenderBundleEncoder<'_> {
     /// Finishes recording and returns a [`RenderBundle`] that can be executed in other render passes.
     pub fn finish(self, desc: &RenderBundleDescriptor) -> RenderBundle {
         RenderBundle {
@@ -2436,7 +2437,7 @@ impl<'a> RenderBundleEncoder<'a> {
     pub fn set_bind_group(
         &mut self,
         index: u32,
-        bind_group: &'a BindGroup,
+        bind_group: &BindGroup,
         offsets: &[DynamicOffset],
     ) {
         RenderInner::set_bind_group(&mut self.id, index, &bind_group.id, offsets)
@@ -2445,7 +2446,7 @@ impl<'a> RenderBundleEncoder<'a> {
     /// Sets the active render pipeline.
     ///
     /// Subsequent draw calls will exhibit the behavior defined by `pipeline`.
-    pub fn set_pipeline(&mut self, pipeline: &'a RenderPipeline) {
+    pub fn set_pipeline(&mut self, pipeline: &RenderPipeline) {
         RenderInner::set_pipeline(&mut self.id, &pipeline.id)
     }
 
@@ -2453,7 +2454,7 @@ impl<'a> RenderBundleEncoder<'a> {
     ///
     /// Subsequent calls to [`draw_indexed`](RenderBundleEncoder::draw_indexed) on this [`RenderBundleEncoder`] will
     /// use `buffer` as the source index buffer.
-    pub fn set_index_buffer(&mut self, buffer_slice: BufferSlice<'a>) {
+    pub fn set_index_buffer(&mut self, buffer_slice: BufferSlice) {
         RenderInner::set_index_buffer(
             &mut self.id,
             &buffer_slice.buffer.id,
@@ -2472,7 +2473,7 @@ impl<'a> RenderBundleEncoder<'a> {
     ///
     /// [`draw`]: RenderBundleEncoder::draw
     /// [`draw_indexed`]: RenderBundleEncoder::draw_indexed
-    pub fn set_vertex_buffer(&mut self, slot: u32, buffer_slice: BufferSlice<'a>) {
+    pub fn set_vertex_buffer(&mut self, slot: u32, buffer_slice: BufferSlice) {
         RenderInner::set_vertex_buffer(
             &mut self.id,
             slot,
@@ -2512,7 +2513,7 @@ impl<'a> RenderBundleEncoder<'a> {
     ///     base_instance: u32, // The instance ID of the first instance to draw.
     /// }
     /// ```
-    pub fn draw_indirect(&mut self, indirect_buffer: &'a Buffer, indirect_offset: BufferAddress) {
+    pub fn draw_indirect(&mut self, indirect_buffer: &Buffer, indirect_offset: BufferAddress) {
         self.id.draw_indirect(&indirect_buffer.id, indirect_offset);
     }
 
@@ -2536,7 +2537,7 @@ impl<'a> RenderBundleEncoder<'a> {
     /// ```
     pub fn draw_indexed_indirect(
         &mut self,
-        indirect_buffer: &'a Buffer,
+        indirect_buffer: &Buffer,
         indirect_offset: BufferAddress,
     ) {
         self.id
@@ -2545,7 +2546,7 @@ impl<'a> RenderBundleEncoder<'a> {
 }
 
 /// [`Features::PUSH_CONSTANTS`] must be enabled on the device in order to call these functions.
-impl<'a> RenderBundleEncoder<'a> {
+impl RenderBundleEncoder<'_> {
     /// Set push constant data.
     ///
     /// Offset is measured in bytes, but must be a multiple of [`PUSH_CONSTANT_ALIGNMENT`].
