@@ -1,11 +1,12 @@
 <img align="right" width="25%" src="logo.png">
 
 # wgpu-rs
+
 [![Build Status](https://github.com/gfx-rs/wgpu-rs/workflows/CI/badge.svg?branch=master)](https://github.com/gfx-rs/wgpu-rs/actions)
 [![Crates.io](https://img.shields.io/crates/v/wgpu.svg)](https://crates.io/crates/wgpu)
 [![Docs.rs](https://docs.rs/wgpu/badge.svg)](https://docs.rs/wgpu)
 
-[![Matrix](https://img.shields.io/badge/Dev_Matrix-%23wgpu%3Amatrix.org-blueviolet.svg)](https://matrix.to/#/#wgpu:matrix.org) 
+[![Matrix](https://img.shields.io/badge/Dev_Matrix-%23wgpu%3Amatrix.org-blueviolet.svg)](https://matrix.to/#/#wgpu:matrix.org)
 [![Matrix](https://img.shields.io/badge/User_Matrix-%23wgpu--users%3Amatrix.org-blueviolet.svg)](https://matrix.to/#/#wgpu-users:matrix.org)
 
 wgpu-rs is an idiomatic Rust wrapper over [wgpu-core](https://github.com/gfx-rs/wgpu). It's designed to be suitable for general purpose graphics and computation needs of Rust community.
@@ -54,8 +55,8 @@ Create an `index.html` file into `target/generated` directory and add the follow
 ```html
 <html>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <script type="module">
@@ -78,11 +79,11 @@ For now, the shaders can be compiled to SPIR-V by running `make`, which requires
 
 ## Logging
 
-`wgpu-core` uses `tracing` for logging and `wgpu-rs` uses `log` for logging. 
+`wgpu-core` uses `tracing` for logging and `wgpu-rs` uses `log` for logging.
 
 ### Simple Setup
 
-If you just want log messages to show up and to use the chrome tracing infrastructure, 
+If you just want log messages to show up and to use the chrome tracing infrastructure,
 take a dependency on the `wgpu-subscriber` crate then call `initialize_default_subscriber`. It will
 set up logging to stdout/stderr based on the `RUST_LOG` environment variable.
 
@@ -96,7 +97,7 @@ The `tracing_log` crate has a `log` logger to translate all events into `tracing
 
 ```rust
 tracing_log::LogTracer::init().unwrap()
-``` 
+```
 
 #### `tracing` events -> `log` events
 
@@ -123,3 +124,8 @@ gfx-hal = { path = "../gfx/src/hal" }
 ```
 
 If a version needs to be changed, you need to do `cargo update -p gfx-backend-dx12`.
+
+## Known Driver Issues
+
+See [DRIVER_ISSUES.md](driver_issues/DRIVER_ISSUES.md) for a list of
+known driver issues.
