@@ -5,7 +5,7 @@ use std::env;
 use std::fs::File;
 use std::io::Write;
 use std::mem::size_of;
-use wgpu::{Buffer, Device};
+use wgpu::Buffer;
 
 async fn run(png_output_path: &str) {
     let args: Vec<_> = env::args().collect();
@@ -20,14 +20,14 @@ async fn run(png_output_path: &str) {
             return;
         }
     };
-    let (device, buffer, buffer_dimensions) = create_red_image_with_dimensions(width, height).await;
-    create_png(png_output_path, device, buffer, &buffer_dimensions).await;
+    let (buffer, buffer_dimensions) = create_red_image_with_dimensions(width, height).await;
+    create_png(png_output_path, buffer, &buffer_dimensions).await;
 }
 
 async fn create_red_image_with_dimensions(
     width: usize,
     height: usize,
-) -> (Device, Buffer, BufferDimensions) {
+) -> (Buffer, BufferDimensions) {
     let adapter = wgpu::Instance::new(wgpu::BackendBit::PRIMARY)
         .request_adapter(&wgpu::RequestAdapterOptions::default())
         .await
@@ -114,30 +114,23 @@ async fn create_red_image_with_dimensions(
     };
 
     queue.submit(Some(command_buffer));
-    (device, output_buffer, buffer_dimensions)
+    (output_buffer, buffer_dimensions)
 }
 
 async fn create_png(
     png_output_path: &str,
-    device: Device,
     output_buffer: Buffer,
     buffer_dimensions: &BufferDimensions,
 ) {
-    // Note that we're not calling `.await` here.
     let buffer_slice = output_buffer.slice(..);
-    let buffer_future = buffer_slice.map_async(wgpu::MapMode::Read);
 
-    // Poll the device in a blocking manner so that our future resolves.
-    // In an actual application, `device.poll(...)` should
-    // be called in an event loop or on another thread.
-    device.poll(wgpu::Maintain::Wait);
     // If a file system is available, write the buffer as a PNG
     let has_file_system_available = cfg!(not(target_arch = "wasm32"));
     if !has_file_system_available {
         return;
     }
 
-    if let Ok(()) = buffer_future.await {
+    if let Ok(()) = buffer_slice.map_async(wgpu::MapMode::Read).await {
         let padded_buffer = buffer_slice.get_mapped_range();
 
         let mut png_encoder = png::Encoder::new(
@@ -216,12 +209,11 @@ mod tests {
     }
 
     async fn assert_generated_data_matches_expected() {
-        let (device, output_buffer, dimensions) =
+        let (output_buffer, dimensions) =
             create_red_image_with_dimensions(100usize, 200usize).await;
         let buffer_slice = output_buffer.slice(..);
-        let buffer_future = buffer_slice.map_async(wgpu::MapMode::Read);
-        device.poll(wgpu::Maintain::Wait);
-        buffer_future
+        buffer_slice
+            .map_async(wgpu::MapMode::Read)
             .await
             .expect("failed to map buffer slice for capture test");
         let padded_buffer = buffer_slice.get_mapped_range();

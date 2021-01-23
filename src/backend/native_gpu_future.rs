@@ -3,75 +3,60 @@ use std::future::Future;
 use std::pin::Pin;
 use std::sync::Arc;
 use std::task::{Context, Poll, Waker};
+use std::thread;
 
-enum WakerOrResult<T> {
-    Waker(Waker),
-    Result(T),
+#[derive(Clone)]
+pub(crate) struct SharedState<T: Clone+ Send> {
+    pub completed: bool,
+    pub waker: Option<Waker>,
+    pub data: Option<T>,
 }
 
-type GpuFutureData<T> = Mutex<Option<WakerOrResult<T>>>;
+pub(crate) fn start_worker_thread(context: Arc<crate::backend::direct::Context>) {
+    const POLL_TIME_MS: u64 = 100;
+    let wait_duration = std::time::Duration::from_millis(POLL_TIME_MS);
+    thread::spawn(move || {
+        loop {
+            context.0.poll_all_devices(false).expect("Unable to poll");
+            thread::sleep(wait_duration);
+        }
+    });
+}
 
 /// A Future that can poll the wgpu::Device
-pub struct GpuFuture<T> {
-    data: Arc<GpuFutureData<T>>,
+pub struct GpuFuture<T: Clone+ Send> {
+    pub(crate) shared_state: Arc<Mutex<SharedState<T>>>,
 }
 
-pub enum OpaqueData {}
-
-//TODO: merge this with `GpuFuture` and avoid `Arc` on the data.
-/// A completion handle to set the result on a GpuFuture
-pub struct GpuFutureCompletion<T> {
-    data: Arc<GpuFutureData<T>>,
+impl<T: Clone + Send> GpuFuture<T> {
+    pub(crate) fn new() -> Self {
+        GpuFuture {
+            shared_state: Arc::new(Mutex::new(SharedState {
+                completed: false,
+                waker: None,
+                data: None,
+            })),
+        }
+    }
 }
 
-impl<T> Future for GpuFuture<T> {
+impl<T: 'static + Clone + Send> Future for GpuFuture<T> {
     type Output = T;
 
     fn poll(self: Pin<&mut Self>, context: &mut Context) -> Poll<Self::Output> {
-        let mut waker_or_result = self.into_ref().get_ref().data.lock();
-
-        match waker_or_result.take() {
-            Some(WakerOrResult::Result(res)) => Poll::Ready(res),
-            _ => {
-                *waker_or_result = Some(WakerOrResult::Waker(context.waker().clone()));
-                Poll::Pending
+        let mut locked = self.shared_state.lock();
+        if let Some(waker) = &mut locked.waker {
+            if !waker.will_wake(context.waker()) {
+                *waker = context.waker().clone();
             }
+        } else {
+            locked.waker = Some(context.waker().clone());
+        }
+
+        if locked.completed {
+            Poll::Ready(locked.data.take().unwrap())
+        } else {
+            Poll::Pending
         }
     }
-}
-
-impl<T> GpuFutureCompletion<T> {
-    pub fn complete(self, value: T) {
-        let mut waker_or_result = self.data.lock();
-
-        match waker_or_result.replace(WakerOrResult::Result(value)) {
-            Some(WakerOrResult::Waker(waker)) => waker.wake(),
-            None => {}
-            Some(WakerOrResult::Result(_)) => {
-                // Drop before panicking. Not sure if this is necessary, but it makes me feel better.
-                drop(waker_or_result);
-                unreachable!()
-            }
-        };
-    }
-
-    pub(crate) fn to_raw(self) -> *mut OpaqueData {
-        Arc::into_raw(self.data) as _
-    }
-
-    pub(crate) unsafe fn from_raw(this: *mut OpaqueData) -> Self {
-        Self {
-            data: Arc::from_raw(this as _),
-        }
-    }
-}
-
-pub(crate) fn new_gpu_future<T>() -> (GpuFuture<T>, GpuFutureCompletion<T>) {
-    let data = Arc::new(Mutex::new(None));
-    (
-        GpuFuture {
-            data: Arc::clone(&data),
-        },
-        GpuFutureCompletion { data },
-    )
 }

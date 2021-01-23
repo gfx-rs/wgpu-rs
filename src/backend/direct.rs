@@ -24,7 +24,7 @@ use typed_arena::Arena;
 
 const LABEL: &str = "label";
 
-pub struct Context(wgc::hub::Global<wgc::hub::IdentityManagerFactory>);
+pub struct Context(pub(crate) wgc::hub::Global<wgc::hub::IdentityManagerFactory>);
 
 impl Drop for Context {
     fn drop(&mut self) {
@@ -567,7 +567,7 @@ fn map_pass_channel<V: Copy + Default>(
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub(crate) struct Device {
     id: wgc::id::DeviceId,
     error_sink: ErrorSink,
@@ -637,7 +637,7 @@ impl crate::Context for Context {
     }
 
     fn instance_request_adapter(
-        &self,
+        self: &Arc<Self>,
         options: &crate::RequestAdapterOptions,
     ) -> Self::RequestAdapterFuture {
         let id = self.0.request_adapter(
@@ -647,6 +647,7 @@ impl crate::Context for Context {
             },
             wgc::instance::AdapterInputs::Mask(wgt::BackendBit::all(), |_| PhantomData),
         );
+        native_gpu_future::start_worker_thread(self.clone());
         ready(id.ok())
     }
 
@@ -1198,18 +1199,28 @@ impl crate::Context for Context {
     ) -> Self::MapAsyncFuture {
         wgc::span!(_guard, TRACE, "Buffer::buffer_map_async wrapper");
 
-        let (future, completion) = native_gpu_future::new_gpu_future();
+        let future = native_gpu_future::GpuFuture::new();
+
+        type MapAsyncFutureState = Arc::<Mutex<native_gpu_future::SharedState<Result<(), crate::BufferAsyncError>>>>;
 
         extern "C" fn buffer_map_future_wrapper(
             status: wgc::resource::BufferMapAsyncStatus,
             user_data: *mut u8,
         ) {
-            let completion =
-                unsafe { native_gpu_future::GpuFutureCompletion::from_raw(user_data as _) };
-            completion.complete(match status {
-                wgc::resource::BufferMapAsyncStatus::Success => Ok(()),
-                _ => Err(crate::BufferAsyncError),
-            })
+            let waker;
+            {
+                let shared_state = unsafe { MapAsyncFutureState::from_raw(user_data as *mut _) };
+                let mut locked = shared_state.lock(); 
+                locked.data = Some(match status {
+                    wgc::resource::BufferMapAsyncStatus::Success => Ok(()),
+                    _ => Err(crate::BufferAsyncError),
+                });
+                locked.completed = true;
+                waker = locked.waker.take();
+            };
+            if let Some(w) = waker {
+                w.wake();
+            }
         }
 
         let operation = wgc::resource::BufferMapOperation {
@@ -1218,7 +1229,7 @@ impl crate::Context for Context {
                 MapMode::Write => wgc::device::HostMap::Write,
             },
             callback: buffer_map_future_wrapper,
-            user_data: completion.to_raw() as _,
+            user_data: MapAsyncFutureState::into_raw(future.shared_state.clone()) as *mut u8,
         };
 
         let global = &self.0;

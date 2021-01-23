@@ -143,18 +143,10 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
     // Submits command encoder for processing
     queue.submit(Some(encoder.finish()));
 
-    // Note that we're not calling `.await` here.
     let buffer_slice = staging_buffer.slice(..);
-    // Gets the future representing when `staging_buffer` can be read from
-    let buffer_future = buffer_slice.map_async(wgpu::MapMode::Read);
 
-    // Poll the device in a blocking manner so that our future resolves.
-    // In an actual application, `device.poll(...)` should
-    // be called in an event loop or on another thread.
-    device.poll(wgpu::Maintain::Wait);
-
-    // Awaits until `buffer_future` can be read from
-    if let Ok(()) = buffer_future.await {
+    // Wait for the slice of `staging_buffer` to be mapped for reading
+    if let Ok(()) = buffer_slice.map_async(wgpu::MapMode::Read).await {
         // Gets contents of buffer
         let data = buffer_slice.get_mapped_range();
         // Since contents are got in bytes, this converts these bytes back to u32

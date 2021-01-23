@@ -180,7 +180,7 @@ trait Context: Debug + Send + Sized + Sync {
         handle: &impl raw_window_handle::HasRawWindowHandle,
     ) -> Self::SurfaceId;
     fn instance_request_adapter(
-        &self,
+        self: &Arc<Self>,
         options: &RequestAdapterOptions<'_>,
     ) -> Self::RequestAdapterFuture;
     fn adapter_request_device(

@@ -13,6 +13,7 @@ use std::{
     marker::PhantomData,
     ops::Range,
     pin::Pin,
+    sync::Arc,
     task::{self, Poll},
 };
 use wasm_bindgen::prelude::*;
@@ -906,7 +907,7 @@ impl crate::Context for Context {
     }
 
     fn instance_request_adapter(
-        &self,
+        self: &Arc<Self>,
         options: &crate::RequestAdapterOptions<'_>,
     ) -> Self::RequestAdapterFuture {
         //TODO: support this check, return `None` if the flag is not set.
