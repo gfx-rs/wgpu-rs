@@ -43,6 +43,7 @@ rev = "05a531191d4ce2927f2157e5dd54b7aa5d779406"
 
 [dependencies]
 arrayvec = "0.5"
+futures-util = { version = "0.3", default-features = false, features = ["std"] }
 parking_lot = "0.11"
 raw-window-handle = "0.3"
 smallvec = "1"

@@ -1,3 +1,13 @@
+use crate::{
+    BindGroupDescriptor, BindGroupLayoutDescriptor, BindingResource, BindingType,
+    BufferBindingType, BufferDescriptor, CommandEncoderDescriptor, ComputePassDescriptor,
+    ComputePipelineDescriptor, LoadOp, PipelineLayoutDescriptor, ProgrammableStageDescriptor,
+    RenderBundleEncoderDescriptor, RenderPipelineDescriptor, SamplerDescriptor,
+    ShaderModuleDescriptor, ShaderSource, StorageTextureAccess, SwapChainStatus, TextureDescriptor,
+    TextureViewDescriptor, TextureViewDimension,
+};
+
+use futures_util::FutureExt;
 use std::{
     collections::HashSet,
     fmt,
@@ -831,6 +841,10 @@ fn map_map_mode(mode: crate::MapMode) -> u32 {
 }
 
 type JsFutureResult = Result<wasm_bindgen::JsValue, wasm_bindgen::JsValue>;
+<<<<<<< Updated upstream
+=======
+type FutureMap<T> = futures_util::future::Map<wasm_bindgen_futures::JsFuture, fn(JsFutureResult) -> T>;
+>>>>>>> Stashed changes
 
 fn future_request_adapter(result: JsFutureResult) -> Option<Sendable<web_sys::GpuAdapter>> {
     match result {
