@@ -74,19 +74,17 @@ impl DeviceExt for crate::Device {
 
         let format_info = desc.format.describe();
 
-        let (layer_iterations, mip_extent, depth_per_iteration) =
-            if desc.dimension == crate::TextureDimension::D3 {
-                (1, desc.size, desc.size.depth)
-            } else {
-                (
-                    desc.size.depth,
-                    crate::Extent3d {
-                        depth: 1,
-                        ..desc.size
-                    },
-                    1,
-                )
-            };
+        let (layer_iterations, mip_extent) = if desc.dimension == crate::TextureDimension::D3 {
+            (1, desc.size)
+        } else {
+            (
+                desc.size.depth,
+                crate::Extent3d {
+                    depth: 1,
+                    ..desc.size
+                },
+            )
+        };
 
         let mip_level_count =
             u8::try_from(desc.mip_level_count).expect("mip level count overflows a u8");
@@ -107,7 +105,7 @@ impl DeviceExt for crate::Device {
                 let height_blocks = mip_physical.height / format_info.block_dimensions.1 as u32;
 
                 let bytes_per_row = width_blocks * format_info.block_size as u32;
-                let data_size = bytes_per_row * height_blocks * depth_per_iteration;
+                let data_size = bytes_per_row * height_blocks * mip_extent.depth;
 
                 let end_offset = binary_offset + data_size as usize;
 
