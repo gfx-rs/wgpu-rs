@@ -5,12 +5,6 @@ use std::borrow::Cow;
 
 const RENDER_TARGET_FORMAT: wgpu::TextureFormat = wgpu::TextureFormat::Rgba8UnormSrgb;
 
-#[derive(Debug)]
-enum TriangleMode {
-    Regular,
-    Conservative,
-}
-
 struct Example {
     low_res_target: wgpu::TextureView,
     bind_group_upscale: wgpu::BindGroup,
@@ -18,9 +12,8 @@ struct Example {
     pipeline_triangle_conservative: wgpu::RenderPipeline,
     pipeline_triangle_regular: wgpu::RenderPipeline,
     pipeline_upscale: wgpu::RenderPipeline,
-    pipeline_lines: wgpu::RenderPipeline,
+    pipeline_lines: Option<wgpu::RenderPipeline>,
     bind_group_layout_upscale: wgpu::BindGroupLayout,
-    triangle_mode: TriangleMode,
 }
 
 impl Example {
@@ -73,11 +66,14 @@ impl Example {
 
 impl framework::Example for Example {
     fn required_features() -> wgpu::Features {
-        wgpu::Features::NON_FILL_POLYGON_MODE | wgpu::Features::CONSERVATIVE_RASTERIZATION
+        wgpu::Features::CONSERVATIVE_RASTERIZATION
+    }
+    fn optional_features() -> wgpu::Features {
+        wgpu::Features::NON_FILL_POLYGON_MODE
     }
     fn init(
         sc_desc: &wgpu::SwapChainDescriptor,
-        _adapter: &wgpu::Adapter,
+        adapter: &wgpu::Adapter,
         device: &wgpu::Device,
         _queue: &wgpu::Queue,
     ) -> Self {
@@ -108,7 +104,7 @@ impl framework::Example for Example {
                 },
                 fragment: Some(wgpu::FragmentState {
                     module: &shader_triangle_and_lines,
-                    entry_point: "fs_main_colored",
+                    entry_point: "fs_main_red",
                     targets: &[RENDER_TARGET_FORMAT.into()],
                 }),
                 primitive: wgpu::PrimitiveState {
@@ -130,7 +126,7 @@ impl framework::Example for Example {
                 },
                 fragment: Some(wgpu::FragmentState {
                     module: &shader_triangle_and_lines,
-                    entry_point: "fs_main_colored",
+                    entry_point: "fs_main_blue",
                     targets: &[RENDER_TARGET_FORMAT.into()],
                 }),
                 primitive: wgpu::PrimitiveState::default(),
@@ -138,27 +134,36 @@ impl framework::Example for Example {
                 multisample: wgpu::MultisampleState::default(),
             });
 
-        let pipeline_lines = device.create_render_pipeline(&wgpu::RenderPipelineDescriptor {
-            label: Some("Lines"),
-            layout: Some(&pipeline_layout_empty),
-            vertex: wgpu::VertexState {
-                module: &shader_triangle_and_lines,
-                entry_point: "vs_main",
-                buffers: &[],
-            },
-            fragment: Some(wgpu::FragmentState {
-                module: &shader_triangle_and_lines,
-                entry_point: "fs_main_white",
-                targets: &[sc_desc.format.into()],
-            }),
-            primitive: wgpu::PrimitiveState {
-                polygon_mode: wgpu::PolygonMode::Line,
-                topology: wgpu::PrimitiveTopology::LineStrip,
-                ..Default::default()
-            },
-            depth_stencil: None,
-            multisample: wgpu::MultisampleState::default(),
-        });
+        let pipeline_lines = if adapter
+            .features()
+            .contains(wgpu::Features::NON_FILL_POLYGON_MODE)
+        {
+            Some(
+                device.create_render_pipeline(&wgpu::RenderPipelineDescriptor {
+                    label: Some("Lines"),
+                    layout: Some(&pipeline_layout_empty),
+                    vertex: wgpu::VertexState {
+                        module: &shader_triangle_and_lines,
+                        entry_point: "vs_main",
+                        buffers: &[],
+                    },
+                    fragment: Some(wgpu::FragmentState {
+                        module: &shader_triangle_and_lines,
+                        entry_point: "fs_main_white",
+                        targets: &[sc_desc.format.into()],
+                    }),
+                    primitive: wgpu::PrimitiveState {
+                        polygon_mode: wgpu::PolygonMode::Line,
+                        topology: wgpu::PrimitiveTopology::LineStrip,
+                        ..Default::default()
+                    },
+                    depth_stencil: None,
+                    multisample: wgpu::MultisampleState::default(),
+                }),
+            )
+        } else {
+            None
+        };
 
         let (pipeline_upscale, bind_group_layout_upscale) = {
             let bind_group_layout =
@@ -222,10 +227,6 @@ impl framework::Example for Example {
         let (low_res_target, bind_group_upscale) =
             Self::create_low_res_target(sc_desc, device, &bind_group_layout_upscale);
 
-        println!("------------------------------------------------------------------------");
-        println!("Press Space to toggle between regular and conservative rasterization");
-        println!("------------------------------------------------------------------------");
-
         Self {
             low_res_target,
             bind_group_upscale,
@@ -235,7 +236,6 @@ impl framework::Example for Example {
             pipeline_upscale,
             pipeline_lines,
             bind_group_layout_upscale,
-            triangle_mode: TriangleMode::Conservative,
         }
     }
 
@@ -251,25 +251,7 @@ impl framework::Example for Example {
         self.bind_group_upscale = bind_group_upscale;
     }
 
-    fn update(&mut self, event: winit::event::WindowEvent) {
-        match event {
-            winit::event::WindowEvent::KeyboardInput { input, .. } => {
-                if let winit::event::ElementState::Pressed = input.state {
-                    match input.virtual_keycode {
-                        Some(winit::event::VirtualKeyCode::Space) => {
-                            self.triangle_mode = match self.triangle_mode {
-                                TriangleMode::Regular => TriangleMode::Conservative,
-                                TriangleMode::Conservative => TriangleMode::Regular,
-                            };
-                            println!("Rasterization set to set to {:?}", self.triangle_mode);
-                        }
-                        _ => {}
-                    }
-                }
-            }
-            _ => {}
-        }
-    }
+    fn update(&mut self, _event: winit::event::WindowEvent) {}
 
     fn render(
         &mut self,
@@ -296,10 +278,9 @@ impl framework::Example for Example {
                 depth_stencil_attachment: None,
             });
 
-            rpass.set_pipeline(match self.triangle_mode {
-                TriangleMode::Regular => &self.pipeline_triangle_regular,
-                TriangleMode::Conservative => &self.pipeline_triangle_conservative,
-            });
+            rpass.set_pipeline(&self.pipeline_triangle_conservative);
+            rpass.draw(0..3, 0..1);
+            rpass.set_pipeline(&self.pipeline_triangle_regular);
             rpass.draw(0..3, 0..1);
         }
         {
@@ -320,8 +301,10 @@ impl framework::Example for Example {
             rpass.set_bind_group(0, &self.bind_group_upscale, &[]);
             rpass.draw(0..3, 0..1);
 
-            rpass.set_pipeline(&self.pipeline_lines);
-            rpass.draw(0..4, 0..1);
+            if let Some(pipeline_lines) = &self.pipeline_lines {
+                rpass.set_pipeline(pipeline_lines);
+                rpass.draw(0..4, 0..1);
+            }
         }
 
         queue.submit(Some(encoder.finish()));

@@ -7,6 +7,7 @@ This is useful for various advanced techniques, most prominently for implementin
 
 The demonstration here is implemented by rendering a triangle to a low-resolution target and then upscaling it with nearest-neighbor filtering.
 The outlines of the triangle are then rendered in the original solution, using the same vertex shader as the triangle.
+Pixels only drawn with conservative rasterization enabled are depicted red.
 
 ## To Run
 

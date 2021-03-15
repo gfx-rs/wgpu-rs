@@ -7,8 +7,13 @@ fn vs_main([[builtin(vertex_index)]] vertex_index: u32) -> [[builtin(position)]]
 }
 
 [[stage(fragment)]]
-fn fs_main_colored() -> [[location(0)]] vec4<f32> {
-    return vec4<f32>(0.8, 0.1, 0.0, 1.0);
+fn fs_main_red() -> [[location(0)]] vec4<f32> {
+    return vec4<f32>(1.0, 0.0, 0.0, 1.0);
+}
+
+[[stage(fragment)]]
+fn fs_main_blue() -> [[location(0)]] vec4<f32> {
+    return vec4<f32>(0.13, 0.31, 0.85, 1.0); // cornflower blue in linear space
 }
 
 [[stage(fragment)]]
