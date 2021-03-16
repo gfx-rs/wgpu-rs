@@ -37,8 +37,10 @@ pub trait DeviceExt {
 impl DeviceExt for crate::Device {
     fn create_buffer_init(&self, descriptor: &BufferInitDescriptor<'_>) -> crate::Buffer {
         let unpadded_size = descriptor.contents.len() as crate::BufferAddress;
-        let padding = crate::COPY_BUFFER_ALIGNMENT - unpadded_size % crate::COPY_BUFFER_ALIGNMENT;
-        let padded_size = padding + unpadded_size;
+        // Valid vulkan usage is
+        // 1. buffer size must be a multiple of COPY_BUFFER_ALIGNMENT.
+        // 2. buffer size must be greater than 0.
+        let padded_size = ((unpadded_size + crate::COPY_BUFFER_ALIGNMENT - 1) / crate::COPY_BUFFER_ALIGNMENT).max(1) * crate::COPY_BUFFER_ALIGNMENT;
 
         let wgt_descriptor = crate::BufferDescriptor {
             label: descriptor.label,
