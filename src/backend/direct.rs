@@ -1313,7 +1313,7 @@ impl crate::Context for Context {
             sub_range.start,
             wgt::BufferSize::new(size)
         )) {
-            Ok(ptr) => BufferMappedRange {
+            Ok((ptr, _size)) => BufferMappedRange {
                 ptr,
                 size: size as usize,
             },
