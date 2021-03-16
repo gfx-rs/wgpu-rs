@@ -1,5 +1,7 @@
 use std::convert::TryFrom;
 
+use crate::COPY_BUFFER_ALIGNMENT;
+
 /// Describes a [Buffer](crate::Buffer) when allocating.
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct BufferInitDescriptor<'a> {
@@ -40,7 +42,7 @@ impl DeviceExt for crate::Device {
         // Valid vulkan usage is
         // 1. buffer size must be a multiple of COPY_BUFFER_ALIGNMENT.
         // 2. buffer size must be greater than 0.
-        let padded_size = ((unpadded_size + crate::COPY_BUFFER_ALIGNMENT - 1) / crate::COPY_BUFFER_ALIGNMENT).max(1) * crate::COPY_BUFFER_ALIGNMENT;
+        let padded_size = ((unpadded_size + COPY_BUFFER_ALIGNMENT - 1) / COPY_BUFFER_ALIGNMENT).max(1) * COPY_BUFFER_ALIGNMENT;
 
         let wgt_descriptor = crate::BufferDescriptor {
             label: descriptor.label,
