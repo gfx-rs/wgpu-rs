@@ -1,7 +1,5 @@
 use std::convert::TryFrom;
 
-use crate::COPY_BUFFER_ALIGNMENT;
-
 /// Describes a [Buffer](crate::Buffer) when allocating.
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct BufferInitDescriptor<'a> {
@@ -43,8 +41,8 @@ impl DeviceExt for crate::Device {
         // 1. buffer size must be a multiple of COPY_BUFFER_ALIGNMENT.
         // 2. buffer size must be greater than 0.
         // Therefore we round the value up to the nearest multiple, and ensure it's at least COPY_BUFFER_ALIGNMENT.
-        let align_mask = COPY_BUFFER_ALIGNMENT - 1;
-        let padded_size = ((unpadded_size + align_mask) & !align_mask).max(COPY_BUFFER_ALIGNMENT);
+        let align_mask = crate::COPY_BUFFER_ALIGNMENT - 1;
+        let padded_size = ((unpadded_size + align_mask) & !align_mask).max(crate::COPY_BUFFER_ALIGNMENT);
 
         let wgt_descriptor = crate::BufferDescriptor {
             label: descriptor.label,
