@@ -7,6 +7,8 @@ pub struct BufferInitDescriptor<'a> {
     pub label: Option<&'a str>,
     /// Contents of a buffer on creation.
     pub contents: &'a [u8],
+    /// Size of the buffer. Must be at least size of `contents`. If unspecified, the size of `contents` are used.
+    pub size: Option<crate::BufferAddress>,
     /// Usages of a buffer. If the buffer is used in any way that isn't specified here, the operation
     /// will panic.
     pub usage: crate::BufferUsage,
@@ -36,7 +38,19 @@ pub trait DeviceExt {
 
 impl DeviceExt for crate::Device {
     fn create_buffer_init(&self, descriptor: &BufferInitDescriptor<'_>) -> crate::Buffer {
-        let unpadded_size = descriptor.contents.len() as crate::BufferAddress;
+        let unpadded_size = {
+            let contents_size = descriptor.contents.len() as crate::BufferAddress;
+            match descriptor.size {
+                None => contents_size,
+                Some(specified_size) => {
+                    assert!(
+                        specified_size >= contents_size,
+                        "specified size must at least be size of contents"
+                    );
+                    specified_size
+                }
+            }
+        };
         // Valid vulkan usage is
         // 1. buffer size must be a multiple of COPY_BUFFER_ALIGNMENT.
         // 2. buffer size must be greater than 0.
