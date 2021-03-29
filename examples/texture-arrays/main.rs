@@ -116,6 +116,7 @@ impl framework::Example for Example {
         let vertex_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Vertex Buffer"),
             contents: bytemuck::cast_slice(&vertex_data),
+            size: None,
             usage: wgpu::BufferUsage::VERTEX,
         });
 
@@ -123,6 +124,7 @@ impl framework::Example for Example {
         let index_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Index Buffer"),
             contents: bytemuck::cast_slice(&index_data),
+            size: None,
             usage: wgpu::BufferUsage::INDEX,
         });
 

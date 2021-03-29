@@ -68,6 +68,7 @@ impl framework::Example for Example {
         let sim_param_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Simulation Parameter Buffer"),
             contents: bytemuck::cast_slice(&sim_param_data),
+            size: None,
             usage: wgpu::BufferUsage::UNIFORM | wgpu::BufferUsage::COPY_DST,
         });
 
@@ -171,6 +172,7 @@ impl framework::Example for Example {
         let vertices_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Vertex Buffer"),
             contents: bytemuck::bytes_of(&vertex_buffer_data),
+            size: None,
             usage: wgpu::BufferUsage::VERTEX | wgpu::BufferUsage::COPY_DST,
         });
 
@@ -195,6 +197,7 @@ impl framework::Example for Example {
                 device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
                     label: Some(&format!("Particle Buffer {}", i)),
                     contents: bytemuck::cast_slice(&initial_particle_data),
+                    size: None,
                     usage: wgpu::BufferUsage::VERTEX
                         | wgpu::BufferUsage::STORAGE
                         | wgpu::BufferUsage::COPY_DST,

@@ -205,6 +205,7 @@ impl framework::Example for Example {
             &wgpu::util::BufferInitDescriptor {
                 label: Some("Cubes Vertex Buffer"),
                 contents: bytemuck::cast_slice(&cube_vertex_data),
+                size: None,
                 usage: wgpu::BufferUsage::VERTEX,
             },
         ));
@@ -213,6 +214,7 @@ impl framework::Example for Example {
             &wgpu::util::BufferInitDescriptor {
                 label: Some("Cubes Index Buffer"),
                 contents: bytemuck::cast_slice(&cube_index_data),
+                size: None,
                 usage: wgpu::BufferUsage::INDEX,
             },
         ));
@@ -221,12 +223,14 @@ impl framework::Example for Example {
         let plane_vertex_buf = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Plane Vertex Buffer"),
             contents: bytemuck::cast_slice(&plane_vertex_data),
+            size: None,
             usage: wgpu::BufferUsage::VERTEX,
         });
 
         let plane_index_buf = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Plane Index Buffer"),
             contents: bytemuck::cast_slice(&plane_index_data),
+            size: None,
             usage: wgpu::BufferUsage::INDEX,
         });
 
@@ -573,6 +577,7 @@ impl framework::Example for Example {
             let uniform_buf = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
                 label: Some("Uniform Buffer"),
                 contents: bytemuck::bytes_of(&forward_uniforms),
+                size: None,
                 usage: wgpu::BufferUsage::UNIFORM | wgpu::BufferUsage::COPY_DST,
             });
 

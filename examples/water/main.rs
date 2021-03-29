@@ -337,12 +337,14 @@ impl framework::Example for Example {
         let water_vertex_buf = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Water vertices"),
             contents: bytemuck::cast_slice(&water_vertices),
+            size: None,
             usage: wgpu::BufferUsage::VERTEX,
         });
 
         let terrain_vertex_buf = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Terrain vertices"),
             contents: bytemuck::cast_slice(&terrain_vertices),
+            size: None,
             usage: wgpu::BufferUsage::VERTEX,
         });
 

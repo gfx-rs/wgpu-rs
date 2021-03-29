@@ -238,6 +238,7 @@ impl framework::Example for Example {
         let temp_buf = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Temporary Buffer"),
             contents: texels.as_slice(),
+            size: None,
             usage: wgpu::BufferUsage::COPY_SRC,
         });
         init_encoder.copy_buffer_to_texture(
@@ -273,6 +274,7 @@ impl framework::Example for Example {
         let uniform_buf = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Uniform Buffer"),
             contents: bytemuck::cast_slice(mx_ref),
+            size: None,
             usage: wgpu::BufferUsage::UNIFORM | wgpu::BufferUsage::COPY_DST,
         });
 

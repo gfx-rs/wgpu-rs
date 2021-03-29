@@ -107,6 +107,7 @@ impl framework::Example for Skybox {
                     let vertex_buf = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
                         label: Some("Vertex"),
                         contents: bytemuck::cast_slice(&vertices),
+                        size: None,
                         usage: wgpu::BufferUsage::VERTEX,
                     });
                     entities.push(Entity {
@@ -176,6 +177,7 @@ impl framework::Example for Skybox {
         let uniform_buf = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
             label: Some("Buffer"),
             contents: bytemuck::cast_slice(&raw_uniforms),
+            size: None,
             usage: wgpu::BufferUsage::UNIFORM | wgpu::BufferUsage::COPY_DST,
         });
 

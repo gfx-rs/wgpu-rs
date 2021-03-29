@@ -92,6 +92,7 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
     let storage_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
         label: Some("Storage Buffer"),
         contents: bytemuck::cast_slice(&numbers),
+        size: None,
         usage: wgpu::BufferUsage::STORAGE
             | wgpu::BufferUsage::COPY_DST
             | wgpu::BufferUsage::COPY_SRC,
