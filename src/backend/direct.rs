@@ -1859,6 +1859,40 @@ impl crate::Context for Context {
             }
         }
     }
+
+    #[cfg(feature = "use-openxr")]
+    fn device_create_openxr_texture_from_raw_image(
+        &self,
+        device: &Self::DeviceId,
+        desc: &TextureDescriptor,
+        raw_image: u64,
+    ) -> Self::TextureId {
+        let global = &self.0;
+        let (id, error) = wgc::gfx_select!(device.id => global.device_create_texture_raw_image(
+            device.id,
+            &desc.map_label(|l| l.map(Borrowed)),
+            Some(raw_image),
+            PhantomData
+        ));
+        if let Some(cause) = error {
+            self.handle_error(
+                &device.error_sink,
+                cause,
+                LABEL,
+                None,
+                "Device::create_texture_from_raw_image",
+            );
+        }
+        Texture {
+            id,
+            error_sink: Arc::clone(&device.error_sink),
+        }
+    }
+
+    #[cfg(feature = "use-openxr")]
+    fn openxr_configure(backends: wgt::BackendBit, instance: openxr::Instance, options: crate::wgpu_openxr::OpenXROptions) -> wgc::openxr::WGPUOpenXR {
+        wgc::openxr::WGPUOpenXR::configure(backends, instance, options)
+    }
 }
 
 #[derive(Debug)]

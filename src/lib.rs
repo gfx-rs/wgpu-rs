@@ -39,6 +39,9 @@ pub use wgt::{
     COPY_BYTES_PER_ROW_ALIGNMENT, PUSH_CONSTANT_ALIGNMENT,
 };
 
+#[cfg(feature = "use-openxr")]
+pub use wgt::openxr::OpenXRHandles;
+
 use backend::{BufferMappedRange, Context as C};
 
 trait ComputePassInner<Ctx: Context> {
@@ -258,6 +261,13 @@ trait Context: Debug + Send + Sized + Sync {
         device: &Self::DeviceId,
         desc: &TextureDescriptor,
     ) -> Self::TextureId;
+    #[cfg(feature = "use-openxr")]
+    fn device_create_openxr_texture_from_raw_image(
+        &self,
+        device: &Self::DeviceId,
+        desc: &TextureDescriptor,
+        raw_image: u64,
+    ) -> Self::TextureId;
     fn device_create_sampler(
         &self,
         device: &Self::DeviceId,
@@ -441,6 +451,13 @@ trait Context: Debug + Send + Sized + Sync {
         command_buffers: I,
     );
     fn queue_get_timestamp_period(&self, queue: &Self::QueueId) -> f32;
+
+    #[cfg(feature = "use-openxr")]
+    fn openxr_configure(
+        backends: BackendBit,
+        instance: openxr::Instance,
+        options: crate::wgpu_openxr::OpenXROptions,
+    ) -> wgc::openxr::WGPUOpenXR;
 }
 
 /// Context for all other wgpu objects. Instance of wgpu.
@@ -1582,6 +1599,25 @@ impl Device {
         Texture {
             context: Arc::clone(&self.context),
             id: Context::device_create_texture(&*self.context, &self.id, desc),
+            owned: true,
+        }
+    }
+
+    /// Creates a new [`Texture`] from a raw (Vulkan) image
+    #[cfg(feature = "use-openxr")]
+    pub fn create_openxr_texture_from_raw_image(
+        &self,
+        desc: &TextureDescriptor,
+        raw_image: u64,
+    ) -> Texture {
+        Texture {
+            context: Arc::clone(&self.context),
+            id: Context::device_create_openxr_texture_from_raw_image(
+                &*self.context,
+                &self.id,
+                desc,
+                raw_image,
+            ),
             owned: true,
         }
     }
@@ -2873,4 +2909,22 @@ impl Display for Error {
             Error::ValidationError { description, .. } => f.write_str(description),
         }
     }
+}
+
+/// OpenXR functionality
+#[cfg(feature = "use-openxr")]
+pub mod wgpu_openxr {
+    use crate::{Context, Error, C};
+
+    /// New instance
+    pub fn new(
+        backends: wgt::BackendBit,
+        instance: &openxr::Instance,
+        options: OpenXROptions,
+    ) -> Result<wgc::openxr::WGPUOpenXR, Error> {
+        Ok(C::openxr_configure(backends, instance.clone(), options))
+    }
+
+    pub use wgc::openxr::WGPUOpenXR;
+    pub use wgt::openxr::OpenXROptions;
 }
