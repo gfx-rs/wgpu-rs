@@ -1,7 +1,6 @@
 // This should match `NUM_PARTICLES` on the Rust side.
-const NUM_PARTICLES: u32 = 1500;
+let NUM_PARTICLES: u32 = 1500u;
 
-[[block]]
 struct Particle {
   pos : vec2<f32>;
   vel : vec2<f32>;
@@ -27,12 +26,10 @@ struct Particles {
 [[group(0), binding(1)]] var<storage> particlesSrc : [[access(read)]] Particles;
 [[group(0), binding(2)]] var<storage> particlesDst : [[access(read_write)]] Particles;
 
-[[builtin(global_invocation_id)]] var gl_GlobalInvocationID : vec3<u32>;
-
 // https://github.com/austinEng/Project6-Vulkan-Flocking/blob/master/data/shaders/computeparticles/particle.comp
 [[stage(compute), workgroup_size(64)]]
-fn main() {
-  const index : u32 = gl_GlobalInvocationID.x;
+fn main([[builtin(global_invocation_id)]] global_invocation_id: vec3<u32>) {
+  let index : u32 = global_invocation_id.x;
   if (index >= NUM_PARTICLES) {
     return;
   }

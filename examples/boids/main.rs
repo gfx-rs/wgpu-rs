@@ -1,6 +1,7 @@
 // Flocking boids example with gpu compute update pass
 // adapted from https://github.com/austinEng/webgpu-samples/blob/master/src/examples/computeBoids.ts
 
+use rand::distributions::{Distribution, Uniform};
 use std::{borrow::Cow, mem};
 use wgpu::util::DeviceExt;
 
@@ -37,7 +38,7 @@ impl framework::Example for Example {
         // load and compile the shader
         let mut flags = wgpu::ShaderFlags::VALIDATION;
         match adapter.get_info().backend {
-            wgt::Backend::Vulkan | wgt::Backend::Metal => {
+            wgt::Backend::Vulkan | wgt::Backend::Metal | wgt::Backend::Gl => {
                 flags |= wgpu::ShaderFlags::EXPERIMENTAL_TRANSLATION;
             }
             _ => {} //TODO
@@ -137,12 +138,12 @@ impl framework::Example for Example {
                     wgpu::VertexBufferLayout {
                         array_stride: 4 * 4,
                         step_mode: wgpu::InputStepMode::Instance,
-                        attributes: &wgpu::vertex_attr_array![0 => Float2, 1 => Float2],
+                        attributes: &wgpu::vertex_attr_array![0 => Float32x2, 1 => Float32x2],
                     },
                     wgpu::VertexBufferLayout {
                         array_stride: 2 * 4,
                         step_mode: wgpu::InputStepMode::Vertex,
-                        attributes: &wgpu::vertex_attr_array![2 => Float2],
+                        attributes: &wgpu::vertex_attr_array![2 => Float32x2],
                     },
                 ],
             },
@@ -177,12 +178,13 @@ impl framework::Example for Example {
         // buffer for all particles data of type [(posx,posy,velx,vely),...]
 
         let mut initial_particle_data = vec![0.0f32; (4 * NUM_PARTICLES) as usize];
+        let mut rng = rand::thread_rng();
+        let unif = Uniform::new_inclusive(-1.0, 1.0);
         for particle_instance_chunk in initial_particle_data.chunks_mut(4) {
-            particle_instance_chunk[0] = 2.0 * (rand::random::<f32>() - 0.5); // posx
-            particle_instance_chunk[1] = 2.0 * (rand::random::<f32>() - 0.5); // posy
-            particle_instance_chunk[2] = 2.0 * (rand::random::<f32>() - 0.5) * 0.1; // velx
-            particle_instance_chunk[3] = 2.0 * (rand::random::<f32>() - 0.5) * 0.1;
-            // vely
+            particle_instance_chunk[0] = unif.sample(&mut rng); // posx
+            particle_instance_chunk[1] = unif.sample(&mut rng); // posy
+            particle_instance_chunk[2] = unif.sample(&mut rng) * 0.1; // velx
+            particle_instance_chunk[3] = unif.sample(&mut rng) * 0.1; // vely
         }
 
         // creates two buffers of particle data each of size NUM_PARTICLES
@@ -268,8 +270,8 @@ impl framework::Example for Example {
         _spawner: &framework::Spawner,
     ) {
         // create render pass descriptor and its color attachments
-        let color_attachments = [wgpu::RenderPassColorAttachmentDescriptor {
-            attachment: &frame.view,
+        let color_attachments = [wgpu::RenderPassColorAttachment {
+            view: &frame.view,
             resolve_target: None,
             ops: wgpu::Operations {
                 load: wgpu::LoadOp::Clear(wgpu::Color::BLACK),

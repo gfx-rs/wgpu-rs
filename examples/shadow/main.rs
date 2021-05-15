@@ -171,7 +171,7 @@ impl Example {
     const SHADOW_SIZE: wgpu::Extent3d = wgpu::Extent3d {
         width: 512,
         height: 512,
-        depth: Self::MAX_LIGHTS as u32,
+        depth_or_array_layers: Self::MAX_LIGHTS as u32,
     };
     const DEPTH_FORMAT: wgpu::TextureFormat = wgpu::TextureFormat::Depth32Float;
 
@@ -184,6 +184,27 @@ impl Example {
         );
         let mx_correction = framework::OPENGL_TO_WGPU_MATRIX;
         mx_correction * mx_projection * mx_view
+    }
+
+    fn create_depth_texture(
+        sc_desc: &wgpu::SwapChainDescriptor,
+        device: &wgpu::Device,
+    ) -> wgpu::TextureView {
+        let depth_texture = device.create_texture(&wgpu::TextureDescriptor {
+            size: wgpu::Extent3d {
+                width: sc_desc.width,
+                height: sc_desc.height,
+                depth_or_array_layers: 1,
+            },
+            mip_level_count: 1,
+            sample_count: 1,
+            dimension: wgpu::TextureDimension::D2,
+            format: Self::DEPTH_FORMAT,
+            usage: wgpu::TextureUsage::RENDER_ATTACHMENT,
+            label: None,
+        });
+
+        depth_texture.create_view(&wgpu::TextureViewDescriptor::default())
     }
 }
 
@@ -294,7 +315,7 @@ impl framework::Example for Example {
             use cgmath::{Decomposed, Deg, InnerSpace, Quaternion, Rotation3};
 
             let transform = Decomposed {
-                disp: cube.offset.clone(),
+                disp: cube.offset,
                 rot: Quaternion::from_axis_angle(cube.offset.normalize(), Deg(cube.angle)),
                 scale: cube.scale,
             };
@@ -328,11 +349,11 @@ impl framework::Example for Example {
             layout: &local_bind_group_layout,
             entries: &[wgpu::BindGroupEntry {
                 binding: 0,
-                resource: wgpu::BindingResource::Buffer {
+                resource: wgpu::BindingResource::Buffer(wgpu::BufferBinding {
                     buffer: &entity_uniform_buf,
                     offset: 0,
                     size: wgpu::BufferSize::new(entity_uniform_size),
-                },
+                }),
             }],
             label: None,
         });
@@ -369,7 +390,7 @@ impl framework::Example for Example {
                     dimension: Some(wgpu::TextureViewDimension::D2),
                     aspect: wgpu::TextureAspect::All,
                     base_mip_level: 0,
-                    level_count: None,
+                    mip_level_count: None,
                     base_array_layer: i as u32,
                     array_layer_count: NonZeroU32::new(1),
                 }))
@@ -412,7 +433,7 @@ impl framework::Example for Example {
             mapped_at_creation: false,
         });
 
-        let vertex_attr = wgpu::vertex_attr_array![0 => Char4, 1 => Char4];
+        let vertex_attr = wgpu::vertex_attr_array![0 => Sint8x4, 1 => Sint8x4];
         let vb_desc = wgpu::VertexBufferLayout {
             array_stride: vertex_size as wgpu::BufferAddress,
             step_mode: wgpu::InputStepMode::Vertex,
@@ -421,7 +442,7 @@ impl framework::Example for Example {
 
         let mut flags = wgpu::ShaderFlags::VALIDATION;
         match adapter.get_info().backend {
-            wgpu::Backend::Vulkan => {
+            wgpu::Backend::Metal | wgpu::Backend::Vulkan => {
                 flags |= wgpu::ShaderFlags::EXPERIMENTAL_TRANSLATION;
             }
             _ => (), //TODO
@@ -485,7 +506,8 @@ impl framework::Example for Example {
                 primitive: wgpu::PrimitiveState {
                     topology: wgpu::PrimitiveTopology::TriangleList,
                     front_face: wgpu::FrontFace::Ccw,
-                    cull_mode: wgpu::CullMode::Back,
+                    cull_mode: Some(wgpu::Face::Back),
+                    clamp_depth: device.features().contains(wgpu::Features::DEPTH_CLAMPING),
                     ..Default::default()
                 },
                 depth_stencil: Some(wgpu::DepthStencilState {
@@ -498,7 +520,6 @@ impl framework::Example for Example {
                         slope_scale: 2.0,
                         clamp: 0.0,
                     },
-                    clamp_depth: device.features().contains(wgpu::Features::DEPTH_CLAMPING),
                 }),
                 multisample: wgpu::MultisampleState::default(),
             });
@@ -552,7 +573,7 @@ impl framework::Example for Example {
                             visibility: wgpu::ShaderStage::FRAGMENT,
                             ty: wgpu::BindingType::Sampler {
                                 comparison: true,
-                                filtering: false,
+                                filtering: true,
                             },
                             count: None,
                         },
@@ -616,7 +637,7 @@ impl framework::Example for Example {
                 }),
                 primitive: wgpu::PrimitiveState {
                     front_face: wgpu::FrontFace::Ccw,
-                    cull_mode: wgpu::CullMode::Back,
+                    cull_mode: Some(wgpu::Face::Back),
                     ..Default::default()
                 },
                 depth_stencil: Some(wgpu::DepthStencilState {
@@ -625,7 +646,6 @@ impl framework::Example for Example {
                     depth_compare: wgpu::CompareFunction::Less,
                     stencil: wgpu::StencilState::default(),
                     bias: wgpu::DepthBiasState::default(),
-                    clamp_depth: false,
                 }),
                 multisample: wgpu::MultisampleState::default(),
             });
@@ -637,19 +657,7 @@ impl framework::Example for Example {
             }
         };
 
-        let depth_texture = device.create_texture(&wgpu::TextureDescriptor {
-            size: wgpu::Extent3d {
-                width: sc_desc.width,
-                height: sc_desc.height,
-                depth: 1,
-            },
-            mip_level_count: 1,
-            sample_count: 1,
-            dimension: wgpu::TextureDimension::D2,
-            format: Self::DEPTH_FORMAT,
-            usage: wgpu::TextureUsage::RENDER_ATTACHMENT,
-            label: None,
-        });
+        let forward_depth = Self::create_depth_texture(sc_desc, device);
 
         Example {
             entities,
@@ -657,7 +665,7 @@ impl framework::Example for Example {
             lights_are_dirty: true,
             shadow_pass,
             forward_pass,
-            forward_depth: depth_texture.create_view(&wgpu::TextureViewDescriptor::default()),
+            forward_depth,
             light_storage_buf,
             entity_uniform_buf,
             entity_bind_group,
@@ -683,20 +691,7 @@ impl framework::Example for Example {
             bytemuck::cast_slice(mx_ref),
         );
 
-        let depth_texture = device.create_texture(&wgpu::TextureDescriptor {
-            size: wgpu::Extent3d {
-                width: sc_desc.width,
-                height: sc_desc.height,
-                depth: 1,
-            },
-            mip_level_count: 1,
-            sample_count: 1,
-            dimension: wgpu::TextureDimension::D2,
-            format: Self::DEPTH_FORMAT,
-            usage: wgpu::TextureUsage::RENDER_ATTACHMENT,
-            label: None,
-        });
-        self.forward_depth = depth_texture.create_view(&wgpu::TextureViewDescriptor::default());
+        self.forward_depth = Self::create_depth_texture(sc_desc, device);
     }
 
     fn render(
@@ -764,16 +759,14 @@ impl framework::Example for Example {
                 let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                     label: None,
                     color_attachments: &[],
-                    depth_stencil_attachment: Some(
-                        wgpu::RenderPassDepthStencilAttachmentDescriptor {
-                            attachment: &light.target_view,
-                            depth_ops: Some(wgpu::Operations {
-                                load: wgpu::LoadOp::Clear(1.0),
-                                store: true,
-                            }),
-                            stencil_ops: None,
-                        },
-                    ),
+                    depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachment {
+                        view: &light.target_view,
+                        depth_ops: Some(wgpu::Operations {
+                            load: wgpu::LoadOp::Clear(1.0),
+                            store: true,
+                        }),
+                        stencil_ops: None,
+                    }),
                 });
                 pass.set_pipeline(&self.shadow_pass.pipeline);
                 pass.set_bind_group(0, &self.shadow_pass.bind_group, &[]);
@@ -795,8 +788,8 @@ impl framework::Example for Example {
         {
             let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                 label: None,
-                color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
-                    attachment: &frame.view,
+                color_attachments: &[wgpu::RenderPassColorAttachment {
+                    view: &frame.view,
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Clear(wgpu::Color {
@@ -808,8 +801,8 @@ impl framework::Example for Example {
                         store: true,
                     },
                 }],
-                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachmentDescriptor {
-                    attachment: &self.forward_depth,
+                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachment {
+                    view: &self.forward_depth,
                     depth_ops: Some(wgpu::Operations {
                         load: wgpu::LoadOp::Clear(1.0),
                         store: false,

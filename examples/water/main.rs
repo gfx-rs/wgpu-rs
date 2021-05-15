@@ -5,7 +5,7 @@ mod point_gen;
 
 use bytemuck::{Pod, Zeroable};
 use cgmath::Point3;
-use std::{iter, mem};
+use std::{borrow::Cow, iter, mem};
 use wgpu::util::DeviceExt;
 
 ///
@@ -187,7 +187,7 @@ impl Example {
         let texture_extent = wgpu::Extent3d {
             width: sc_desc.width,
             height: sc_desc.height,
-            depth: 1,
+            depth_or_array_layers: 1,
         };
 
         let reflection_texture = device.create_texture(&wgpu::TextureDescriptor {
@@ -263,7 +263,7 @@ impl Example {
 impl framework::Example for Example {
     fn init(
         sc_desc: &wgpu::SwapChainDescriptor,
-        _adapter: &wgpu::Adapter,
+        adapter: &wgpu::Adapter,
         device: &wgpu::Device,
         queue: &wgpu::Queue,
     ) -> Self {
@@ -486,14 +486,23 @@ impl framework::Example for Example {
         });
 
         // Upload/compile them to GPU code.
-        let water_vs_module =
-            device.create_shader_module(&wgpu::include_spirv!("water_shader.vert.spv"));
-        let water_fs_module =
-            device.create_shader_module(&wgpu::include_spirv!("water_shader.frag.spv"));
-        let terrain_vs_module =
-            device.create_shader_module(&wgpu::include_spirv!("terrain_shader.vert.spv"));
-        let terrain_fs_module =
-            device.create_shader_module(&wgpu::include_spirv!("terrain_shader.frag.spv"));
+        let mut flags = wgpu::ShaderFlags::VALIDATION;
+        match adapter.get_info().backend {
+            wgpu::Backend::Metal | wgpu::Backend::Vulkan => {
+                flags |= wgpu::ShaderFlags::EXPERIMENTAL_TRANSLATION
+            }
+            _ => (), //TODO
+        }
+        let terrain_module = device.create_shader_module(&wgpu::ShaderModuleDescriptor {
+            label: Some("terrain"),
+            source: wgpu::ShaderSource::Wgsl(Cow::Borrowed(include_str!("terrain.wgsl"))),
+            flags,
+        });
+        let water_module = device.create_shader_module(&wgpu::ShaderModuleDescriptor {
+            label: Some("water"),
+            source: wgpu::ShaderSource::Wgsl(Cow::Borrowed(include_str!("water.wgsl"))),
+            flags,
+        });
 
         // Create the render pipelines. These describe how the data will flow through the GPU, and what
         // constraints and modifiers it will have.
@@ -503,8 +512,8 @@ impl framework::Example for Example {
             layout: Some(&water_pipeline_layout),
             // Vertex shader and input buffers
             vertex: wgpu::VertexState {
-                module: &water_vs_module,
-                entry_point: "main",
+                module: &water_module,
+                entry_point: "vs_main",
                 // Layout of our vertices. This should match the structs
                 // which are uploaded to the GPU. This should also be
                 // ensured by tagging on either a `#[repr(C)]` onto a
@@ -513,27 +522,29 @@ impl framework::Example for Example {
                 buffers: &[wgpu::VertexBufferLayout {
                     array_stride: water_vertex_size as wgpu::BufferAddress,
                     step_mode: wgpu::InputStepMode::Vertex,
-                    attributes: &wgpu::vertex_attr_array![0 => Short2, 1 => Char4],
+                    attributes: &wgpu::vertex_attr_array![0 => Sint16x2, 1 => Sint8x4],
                 }],
             },
             // Fragment shader and output targets
             fragment: Some(wgpu::FragmentState {
-                module: &water_fs_module,
-                entry_point: "main",
+                module: &water_module,
+                entry_point: "fs_main",
                 // Describes how the colour will be interpolated
                 // and assigned to the output attachment.
                 targets: &[wgpu::ColorTargetState {
                     format: sc_desc.format,
-                    color_blend: wgpu::BlendState {
-                        src_factor: wgpu::BlendFactor::SrcAlpha,
-                        dst_factor: wgpu::BlendFactor::OneMinusSrcAlpha,
-                        operation: wgpu::BlendOperation::Add,
-                    },
-                    alpha_blend: wgpu::BlendState {
-                        src_factor: wgpu::BlendFactor::One,
-                        dst_factor: wgpu::BlendFactor::One,
-                        operation: wgpu::BlendOperation::Max,
-                    },
+                    blend: Some(wgpu::BlendState {
+                        color: wgpu::BlendComponent {
+                            src_factor: wgpu::BlendFactor::SrcAlpha,
+                            dst_factor: wgpu::BlendFactor::OneMinusSrcAlpha,
+                            operation: wgpu::BlendOperation::Add,
+                        },
+                        alpha: wgpu::BlendComponent {
+                            src_factor: wgpu::BlendFactor::One,
+                            dst_factor: wgpu::BlendFactor::One,
+                            operation: wgpu::BlendOperation::Max,
+                        },
+                    }),
                     write_mask: wgpu::ColorWrite::ALL,
                 }],
             }),
@@ -559,7 +570,6 @@ impl framework::Example for Example {
                 depth_compare: wgpu::CompareFunction::Less,
                 stencil: wgpu::StencilState::default(),
                 bias: wgpu::DepthBiasState::default(),
-                clamp_depth: false,
             }),
             // No multisampling is used.
             multisample: wgpu::MultisampleState::default(),
@@ -570,22 +580,22 @@ impl framework::Example for Example {
             label: Some("terrain"),
             layout: Some(&terrain_pipeline_layout),
             vertex: wgpu::VertexState {
-                module: &terrain_vs_module,
-                entry_point: "main",
+                module: &terrain_module,
+                entry_point: "vs_main",
                 buffers: &[wgpu::VertexBufferLayout {
                     array_stride: terrain_vertex_size as wgpu::BufferAddress,
                     step_mode: wgpu::InputStepMode::Vertex,
-                    attributes: &wgpu::vertex_attr_array![0 => Float3, 1 => Float3, 2 => Uchar4Norm],
+                    attributes: &wgpu::vertex_attr_array![0 => Float32x3, 1 => Float32x3, 2 => Unorm8x4],
                 }],
             },
             fragment: Some(wgpu::FragmentState {
-                module: &terrain_fs_module,
-                entry_point: "main",
+                module: &terrain_module,
+                entry_point: "fs_main",
                 targets: &[sc_desc.format.into()],
             }),
             primitive: wgpu::PrimitiveState {
                 front_face: wgpu::FrontFace::Ccw,
-                cull_mode: wgpu::CullMode::Front,
+                cull_mode: Some(wgpu::Face::Front),
                 ..Default::default()
             },
             depth_stencil: Some(wgpu::DepthStencilState {
@@ -594,7 +604,6 @@ impl framework::Example for Example {
                 depth_compare: wgpu::CompareFunction::Less,
                 stencil: wgpu::StencilState::default(),
                 bias: wgpu::DepthBiasState::default(),
-                clamp_depth: false,
             }),
             multisample: wgpu::MultisampleState::default(),
         });
@@ -660,6 +669,7 @@ impl framework::Example for Example {
         self.reflect_view = reflect_view;
     }
 
+    #[allow(clippy::eq_op)]
     fn render(
         &mut self,
         frame: &wgpu::SwapChainTexture,
@@ -703,8 +713,8 @@ impl framework::Example for Example {
         {
             let mut rpass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                 label: None,
-                color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
-                    attachment: &self.reflect_view,
+                color_attachments: &[wgpu::RenderPassColorAttachment {
+                    view: &self.reflect_view,
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Clear(back_color),
@@ -713,8 +723,8 @@ impl framework::Example for Example {
                 }],
                 // We still need to use the depth buffer here
                 // since the pipeline requires it.
-                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachmentDescriptor {
-                    attachment: &self.depth_buffer,
+                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachment {
+                    view: &self.depth_buffer,
                     depth_ops: Some(wgpu::Operations {
                         load: wgpu::LoadOp::Clear(1.0),
                         store: true,
@@ -732,16 +742,16 @@ impl framework::Example for Example {
         {
             let mut rpass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                 label: None,
-                color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
-                    attachment: &frame.view,
+                color_attachments: &[wgpu::RenderPassColorAttachment {
+                    view: &frame.view,
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Clear(back_color),
                         store: true,
                     },
                 }],
-                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachmentDescriptor {
-                    attachment: &self.depth_buffer,
+                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachment {
+                    view: &self.depth_buffer,
                     depth_ops: Some(wgpu::Operations {
                         load: wgpu::LoadOp::Clear(1.0),
                         store: true,
@@ -759,16 +769,16 @@ impl framework::Example for Example {
         {
             let mut rpass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                 label: None,
-                color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
-                    attachment: &frame.view,
+                color_attachments: &[wgpu::RenderPassColorAttachment {
+                    view: &frame.view,
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Load,
                         store: true,
                     },
                 }],
-                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachmentDescriptor {
-                    attachment: &self.depth_buffer,
+                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachment {
+                    view: &self.depth_buffer,
                     depth_ops: None,
                     stencil_ops: None,
                 }),

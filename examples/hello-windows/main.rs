@@ -32,7 +32,9 @@ impl ViewportDesc {
 
         let sc_desc = wgpu::SwapChainDescriptor {
             usage: wgpu::TextureUsage::RENDER_ATTACHMENT,
-            format: adapter.get_swap_chain_preferred_format(&self.surface),
+            format: adapter
+                .get_swap_chain_preferred_format(&self.surface)
+                .unwrap(),
             width: size.width,
             height: size.height,
             present_mode: wgpu::PresentMode::Fifo,
@@ -121,8 +123,8 @@ async fn run(event_loop: EventLoop<()>, viewports: Vec<(Window, wgpu::Color)>) {
                     {
                         let _rpass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                             label: None,
-                            color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
-                                attachment: &frame.view,
+                            color_attachments: &[wgpu::RenderPassColorAttachment {
+                                view: &frame.view,
                                 resolve_target: None,
                                 ops: wgpu::Operations {
                                     load: wgpu::LoadOp::Clear(viewport.desc.background),
@@ -189,7 +191,7 @@ fn main() {
             }
         }
 
-        wgpu_subscriber::initialize_default_subscriber(None);
+        env_logger::init();
         // Temporarily avoid srgb formats for the swapchain on the web
         pollster::block_on(run(event_loop, viewports));
     }

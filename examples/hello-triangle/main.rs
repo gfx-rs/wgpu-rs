@@ -44,7 +44,7 @@ async fn run(event_loop: EventLoop<()>, window: Window) {
         push_constant_ranges: &[],
     });
 
-    let swapchain_format = adapter.get_swap_chain_preferred_format(&surface);
+    let swapchain_format = adapter.get_swap_chain_preferred_format(&surface).unwrap();
 
     let render_pipeline = device.create_render_pipeline(&wgpu::RenderPipelineDescriptor {
         label: None,
@@ -80,7 +80,7 @@ async fn run(event_loop: EventLoop<()>, window: Window) {
         // the resources are properly cleaned up.
         let _ = (&instance, &adapter, &shader, &pipeline_layout);
 
-        *control_flow = ControlFlow::Poll;
+        *control_flow = ControlFlow::Wait;
         match event {
             Event::WindowEvent {
                 event: WindowEvent::Resized(size),
@@ -101,8 +101,8 @@ async fn run(event_loop: EventLoop<()>, window: Window) {
                 {
                     let mut rpass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                         label: None,
-                        color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
-                            attachment: &frame.view,
+                        color_attachments: &[wgpu::RenderPassColorAttachment {
+                            view: &frame.view,
                             resolve_target: None,
                             ops: wgpu::Operations {
                                 load: wgpu::LoadOp::Clear(wgpu::Color::GREEN),
@@ -131,7 +131,7 @@ fn main() {
     let window = winit::window::Window::new(&event_loop).unwrap();
     #[cfg(not(target_arch = "wasm32"))]
     {
-        wgpu_subscriber::initialize_default_subscriber(None);
+        env_logger::init();
         // Temporarily avoid srgb formats for the swapchain on the web
         pollster::block_on(run(event_loop, window));
     }

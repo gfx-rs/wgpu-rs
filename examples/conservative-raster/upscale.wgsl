@@ -5,20 +5,12 @@ struct VertexOutput {
 
 [[stage(vertex)]]
 fn vs_main([[builtin(vertex_index)]] vertex_index: u32) -> VertexOutput {
-    var out: VertexOutput;
-    let x = i32(vertex_index) / 2;
-    let y = i32(vertex_index) & 1;
-    let tc = vec2<f32>(
-        f32(x) * 2.0,
-        f32(y) * 2.0
-    );
-    out.position = vec4<f32>(
-        tc.x * 2.0 - 1.0,
-        1.0 - tc.y * 2.0,
-        0.0, 1.0
-    );
-    out.tex_coords = tc;
-    return out;
+    let x: f32 = f32(i32(vertex_index & 1u) << 2u) - 1.0;
+    let y: f32 = f32(i32(vertex_index & 2u) << 1u) - 1.0;
+    var output: VertexOutput;
+    output.position = vec4<f32>(x, -y, 0.0, 1.0);
+    output.tex_coords = vec2<f32>(x + 1.0, y + 1.0) * 0.5;
+    return output;
 }
 
 [[group(0), binding(0)]]

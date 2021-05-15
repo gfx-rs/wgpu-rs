@@ -54,7 +54,7 @@ impl Example {
                 buffers: &[wgpu::VertexBufferLayout {
                     array_stride: std::mem::size_of::<Vertex>() as wgpu::BufferAddress,
                     step_mode: wgpu::InputStepMode::Vertex,
-                    attributes: &wgpu::vertex_attr_array![0 => Float2, 1 => Float4],
+                    attributes: &wgpu::vertex_attr_array![0 => Float32x2, 1 => Float32x4],
                 }],
             },
             fragment: Some(wgpu::FragmentState {
@@ -96,12 +96,12 @@ impl Example {
         let multisampled_texture_extent = wgpu::Extent3d {
             width: sc_desc.width,
             height: sc_desc.height,
-            depth: 1,
+            depth_or_array_layers: 1,
         };
         let multisampled_frame_descriptor = &wgpu::TextureDescriptor {
             size: multisampled_texture_extent,
             mip_level_count: 1,
-            sample_count: sample_count,
+            sample_count,
             dimension: wgpu::TextureDimension::D2,
             format: sc_desc.format,
             usage: wgpu::TextureUsage::RENDER_ATTACHMENT,
@@ -192,6 +192,7 @@ impl framework::Example for Example {
         }
     }
 
+    #[allow(clippy::single_match)]
     fn update(&mut self, event: winit::event::WindowEvent) {
         match event {
             winit::event::WindowEvent::KeyboardInput { input, .. } => {
@@ -260,14 +261,14 @@ impl framework::Example for Example {
                 store: true,
             };
             let rpass_color_attachment = if self.sample_count == 1 {
-                wgpu::RenderPassColorAttachmentDescriptor {
-                    attachment: &frame.view,
+                wgpu::RenderPassColorAttachment {
+                    view: &frame.view,
                     resolve_target: None,
                     ops,
                 }
             } else {
-                wgpu::RenderPassColorAttachmentDescriptor {
-                    attachment: &self.multisampled_framebuffer,
+                wgpu::RenderPassColorAttachment {
+                    view: &self.multisampled_framebuffer,
                     resolve_target: Some(&frame.view),
                     ops,
                 }

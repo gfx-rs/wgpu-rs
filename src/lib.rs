@@ -25,18 +25,20 @@ use std::{
 use parking_lot::Mutex;
 
 pub use wgt::{
-    AdapterInfo, AddressMode, Backend, BackendBit, BindGroupLayoutEntry, BindingType, BlendFactor,
-    BlendOperation, BlendState, BufferAddress, BufferBindingType, BufferSize, BufferUsage, Color,
-    ColorTargetState, ColorWrite, CommandBufferDescriptor, CompareFunction, CullMode,
-    DepthBiasState, DepthStencilState, DeviceType, DynamicOffset, Extent3d, Features, FilterMode,
-    FrontFace, IndexFormat, InputStepMode, Limits, MultisampleState, Origin3d,
+    AdapterInfo, AddressMode, Backend, BackendBit, BindGroupLayoutEntry, BindingType,
+    BlendComponent, BlendFactor, BlendOperation, BlendState, BufferAddress, BufferBindingType,
+    BufferSize, BufferUsage, Color, ColorTargetState, ColorWrite, CommandBufferDescriptor,
+    CompareFunction, DepthBiasState, DepthStencilState, DeviceType, DownlevelFlags,
+    DownlevelProperties, DynamicOffset, Extent3d, Face, Features, FilterMode, FrontFace,
+    ImageDataLayout, IndexFormat, InputStepMode, Limits, MultisampleState, Origin3d,
     PipelineStatisticsTypes, PolygonMode, PowerPreference, PresentMode, PrimitiveState,
     PrimitiveTopology, PushConstantRange, QuerySetDescriptor, QueryType, SamplerBorderColor,
-    ShaderFlags, ShaderLocation, ShaderStage, StencilFaceState, StencilOperation, StencilState,
-    StorageTextureAccess, SwapChainDescriptor, SwapChainStatus, TextureAspect, TextureDataLayout,
-    TextureDimension, TextureFormat, TextureSampleType, TextureUsage, TextureViewDimension,
-    VertexAttribute, VertexFormat, BIND_BUFFER_ALIGNMENT, COPY_BUFFER_ALIGNMENT,
-    COPY_BYTES_PER_ROW_ALIGNMENT, PUSH_CONSTANT_ALIGNMENT,
+    ShaderFlags, ShaderLocation, ShaderModel, ShaderStage, StencilFaceState, StencilOperation,
+    StencilState, StorageTextureAccess, SwapChainDescriptor, SwapChainStatus, TextureAspect,
+    TextureDimension, TextureFormat, TextureFormatFeatureFlags, TextureFormatFeatures,
+    TextureSampleType, TextureUsage, TextureViewDimension, VertexAttribute, VertexFormat,
+    BIND_BUFFER_ALIGNMENT, COPY_BUFFER_ALIGNMENT, COPY_BYTES_PER_ROW_ALIGNMENT, MAP_ALIGNMENT,
+    PUSH_CONSTANT_ALIGNMENT, QUERY_SET_MAX_QUERIES, QUERY_SIZE, VERTEX_STRIDE_ALIGNMENT,
 };
 
 #[cfg(feature = "use-openxr")]
@@ -129,7 +131,7 @@ trait RenderInner<Ctx: Context> {
 }
 
 trait RenderPassInner<Ctx: Context>: RenderInner<Ctx> {
-    fn set_blend_color(&mut self, color: Color);
+    fn set_blend_constant(&mut self, color: Color);
     fn set_scissor_rect(&mut self, x: u32, y: u32, width: u32, height: u32);
     fn set_viewport(
         &mut self,
@@ -199,13 +201,15 @@ trait Context: Debug + Send + Sized + Sync {
         desc: &DeviceDescriptor,
         trace_dir: Option<&std::path::Path>,
     ) -> Self::RequestDeviceFuture;
+    fn instance_poll_all_devices(&self, force_wait: bool);
     fn adapter_get_swap_chain_preferred_format(
         &self,
         adapter: &Self::AdapterId,
         surface: &Self::SurfaceId,
-    ) -> TextureFormat;
+    ) -> Option<TextureFormat>;
     fn adapter_features(&self, adapter: &Self::AdapterId) -> Features;
     fn adapter_limits(&self, adapter: &Self::AdapterId) -> Limits;
+    fn adapter_downlevel_properties(&self, adapter: &Self::AdapterId) -> DownlevelProperties;
     fn adapter_get_info(&self, adapter: &Self::AdapterId) -> AdapterInfo;
     fn adapter_get_texture_format_features(
         &self,
@@ -215,6 +219,7 @@ trait Context: Debug + Send + Sized + Sync {
 
     fn device_features(&self, device: &Self::DeviceId) -> Features;
     fn device_limits(&self, device: &Self::DeviceId) -> Limits;
+    fn device_downlevel_properties(&self, device: &Self::DeviceId) -> DownlevelProperties;
     fn device_create_swap_chain(
         &self,
         device: &Self::DeviceId,
@@ -336,6 +341,7 @@ trait Context: Debug + Send + Sized + Sync {
     fn bind_group_layout_drop(&self, bind_group_layout: &Self::BindGroupLayoutId);
     fn pipeline_layout_drop(&self, pipeline_layout: &Self::PipelineLayoutId);
     fn shader_module_drop(&self, shader_module: &Self::ShaderModuleId);
+    fn command_encoder_drop(&self, command_encoder: &Self::CommandEncoderId);
     fn command_buffer_drop(&self, command_buffer: &Self::CommandBufferId);
     fn render_bundle_drop(&self, render_bundle: &Self::RenderBundleId);
     fn compute_pipeline_drop(&self, pipeline: &Self::ComputePipelineId);
@@ -364,22 +370,22 @@ trait Context: Debug + Send + Sized + Sync {
     fn command_encoder_copy_buffer_to_texture(
         &self,
         encoder: &Self::CommandEncoderId,
-        source: BufferCopyView,
-        destination: TextureCopyView,
+        source: ImageCopyBuffer,
+        destination: ImageCopyTexture,
         copy_size: Extent3d,
     );
     fn command_encoder_copy_texture_to_buffer(
         &self,
         encoder: &Self::CommandEncoderId,
-        source: TextureCopyView,
-        destination: BufferCopyView,
+        source: ImageCopyTexture,
+        destination: ImageCopyBuffer,
         copy_size: Extent3d,
     );
     fn command_encoder_copy_texture_to_texture(
         &self,
         encoder: &Self::CommandEncoderId,
-        source: TextureCopyView,
-        destination: TextureCopyView,
+        source: ImageCopyTexture,
+        destination: ImageCopyTexture,
         copy_size: Extent3d,
     );
 
@@ -403,7 +409,7 @@ trait Context: Debug + Send + Sized + Sync {
         encoder: &Self::CommandEncoderId,
         pass: &mut Self::RenderPassId,
     );
-    fn command_encoder_finish(&self, encoder: &Self::CommandEncoderId) -> Self::CommandBufferId;
+    fn command_encoder_finish(&self, encoder: Self::CommandEncoderId) -> Self::CommandBufferId;
 
     fn command_encoder_insert_debug_marker(&self, encoder: &Self::CommandEncoderId, label: &str);
     fn command_encoder_push_debug_group(&self, encoder: &Self::CommandEncoderId, label: &str);
@@ -440,9 +446,9 @@ trait Context: Debug + Send + Sized + Sync {
     fn queue_write_texture(
         &self,
         queue: &Self::QueueId,
-        texture: TextureCopyView,
+        texture: ImageCopyTexture,
         data: &[u8],
-        data_layout: TextureDataLayout,
+        data_layout: ImageDataLayout,
         size: Extent3d,
     );
     fn queue_submit<I: Iterator<Item = Self::CommandBufferId>>(
@@ -458,6 +464,10 @@ trait Context: Debug + Send + Sized + Sync {
         instance: openxr::Instance,
         options: crate::wgpu_openxr::OpenXROptions,
     ) -> wgc::openxr::WGPUOpenXR;
+
+    fn start_capture(&self, device: &Self::DeviceId);
+
+    fn stop_capture(&self, device: &Self::DeviceId);
 }
 
 /// Context for all other wgpu objects. Instance of wgpu.
@@ -563,7 +573,6 @@ impl MapContext {
             None => self.initial_range.end,
         };
 
-        // Switch this out with `Vec::remove_item` once that stabilizes.
         let index = self
             .sub_ranges
             .iter()
@@ -859,10 +868,20 @@ impl Drop for CommandBuffer {
 #[derive(Debug)]
 pub struct CommandEncoder {
     context: Arc<C>,
-    id: <C as Context>::CommandEncoderId,
+    id: Option<<C as Context>::CommandEncoderId>,
     /// This type should be !Send !Sync, because it represents an allocation on this thread's
     /// command buffer.
     _p: PhantomData<*const u8>,
+}
+
+impl Drop for CommandEncoder {
+    fn drop(&mut self) {
+        if !thread::panicking() {
+            if let Some(id) = self.id.take() {
+                self.context.command_encoder_drop(&id);
+            }
+        }
+    }
 }
 
 /// In-progress recording of a render pass.
@@ -947,17 +966,14 @@ pub enum BindingResource<'a> {
     ///
     /// Corresponds to [`wgt::BufferBindingType::Uniform`] and [`wgt::BufferBindingType::Storage`]
     /// with [`BindGroupLayoutEntry::count`] set to None.
-    Buffer {
-        /// The buffer to bind.
-        buffer: &'a Buffer,
-        /// Base offset of the buffer. For bindings with `dynamic == true`, this offset
-        /// will be added to the dynamic offset provided in [`RenderPass::set_bind_group`].
-        ///
-        /// The offset has to be aligned to [`BIND_BUFFER_ALIGNMENT`].
-        offset: BufferAddress,
-        /// Size of the binding, or `None` for using the rest of the buffer.
-        size: Option<BufferSize>,
-    },
+    Buffer(BufferBinding<'a>),
+    /// Binding is backed by an array of buffers.
+    ///
+    /// [`Features::BUFFER_BINDING_ARRAY`] must be supported to use this feature.
+    ///
+    /// Corresponds to [`wgt::BufferBindingType::Uniform`] and [`wgt::BufferBindingType::Storage`]
+    /// with [`BindGroupLayoutEntry::count`] set to Some.
+    BufferArray(&'a [BufferBinding<'a>]),
     /// Binding is a sampler.
     ///
     /// Corresponds to [`wgt::BindingType::Sampler`] with [`BindGroupLayoutEntry::count`] set to None.
@@ -976,9 +992,23 @@ pub enum BindingResource<'a> {
     TextureViewArray(&'a [&'a TextureView]),
 }
 
+/// Describes the segment of a buffer to bind.
+#[derive(Clone, Debug)]
+pub struct BufferBinding<'a> {
+    /// The buffer to bind.
+    pub buffer: &'a Buffer,
+    /// Base offset of the buffer. For bindings with `dynamic == true`, this offset
+    /// will be added to the dynamic offset provided in [`RenderPass::set_bind_group`].
+    ///
+    /// The offset has to be aligned to [`BIND_BUFFER_ALIGNMENT`].
+    pub offset: BufferAddress,
+    /// Size of the binding, or `None` for using the rest of the buffer.
+    pub size: Option<BufferSize>,
+}
+
 /// Operation to perform to the output attachment at the start of a renderpass.
 ///
-/// The render target must be cleared at least once before it's content be loaded.
+/// The render target must be cleared at least once before its content is loaded.
 #[derive(Copy, Clone, Debug, Hash, Eq, PartialEq)]
 #[cfg_attr(feature = "trace", derive(serde::Serialize))]
 #[cfg_attr(feature = "replay", derive(serde::Deserialize))]
@@ -1017,9 +1047,9 @@ impl<V: Default> Default for Operations<V> {
 
 /// Describes a color attachment to a [`RenderPass`].
 #[derive(Clone, Debug)]
-pub struct RenderPassColorAttachmentDescriptor<'a> {
+pub struct RenderPassColorAttachment<'a> {
     /// The view to use as an attachment.
-    pub attachment: &'a TextureView,
+    pub view: &'a TextureView,
     /// The view that will receive the resolved output if multisampling is used.
     pub resolve_target: Option<&'a TextureView>,
     /// What operations will be performed on this color attachment.
@@ -1028,9 +1058,9 @@ pub struct RenderPassColorAttachmentDescriptor<'a> {
 
 /// Describes a depth/stencil attachment to a [`RenderPass`].
 #[derive(Clone, Debug)]
-pub struct RenderPassDepthStencilAttachmentDescriptor<'a> {
+pub struct RenderPassDepthStencilAttachment<'a> {
     /// The view to use as an attachment.
-    pub attachment: &'a TextureView,
+    pub view: &'a TextureView,
     /// What operations will be performed on the depth part of the attachment.
     pub depth_ops: Option<Operations<f32>>,
     /// What operations will be performed on the stencil part of the attachment.
@@ -1059,7 +1089,7 @@ pub type TextureDescriptor<'a> = wgt::TextureDescriptor<Label<'a>>;
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct TextureViewDescriptor<'a> {
     /// Debug label of the texture view. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'a str>,
+    pub label: Label<'a>,
     /// Format of the texture view. At this time, it must be the same as the underlying format of the texture.
     pub format: Option<TextureFormat>,
     /// The dimension of the texture view. For 1D textures, this must be `1D`. For 2D textures it must be one of
@@ -1072,7 +1102,7 @@ pub struct TextureViewDescriptor<'a> {
     /// Mip level count.
     /// If `Some(count)`, `base_mip_level + count` must be less or equal to underlying texture mip count.
     /// If `None`, considered to include the rest of the mipmap levels, but at least 1 in total.
-    pub level_count: Option<NonZeroU32>,
+    pub mip_level_count: Option<NonZeroU32>,
     /// Base array layer.
     pub base_array_layer: u32,
     /// Layer count.
@@ -1084,10 +1114,10 @@ pub struct TextureViewDescriptor<'a> {
 /// Describes a pipeline layout.
 ///
 /// A `PipelineLayoutDescriptor` can be used to create a pipeline layout.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct PipelineLayoutDescriptor<'a> {
     /// Debug label of the pipeline layout. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'a str>,
+    pub label: Label<'a>,
     /// Bind groups that this pipeline uses. The first entry will provide all the bindings for
     /// "set = 0", second entry will provide all the bindings for "set = 1" etc.
     pub bind_group_layouts: &'a [&'a BindGroupLayout],
@@ -1103,7 +1133,7 @@ pub struct PipelineLayoutDescriptor<'a> {
 #[derive(Clone, Debug, PartialEq)]
 pub struct SamplerDescriptor<'a> {
     /// Debug label of the sampler. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'a str>,
+    pub label: Label<'a>,
     /// How to deal with out of bounds accesses in the u (i.e. x) direction
     pub address_mode_u: AddressMode,
     /// How to deal with out of bounds accesses in the v (i.e. y) direction
@@ -1161,7 +1191,7 @@ pub struct BindGroupEntry<'a> {
 #[derive(Clone, Debug)]
 pub struct BindGroupDescriptor<'a> {
     /// Debug label of the bind group. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'a str>,
+    pub label: Label<'a>,
     /// The [`BindGroupLayout`] that corresponds to this bind group.
     pub layout: &'a BindGroupLayout,
     /// The resources to bind to this bind group.
@@ -1175,11 +1205,11 @@ pub struct BindGroupDescriptor<'a> {
 #[derive(Clone, Debug, Default)]
 pub struct RenderPassDescriptor<'a, 'b> {
     /// Debug label of the render pass. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'b str>,
+    pub label: Label<'a>,
     /// The color attachments of the render pass.
-    pub color_attachments: &'b [RenderPassColorAttachmentDescriptor<'a>],
+    pub color_attachments: &'b [RenderPassColorAttachment<'a>],
     /// The depth and stencil attachment of the render pass, if any.
-    pub depth_stencil_attachment: Option<RenderPassDepthStencilAttachmentDescriptor<'a>>,
+    pub depth_stencil_attachment: Option<RenderPassDepthStencilAttachment<'a>>,
 }
 
 /// Describes how the vertex buffer is interpreted.
@@ -1213,7 +1243,7 @@ pub struct FragmentState<'a> {
     /// The name of the entry point in the compiled shader. There must be a function that returns
     /// void with this name in the shader.
     pub entry_point: &'a str,
-    /// The format of any vertex buffers used with this pipeline.
+    /// The color state of the render targets.
     pub targets: &'a [ColorTargetState],
 }
 
@@ -1221,7 +1251,7 @@ pub struct FragmentState<'a> {
 #[derive(Clone, Debug)]
 pub struct RenderPipelineDescriptor<'a> {
     /// Debug label of the pipeline. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'a str>,
+    pub label: Label<'a>,
     /// The layout of bind groups for this pipeline.
     pub layout: Option<&'a PipelineLayout>,
     /// The compiled vertex stage, its entry point, and the input buffers layout.
@@ -1240,14 +1270,14 @@ pub struct RenderPipelineDescriptor<'a> {
 #[derive(Clone, Debug, Default)]
 pub struct ComputePassDescriptor<'a> {
     /// Debug label of the compute pass. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'a str>,
+    pub label: Label<'a>,
 }
 
 /// Describes a compute pipeline.
 #[derive(Clone, Debug)]
 pub struct ComputePipelineDescriptor<'a> {
     /// Debug label of the pipeline. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'a str>,
+    pub label: Label<'a>,
     /// The layout of bind groups for this pipeline.
     pub layout: Option<&'a PipelineLayout>,
     /// The compiled shader module for this stage.
@@ -1257,19 +1287,19 @@ pub struct ComputePipelineDescriptor<'a> {
     pub entry_point: &'a str,
 }
 
-pub use wgt::BufferCopyView as BufferCopyViewBase;
+pub use wgt::ImageCopyBuffer as ImageCopyBufferBase;
 /// View of a buffer which can be used to copy to/from a texture.
-pub type BufferCopyView<'a> = BufferCopyViewBase<&'a Buffer>;
+pub type ImageCopyBuffer<'a> = ImageCopyBufferBase<&'a Buffer>;
 
-pub use wgt::TextureCopyView as TextureCopyViewBase;
+pub use wgt::ImageCopyTexture as ImageCopyTextureBase;
 /// View of a texture which can be used to copy to/from a buffer/texture.
-pub type TextureCopyView<'a> = TextureCopyViewBase<&'a Texture>;
+pub type ImageCopyTexture<'a> = ImageCopyTextureBase<&'a Texture>;
 
 /// Describes a [`BindGroupLayout`].
 #[derive(Clone, Debug)]
 pub struct BindGroupLayoutDescriptor<'a> {
     /// Debug label of the bind group layout. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'a str>,
+    pub label: Label<'a>,
 
     /// Array of entries in this BindGroupLayout
     pub entries: &'a [BindGroupLayoutEntry],
@@ -1279,7 +1309,7 @@ pub struct BindGroupLayoutDescriptor<'a> {
 #[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
 pub struct RenderBundleEncoderDescriptor<'a> {
     /// Debug label of the render bundle encoder. This will show up in graphics debuggers for easy identification.
-    pub label: Option<&'a str>,
+    pub label: Label<'a>,
     /// The formats of the color attachments that this render bundle is capable to rendering to. This
     /// must match the formats of the color attachments in the renderpass this render bundle is executed in.
     pub color_formats: &'a [TextureFormat],
@@ -1406,6 +1436,13 @@ impl Instance {
     ) -> Surface {
         self.context.create_surface_from_core_animation_layer(layer)
     }
+
+    /// Polls all devices.
+    /// If `force_wait` is true and this is not running on the web,
+    /// then this function will block until all in-flight buffers have been mapped.
+    pub fn poll_all(&self, force_wait: bool) {
+        self.context.instance_poll_all_devices(force_wait);
+    }
 }
 
 impl Adapter {
@@ -1449,7 +1486,9 @@ impl Adapter {
     }
 
     /// Returns an optimal texture format to use for the [`SwapChain`] with this adapter.
-    pub fn get_swap_chain_preferred_format(&self, surface: &Surface) -> TextureFormat {
+    ///
+    /// Returns None if the surface is incompatible with the adapter.
+    pub fn get_swap_chain_preferred_format(&self, surface: &Surface) -> Option<TextureFormat> {
         Context::adapter_get_swap_chain_preferred_format(&*self.context, &self.id, &surface.id)
     }
 
@@ -1520,7 +1559,11 @@ impl Device {
     pub fn create_command_encoder(&self, desc: &CommandEncoderDescriptor) -> CommandEncoder {
         CommandEncoder {
             context: Arc::clone(&self.context),
-            id: Context::device_create_command_encoder(&*self.context, &self.id, desc),
+            id: Some(Context::device_create_command_encoder(
+                &*self.context,
+                &self.id,
+                desc,
+            )),
             _p: Default::default(),
         }
     }
@@ -1657,6 +1700,16 @@ impl Device {
     pub fn on_uncaptured_error(&self, handler: impl UncapturedErrorHandler) {
         self.context.device_on_uncaptured_error(&self.id, handler);
     }
+
+    /// Starts frame capture.
+    pub fn start_capture(&self) {
+        Context::start_capture(&*self.context, &self.id)
+    }
+
+    /// Stops frame capture.
+    pub fn stop_capture(&self) {
+        Context::stop_capture(&*self.context, &self.id)
+    }
 }
 
 impl Drop for Device {
@@ -1709,12 +1762,40 @@ fn range_to_offset_size<S: RangeBounds<BufferAddress>>(
         Bound::Unbounded => 0,
     };
     let size = match bounds.end_bound() {
-        Bound::Included(&bound) => BufferSize::new(bound + 1 - offset),
-        Bound::Excluded(&bound) => BufferSize::new(bound - offset),
+        Bound::Included(&bound) => Some(bound + 1 - offset),
+        Bound::Excluded(&bound) => Some(bound - offset),
         Bound::Unbounded => None,
-    };
+    }
+    .map(|size| BufferSize::new(size).expect("Buffer slices can not be empty"));
 
     (offset, size)
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::BufferSize;
+
+    #[test]
+    fn range_to_offset_size_works() {
+        assert_eq!(crate::range_to_offset_size(0..2), (0, BufferSize::new(2)));
+        assert_eq!(crate::range_to_offset_size(2..5), (2, BufferSize::new(3)));
+        assert_eq!(crate::range_to_offset_size(..), (0, None));
+        assert_eq!(crate::range_to_offset_size(21..), (21, None));
+        assert_eq!(crate::range_to_offset_size(0..), (0, None));
+        assert_eq!(crate::range_to_offset_size(..21), (0, BufferSize::new(21)));
+    }
+
+    #[test]
+    #[should_panic]
+    fn range_to_offset_size_panics_for_empty_range() {
+        crate::range_to_offset_size(123..123);
+    }
+
+    #[test]
+    #[should_panic]
+    fn range_to_offset_size_panics_for_unbounded_empty_range() {
+        crate::range_to_offset_size(..0);
+    }
 }
 
 trait BufferMappedRangeSlice {
@@ -1726,14 +1807,14 @@ trait BufferMappedRangeSlice {
 #[derive(Debug)]
 pub struct BufferView<'a> {
     slice: BufferSlice<'a>,
-    data: BufferMappedRange<'a>,
+    data: BufferMappedRange,
 }
 
 /// Write only view into mapped buffer.
 #[derive(Debug)]
 pub struct BufferViewMut<'a> {
     slice: BufferSlice<'a>,
-    data: BufferMappedRange<'a>,
+    data: BufferMappedRange,
     readable: bool,
 }
 
@@ -1799,7 +1880,12 @@ impl Drop for BufferViewMut<'_> {
 impl Buffer {
     /// Return the binding view of the entire buffer.
     pub fn as_entire_binding(&self) -> BindingResource {
-        BindingResource::Buffer {
+        BindingResource::Buffer(self.as_entire_buffer_binding())
+    }
+
+    /// Return the binding view of the entire buffer.
+    pub fn as_entire_buffer_binding(&self) -> BufferBinding {
+        BufferBinding {
             buffer: self,
             offset: 0,
             size: None,
@@ -1936,10 +2022,13 @@ impl Drop for TextureView {
 
 impl CommandEncoder {
     /// Finishes recording and returns a [`CommandBuffer`] that can be submitted for execution.
-    pub fn finish(self) -> CommandBuffer {
+    pub fn finish(mut self) -> CommandBuffer {
         CommandBuffer {
             context: Arc::clone(&self.context),
-            id: Some(Context::command_encoder_finish(&*self.context, &self.id)),
+            id: Some(Context::command_encoder_finish(
+                &*self.context,
+                self.id.take().unwrap(),
+            )),
         }
     }
 
@@ -1950,8 +2039,9 @@ impl CommandEncoder {
         &'a mut self,
         desc: &RenderPassDescriptor<'a, '_>,
     ) -> RenderPass<'a> {
+        let id = self.id.as_ref().unwrap();
         RenderPass {
-            id: Context::command_encoder_begin_render_pass(&*self.context, &self.id, desc),
+            id: Context::command_encoder_begin_render_pass(&*self.context, id, desc),
             parent: self,
         }
     }
@@ -1960,8 +2050,9 @@ impl CommandEncoder {
     ///
     /// This function returns a [`ComputePass`] object which records a single compute pass.
     pub fn begin_compute_pass(&mut self, desc: &ComputePassDescriptor) -> ComputePass {
+        let id = self.id.as_ref().unwrap();
         ComputePass {
-            id: Context::command_encoder_begin_compute_pass(&*self.context, &self.id, desc),
+            id: Context::command_encoder_begin_compute_pass(&*self.context, id, desc),
             parent: self,
         }
     }
@@ -1982,7 +2073,7 @@ impl CommandEncoder {
     ) {
         Context::command_encoder_copy_buffer_to_buffer(
             &*self.context,
-            &self.id,
+            self.id.as_ref().unwrap(),
             &source.id,
             source_offset,
             &destination.id,
@@ -2000,13 +2091,13 @@ impl CommandEncoder {
     /// - `source.layout.bytes_per_row` isn't divisible by [`COPY_BYTES_PER_ROW_ALIGNMENT`].
     pub fn copy_buffer_to_texture(
         &mut self,
-        source: BufferCopyView,
-        destination: TextureCopyView,
+        source: ImageCopyBuffer,
+        destination: ImageCopyTexture,
         copy_size: Extent3d,
     ) {
         Context::command_encoder_copy_buffer_to_texture(
             &*self.context,
-            &self.id,
+            self.id.as_ref().unwrap(),
             source,
             destination,
             copy_size,
@@ -2022,13 +2113,13 @@ impl CommandEncoder {
     /// - `source.layout.bytes_per_row` isn't divisible by [`COPY_BYTES_PER_ROW_ALIGNMENT`].
     pub fn copy_texture_to_buffer(
         &mut self,
-        source: TextureCopyView,
-        destination: BufferCopyView,
+        source: ImageCopyTexture,
+        destination: ImageCopyBuffer,
         copy_size: Extent3d,
     ) {
         Context::command_encoder_copy_texture_to_buffer(
             &*self.context,
-            &self.id,
+            self.id.as_ref().unwrap(),
             source,
             destination,
             copy_size,
@@ -2044,13 +2135,13 @@ impl CommandEncoder {
     /// - Copy would overrun either texture
     pub fn copy_texture_to_texture(
         &mut self,
-        source: TextureCopyView,
-        destination: TextureCopyView,
+        source: ImageCopyTexture,
+        destination: ImageCopyTexture,
         copy_size: Extent3d,
     ) {
         Context::command_encoder_copy_texture_to_texture(
             &*self.context,
-            &self.id,
+            self.id.as_ref().unwrap(),
             source,
             destination,
             copy_size,
@@ -2059,17 +2150,20 @@ impl CommandEncoder {
 
     /// Inserts debug marker.
     pub fn insert_debug_marker(&mut self, label: &str) {
-        Context::command_encoder_insert_debug_marker(&*self.context, &self.id, label);
+        let id = self.id.as_ref().unwrap();
+        Context::command_encoder_insert_debug_marker(&*self.context, id, label);
     }
 
     /// Start record commands and group it into debug marker group.
     pub fn push_debug_group(&mut self, label: &str) {
-        Context::command_encoder_push_debug_group(&*self.context, &self.id, label);
+        let id = self.id.as_ref().unwrap();
+        Context::command_encoder_push_debug_group(&*self.context, id, label);
     }
 
     /// Stops command recording and creates debug group.
     pub fn pop_debug_group(&mut self) {
-        Context::command_encoder_pop_debug_group(&*self.context, &self.id);
+        let id = self.id.as_ref().unwrap();
+        Context::command_encoder_pop_debug_group(&*self.context, id);
     }
 }
 
@@ -2085,7 +2179,7 @@ impl CommandEncoder {
     pub fn write_timestamp(&mut self, query_set: &QuerySet, query_index: u32) {
         Context::command_encoder_write_timestamp(
             &*self.context,
-            &self.id,
+            self.id.as_ref().unwrap(),
             &query_set.id,
             query_index,
         )
@@ -2106,7 +2200,7 @@ impl CommandEncoder {
     ) {
         Context::command_encoder_resolve_query_set(
             &*self.context,
-            &self.id,
+            self.id.as_ref().unwrap(),
             &query_set.id,
             query_range.start,
             query_range.end - query_range.start,
@@ -2141,8 +2235,8 @@ impl<'a> RenderPass<'a> {
     /// Sets the blend color as used by some of the blending modes.
     ///
     /// Subsequent blending tests will test against this value.
-    pub fn set_blend_color(&mut self, color: Color) {
-        self.id.set_blend_color(color)
+    pub fn set_blend_constant(&mut self, color: Color) {
+        self.id.set_blend_constant(color)
     }
 
     /// Sets the active index buffer.
@@ -2286,7 +2380,7 @@ impl<'a> RenderPass<'a> {
 
 /// [`Features::MULTI_DRAW_INDIRECT`] must be enabled on the device in order to call these functions.
 impl<'a> RenderPass<'a> {
-    /// Disptaches multiple draw calls from the active vertex buffer(s) based on the contents of the `indirect_buffer`.
+    /// Dispatches multiple draw calls from the active vertex buffer(s) based on the contents of the `indirect_buffer`.
     /// `count` draw calls are issued.
     ///
     /// The active vertex buffers can be set with [`RenderPass::set_vertex_buffer`].
@@ -2314,7 +2408,7 @@ impl<'a> RenderPass<'a> {
             .multi_draw_indirect(&indirect_buffer.id, indirect_offset, count);
     }
 
-    /// Disptaches multiple draw calls from the active index buffer and the active vertex buffers,
+    /// Dispatches multiple draw calls from the active index buffer and the active vertex buffers,
     /// based on the contents of the `indirect_buffer`. `count` draw calls are issued.
     ///
     /// The active index buffer can be set with [`RenderPass::set_index_buffer`], while the active
@@ -2394,7 +2488,7 @@ impl<'a> RenderPass<'a> {
         );
     }
 
-    /// Disptaches multiple draw calls from the active index buffer and the active vertex buffers,
+    /// Dispatches multiple draw calls from the active index buffer and the active vertex buffers,
     /// based on the contents of the `indirect_buffer`. The count buffer is read to determine how many draws to issue.
     ///
     /// The indirect buffer must be long enough to account for `max_count` draws, however only `count` will
@@ -2493,7 +2587,7 @@ impl<'a> RenderPass<'a> {
     }
 }
 
-/// [`Features::PIPEILNE_STATISTICS_QUERY`] must be enabled on the device in order to call these functions.
+/// [`Features::PIPELINE_STATISTICS_QUERY`] must be enabled on the device in order to call these functions.
 impl<'a> RenderPass<'a> {
     /// Start a pipeline statistics query on this render pass. It can be ended with
     /// `end_pipeline_statistics_query`. Pipeline statistics queries may not be nested.
@@ -2512,9 +2606,10 @@ impl<'a> RenderPass<'a> {
 impl<'a> Drop for RenderPass<'a> {
     fn drop(&mut self) {
         if !thread::panicking() {
+            let parent_id = self.parent.id.as_ref().unwrap();
             self.parent
                 .context
-                .command_encoder_end_render_pass(&self.parent.id, &mut self.id);
+                .command_encoder_end_render_pass(parent_id, &mut self.id);
         }
     }
 }
@@ -2598,7 +2693,7 @@ impl<'a> ComputePass<'a> {
     }
 }
 
-/// [`Features::PIPEILNE_STATISTICS_QUERY`] must be enabled on the device in order to call these functions.
+/// [`Features::PIPELINE_STATISTICS_QUERY`] must be enabled on the device in order to call these functions.
 impl<'a> ComputePass<'a> {
     /// Start a pipeline statistics query on this render pass. It can be ended with
     /// `end_pipeline_statistics_query`. Pipeline statistics queries may not be nested.
@@ -2617,9 +2712,10 @@ impl<'a> ComputePass<'a> {
 impl<'a> Drop for ComputePass<'a> {
     fn drop(&mut self) {
         if !thread::panicking() {
+            let parent_id = self.parent.id.as_ref().unwrap();
             self.parent
                 .context
-                .command_encoder_end_compute_pass(&self.parent.id, &mut self.id);
+                .command_encoder_end_compute_pass(parent_id, &mut self.id);
         }
     }
 }
@@ -2801,9 +2897,9 @@ impl Queue {
     /// internally to happen at the start of the next `submit()` call.
     pub fn write_texture(
         &self,
-        texture: TextureCopyView,
+        texture: ImageCopyTexture,
         data: &[u8],
-        data_layout: TextureDataLayout,
+        data_layout: ImageDataLayout,
         size: Extent3d,
     ) {
         Context::queue_write_texture(&*self.context, &self.id, texture, data, data_layout, size)
@@ -2850,7 +2946,7 @@ impl SwapChain {
         let output = view_id.map(|id| SwapChainTexture {
             view: TextureView {
                 context: Arc::clone(&self.context),
-                id: id,
+                id,
                 owned: false,
             },
             detail,
@@ -2873,8 +2969,8 @@ impl SwapChain {
 }
 
 /// Type for the callback of uncaptured error handler
-pub trait UncapturedErrorHandler: Fn(Error) + Send + Sync + 'static {}
-impl<T> UncapturedErrorHandler for T where T: Fn(Error) + Send + Sync + 'static {}
+pub trait UncapturedErrorHandler: Fn(Error) + Send + 'static {}
+impl<T> UncapturedErrorHandler for T where T: Fn(Error) + Send + 'static {}
 
 /// Error type
 #[derive(Debug)]
@@ -2882,12 +2978,12 @@ pub enum Error {
     /// Out of memory error
     OutOfMemoryError {
         ///
-        source: Box<dyn error::Error + Send + Sync + 'static>,
+        source: Box<dyn error::Error + Send + 'static>,
     },
     /// Validation error, signifying a bug in code or data
     ValidationError {
         ///
-        source: Box<dyn error::Error + Send + Sync + 'static>,
+        source: Box<dyn error::Error + Send + 'static>,
         ///
         description: String,
     },

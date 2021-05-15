@@ -45,7 +45,7 @@ async fn create_red_image_with_dimensions(
         .await
         .unwrap();
 
-    // It is a webgpu requirement that BufferCopyView.layout.bytes_per_row % wgpu::COPY_BYTES_PER_ROW_ALIGNMENT == 0
+    // It is a WebGPU requirement that ImageCopyBuffer.layout.bytes_per_row % wgpu::COPY_BYTES_PER_ROW_ALIGNMENT == 0
     // So we calculate padded_bytes_per_row by rounding unpadded_bytes_per_row
     // up to the next multiple of wgpu::COPY_BYTES_PER_ROW_ALIGNMENT.
     // https://en.wikipedia.org/wiki/Data_structure_alignment#Computing_padding
@@ -61,7 +61,7 @@ async fn create_red_image_with_dimensions(
     let texture_extent = wgpu::Extent3d {
         width: buffer_dimensions.width as u32,
         height: buffer_dimensions.height as u32,
-        depth: 1,
+        depth_or_array_layers: 1,
     };
 
     // The render pipeline renders data into this texture
@@ -81,8 +81,8 @@ async fn create_red_image_with_dimensions(
             device.create_command_encoder(&wgpu::CommandEncoderDescriptor { label: None });
         encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
             label: None,
-            color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
-                attachment: &texture.create_view(&wgpu::TextureViewDescriptor::default()),
+            color_attachments: &[wgpu::RenderPassColorAttachment {
+                view: &texture.create_view(&wgpu::TextureViewDescriptor::default()),
                 resolve_target: None,
                 ops: wgpu::Operations {
                     load: wgpu::LoadOp::Clear(wgpu::Color::RED),
@@ -94,17 +94,20 @@ async fn create_red_image_with_dimensions(
 
         // Copy the data from the texture to the buffer
         encoder.copy_texture_to_buffer(
-            wgpu::TextureCopyView {
+            wgpu::ImageCopyTexture {
                 texture: &texture,
                 mip_level: 0,
                 origin: wgpu::Origin3d::ZERO,
             },
-            wgpu::BufferCopyView {
+            wgpu::ImageCopyBuffer {
                 buffer: &output_buffer,
-                layout: wgpu::TextureDataLayout {
+                layout: wgpu::ImageDataLayout {
                     offset: 0,
-                    bytes_per_row: buffer_dimensions.padded_bytes_per_row as u32,
-                    rows_per_image: 0,
+                    bytes_per_row: Some(
+                        std::num::NonZeroU32::new(buffer_dimensions.padded_bytes_per_row as u32)
+                            .unwrap(),
+                    ),
+                    rows_per_image: None,
                 },
             },
             texture_extent,
@@ -155,7 +158,7 @@ async fn create_png(
         // from the padded_buffer we write just the unpadded bytes into the image
         for chunk in padded_buffer.chunks(buffer_dimensions.padded_bytes_per_row) {
             png_writer
-                .write(&chunk[..buffer_dimensions.unpadded_bytes_per_row])
+                .write_all(&chunk[..buffer_dimensions.unpadded_bytes_per_row])
                 .unwrap();
         }
         png_writer.finish().unwrap();
@@ -194,7 +197,7 @@ impl BufferDimensions {
 fn main() {
     #[cfg(not(target_arch = "wasm32"))]
     {
-        wgpu_subscriber::initialize_default_subscriber(None);
+        env_logger::init();
         pollster::block_on(run("red.png"));
     }
     #[cfg(target_arch = "wasm32")]

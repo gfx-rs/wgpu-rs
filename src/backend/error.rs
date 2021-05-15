@@ -22,8 +22,7 @@ impl Error for ContextError {
 
 impl super::Context {
     pub(super) fn format_error(&self, err: &(impl Error + 'static)) -> String {
-        let mut err_descs = Vec::new();
-        err_descs.push(self.format_pretty_any(err));
+        let mut err_descs = vec![self.format_pretty_any(err)];
 
         let mut source_opt = err.source();
         while let Some(source) = source_opt {
@@ -163,12 +162,9 @@ impl PrettyError for wgc::binding_model::CreatePipelineLayoutError {
     fn fmt_pretty(&self, context: &super::Context) -> String {
         let global = context.global();
         let mut ret = format_error_line(self);
-        match *self {
-            Self::InvalidBindGroupLayout(id) => {
-                let name = wgc::gfx_select!(id => global.bind_group_layout_label(id));
-                ret.push_str(&format_label_line("bind group layout", &name));
-            }
-            _ => {}
+        if let Self::InvalidBindGroupLayout(id) = *self {
+            let name = wgc::gfx_select!(id => global.bind_group_layout_label(id));
+            ret.push_str(&format_label_line("bind group layout", &name));
         };
         ret
     }
@@ -183,6 +179,7 @@ impl PrettyError for wgc::command::ExecutionError {
                 let name = wgc::gfx_select!(id => global.buffer_label(id));
                 ret.push_str(&format_label_line("buffer", &name));
             }
+            Self::Unimplemented(_reason) => {}
         };
         ret
     }
@@ -192,12 +189,9 @@ impl PrettyError for wgc::command::RenderPassErrorInner {
     fn fmt_pretty(&self, context: &super::Context) -> String {
         let global = context.global();
         let mut ret = format_error_line(self);
-        match *self {
-            Self::InvalidAttachment(id) => {
-                let name = wgc::gfx_select!(id => global.texture_view_label(id));
-                ret.push_str(&format_label_line("attachment", &name));
-            }
-            _ => {}
+        if let Self::InvalidAttachment(id) = *self {
+            let name = wgc::gfx_select!(id => global.texture_view_label(id));
+            ret.push_str(&format_label_line("attachment", &name));
         };
         ret
     }

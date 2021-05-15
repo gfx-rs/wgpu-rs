@@ -1,6 +1,9 @@
 use std::{borrow::Cow, convert::TryInto, str::FromStr};
 use wgpu::util::DeviceExt;
 
+// Indicates a u32 overflow in an intermediate Collatz value
+const OVERFLOW: u32 = 0xffffffff;
+
 async fn run() {
     let numbers = if std::env::args().len() <= 1 {
         let default = vec![1, 2, 3, 4];
@@ -13,10 +16,19 @@ async fn run() {
             .collect()
     };
 
-    let times = execute_gpu(numbers).await;
-    println!("Times: {:?}", times);
+    let steps = execute_gpu(numbers).await;
+
+    let disp_steps: Vec<String> = steps
+        .iter()
+        .map(|&n| match n {
+            OVERFLOW => "OVERFLOW".to_string(),
+            _ => n.to_string(),
+        })
+        .collect();
+
+    println!("Steps: [{}]", disp_steps.join(", "));
     #[cfg(target_arch = "wasm32")]
-    log::info!("Times: {:?}", times);
+    log::info!("Steps: [{}]", disp_steps.join(", "));
 }
 
 async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
@@ -46,7 +58,7 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
     // Loads the shader from the SPIR-V file.arrayvec
     let mut flags = wgpu::ShaderFlags::VALIDATION;
     match adapter.get_info().backend {
-        wgpu::Backend::Vulkan | wgpu::Backend::Metal => {
+        wgpu::Backend::Vulkan | wgpu::Backend::Metal | wgpu::Backend::Gl => {
             flags |= wgpu::ShaderFlags::EXPERIMENTAL_TRANSLATION;
         }
         _ => {}
@@ -89,25 +101,18 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
     // It is to WebGPU what a descriptor set is to Vulkan.
     // `binding` here refers to the `binding` of a buffer in the shader (`layout(set = 0, binding = 0) buffer`).
 
-    // Here we specifiy the layout of the bind group.
-    let bind_group_layout = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+    // A pipeline specifies the operation of a shader
+
+    // Instantiates the pipeline.
+    let compute_pipeline = device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
         label: None,
-        entries: &[wgpu::BindGroupLayoutEntry {
-            binding: 0,                             // The location
-            visibility: wgpu::ShaderStage::COMPUTE, // Which shader type in the pipeline this buffer is available to.
-            ty: wgpu::BindingType::Buffer {
-                ty: wgpu::BufferBindingType::Storage {
-                    // Specifies if the buffer can only be read within the shader
-                    read_only: false,
-                },
-                has_dynamic_offset: false,
-                min_binding_size: wgpu::BufferSize::new(4),
-            },
-            count: None,
-        }],
+        layout: None,
+        module: &cs_module,
+        entry_point: "main",
     });
 
     // Instantiates the bind group, once again specifying the binding of buffers.
+    let bind_group_layout = compute_pipeline.get_bind_group_layout(0);
     let bind_group = device.create_bind_group(&wgpu::BindGroupDescriptor {
         label: None,
         layout: &bind_group_layout,
@@ -115,23 +120,6 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
             binding: 0,
             resource: storage_buffer.as_entire_binding(),
         }],
-    });
-
-    // A pipeline specifices the operation of a shader
-
-    // Here we specifiy the layout of the pipeline.
-    let pipeline_layout = device.create_pipeline_layout(&wgpu::PipelineLayoutDescriptor {
-        label: None,
-        bind_group_layouts: &[&bind_group_layout],
-        push_constant_ranges: &[],
-    });
-
-    // Instantiates the pipeline.
-    let compute_pipeline = device.create_compute_pipeline(&wgpu::ComputePipelineDescriptor {
-        label: None,
-        layout: Some(&pipeline_layout),
-        module: &cs_module,
-        entry_point: "main",
     });
 
     // A command encoder executes one or many pipelines.
@@ -191,7 +179,7 @@ async fn execute_gpu(numbers: Vec<u32>) -> Vec<u32> {
 fn main() {
     #[cfg(not(target_arch = "wasm32"))]
     {
-        wgpu_subscriber::initialize_default_subscriber(None);
+        env_logger::init();
         pollster::block_on(run());
     }
     #[cfg(target_arch = "wasm32")]
@@ -216,6 +204,15 @@ mod tests {
     fn test_compute_2() {
         let input = vec![5, 23, 10, 9];
         pollster::block_on(assert_execute_gpu(input, vec![5, 15, 6, 19]));
+    }
+
+    #[test]
+    fn test_compute_overflow() {
+        let input = vec![77031, 837799, 8400511, 63728127];
+        pollster::block_on(assert_execute_gpu(
+            input,
+            vec![350, 524, OVERFLOW, OVERFLOW],
+        ));
     }
 
     #[test]

@@ -2,7 +2,7 @@
 mod framework;
 
 use bytemuck::{Pod, Zeroable};
-
+use std::num::NonZeroU32;
 use wgpu::util::DeviceExt;
 
 #[repr(C)]
@@ -130,11 +130,7 @@ impl framework::Example for Example {
         let green_texture_data = create_texture_data(Color::GREEN);
 
         let texture_descriptor = wgpu::TextureDescriptor {
-            size: wgpu::Extent3d {
-                width: 1,
-                height: 1,
-                depth: 1,
-            },
+            size: wgpu::Extent3d::default(),
             mip_level_count: 1,
             sample_count: 1,
             dimension: wgpu::TextureDimension::D2,
@@ -155,40 +151,32 @@ impl framework::Example for Example {
         let green_texture_view = green_texture.create_view(&wgpu::TextureViewDescriptor::default());
 
         queue.write_texture(
-            wgpu::TextureCopyView {
+            wgpu::ImageCopyTexture {
                 mip_level: 0,
                 origin: wgpu::Origin3d::ZERO,
                 texture: &red_texture,
             },
             &red_texture_data,
-            wgpu::TextureDataLayout {
+            wgpu::ImageDataLayout {
                 offset: 0,
-                bytes_per_row: 4,
-                rows_per_image: 0,
+                bytes_per_row: Some(NonZeroU32::new(4).unwrap()),
+                rows_per_image: None,
             },
-            wgpu::Extent3d {
-                width: 1,
-                height: 1,
-                depth: 1,
-            },
+            wgpu::Extent3d::default(),
         );
         queue.write_texture(
-            wgpu::TextureCopyView {
+            wgpu::ImageCopyTexture {
                 mip_level: 0,
                 origin: wgpu::Origin3d::ZERO,
                 texture: &green_texture,
             },
             &green_texture_data,
-            wgpu::TextureDataLayout {
+            wgpu::ImageDataLayout {
                 offset: 0,
-                bytes_per_row: 4,
-                rows_per_image: 0,
+                bytes_per_row: Some(NonZeroU32::new(4).unwrap()),
+                rows_per_image: None,
             },
-            wgpu::Extent3d {
-                width: 1,
-                height: 1,
-                depth: 1,
-            },
+            wgpu::Extent3d::default(),
         );
 
         let sampler = device.create_sampler(&wgpu::SamplerDescriptor::default());
@@ -204,7 +192,7 @@ impl framework::Example for Example {
                         view_dimension: wgpu::TextureViewDimension::D2,
                         multisampled: false,
                     },
-                    count: std::num::NonZeroU32::new(2),
+                    count: NonZeroU32::new(2),
                 },
                 wgpu::BindGroupLayoutEntry {
                     binding: 1,
@@ -260,7 +248,7 @@ impl framework::Example for Example {
                 buffers: &[wgpu::VertexBufferLayout {
                     array_stride: vertex_size as wgpu::BufferAddress,
                     step_mode: wgpu::InputStepMode::Vertex,
-                    attributes: &wgpu::vertex_attr_array![0 => Float2, 1 => Float2, 2 => Int],
+                    attributes: &wgpu::vertex_attr_array![0 => Float32x2, 1 => Float32x2, 2 => Sint32],
                 }],
             },
             fragment: Some(wgpu::FragmentState {
@@ -309,8 +297,8 @@ impl framework::Example for Example {
 
         let mut rpass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
             label: None,
-            color_attachments: &[wgpu::RenderPassColorAttachmentDescriptor {
-                attachment: &frame.view,
+            color_attachments: &[wgpu::RenderPassColorAttachment {
+                view: &frame.view,
                 resolve_target: None,
                 ops: wgpu::Operations {
                     load: wgpu::LoadOp::Clear(wgpu::Color::BLACK),

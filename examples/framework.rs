@@ -6,7 +6,7 @@ use winit::{
     event_loop::{ControlFlow, EventLoop},
 };
 
-#[cfg_attr(rustfmt, rustfmt_skip)]
+#[rustfmt::skip]
 #[allow(unused)]
 pub const OPENGL_TO_WGPU_MATRIX: cgmath::Matrix4<f32> = cgmath::Matrix4::new(
     1.0, 0.0, 0.0, 0.0,
@@ -75,10 +75,7 @@ struct Setup {
 async fn setup<E: Example>(title: &str) -> Setup {
     #[cfg(not(target_arch = "wasm32"))]
     {
-        let chrome_tracing_dir = std::env::var("WGPU_CHROME_TRACE");
-        wgpu_subscriber::initialize_default_subscriber(
-            chrome_tracing_dir.as_ref().map(std::path::Path::new).ok(),
-        );
+        env_logger::init();
     };
 
     let event_loop = EventLoop::new();
@@ -202,7 +199,7 @@ fn start<E: Example>(
     let spawner = Spawner::new();
     let mut sc_desc = wgpu::SwapChainDescriptor {
         usage: wgpu::TextureUsage::RENDER_ATTACHMENT,
-        format: adapter.get_swap_chain_preferred_format(&surface),
+        format: adapter.get_swap_chain_preferred_format(&surface).unwrap(),
         width: size.width,
         height: size.height,
         present_mode: wgpu::PresentMode::Mailbox,
@@ -224,7 +221,7 @@ fn start<E: Example>(
             ControlFlow::Poll
         };
         match event {
-            event::Event::MainEventsCleared => {
+            event::Event::RedrawEventsCleared => {
                 #[cfg(not(target_arch = "wasm32"))]
                 {
                     // Clamp to some max framerate to avoid busy-looping too much
@@ -255,8 +252,8 @@ fn start<E: Example>(
                 ..
             } => {
                 log::info!("Resizing to {:?}", size);
-                sc_desc.width = if size.width == 0 { 1 } else { size.width };
-                sc_desc.height = if size.height == 0 { 1 } else { size.height };
+                sc_desc.width = size.width.max(1);
+                sc_desc.height = size.height.max(1);
                 example.resize(&sc_desc, &device, &queue);
                 swap_chain = device.create_swap_chain(&surface, &sc_desc);
             }
