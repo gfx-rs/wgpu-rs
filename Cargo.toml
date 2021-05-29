@@ -57,6 +57,9 @@ obj = "0.10"
 png = "0.16"
 rand = { version = "0.7.2", features = ["wasm-bindgen"] }
 winit = { version = "0.24", features = ["web-sys"] }
+# used in vr examples
+ash = "0.32"
+openxr = "0.14"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
 async-executor = "1.0"

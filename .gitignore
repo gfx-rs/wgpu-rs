@@ -18,3 +18,6 @@ Cargo.lock
 
 # Output from capture example
 red.png
+
+# OpenXR loader runtime for VR examples
+openxr_loader.dll
