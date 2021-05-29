@@ -184,10 +184,20 @@ trait Context: Debug + Send + Sized + Sync {
     type MapAsyncFuture: Future<Output = Result<(), BufferAsyncError>> + Send;
 
     fn init(backends: BackendBit) -> Self;
+    unsafe fn required_vulkan_extensions(entry: &ash::Entry) -> Vec<&'static std::ffi::CStr>;
+    unsafe fn init_raw_vulkan(
+        entry: ash::Entry,
+        instance: ash::Instance,
+        extensions: Vec<&'static std::ffi::CStr>,
+    ) -> Self;
     fn instance_create_surface(
         &self,
         handle: &impl raw_window_handle::HasRawWindowHandle,
     ) -> Self::SurfaceId;
+    unsafe fn instance_adapter_from_raw_vulkan(
+        &self,
+        physical_device: ash::vk::PhysicalDevice,
+    ) -> Self::AdapterId;
     fn instance_request_adapter(
         &self,
         options: &RequestAdapterOptions<'_>,
@@ -198,6 +208,19 @@ trait Context: Debug + Send + Sized + Sync {
         desc: &DeviceDescriptor,
         trace_dir: Option<&std::path::Path>,
     ) -> Self::RequestDeviceFuture;
+    fn adapter_required_vulkan_device_extensions(
+        &self,
+        adapter: &Self::AdapterId,
+        desc: &DeviceDescriptor,
+    ) -> Vec<&'static std::ffi::CStr>;
+    unsafe fn adapter_device_from_raw_vulkan(
+        &self,
+        adapter: &Self::AdapterId,
+        device: ash::Device,
+        queue_family_index: u32,
+        desc: &DeviceDescriptor,
+        trace_dir: Option<&std::path::Path>,
+    ) -> (Self::DeviceId, Self::QueueId);
     fn instance_poll_all_devices(&self, force_wait: bool);
     fn adapter_get_swap_chain_preferred_format(
         &self,
@@ -263,6 +286,14 @@ trait Context: Debug + Send + Sized + Sync {
         device: &Self::DeviceId,
         desc: &TextureDescriptor,
     ) -> Self::TextureId;
+    unsafe fn device_create_raw_vulkan_texture_view(
+        &self,
+        device: &Self::DeviceId,
+        raw_image: ash::vk::Image,
+        view_type: ash::vk::ImageViewType,
+        desc: &TextureViewDescriptor,
+        extent: Extent3d,
+    ) -> Self::TextureViewId;
     fn device_create_sampler(
         &self,
         device: &Self::DeviceId,
@@ -1360,6 +1391,22 @@ impl Instance {
         }
     }
 
+    /// Get the vulkan extensions required for an instance.
+    pub unsafe fn required_vulkan_extensions(entry: &ash::Entry) -> Vec<&'static std::ffi::CStr> {
+        C::required_vulkan_extensions(entry)
+    }
+
+    /// Create an new instance of wgpu from a raw vulkan instance.
+    pub unsafe fn new_raw_vulkan(
+        entry: ash::Entry,
+        instance: ash::Instance,
+        extensions: Vec<&'static std::ffi::CStr>,
+    ) -> Self {
+        Instance {
+            context: Arc::new(C::init_raw_vulkan(entry, instance, extensions))
+        }
+    }
+
     /// Retrieves all available [`Adapter`]s that match the given [`BackendBit`].
     ///
     /// # Arguments
@@ -1375,6 +1422,16 @@ impl Instance {
                 id,
                 context: Arc::clone(&context),
             })
+    }
+
+    /// Creates an [`Adapter`] from a given vulkan physical device.
+    pub unsafe fn adapter_from_raw_vulkan(
+        &self,
+        physical_device: ash::vk::PhysicalDevice
+    ) -> Adapter {
+        let context = Arc::clone(&self.context);
+        let id = self.context.instance_adapter_from_raw_vulkan(physical_device);
+        Adapter { context, id }
     }
 
     /// Retrieves an [`Adapter`] which matches the given [`RequestAdapterOptions`].
@@ -1465,6 +1522,42 @@ impl Adapter {
                 )
             })
         }
+    }
+
+    /// Get required raw vulkan extensions for a device to be used with WGPU.
+    pub fn required_vulkan_device_extensions(
+        &self,
+        desc: &DeviceDescriptor,
+    ) -> Vec<&'static std::ffi::CStr> {
+        self.context.adapter_required_vulkan_device_extensions(&self.id, desc)
+    }
+
+    /// Creates a [`Device`] together with a [`Queue`] from a raw vulkan device.
+    pub unsafe fn device_from_raw_vulkan(
+        &self,
+        device: ash::Device,
+        queue_family_index: u32,
+        desc: &DeviceDescriptor,
+        trace_path: Option<&std::path::Path>,
+    ) -> (Device, Queue) {
+        let context = Arc::clone(&self.context);
+        let (device_id, queue_id) = self.context.adapter_device_from_raw_vulkan(
+            &self.id,
+            device,
+            queue_family_index,
+            desc,
+            trace_path,
+        );
+        (
+            Device {
+                context: Arc::clone(&context),
+                id: device_id,
+            },
+            Queue {
+                context,
+                id: queue_id,
+            },
+        )
     }
 
     /// Returns an optimal texture format to use for the [`SwapChain`] with this adapter.
@@ -1625,6 +1718,30 @@ impl Device {
             context: Arc::clone(&self.context),
             id: Context::device_create_texture(&*self.context, &self.id, desc),
             owned: true,
+        }
+    }
+
+    /// Creates a new [`TextureView`] for a given raw vulkan texture view.
+    pub unsafe fn create_raw_vulkan_texture_view(
+        &self,
+        raw_image: ash::vk::Image,
+        view_type: ash::vk::ImageViewType,
+        desc: &TextureViewDescriptor,
+        extent: Extent3d,
+    ) -> TextureView {
+        let context = Arc::clone(&self.context);
+        let id = Context::device_create_raw_vulkan_texture_view(
+            &*self.context,
+            &self.id,
+            raw_image,
+            view_type,
+            desc,
+            extent,
+        );
+        TextureView {
+            context,
+            id,
+            owned: false,
         }
     }
 

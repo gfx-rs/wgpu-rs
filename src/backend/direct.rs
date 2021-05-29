@@ -647,12 +647,36 @@ impl crate::Context for Context {
             backends,
         ))
     }
+    
+    unsafe fn required_vulkan_extensions(entry: &ash::Entry) -> Vec<&'static std::ffi::CStr> {
+        wgc::hub::Global::<wgc::hub::IdentityManagerFactory>::required_vulkan_extensions(entry)
+    }
+
+    unsafe fn init_raw_vulkan(
+        entry: ash::Entry,
+        instance: ash::Instance,
+        extensions: Vec<&'static std::ffi::CStr>,
+    ) -> Self {
+        Self(wgc::hub::Global::new_raw_vulkan(
+            entry,
+            instance,
+            extensions,
+            wgc::hub::IdentityManagerFactory,
+        ))
+    }
 
     fn instance_create_surface(
         &self,
         handle: &impl raw_window_handle::HasRawWindowHandle,
     ) -> Self::SurfaceId {
         self.0.instance_create_surface(handle, PhantomData)
+    }
+
+    unsafe fn instance_adapter_from_raw_vulkan(
+        &self,
+        physical_device: ash::vk::PhysicalDevice,
+    ) -> Self::AdapterId {
+        self.0.adapter_from_raw_vulkan(physical_device, PhantomData)
     }
 
     fn instance_request_adapter(
@@ -699,6 +723,43 @@ impl crate::Context for Context {
             features: desc.features,
         };
         ready(Ok((device, device_id)))
+    }
+
+    fn adapter_required_vulkan_device_extensions(
+        &self,
+        adapter: &Self::AdapterId,
+        desc: &crate::DeviceDescriptor,
+    ) -> Vec<&'static std::ffi::CStr> {
+        let global = &self.0;
+        global.adapter_required_vulkan_device_extensions(
+            *adapter,
+            &desc.map_label(|l| l.map(Borrowed)),
+        )
+    }
+
+    unsafe fn adapter_device_from_raw_vulkan(
+        &self,
+        adapter: &Self::AdapterId,
+        device: ash::Device,
+        queue_family_index: u32,
+        desc: &crate::DeviceDescriptor,
+        trace_dir: Option<&std::path::Path>,
+    ) -> (Self::DeviceId, Self::QueueId) {
+        let global = &self.0;
+        let device_id = global.adapter_device_from_raw_vulkan(
+            *adapter,
+            device,
+            queue_family_index,
+            &desc.map_label(|l| l.map(Borrowed)),
+            trace_dir,
+            PhantomData,
+        );
+        let device = Device {
+            id: device_id,
+            error_sink: Arc::new(Mutex::new(ErrorSinkRaw::new())),
+            features: desc.features,
+        };
+        (device, device_id)
     }
 
     fn adapter_get_swap_chain_preferred_format(
@@ -1161,6 +1222,39 @@ impl crate::Context for Context {
             id,
             error_sink: Arc::clone(&device.error_sink),
         }
+    }
+
+    unsafe fn device_create_raw_vulkan_texture_view(
+        &self,
+        device: &Self::DeviceId,
+        raw_image: ash::vk::Image,
+        view_type: ash::vk::ImageViewType,
+        desc: &TextureViewDescriptor,
+        extent: wgt::Extent3d,
+    ) -> Self::TextureViewId {
+        let global = &self.0;
+
+        let descriptor = wgc::resource::TextureViewDescriptor {
+            label: desc.label.map(Borrowed),
+            format: desc.format,
+            dimension: desc.dimension,
+            aspect: desc.aspect,
+            base_mip_level: desc.base_mip_level,
+            mip_level_count: desc.mip_level_count,
+            base_array_layer: desc.base_array_layer,
+            array_layer_count: desc.array_layer_count,
+        };
+
+        let id = global.device_create_raw_vulkan_texture_view(
+            device.id,
+            raw_image,
+            view_type,
+            &descriptor,
+            extent,
+            PhantomData,
+        );
+
+        id
     }
 
     fn device_create_sampler(
