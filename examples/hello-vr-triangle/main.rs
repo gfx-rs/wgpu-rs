@@ -2,7 +2,7 @@ use ash::{
     version::{EntryV1_0, InstanceV1_0},
     vk::{self, Handle},
 };
-use std::{borrow::Cow, convert::TryInto};
+use std::{borrow::Cow, convert::TryInto, sync::Arc};
 use wgpu::{
     Adapter, Device, Extent3d, Instance, Queue, ShaderFlags, ShaderSource, TextureAspect,
     TextureView, TextureViewDescriptor, TextureViewDimension,
@@ -431,8 +431,13 @@ fn initialize_wgpu_openxr(
             .expect("Vulkan device has no graphics queue");
 
         // Initialize WGPU instance using our Vulkan instance
-        let instance =
-            wgpu::Instance::new_raw_vulkan(vk_entry.clone(), vk_instance.clone(), vk_extensions);
+        let instance = wgpu::Instance::new_raw_vulkan(
+            vk_entry.clone(),
+            vk_instance.clone(),
+            vk_extensions,
+            // TODO: This is meant to contain a guard for the manual instance
+            Arc::new(()),
+        );
         let adapter = instance.adapter_from_raw_vulkan(vk_physical_device);
 
         // Create the Vulkan logical device
@@ -475,8 +480,14 @@ fn initialize_wgpu_openxr(
         );
 
         // Initialize WGPU device using our Device instance
-        let (device, queue) =
-            adapter.device_from_raw_vulkan(vk_device.clone(), queue_family_index, &desc, None);
+        let (device, queue) = adapter.device_from_raw_vulkan(
+            vk_device.clone(),
+            queue_family_index,
+            &desc,
+            None,
+            // TODO: This is meant to contain a guard for the manual device
+            Arc::new(()),
+        );
 
         (
             vk_entry,

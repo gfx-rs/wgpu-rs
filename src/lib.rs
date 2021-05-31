@@ -11,6 +11,7 @@ pub mod util;
 mod macros;
 
 use std::{
+    any::Any,
     borrow::Cow,
     error,
     fmt::{Debug, Display},
@@ -189,6 +190,7 @@ trait Context: Debug + Send + Sized + Sync {
         entry: ash::Entry,
         instance: ash::Instance,
         extensions: Vec<&'static std::ffi::CStr>,
+        guard: Arc<dyn Any + Send + Sync>,
     ) -> Self;
     fn instance_create_surface(
         &self,
@@ -220,6 +222,7 @@ trait Context: Debug + Send + Sized + Sync {
         queue_family_index: u32,
         desc: &DeviceDescriptor,
         trace_dir: Option<&std::path::Path>,
+        guard: Arc<dyn Any + Send + Sync>,
     ) -> (Self::DeviceId, Self::QueueId);
     fn instance_poll_all_devices(&self, force_wait: bool);
     fn adapter_get_swap_chain_preferred_format(
@@ -1401,9 +1404,10 @@ impl Instance {
         entry: ash::Entry,
         instance: ash::Instance,
         extensions: Vec<&'static std::ffi::CStr>,
+        guard: Arc<dyn Any + Send + Sync>,
     ) -> Self {
         Instance {
-            context: Arc::new(C::init_raw_vulkan(entry, instance, extensions))
+            context: Arc::new(C::init_raw_vulkan(entry, instance, extensions, guard))
         }
     }
 
@@ -1539,6 +1543,7 @@ impl Adapter {
         queue_family_index: u32,
         desc: &DeviceDescriptor,
         trace_path: Option<&std::path::Path>,
+        guard: Arc<dyn Any + Send + Sync>,
     ) -> (Device, Queue) {
         let context = Arc::clone(&self.context);
         let (device_id, queue_id) = self.context.adapter_device_from_raw_vulkan(
@@ -1547,6 +1552,7 @@ impl Adapter {
             queue_family_index,
             desc,
             trace_path,
+            guard,
         );
         (
             Device {

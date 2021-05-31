@@ -12,6 +12,7 @@ use arrayvec::ArrayVec;
 use parking_lot::Mutex;
 use smallvec::SmallVec;
 use std::{
+    any::Any,
     borrow::Cow::Borrowed,
     error::Error,
     fmt,
@@ -656,11 +657,13 @@ impl crate::Context for Context {
         entry: ash::Entry,
         instance: ash::Instance,
         extensions: Vec<&'static std::ffi::CStr>,
+        guard: Arc<dyn Any + Send + Sync>,
     ) -> Self {
         Self(wgc::hub::Global::new_raw_vulkan(
             entry,
             instance,
             extensions,
+            guard,
             wgc::hub::IdentityManagerFactory,
         ))
     }
@@ -744,6 +747,7 @@ impl crate::Context for Context {
         queue_family_index: u32,
         desc: &crate::DeviceDescriptor,
         trace_dir: Option<&std::path::Path>,
+        guard: Arc<dyn Any + Send + Sync>,
     ) -> (Self::DeviceId, Self::QueueId) {
         let global = &self.0;
         let device_id = global.adapter_device_from_raw_vulkan(
@@ -752,6 +756,7 @@ impl crate::Context for Context {
             queue_family_index,
             &desc.map_label(|l| l.map(Borrowed)),
             trace_dir,
+            guard,
             PhantomData,
         );
         let device = Device {
