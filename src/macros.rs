@@ -57,3 +57,44 @@ macro_rules! include_spirv {
         }
     };
 }
+
+/// Macro to load a WGSL module statically.
+#[macro_export]
+macro_rules! include_wgsl {
+    ($($token:tt)*) => {
+        {
+            //log::info!("including '{}'", $($token)*);
+            $crate::ShaderModuleDescriptor {
+                label: Some($($token)*),
+                source: $crate::ShaderSource::Wgsl(include_str!($($token)*).into()),
+                flags: $crate::ShaderFlags::VALIDATION,
+            }
+        }
+    };
+}
+
+#[test]
+pub fn test_include_wgsl() {
+    let macro_desc = include_wgsl!("../examples/hello-triangle/shader.wgsl");
+    let struct_desc = crate::ShaderModuleDescriptor {
+        label: Some("../examples/hello-triangle/shader.wgsl"),
+        source: crate::ShaderSource::Wgsl(
+            include_str!("../examples/hello-triangle/shader.wgsl").into(),
+        ),
+        flags: crate::ShaderFlags::VALIDATION,
+    };
+
+    // ShaderModuleDescriptor does not support PartialEq, so we cannot test directly
+    assert_eq!(macro_desc.label, struct_desc.label);
+    assert_eq!(
+        match macro_desc.source {
+            crate::ShaderSource::Wgsl(source) => source,
+            crate::ShaderSource::SpirV(_) => panic!(),
+        },
+        match struct_desc.source {
+            crate::ShaderSource::Wgsl(source) => source,
+            crate::ShaderSource::SpirV(_) => panic!(),
+        }
+    );
+    assert_eq!(macro_desc.flags, struct_desc.flags);
+}
