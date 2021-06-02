@@ -67,7 +67,7 @@ macro_rules! include_wgsl {
             $crate::ShaderModuleDescriptor {
                 label: Some($($token)*),
                 source: $crate::ShaderSource::Wgsl(include_str!($($token)*).into()),
-                flags: $crate::ShaderFlags::VALIDATION,
+                flags: $crate::ShaderFlags::all(),
             }
         }
     };
